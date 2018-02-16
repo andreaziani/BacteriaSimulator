@@ -4,6 +4,6 @@ package model;
  * @author Andrea PC
  *
  */
-public interface EnvState {
+public interface State {
 
 }

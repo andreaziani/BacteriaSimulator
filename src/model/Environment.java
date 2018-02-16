@@ -14,7 +14,7 @@ public interface Environment {
      * 
      * @return EnvState state of env.
      */
-    EnvState getState();
+    State getState();
     /** update environment.
      * 
      */
