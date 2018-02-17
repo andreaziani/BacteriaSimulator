@@ -1,8 +1,11 @@
 package model;
 
-import java.util.Optional;
-
+/**
+ * An action that a Bacteria can choose.
+ */
 public interface Action {
-	Optional<Direction> getDirection();
-	ActionType getType();
+    /**
+     * @return the type of the action
+     */
+    ActionType getType();
 }

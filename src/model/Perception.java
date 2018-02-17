@@ -2,7 +2,27 @@ package model;
 
 import java.util.Optional;
 
+/**
+ * Interface representing a complete description of what a Bacteria can see from
+ * the Environment. It can be extracted a food if there is one in the location
+ * the bacteria is currently in.
+ */
 public interface Perception {
-	Optional<Food> getFood();
-	double distFromFood(Direction dir);
+    /**
+     * @return an optional containing the Food in the position from which this
+     *         perception is originated or an empty optional if there is no food in
+     *         that position.
+     */
+    Optional<Food> getFood();
+
+    /**
+     * Get the distance from the position of this perception to the nearest food in
+     * a given direction.
+     * 
+     * @param dir
+     *            a direction
+     * @return an optional containing the distance to the nearest food or an empty
+     *         optional if there is no food in that direction.
+     */
+    Optional<Double> distFromFood(Direction dir);
 }
