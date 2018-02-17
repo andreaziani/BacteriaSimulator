@@ -1,60 +1,47 @@
 package model;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 /** Implementation of food.
  * 
  *
  *
  */
-public final class FoodImpl implements Food {
-    private final String name;
-    private final Set<Nutrients> nutrients = new HashSet<>(); // TO DO: decidere bene come gestirlo.
-    private FoodImpl(final FoodBuilder builder) {
-        this.name = builder.name;
-        this.nutrients.addAll(builder.nutrients);
+public class FoodImpl implements Food {
+    private Map<Nutrients, Double> nutrients = new HashMap<>();
+    FoodImpl(final FoodBuilder builder) {
+        this.nutrients = builder.nutrients;
     }
     @Override
-    public Set<Nutrients> getNutrients() {
-        return this.nutrients;
+    public final Set<Nutrients> getNutrients() {
+        return this.nutrients.keySet();
     }
 
     @Override
-    public double getQuantityFromNutrients(final Nutrients nutrient) {
-        return 0.0; // TO FIX.
+    public final double getQuantityFromNutrients(final Nutrients nutrient) {
+        if (!this.nutrients.containsKey(nutrient)) {
+            return 0.0;
+        }
+        return this.nutrients.get(nutrient);
     }
 
-    @Override
-    public String getFoodName() {
-        // TODO Auto-generated method stub
-        return this.name;
-    }
 /** Builder for food.
  * 
  *
  *
  */
-    public final class FoodBuilder {
-        private String name;
-        private final Set<Nutrients> nutrients = new HashSet<>();
-        private FoodBuilder() { }
-        /** Setter for the name.
+    public class FoodBuilder {
+        private final Map<Nutrients, Double> nutrients = new HashMap<>();
+        private boolean built;
+        /** Add nutrients to builder.
          * 
-         * @param name to set.
+         * @param nutrient to add.
+         * @param quantity of nutrient.
          * @return this builder.
          */
-        public FoodBuilder setName(final String name) {
-            this.name = name;
-            return this;
-        }
-        /** Setter for the nutrients.
-         * 
-         * @param nutrients to set.
-         * @return this builder.
-         */
-        public FoodBuilder setNutrients(final Nutrients... nutrients) {
-            this.nutrients.addAll(Arrays.asList(nutrients));
+        public FoodBuilder addNutrients(final Nutrients nutrient, final double quantity) {
+            this.nutrients.putIfAbsent(nutrient, quantity);
             return this;
         }
         /** Build a food.
@@ -62,7 +49,11 @@ public final class FoodImpl implements Food {
          * @return the food.
          */
         public Food build() {
-            return new FoodImpl(this);
+            if (!this.nutrients.isEmpty() && !this.built) {
+                this.built = true;
+                return new FoodImpl(this);
+            }
+            throw new IllegalStateException();
         }
     }
 }

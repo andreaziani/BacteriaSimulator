@@ -18,8 +18,9 @@ public interface ExistentFoodManager {
     /** Add a food to the manager.
      * 
      * @param food to add.
+     * @param name of food.
      */
-    void addFood(Food food);
+    void addFood(String name, Food food);
     /** Getter the entire set of existent foods.
      * 
      * @return a set of foods.

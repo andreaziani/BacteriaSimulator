@@ -21,8 +21,8 @@ public class ExistentFoodManagerImpl implements ExistentFoodManager {
     }
 
     @Override
-    public final void addFood(final Food food) {
-        this.existentFoods.putIfAbsent(food.getFoodName(), food);
+    public final void addFood(final String name, final Food food) {
+        this.existentFoods.putIfAbsent(name, food);
     }
 
     @Override

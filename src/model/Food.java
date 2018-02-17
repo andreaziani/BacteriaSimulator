@@ -19,9 +19,4 @@ public interface Food {
      * @return double quantity of nutrient.
      */
     double getQuantityFromNutrients(Nutrients nutrient);
-    /** Get the name of the food.
-     * 
-     * @return the name of the food.
-     */
-    String getFoodName();
 }
