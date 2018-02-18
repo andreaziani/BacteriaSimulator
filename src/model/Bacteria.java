@@ -39,7 +39,13 @@ public interface Bacteria {
      */
     boolean isDead();
 
-    // TODO get/addNutrients
+    /**
+     * @param food
+     *            a food the bacteria has eaten.
+     */
+    void addFood(Food food);
+
+    // TODO getNutrients
     /**
      * @param amount
      *            an amount of energy that the bacteria must spend from his reserve.
