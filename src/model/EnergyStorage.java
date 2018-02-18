@@ -13,6 +13,8 @@ public interface EnergyStorage {
     /**
      * @param energy
      *            an amount of energy to be taken away from the storage.
+     * @throws NotEnounghEnergyException
+     *             if the storage has less energy than required.
      */
     void takeEnergy(Energy energy);
 

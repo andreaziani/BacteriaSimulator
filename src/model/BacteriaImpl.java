@@ -14,8 +14,11 @@ public class BacteriaImpl implements Bacteria {
      * Construct a Bacteria from a Behavior strategy and a genetic code. This
      * constructor use a nutrientStorage as a default EnergyStorage strategy.
      * 
-     * @param specesBehavior a behavior strategy defining the behavior of this bacteria's species 
-     * @param initialGeneticCode a geneticCode to be inserted in the bacteria.
+     * @param specesBehavior
+     *            a behavior strategy defining the behavior of this bacteria's
+     *            species
+     * @param initialGeneticCode
+     *            a geneticCode to be inserted in the bacteria.
      */
     public BacteriaImpl(final Behavior specesBehavior, final GeneticCode initialGeneticCode) {
         this.behavior = specesBehavior;
