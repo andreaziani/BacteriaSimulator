@@ -1,4 +1,4 @@
-package model;
+package utils;
 /** A class that contains a pair of objects.
  * 
  *
@@ -22,23 +22,23 @@ public class Pair<X, Y> {
      * 
      * @return the first elem of the pair.
      */
-    public final X getElem1() {
+    public X getElem1() {
         return elem1;
     }
     /**
      * 
      * @return the second elem of the pair.
      */
-    public final Y getElem2() {
+    public Y getElem2() {
         return elem2;
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return (elem1 == null ? 0 : elem1.hashCode()) ^ (elem2 == null ? 0 : elem2.hashCode());
     }
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

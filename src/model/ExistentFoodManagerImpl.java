@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ExistentFoodManagerImpl implements ExistentFoodManager {
     private final Map<String, Food> existentFoods = new HashMap<>();
     @Override
-    public final Optional<Food> getFood(final String name) {
+    public Optional<Food> getFood(final String name) {
         if (this.existentFoods.containsKey(name)) {
             return Optional.of(this.existentFoods.get(name));
         }
@@ -21,12 +21,12 @@ public class ExistentFoodManagerImpl implements ExistentFoodManager {
     }
 
     @Override
-    public final void addFood(final String name, final Food food) {
+    public void addFood(final String name, final Food food) {
         this.existentFoods.putIfAbsent(name, food); // if someone add 2 foods with same name, the first only will be saved.
     }
 
     @Override
-    public final Set<Food> getExsistentFoods() {
+    public Set<Food> getExsistentFoods() {
        return this.existentFoods.values().stream().collect(Collectors.toSet()); // return a copy of the set of values.
     }
 

@@ -17,17 +17,17 @@ public class FoodImpl implements Food {
      * 
      * @param builder that create food.
      */
-    FoodImpl(final FoodBuilder builder) {
+    private FoodImpl(final FoodBuilder builder) {
         builder.nutrients.keySet().stream().forEach(n -> this.nutrients.put(n, builder.nutrients.get(n)));
     }
 
     @Override
-    public final Set<Nutrient> getNutrients() {
+    public Set<Nutrient> getNutrients() {
         return this.nutrients.keySet();
     }
 
     @Override
-    public final double getQuantityFromNutrients(final Nutrient nutrient) {
+    public double getQuantityFromNutrients(final Nutrient nutrient) {
         if (!this.nutrients.containsKey(nutrient)) {
             return 0.0;
         }
@@ -36,7 +36,7 @@ public class FoodImpl implements Food {
 
     //TODO hashcode.
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((nutrients == null) ? 0 : nutrients.hashCode());
@@ -44,7 +44,7 @@ public class FoodImpl implements Food {
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

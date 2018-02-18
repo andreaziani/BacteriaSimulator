@@ -4,6 +4,8 @@ import java.util.HashSet;
 
 import java.util.Set;
 
+import utils.Pair;
+
 /** Implementation of FoodEnvironment.
  * 
  *
@@ -12,19 +14,19 @@ import java.util.Set;
 public class FoodEnvironmentImpl implements FoodEnvironment {
     private final Set<Pair<Food, Position>> foodInserted = new HashSet<>();
     @Override
-    public final void addFood(final Food food, final Position position) {
+    public void addFood(final Food food, final Position position) {
         this.foodInserted.add(new Pair<Food, Position>(food, position));
     }
     @Override
-    public final void removeFood(final Food food, final Position position) {
+    public void removeFood(final Food food, final Position position) {
         this.foodInserted.remove(new Pair<>(position, food));
     }
     @Override
-    public final Set<Pair<Food, Position>> getFoodsState() {
+    public Set<Pair<Food, Position>> getFoodsState() {
         return this.foodInserted;
     }
     @Override
-    public final void changeFoodPosition(final Position oldPosition, final Position newPosition, final Food food) {
+    public void changeFoodPosition(final Position oldPosition, final Position newPosition, final Food food) {
         if (this.foodInserted.contains(new Pair<>(food, oldPosition))) {
             removeFood(food, oldPosition);
             addFood(food, newPosition);

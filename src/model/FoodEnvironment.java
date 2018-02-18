@@ -2,6 +2,8 @@ package model;
 
 import java.util.Set;
 
+import utils.Pair;
+
 /** Environment that deals with food operations.
  * 
  *
