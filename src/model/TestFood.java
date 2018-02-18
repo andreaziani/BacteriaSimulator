@@ -41,17 +41,13 @@ class TestFood {
         assertEquals("Foods are equals", food1, food3);
         modifyNutrients();
         final Food food4 = factory.createFoodFromNutrients(nutrients1);
-        System.out.println(food1.getNutrients().toString());
-        System.out.println(food4.getNutrients().toString());
         assertEquals(food1.getNutrients(), food4.getNutrients());
         assertNotEquals("Foods are not equals", food1, food4);
-    }
-    @Test
-    public void test() {
         createNutrients();
-        final FoodFactory factory = new FoodFactoryImpl();
-        final Food food1 = factory.createFoodFromNutrients(nutrients1);
-        assertEquals("Nutrients must be equals", food1.getNutrients(), this.nutrients1.keySet());
+        final FoodFactory factory2 = new FoodFactoryImpl();
+        final Food food = factory2.createFoodFromNutrients(nutrients1);
+        assertEquals("Nutrients must be equals", food.getNutrients(), this.nutrients1.keySet());
     }
+
 
 }
