@@ -3,27 +3,27 @@ package model;
 import java.util.Optional;
 import java.util.Set;
 
-/** Manager for existent foods.
+/** Manager that contains all existent type of foods created.
  * 
  * 
  *
  */
 public interface ExistentFoodManager {
-    /** Get a food from his name if is present.
+    /** 
      * 
-     * @param name of the food.
+     * @param name of the food to be getted.
      * @return a optional that contains the food if is present.
      */
     Optional<Food> getFood(String name);
-    /** Add a food to the manager.
+    /**
      * 
-     * @param food to add.
+     * @param food to add to the manager.
      * @param name of food.
      */
     void addFood(String name, Food food);
-    /** Getter the entire set of existent foods.
+    /**
      * 
-     * @return a set of foods.
+     * @return a copy of the entire set of existent foods.
      */
     Set<Food> getExsistentFoods();
 }

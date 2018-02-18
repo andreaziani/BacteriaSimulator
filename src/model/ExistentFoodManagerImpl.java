@@ -22,12 +22,12 @@ public class ExistentFoodManagerImpl implements ExistentFoodManager {
 
     @Override
     public final void addFood(final String name, final Food food) {
-        this.existentFoods.putIfAbsent(name, food);
+        this.existentFoods.putIfAbsent(name, food); // if someone add 2 foods with same name, the first only will be saved.
     }
 
     @Override
     public final Set<Food> getExsistentFoods() {
-       return this.existentFoods.values().stream().collect(Collectors.toSet());
+       return this.existentFoods.values().stream().collect(Collectors.toSet()); // return a copy of the set of values.
     }
 
 }

@@ -1,13 +1,17 @@
 package model;
+
+import java.util.Map;
+
 /** A factory to create some different type of food.
  * 
  * 
  *
  */
 public interface FoodFactory {
-    /** Create food inserting the nutrients that compose it.
+    /**
      * 
-     * @param nutrients variable arg of nutrients.
+     * @param nutrients type and quantity of nutrients that compose a new food.
+     * @return the food created.
      */
-    void createFoodFromNutrients(Nutrients... nutrients);
+    Food createFoodFromNutrients(Map<Nutrient, Double> nutrients);
 }

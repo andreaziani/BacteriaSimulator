@@ -2,21 +2,21 @@ package model;
 
 import java.util.Set;
 
-/** Model Food.
+/** Food that bacteria will eat.
  * 
  * 
  *
  */
 public interface Food {
-    /** Get all the Nutrients that are contained in the food.
+    /** 
      * 
-     * @return Set of nutrients.
+     * @return a set of nutrients present in the food.
      */
-    Set<Nutrients> getNutrients();
-    /** Get how many nutrient is present in food.
+    Set<Nutrient> getNutrients();
+    /**
      * 
-     * @param nutrient 
-     * @return double quantity of nutrient.
+     * @param nutrient the nutrient to consider
+     * @return quantity the quantity of nutrient in the food.
      */
-    double getQuantityFromNutrients(Nutrients nutrient);
+    double getQuantityFromNutrients(Nutrient nutrient);
 }

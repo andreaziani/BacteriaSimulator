@@ -2,7 +2,7 @@ package model;
 /** All possible type of nutrients present in food.
  * 
  */
-public enum Nutrients {
+public enum Nutrient {
     /** Nutrients.
      * 
      */
