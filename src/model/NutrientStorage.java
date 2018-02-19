@@ -1,38 +1,48 @@
 package model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.function.Function;
+
+import utils.NotEnounghEnergyException;
 
 public class NutrientStorage implements EnergyStorage {
 
     private final Map<Nutrient, Double> store;
+    private Function<Nutrient, Energy> nutrientToEnergyConverter;
 
-    public NutrientStorage() {
-        store = new HashMap<>();
+    public NutrientStorage(Function<Nutrient, Energy> nutrientToEnergyConverter) {
+        this.store = new HashMap<>();
+        this.nutrientToEnergyConverter = nutrientToEnergyConverter;
+    }
+
+    public void setNutrientToEnergyConverter(Function<Nutrient, Energy> nutrientToEnergyConverter) {
+        this.nutrientToEnergyConverter = nutrientToEnergyConverter;
     }
 
     @Override
-    public void storeFood(Food food) {
-        food.getNutrients().stream().forEach(
-                n -> store.merge(n, food.getQuantityFromNutrients(n), (oldValue, newValue) -> oldValue + newValue));
+    public void storeFood(final Food food) {
+        food.getNutrients().stream().forEach(n -> this.store.merge(n, food.getQuantityFromNutrients(n),
+                (oldValue, newValue) -> oldValue + newValue));
     }
 
     @Override
-    public void takeEnergy(Energy energy) {
-        // TODO Auto-generated method stub
-
+    public void takeEnergy(final Energy energy) {
+        if (this.getEnergyStored().getAmount() < energy.getAmount()) {
+            throw new NotEnounghEnergyException();
+        }
     }
 
     @Override
     public Energy getEnergyStored() {
-        // TODO Auto-generated method stub
-        return null;
+        return () -> this.store.keySet().stream()
+                .mapToDouble(n -> this.nutrientToEnergyConverter.apply(n).getAmount() * this.store.get(n))
+                .filter(x -> x > 0).sum();
     }
 
     public Map<Nutrient, Double> getNutrients() {
-        // TODO Auto-generated method stub
-        return null;
+        return Collections.unmodifiableMap(this.store);
     }
 
 }

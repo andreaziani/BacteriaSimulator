@@ -25,7 +25,7 @@ public class BacteriaImpl implements Bacteria {
     public BacteriaImpl(final Behavior specesBehavior, final GeneticCode initialGeneticCode) {
         this.behavior = specesBehavior;
         this.geneticCode = initialGeneticCode;
-        this.energyStorage = new NutrientStorage();
+        this.energyStorage = new NutrientStorage(this.geneticCode::getEnergyFromNutrient);
     }
 
     @Override
@@ -46,6 +46,11 @@ public class BacteriaImpl implements Bacteria {
     @Override
     public void setGeneticCode(final GeneticCode code) {
         this.geneticCode = code;
+        if (this.energyStorage.getClass() != NutrientStorage.class) {
+            throw new IllegalStateException();
+        }
+        NutrientStorage storage = (NutrientStorage) this.energyStorage;
+        storage.setNutrientToEnergyConverter(this.geneticCode::getEnergyFromNutrient);
     }
 
     @Override
@@ -73,7 +78,7 @@ public class BacteriaImpl implements Bacteria {
         if (this.energyStorage.getClass() != NutrientStorage.class) {
             throw new IllegalStateException();
         }
-        NutrientStorage storage = (NutrientStorage)this.energyStorage;
+        NutrientStorage storage = (NutrientStorage) this.energyStorage;
         return storage.getNutrients();
     }
 
