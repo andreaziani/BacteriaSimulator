@@ -69,8 +69,9 @@ public class FoodImpl implements Food {
     }
 
     /**
-     * Nasted Builder for food.
-     * 
+     * Builder for food.
+     * Allows you to create a food by adding nutrients, 
+     * when food is built it is no longer possible to change its nutrients
      *
      *
      */
@@ -80,8 +81,7 @@ public class FoodImpl implements Food {
         /**
          * Add nutrients to builder.
          * 
-         * @param nutrients
-         *            to add.
+         * @param nutrients to add.
          * @return this builder.
          */
         public FoodBuilder addNutrient(final Entry<Nutrient, Double> nutrients) {

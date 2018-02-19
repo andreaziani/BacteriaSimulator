@@ -2,9 +2,8 @@ package model;
 
 import java.util.Set;
 
-/** Food that bacteria will eat.
- * 
- * 
+/** 
+ * The interface representing a food in the simulation.
  *
  */
 public interface Food {

@@ -1,6 +1,7 @@
 package model;
-/** Position, an interface to manage the coordinates
- *  of bacteria and food.
+/** 
+ * Position, an interface to manage the coordinates
+ * of bacteria and food.
  *
  *
  */

@@ -4,8 +4,9 @@ import java.util.Set;
 
 import utils.Pair;
 
-/** Environment that deals with food operations.
- * 
+/** 
+ * Environment that deals with food operations, 
+ * allows to enter new food or change its status.
  *
  *
  */

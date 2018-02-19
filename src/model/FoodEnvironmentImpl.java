@@ -6,8 +6,9 @@ import java.util.Set;
 
 import utils.Pair;
 
-/** Implementation of FoodEnvironment.
- * 
+/** 
+ * Implementation of FoodEnvironment, contains information
+ * about foods (Food's Position).
  *
  *
  */

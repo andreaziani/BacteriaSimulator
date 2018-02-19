@@ -8,9 +8,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import utils.AlreadyExistingFoodException;
-/** Manager that contains all the existent foods.
- * 
- *
+/** 
+ * Manager that contains all the existent foods.
  *
  */
 public class ExistentFoodManagerImpl implements ExistentFoodManager {

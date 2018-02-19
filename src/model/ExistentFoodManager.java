@@ -5,20 +5,20 @@ import java.util.Set;
 
 import utils.AlreadyExistingFoodException;
 
-/** Manager that contains all existent type of foods created.
- * 
+/** 
+ * Manager that contains all existent type of foods created.
  * 
  *
  */
 public interface ExistentFoodManager {
     /** 
-     * 
+     * Allows to get a food if present in the manager.
      * @param name of the food to be getted.
      * @return a optional that contains the food if is present.
      */
     Optional<Food> getFood(String name);
     /**
-     * 
+     * Allows to add a new food in the manager.
      * @param food to add to the manager.
      * @param name of food.
      * @throws AlreadyExistingFoodException 
