@@ -30,5 +30,5 @@ public interface GeneticCode {
      * @return the amount of Energy that the Bacteria can gain by eating the given
      *         Nutrient, it is negative if the Nutrient is nocive.
      */
-    //TODO Energy getEnergyFromNutrient(Nutrient nutrient);
+    Energy getEnergyFromNutrient(Nutrient nutrient);
 }

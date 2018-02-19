@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 /**
  * The interface representing a bacteria in the simulation.
  */
@@ -45,7 +47,13 @@ public interface Bacteria {
      */
     void addFood(Food food);
 
-    // TODO getNutrients
+    /**
+     * @return a collection of all the nutrients eaten by this bacteria and not yet
+     *         consumed associated with the amount of each.
+     * @throws IllegalStateExeption if this bacteria does not contains his nutrients.
+     */
+    Map<Nutrient, Double> getNutrients();
+
     /**
      * @param amount
      *            an amount of energy that the bacteria must spend from his reserve.

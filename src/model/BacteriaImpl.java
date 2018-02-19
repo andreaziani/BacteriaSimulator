@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 /**
  * Implementation of interface Bacteria.
  */
@@ -64,6 +66,15 @@ public class BacteriaImpl implements Bacteria {
     @Override
     public void addFood(final Food food) {
         this.energyStorage.storeFood(food);
+    }
+
+    @Override
+    public Map<Nutrient, Double> getNutrients() {
+        if (this.energyStorage.getClass() != NutrientStorage.class) {
+            throw new IllegalStateException();
+        }
+        NutrientStorage storage = (NutrientStorage)this.energyStorage;
+        return storage.getNutrients();
     }
 
 }
