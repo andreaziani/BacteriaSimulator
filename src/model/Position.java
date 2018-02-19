@@ -15,14 +15,4 @@ public interface Position {
      * @return the y coordinate.
      */
     double getY();
-    /**
-     * 
-     * @param x is coordinate to set.
-     */
-    void setX(double x);
-    /**
-     * 
-     * @param y is the coordinate to set.
-     */
-    void setY(double y);
 }

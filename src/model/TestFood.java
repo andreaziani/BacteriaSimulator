@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +58,7 @@ class TestFood {
         final FoodFactory factory = new FoodFactoryImpl();
         final Food food1 = factory.createFoodFromNutrients(nutrients1);
         final Food food2 = factory.createFoodFromNutrients(nutrients2);
-        final Food food3 = factory.createFoodFromNutrients(nutrients1);
+        Food food3 = factory.createFoodFromNutrients(nutrients1);
         final ExistentFoodManager manager = new ExistentFoodManagerImpl();
         manager.addFood("banana", food1);
         manager.addFood("mela", food2);
@@ -67,7 +68,20 @@ class TestFood {
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
+        modifyNutrients();
+        food3 = factory.createFoodFromNutrients(nutrients1);
+        try {
+            manager.getExsistentFoods().add(food3);
+            fail("Expected an UnsupportedOperationException to be thrown");
+        } catch (RuntimeException e2) {
+            e2.printStackTrace();
+        }
         assertTrue(manager.getExsistentFoods().size() == 2);
+        manager.addFood("lampone", food3);
+        assertTrue(manager.getExsistentFoods().size() == 3);
+        assertEquals("foods must be equals", manager.getFood("banana").get(), food1);
+        assertEquals("foods must be equals", manager.getFood("pera"), Optional.empty());
+        assertNotEquals("foods are not equals", manager.getFood("banana").get(), food2);
     }
 
 

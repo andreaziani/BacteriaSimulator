@@ -27,7 +27,7 @@ public interface ExistentFoodManager {
     void addFood(String name, Food food);
     /**
      * 
-     * @return a copy of the entire set of existent foods.
+     * @return an unmodifiable copy of the entire set of existent foods.
      */
     Set<Food> getExsistentFoods();
 }

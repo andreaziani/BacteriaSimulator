@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -33,7 +34,8 @@ public class ExistentFoodManagerImpl implements ExistentFoodManager {
 
     @Override
     public Set<Food> getExsistentFoods() {
-       return this.existentFoods.values().stream().collect(Collectors.toSet()); // return a copy of the set of values.
+       return Collections.unmodifiableSet(this.existentFoods.values().stream()
+                                                                     .collect(Collectors.toSet()));
     }
 
 }
