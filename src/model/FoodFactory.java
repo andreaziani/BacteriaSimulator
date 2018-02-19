@@ -2,8 +2,8 @@ package model;
 
 import java.util.Map;
 
-/** A factory to create some different type of food.
- * 
+/** 
+ * A factory to create some different type of food.
  * 
  *
  */

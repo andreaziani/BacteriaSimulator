@@ -1,11 +1,11 @@
 package model;
 
-import java.util.Set;
+import java.util.Map;
 
-import utils.Pair;
 
-/** Environment that deals with food operations.
- * 
+/** 
+ * Environment that deals with food operations, 
+ * allows to enter new food or change its status.
  *
  *
  */
@@ -14,6 +14,7 @@ public interface FoodEnvironment {
      * 
      * @param food to be add in the environment.
      * @param position of the food in the environment.
+     * @throws PositionAlreadyOccupiedException if the position is occupied.
      */
     void addFood(Food food, Position position);
     /**
@@ -21,6 +22,7 @@ public interface FoodEnvironment {
      * @param oldPosition of the food, to be changed.
      * @param newPosition of the food.
      * @param food that changes position.
+     * @throws RuntimeException if the declaration of food isn't correct.
      */
     void changeFoodPosition(Position oldPosition, Position newPosition, Food food);
     /**
@@ -31,8 +33,8 @@ public interface FoodEnvironment {
     void removeFood(Food food, Position position);
     /**
      * 
-     * @return the set of information for every inserted food.
+     * @return an unmodifiable copy of a map that contains positions and foods.
      */
-    Set<Pair<Food, Position>> getFoodsState();
+    Map<Position, Food> getFoodsState();
 
 }

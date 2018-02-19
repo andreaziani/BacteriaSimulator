@@ -3,9 +3,9 @@ package model;
 import java.util.Map;
 
 import model.FoodImpl.FoodBuilder;
-/** Implementation of FoodFactory.
+/** 
+ * Factory to create foods.
  * 
- * @author Andrea PC
  *
  */
 public class FoodFactoryImpl implements FoodFactory {

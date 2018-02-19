@@ -1,13 +1,15 @@
 package model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-/** Manager that contains all the existent foods.
- * 
- *
+
+import utils.AlreadyExistingFoodException;
+/** 
+ * Manager that contains all the existent foods.
  *
  */
 public class ExistentFoodManagerImpl implements ExistentFoodManager {
@@ -22,12 +24,17 @@ public class ExistentFoodManagerImpl implements ExistentFoodManager {
 
     @Override
     public void addFood(final String name, final Food food) {
-        this.existentFoods.putIfAbsent(name, food); // if someone add 2 foods with same name, the first only will be saved.
+        if (!this.existentFoods.values().contains(food) && !this.existentFoods.containsKey(name)) {
+            this.existentFoods.put(name, food); // if someone add 2 foods with same name, the first only will be saved.
+        } else {
+            throw new AlreadyExistingFoodException();
+        }
     }
 
     @Override
     public Set<Food> getExsistentFoods() {
-       return this.existentFoods.values().stream().collect(Collectors.toSet()); // return a copy of the set of values.
+       return Collections.unmodifiableSet(this.existentFoods.values().stream()
+                                                                     .collect(Collectors.toSet()));
     }
 
 }

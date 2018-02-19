@@ -6,8 +6,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * Implementation of Food.
- * 
+ * Implementation of Food. 
+ * A "Food" contains the nutrients that compose the food
+ * and their quantity.
  *
  *
  */
@@ -68,8 +69,9 @@ public class FoodImpl implements Food {
     }
 
     /**
-     * Nasted Builder for food.
-     * 
+     * Builder for food.
+     * Allows you to create a food by adding nutrients, 
+     * when food is built it is no longer possible to change its nutrients
      *
      *
      */
@@ -79,8 +81,7 @@ public class FoodImpl implements Food {
         /**
          * Add nutrients to builder.
          * 
-         * @param nutrients
-         *            to add.
+         * @param nutrients to add.
          * @return this builder.
          */
         public FoodBuilder addNutrient(final Entry<Nutrient, Double> nutrients) {
