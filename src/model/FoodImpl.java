@@ -6,8 +6,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * Implementation of Food.
- * 
+ * Implementation of Food. 
+ * A "Food" contains the nutrients that compose the food
+ * and their quantity.
  *
  *
  */

@@ -3,8 +3,24 @@ package model;
  * 
  */
 public enum Nutrient {
-    /** Nutrients.
-     * 
+    /**
+     * Water.
      */
-    water, carbohydrates,  peptones, hydrolysates, inorganic_salts;
+    WATER, 
+    /**
+     * Carbohydrates.
+     */
+    CARBOHYDRATES,
+    /**
+     * Peptones.
+     */
+    PEPTONES,
+    /**
+     * Hydrolysates.
+     */
+    HYDROLYSATES,
+    /**
+     * Inorganic salt.
+     */
+    INORGANIC_SALT;
 }

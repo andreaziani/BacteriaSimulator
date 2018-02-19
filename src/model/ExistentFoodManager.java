@@ -3,6 +3,8 @@ package model;
 import java.util.Optional;
 import java.util.Set;
 
+import utils.AlreadyExistingFoodException;
+
 /** Manager that contains all existent type of foods created.
  * 
  * 
@@ -19,6 +21,8 @@ public interface ExistentFoodManager {
      * 
      * @param food to add to the manager.
      * @param name of food.
+     * @throws AlreadyExistingFoodException 
+     *          if someone tries to insert already existing food.
      */
     void addFood(String name, Food food);
     /**
