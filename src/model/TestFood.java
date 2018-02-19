@@ -11,6 +11,8 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import utils.PositionAlreadyOccupiedException;
+
 class TestFood {
     private static final double V1 = 10.2;
     private static final double V2 = 0.2;
@@ -83,6 +85,34 @@ class TestFood {
         assertEquals("foods must be equals", manager.getFood("pera"), Optional.empty());
         assertNotEquals("foods are not equals", manager.getFood("banana").get(), food2);
     }
-
+    @Test
+    public void testFoodEnv() {
+        createNutrients();
+        final FoodEnvironment env = new FoodEnvironmentImpl();
+        final FoodFactory factory = new FoodFactoryImpl();
+        final Position position = new PositionImpl(V1, V2);
+        final Position position2 = new PositionImpl(V3, V2);
+        final Position position3 = new PositionImpl(V1, V3);
+        final Food food1 = factory.createFoodFromNutrients(nutrients1);
+        env.addFood(food1, position);
+        env.addFood(food1, position3);
+        assertTrue(env.getFoodsState().size() == 2);
+        env.removeFood(food1, position3);
+        assertTrue(env.getFoodsState().size() == 1);
+        env.changeFoodPosition(position, position2, food1);
+        assertEquals("Foods must be equals", env.getFoodsState().get(position2), food1);
+        try {
+            env.changeFoodPosition(position, position3, food1);
+            fail("Expected a IllegalArgumentException");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        try {
+            env.addFood(food1, position2);
+            fail("Expected a PositionAlreadyOccupiedException");
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

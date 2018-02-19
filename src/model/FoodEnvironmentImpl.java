@@ -1,10 +1,9 @@
 package model;
 
-import java.util.HashSet;
-
-import java.util.Set;
-
-import utils.Pair;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import utils.PositionAlreadyOccupiedException;
 
 /** 
  * Implementation of FoodEnvironment, contains information
@@ -13,25 +12,31 @@ import utils.Pair;
  *
  */
 public class FoodEnvironmentImpl implements FoodEnvironment {
-    private final Set<Pair<Food, Position>> foodInserted = new HashSet<>();
+    private final Map<Position, Food> foods = new HashMap<>();
     @Override
     public void addFood(final Food food, final Position position) {
-        this.foodInserted.add(new Pair<Food, Position>(food, position));
+        if (!this.foods.containsKey(position)) {
+            this.foods.put(position, food);
+        } else {
+            throw new PositionAlreadyOccupiedException();
+        }
     }
     @Override
     public void removeFood(final Food food, final Position position) {
-        this.foodInserted.remove(new Pair<>(position, food));
+        if (this.foods.containsKey(position) && this.foods.get(position).equals(food)) {
+            this.foods.remove(position);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
     @Override
-    public Set<Pair<Food, Position>> getFoodsState() {
-        return this.foodInserted;
+    public Map<Position, Food> getFoodsState() {
+        return Collections.unmodifiableMap(this.foods);
     }
     @Override
     public void changeFoodPosition(final Position oldPosition, final Position newPosition, final Food food) {
-        if (this.foodInserted.contains(new Pair<>(food, oldPosition))) {
-            removeFood(food, oldPosition);
-            addFood(food, newPosition);
-        }
+       removeFood(food, oldPosition); //maybe they can generate an Exception.
+       addFood(food, newPosition);
     }
 
 }
