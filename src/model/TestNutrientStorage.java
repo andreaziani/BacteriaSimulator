@@ -25,19 +25,26 @@ public class TestNutrientStorage {
 
     private Food food1;
     private Food food2;
+    private Food food3;
 
     @Before
     public void createFoods() {
         FoodFactory factory = new FoodFactoryImpl();
-        Map<Nutrient, Double> nutrients1 = new HashMap<>();
-        Map<Nutrient, Double> nutrients2 = new HashMap<>();
-        nutrients1.put(Nutrient.CARBOHYDRATES, V1);
-        nutrients1.put(Nutrient.HYDROLYSATES, V2);
-        nutrients1.put(Nutrient.PEPTONES, V3);
-        nutrients2.put(Nutrient.WATER, V1);
-        nutrients2.put(Nutrient.INORGANIC_SALT, V2);
-        food1 = factory.createFoodFromNutrients(nutrients1);
-        food2 = factory.createFoodFromNutrients(nutrients2);
+        Map<Nutrient, Double> nutrients = new HashMap<>();
+        nutrients.put(Nutrient.CARBOHYDRATES, V1);
+        nutrients.put(Nutrient.HYDROLYSATES, V2);
+        nutrients.put(Nutrient.PEPTONES, V3);
+        food1 = factory.createFoodFromNutrients(nutrients);
+
+        nutrients = new HashMap<>();
+        nutrients.put(Nutrient.WATER, V1);
+        nutrients.put(Nutrient.INORGANIC_SALT, V2);
+        food2 = factory.createFoodFromNutrients(nutrients);
+
+        nutrients = new HashMap<>();
+        nutrients.put(Nutrient.WATER, 1.0);
+        nutrients.put(Nutrient.INORGANIC_SALT, 1.0);
+        food3 = factory.createFoodFromNutrients(nutrients);
     }
     @Test
     public void testEmpty() {
@@ -74,5 +81,25 @@ public class TestNutrientStorage {
         storage.storeFood(food2);
         assertNotEquals(new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()), food1);
         assertNotEquals(new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()), food2);
+    }
+
+    @Test
+    public void testTakeAndStoreEnergy() {
+        NutrientStorage storage = new NutrientStorage(n -> (() -> n.ordinal()));
+        storage.storeFood(food3);
+        assertEquals(storage.getEnergyStored().getAmount(), Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal());
+        try {
+            storage.takeEnergy(() -> 1);
+        } catch (Exception e) {
+            fail("Should have worked");
+        }
+        assertEquals(storage.getEnergyStored().getAmount(), Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal() - 1);
+        try {
+            storage.takeEnergy(() -> Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal() - 1);
+        } catch (Exception e) {
+            fail("Should have worked");
+        }
+        assertEquals(storage.getEnergyStored().getAmount(), 0);
+        assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(() -> 1));
     }
 }
