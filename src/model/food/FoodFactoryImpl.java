@@ -1,8 +1,9 @@
-package model;
+package model.food;
 
 import java.util.Map;
 
-import model.FoodImpl.FoodBuilder;
+import model.food.FoodImpl.FoodBuilder;
+//TODO verificare la possibilità di fare una static class.
 /** 
  * Factory to create foods.
  * 

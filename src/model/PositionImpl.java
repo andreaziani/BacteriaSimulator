@@ -8,7 +8,7 @@ import utils.Pair;
  *
  */
 public class PositionImpl implements Position {
-    private Pair<Double, Double> coordinates;
+    private final Pair<Double, Double> coordinates;
     /**
      * Constructor of position from two double coordinates.
      * @param x the first coordinate.
@@ -19,12 +19,37 @@ public class PositionImpl implements Position {
     }
     @Override
     public double getX() {
-       return this.coordinates.getElem1();
+       return this.coordinates.getFirst();
     }
 
     @Override
     public double getY() {
-        return this.coordinates.getElem2();
+        return this.coordinates.getSecond();
+    }
+    @Override
+    public int hashCode() {
+        return coordinates.hashCode();
+    }
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PositionImpl other = (PositionImpl) obj;
+        if (coordinates == null) {
+            if (other.coordinates != null) {
+                return false;
+            }
+        } else if (!coordinates.equals(other.coordinates)) {
+            return false;
+        }
+        return true;
     }
 
 }

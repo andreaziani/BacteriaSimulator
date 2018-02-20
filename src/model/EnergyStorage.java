@@ -1,5 +1,7 @@
 package model;
 
+import model.food.Food;
+
 /**
  * Interface that represents the internal storage of energy of a bacteria.
  */

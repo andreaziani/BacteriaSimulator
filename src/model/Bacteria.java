@@ -2,6 +2,9 @@ package model;
 
 import java.util.Map;
 
+import model.food.Food;
+import model.food.Nutrient;
+
 /**
  * The interface representing a bacteria in the simulation.
  */

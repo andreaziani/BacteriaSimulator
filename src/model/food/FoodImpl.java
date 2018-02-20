@@ -1,5 +1,6 @@
-package model;
+package model.food;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,9 +15,9 @@ import java.util.Set;
  */
 public class FoodImpl implements Food {
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
-    /** Constructor packege private.
-     * 
-     * @param builder that create food.
+    /** 
+     * Constructor of food from FoodBuilder.
+     * @param builder that creates food.
      */
     private FoodImpl(final FoodBuilder builder) {
         builder.nutrients.keySet().stream().forEach(n -> this.nutrients.put(n, builder.nutrients.get(n)));
@@ -24,11 +25,11 @@ public class FoodImpl implements Food {
 
     @Override
     public Set<Nutrient> getNutrients() {
-        return this.nutrients.keySet();
+        return Collections.unmodifiableSet(this.nutrients.keySet());
     }
 
     @Override
-    public double getQuantityFromNutrients(final Nutrient nutrient) {
+    public double getQuantityFromNutrient(final Nutrient nutrient) {
         if (!this.nutrients.containsKey(nutrient)) {
             return 0.0;
         }
@@ -60,9 +61,12 @@ public class FoodImpl implements Food {
             if (other.nutrients != null) {
                 return false;
             }
-        } else if (!nutrients.keySet().containsAll(other.nutrients.keySet())) {
+        } else if (!nutrients.keySet().containsAll(other.nutrients.keySet()) 
+                || !other.nutrients.keySet().containsAll(this.nutrients.keySet())) {
             return false;
-        } else if (!this.nutrients.keySet().stream().allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue())) {
+        } else if (!this.nutrients.keySet()
+                                  .stream()
+                                  .allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue())) {
               return false;
         }
         return true;
@@ -71,7 +75,7 @@ public class FoodImpl implements Food {
     /**
      * Builder for food.
      * Allows you to create a food by adding nutrients, 
-     * when food is built it is no longer possible to change its nutrients
+     * when food is built it is no longer possible to change its nutrients.
      *
      *
      */

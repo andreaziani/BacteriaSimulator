@@ -1,4 +1,4 @@
-package model;
+package model.food;
 
 import java.util.Set;
 
@@ -17,5 +17,5 @@ public interface Food {
      * @param nutrient the nutrient to consider
      * @return quantity the quantity of nutrient in the food.
      */
-    double getQuantityFromNutrients(Nutrient nutrient);
+    double getQuantityFromNutrient(Nutrient nutrient);
 }

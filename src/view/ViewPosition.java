@@ -1,11 +1,10 @@
-package model;
-/** 
- * Position, an interface to manage the coordinates
- * of bacteria and food in the model.
- *
+package view;
+/**
+ * Interface to manage the coordinates
+ * of bacteria and food in the view.
  *
  */
-public interface Position {
+public interface ViewPosition {
     /**
      * 
      * @return the x coordinate.

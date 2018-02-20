@@ -1,4 +1,4 @@
-package model;
+package model.food;
 /** 
  * All possible type of nutrients present in food.
  * 

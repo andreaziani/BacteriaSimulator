@@ -1,5 +1,7 @@
 package model;
 
+import model.food.Nutrient;
+
 /**
  * Interface of a GeneticCode type. It represent individual specific
  * characteristic of a Bacteria and can mutate while the bacteria is still
