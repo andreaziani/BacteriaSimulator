@@ -56,7 +56,7 @@ public class BacteriaImpl implements Bacteria {
         if (this.energyStorage.getClass() != NutrientStorage.class) {
             throw new IllegalStateException();
         }
-        NutrientStorage storage = (NutrientStorage) this.energyStorage;
+        final NutrientStorage storage = (NutrientStorage) this.energyStorage;
         storage.setNutrientToEnergyConverter(this.geneticCode::getEnergyFromNutrient);
     }
 
@@ -85,7 +85,7 @@ public class BacteriaImpl implements Bacteria {
         if (this.energyStorage.getClass() != NutrientStorage.class) {
             throw new IllegalStateException();
         }
-        NutrientStorage storage = (NutrientStorage) this.energyStorage;
+        final NutrientStorage storage = (NutrientStorage) this.energyStorage;
         return storage.getNutrients();
     }
 

@@ -62,13 +62,13 @@ public class NutrientStorage implements EnergyStorage {
             double remained = energy.getAmount() - this.reserve;
             this.reserve = 0;
 
-            List<Nutrient> orderedNutrients = this.store.keySet().stream().sorted(
+            final List<Nutrient> orderedNutrients = this.store.keySet().stream().sorted(
                     (n1, n2) -> (int) (this.totalEnergyStoredPerNutrient(n2) - this.totalEnergyStoredPerNutrient(n1)))
                     .collect(Collectors.toList());
             for (int i = 0; i < orderedNutrients.size() && remained > 0; i++) {
-                Nutrient nutrient = orderedNutrients.get(i);
-                double nutrientValue = this.nutrientToEnergyConverter.apply(nutrient).getAmount();
-                double necessary = remained / nutrientValue;
+                final Nutrient nutrient = orderedNutrients.get(i);
+                final double nutrientValue = this.nutrientToEnergyConverter.apply(nutrient).getAmount();
+                final double necessary = remained / nutrientValue;
                 remained -= nutrientValue * Math.min(necessary, this.store.get(nutrient));
                 this.store.put(nutrient, this.store.get(nutrient) - Math.min(necessary, this.store.get(nutrient)));
             }

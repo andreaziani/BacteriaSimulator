@@ -36,7 +36,7 @@ public class TestNutrientStorage {
      */
     @Before
     public void createFoods() {
-        FoodFactory factory = new FoodFactoryImpl();
+        final FoodFactory factory = new FoodFactoryImpl();
         Map<Nutrient, Double> nutrients = new HashMap<>();
         nutrients.put(Nutrient.CARBOHYDRATES, V1);
         nutrients.put(Nutrient.HYDROLYSATES, V2);
