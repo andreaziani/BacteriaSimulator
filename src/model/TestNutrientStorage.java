@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -63,5 +64,15 @@ public class TestNutrientStorage {
         assertFalse(storage.getNutrients().isEmpty());
         assertEquals(storage.getEnergyStored().getAmount(), 0);
         assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(() -> 1));
+    }
+
+    @Test
+    public void testStoreFood() {
+        NutrientStorage storage = new NutrientStorage(n -> (() -> 0));
+        storage.storeFood(food1);
+        assertEquals(new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()), food1);
+        storage.storeFood(food2);
+        assertNotEquals(new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()), food1);
+        assertNotEquals(new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()), food2);
     }
 }
