@@ -1,9 +1,34 @@
 package view;
-/**View food.
+
+import java.util.Set;
+
+import model.Nutrient;
+
+/**
  * 
- * 
+ * The interface representing a food in the view.
  *
  */
 public interface ViewFood {
-
+    /**
+     * 
+     * @return the name of the food.
+     */
+    String getName();
+    /**
+     * 
+     * @return the nutrients that compose the food.
+     */
+    Set<Nutrient> getNutrients();
+    /**
+     * 
+     * @param nutrient of which return the quantity.
+     * @return the quantity of the nutrient in the food.
+     */
+    double getQuantityFromNutrient(Nutrient nutrient);
+    /**
+     * 
+     * @return the position of the food in the view.
+     */
+    ViewPosition getPosition();
 }

@@ -44,7 +44,7 @@ public class NutrientStorage implements EnergyStorage {
 
     @Override
     public void storeFood(final Food food) {
-        food.getNutrients().stream().forEach(n -> this.store.merge(n, food.getQuantityFromNutrients(n),
+        food.getNutrients().stream().forEach(n -> this.store.merge(n, food.getQuantityFromNutrient(n),
                 (oldValue, newValue) -> oldValue + newValue));
     }
 

@@ -28,7 +28,7 @@ public class FoodImpl implements Food {
     }
 
     @Override
-    public double getQuantityFromNutrients(final Nutrient nutrient) {
+    public double getQuantityFromNutrient(final Nutrient nutrient) {
         if (!this.nutrients.containsKey(nutrient)) {
             return 0.0;
         }
@@ -71,7 +71,7 @@ public class FoodImpl implements Food {
     /**
      * Builder for food.
      * Allows you to create a food by adding nutrients, 
-     * when food is built it is no longer possible to change its nutrients
+     * when food is built it is no longer possible to change its nutrients.
      *
      *
      */
