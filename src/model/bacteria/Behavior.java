@@ -1,4 +1,7 @@
-package model;
+package model.bacteria;
+
+import model.action.Action;
+import model.perception.Perception;
 
 /**
  * Represents the behavior of a bacteria. It define only the method chooseAction

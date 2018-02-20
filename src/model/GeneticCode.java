@@ -1,5 +1,6 @@
 package model;
 
+import model.action.Action;
 import model.food.Nutrient;
 
 /**

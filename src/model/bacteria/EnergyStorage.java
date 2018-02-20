@@ -1,5 +1,6 @@
-package model;
+package model.bacteria;
 
+import model.Energy;
 import model.food.Food;
 
 /**

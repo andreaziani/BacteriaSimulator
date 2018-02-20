@@ -1,4 +1,4 @@
-package model;
+package model.bacteria;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,6 +13,10 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.food.Food;
+import model.food.FoodFactory;
+import model.food.FoodFactoryImpl;
+import model.food.Nutrient;
 import utils.NotEnounghEnergyException;
 
 /**

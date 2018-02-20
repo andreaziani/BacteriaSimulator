@@ -1,4 +1,4 @@
-package model;
+package model.bacteria;
 
 import java.util.Collections;
 import java.util.EnumMap;
@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import model.Energy;
 import model.food.Food;
 import model.food.Nutrient;
 import utils.NotEnounghEnergyException;
