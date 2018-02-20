@@ -16,7 +16,7 @@ import org.junit.Test;
 import utils.NotEnounghEnergyException;
 
 /**
- *Unit test for the NutrientStorage class.
+ * Unit test for the NutrientStorage class.
  */
 public class TestNutrientStorage {
     private static final double V1 = 10.2;
@@ -27,6 +27,9 @@ public class TestNutrientStorage {
     private Food food2;
     private Food food3;
 
+    /**
+     * Initialize all the foods the tests in this unit will need.
+     */
     @Before
     public void createFoods() {
         FoodFactory factory = new FoodFactoryImpl();
@@ -46,9 +49,14 @@ public class TestNutrientStorage {
         nutrients.put(Nutrient.INORGANIC_SALT, 1.0);
         food3 = factory.createFoodFromNutrients(nutrients);
     }
+
+    /**
+     * This test assert that an empty storage has no energy, no nutrients and only
+     * zero energy can be taken.
+     */
     @Test
     public void testEmpty() {
-        NutrientStorage storage = new NutrientStorage(n -> (() -> 1));
+        final NutrientStorage storage = new NutrientStorage(n -> (() -> 1));
         assertEquals(storage.getEnergyStored().getAmount(), 0);
         assertTrue(storage.getNutrients().isEmpty());
         assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(() -> 1));
@@ -59,9 +67,13 @@ public class TestNutrientStorage {
         }
     }
 
+    /**
+     * This test assert that a storage has no energy if all its nutrients don't
+     * provide any.
+     */
     @Test
     public void testNoEnergy() {
-        NutrientStorage storage = new NutrientStorage(n -> (() -> 0));
+        final NutrientStorage storage = new NutrientStorage(n -> (() -> 0));
         storage.storeFood(food1);
         assertFalse(storage.getNutrients().isEmpty());
         assertEquals(storage.getEnergyStored().getAmount(), 0);
@@ -73,9 +85,13 @@ public class TestNutrientStorage {
         assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(() -> 1));
     }
 
+    /**
+     * This test add food to the store multiple times, asserting that the nutrients
+     * inside are correctly updated.
+     */
     @Test
     public void testStoreFood() {
-        NutrientStorage storage = new NutrientStorage(n -> (() -> 0));
+        final NutrientStorage storage = new NutrientStorage(n -> (() -> 0));
         storage.storeFood(food1);
         assertEquals(new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()), food1);
         storage.storeFood(food2);
@@ -83,17 +99,23 @@ public class TestNutrientStorage {
         assertNotEquals(new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()), food2);
     }
 
+    /**
+     * This test add food to the store and spend energy, asserting that the
+     * contained energy is correct after each operation.
+     */
     @Test
     public void testTakeAndStoreEnergy() {
-        NutrientStorage storage = new NutrientStorage(n -> (() -> n.ordinal()));
+        final NutrientStorage storage = new NutrientStorage(n -> (() -> n.ordinal()));
         storage.storeFood(food3);
-        assertEquals(storage.getEnergyStored().getAmount(), Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal());
+        assertEquals(storage.getEnergyStored().getAmount(),
+                Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal());
         try {
             storage.takeEnergy(() -> 1);
         } catch (Exception e) {
             fail("Should have worked");
         }
-        assertEquals(storage.getEnergyStored().getAmount(), Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal() - 1);
+        assertEquals(storage.getEnergyStored().getAmount(),
+                Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal() - 1);
         try {
             storage.takeEnergy(() -> Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal() - 1);
         } catch (Exception e) {
