@@ -60,7 +60,7 @@ public class FoodImpl implements Food {
             if (other.nutrients != null) {
                 return false;
             }
-        } else if (!nutrients.keySet().containsAll(other.nutrients.keySet())) {
+        } else if (!nutrients.keySet().containsAll(other.nutrients.keySet()) || !other.nutrients.keySet().containsAll(this.nutrients.keySet())) {
             return false;
         } else if (!this.nutrients.keySet().stream().allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue())) {
               return false;
