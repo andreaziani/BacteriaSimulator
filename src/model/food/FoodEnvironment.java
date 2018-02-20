@@ -1,6 +1,8 @@
-package model;
+package model.food;
 
 import java.util.Map;
+
+import model.Position;
 
 
 /** 

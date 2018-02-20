@@ -2,6 +2,9 @@ package model;
 
 import java.util.Map;
 
+import model.food.Food;
+import model.food.Nutrient;
+
 /**
  * Implementation of interface Bacteria.
  */

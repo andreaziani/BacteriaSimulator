@@ -2,6 +2,8 @@ package model;
 
 import java.util.Optional;
 
+import model.food.Food;
+
 /**
  * Interface representing a complete description of what a Bacteria can see from
  * the Environment. It can be extracted a food if there is one in the location

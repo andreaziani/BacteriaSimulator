@@ -1,4 +1,7 @@
 package model;
+
+import model.food.Food;
+
 /** Environment interface.
  * 
  * 

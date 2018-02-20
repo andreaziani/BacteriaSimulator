@@ -1,8 +1,10 @@
-package model;
+package model.food;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import model.Position;
 import utils.PositionAlreadyOccupiedException;
 
 /** 

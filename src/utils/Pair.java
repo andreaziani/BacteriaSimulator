@@ -22,17 +22,18 @@ public class Pair<X, Y> {
      * 
      * @return the first elem of the pair.
      */
-    public X getElem1() {
+    public X getFirst() {
         return elem1;
     }
     /**
      * 
      * @return the second elem of the pair.
      */
-    public Y getElem2() {
+    public Y getSecond() {
         return elem2;
     }
 
+    //TODO non so se sia un buon hashcode.
     @Override
     public int hashCode() {
         return (elem1 == null ? 0 : elem1.hashCode()) ^ (elem2 == null ? 0 : elem2.hashCode());

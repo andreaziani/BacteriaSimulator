@@ -2,7 +2,7 @@ package view;
 
 import java.util.Set;
 
-import model.Nutrient;
+import model.food.Nutrient;
 
 /**
  * 
@@ -17,7 +17,7 @@ public interface ViewFood {
     String getName();
     /**
      * 
-     * @return the nutrients that compose the food.
+     * @return an unmodifiable copy of the nutrients that compose the food.
      */
     Set<Nutrient> getNutrients();
     /**

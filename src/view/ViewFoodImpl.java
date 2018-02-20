@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
-import model.Nutrient;
+
+import model.food.Nutrient;
+
+//TODO verificare se si può refattorizzare.
 
 /**
  * The class representing a food in the view.
- * Two foods are the same type of food if they have the same name.
  *
  */
 public class ViewFoodImpl implements ViewFood {
@@ -40,10 +42,14 @@ public class ViewFoodImpl implements ViewFood {
     public ViewPosition getPosition() {
         return this.pos;
     }
-    
+    //TODO rifare hashcode.
     @Override
     public int hashCode() {
-        return name.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((nutrients == null) ? 0 : nutrients.hashCode());
+        return result;
     }
     @Override
     public boolean equals(final Object obj) {
@@ -64,10 +70,19 @@ public class ViewFoodImpl implements ViewFood {
         } else if (!name.equals(other.name)) {
             return false;
         }
+        if (nutrients == null) {
+            if (other.nutrients != null) {
+                return false;
+            }
+        }  else if (!nutrients.keySet().containsAll(other.nutrients.keySet()) || !other.nutrients.keySet().containsAll(this.nutrients.keySet())) {
+            return false;
+        } else if (!this.nutrients.keySet().stream().allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue())) {
+              return false;
+        }
         return true;
     }
 
-    //TODO mi sa molto di copia.
+
     /**
      * Builder for ViewFood.
      * Allows you to create a food by adding name and nutrients, 

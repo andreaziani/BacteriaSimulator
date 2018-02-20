@@ -19,4 +19,6 @@ public interface FoodController {
      * @param food viewfood to add.
      */
     void addFoodFromView(ViewFood food);
+    //TODO getNutrients();
+    //TODO getViewFoods();
 }
