@@ -4,6 +4,7 @@ import model.action.Action;
 import model.action.ActionType;
 import model.action.SimpleAction;
 import model.perception.Perception;
+
 /**
  * A behavior that always choose to do nothing.
  */
