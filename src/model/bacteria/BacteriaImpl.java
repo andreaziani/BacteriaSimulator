@@ -16,6 +16,7 @@ public class BacteriaImpl implements Bacteria {
 
     private Perception currPerception;
     private GeneticCode geneticCode;
+    private final Species species;
     private final Behavior behavior;
     private final EnergyStorage energyStorage;
 
@@ -29,8 +30,9 @@ public class BacteriaImpl implements Bacteria {
      * @param initialGeneticCode
      *            a geneticCode to be inserted in the bacteria.
      */
-    public BacteriaImpl(final Behavior specesBehavior, final GeneticCode initialGeneticCode) {
-        this.behavior = specesBehavior;
+    public BacteriaImpl(final Species species, final GeneticCode initialGeneticCode) {
+        this.species = species;
+        this.behavior = species.getBehavior();
         this.geneticCode = initialGeneticCode;
         this.energyStorage = new NutrientStorage(this.geneticCode::getEnergyFromNutrient);
     }
@@ -40,6 +42,11 @@ public class BacteriaImpl implements Bacteria {
         this.currPerception = perception;
     }
 
+    @Override
+    public Species getSpecies() {
+        return this.species;
+    }
+    
     @Override
     public Action getAction() {
         return this.behavior.chooseAction(this.currPerception);
@@ -88,5 +95,4 @@ public class BacteriaImpl implements Bacteria {
         final NutrientStorage storage = (NutrientStorage) this.energyStorage;
         return storage.getNutrients();
     }
-
 }
