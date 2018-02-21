@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import model.Energy;
+import model.EnergyImpl;
 import model.food.Food;
 import model.food.Nutrient;
 import utils.NotEnounghEnergyException;
@@ -47,8 +48,8 @@ public class NutrientStorage implements EnergyStorage {
 
     @Override
     public void storeFood(final Food food) {
-        food.getNutrients().stream().forEach(n -> this.store.merge(n, food.getQuantityFromNutrient(n),
-                (oldValue, newValue) -> oldValue + newValue));
+        food.getNutrients().stream().forEach(
+                n -> this.store.merge(n, food.getQuantityFromNutrient(n), (oldValue, newValue) -> oldValue + newValue));
     }
 
     @Override
@@ -81,8 +82,8 @@ public class NutrientStorage implements EnergyStorage {
 
     @Override
     public Energy getEnergyStored() {
-        return () -> this.store.keySet().stream().mapToDouble(this::totalEnergyStoredPerNutrient).filter(x -> x > 0)
-                .sum();
+        return new EnergyImpl(
+                this.store.keySet().stream().mapToDouble(this::totalEnergyStoredPerNutrient).filter(x -> x > 0).sum());
     }
 
     /**
