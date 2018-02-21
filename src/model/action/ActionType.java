@@ -17,10 +17,6 @@ public enum ActionType {
      */
     REPLICATE,
     /**
-     * Action for comunicating.
-     */
-    COMUNICATE,
-    /**
      * Action for doing nothing.
      */
     NOTHING;
