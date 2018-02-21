@@ -1,6 +1,7 @@
 package view;
 
 import model.Analisys;
+import view.food.ViewFood;
 
 /** View.
  * 

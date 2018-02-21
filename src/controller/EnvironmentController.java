@@ -1,7 +1,8 @@
 package controller;
 
 import view.InitialState;
-import view.ViewFood;
+import view.ViewPosition;
+import view.food.ViewFood;
 
 /**Env Controller.
  * 
@@ -9,10 +10,11 @@ import view.ViewFood;
  *
  */
 public interface EnvironmentController {
-    /** Add any food.
+    /** Add any food from view.
      * @param food to add.
+     * @param position of the food.
      */
-    void addFood(ViewFood food);
+    void addFoodFromView(ViewFood food, ViewPosition position);
     /** Start.
      * @param state Initial.
      */

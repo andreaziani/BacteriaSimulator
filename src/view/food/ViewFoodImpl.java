@@ -1,4 +1,4 @@
-package view;
+package view.food;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import model.food.Nutrient;
+import view.ViewPosition;
 
 //TODO verificare se si può refattorizzare.
 
@@ -16,12 +17,10 @@ import model.food.Nutrient;
  */
 public class ViewFoodImpl implements ViewFood {
     private final String name;
-    private final ViewPosition pos;
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
     private ViewFoodImpl(final ViewFoodBuilder builder) {
         this.name = builder.name;
         builder.nutrients.keySet().stream().forEach(k -> this.nutrients.put(k, builder.nutrients.get(k)));
-        this.pos = builder.pos;
     }
     @Override
     public String getName() {
@@ -38,10 +37,6 @@ public class ViewFoodImpl implements ViewFood {
         return this.nutrients.get(nutrient);
     }
 
-    @Override
-    public ViewPosition getPosition() {
-        return this.pos;
-    }
     //TODO rifare hashcode.
     @Override
     public int hashCode() {
@@ -92,7 +87,6 @@ public class ViewFoodImpl implements ViewFood {
     public static class ViewFoodBuilder {
         private final Map<Nutrient, Double> nutrients = new HashMap<>();
         private String name;
-        private ViewPosition pos;
         private boolean built;
         /**
          * Set the name of the food.
@@ -102,16 +96,6 @@ public class ViewFoodImpl implements ViewFood {
         public ViewFoodBuilder setName(final String name) {
             checkBuilt();
             this.name = name;
-            return this;
-        }
-        /**
-         * Insert the position of the food in the view.
-         * @param pos of the food.
-         * @return this builder.
-         */
-        public ViewFoodBuilder setPosition(final ViewPosition pos) {
-            checkBuilt();
-            this.pos = pos;
             return this;
         }
         /**
@@ -131,7 +115,7 @@ public class ViewFoodImpl implements ViewFood {
          * @return the food built.
          */
         public ViewFood build() {
-            if (!this.nutrients.isEmpty() && this.pos != null && this.name != null && !this.built) {
+            if (!this.nutrients.isEmpty() && this.name != null && !this.built) {
                 this.built = true;
                 return new ViewFoodImpl(this);
             }
