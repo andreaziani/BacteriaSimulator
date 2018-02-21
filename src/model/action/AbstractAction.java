@@ -5,7 +5,7 @@ package model.action;
  * be instantiated because different ActionType require different implementation
  * of Action.
  */
-public class AbstractAction implements Action {
+public abstract class AbstractAction implements Action {
 
     private final ActionType type;
 
