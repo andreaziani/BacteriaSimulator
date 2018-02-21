@@ -44,7 +44,7 @@ public class ViewPositionImpl implements ViewPosition {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        ViewPositionImpl other = (ViewPositionImpl) obj;
+        final ViewPositionImpl other = (ViewPositionImpl) obj;
         if (position == null) {
             if (other.position != null) {
                 return false;

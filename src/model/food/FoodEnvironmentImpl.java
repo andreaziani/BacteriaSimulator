@@ -2,9 +2,7 @@ package model.food;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import model.Position;
 import utils.PositionAlreadyOccupiedException;
@@ -51,7 +49,6 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
         final RandomPositionStrategy positionStrategy = new ExponentialDistribuitionStrategyImpl();
         for (int i = MAXATTEMPS; (i > 0 && check); i--) {
             try {
-                final List<Food> list = manager.getExistingFoodsSet().stream().collect(Collectors.toList());
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
                 check = false;
             } catch (PositionAlreadyOccupiedException e) {
