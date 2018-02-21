@@ -20,6 +20,13 @@ public interface FoodEnvironment {
      */
     void addFood(Food food, Position position);
     /**
+     * Add a random food taken from the manager of the existing foods in a random position.
+     * If the food is placed in an already occupied position (from foods), 
+     * try entering again up to the maximum number of attempts specified in the class.
+     * @param manager that contains all the existing foods.
+     */
+    void addRandomFood(ExistingFoodManager manager);
+    /**
      * 
      * @param oldPosition of the food, to be changed.
      * @param newPosition of the food.

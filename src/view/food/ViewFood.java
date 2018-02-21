@@ -1,4 +1,4 @@
-package view;
+package view.food;
 
 import java.util.Set;
 
@@ -26,9 +26,4 @@ public interface ViewFood {
      * @return the quantity of the nutrient in the food.
      */
     double getQuantityFromNutrient(Nutrient nutrient);
-    /**
-     * 
-     * @return the position of the food in the view.
-     */
-    ViewPosition getPosition();
 }

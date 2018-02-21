@@ -1,22 +1,19 @@
 package model.food;
 
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
 
-import utils.AlreadyExistingFoodException;
-
 /** 
- * Manager that contains all existent type of foods created.
+ * Manager that contains all existing type of foods created.
  * 
  *
  */
-public interface ExistentFoodManager {
+public interface ExistingFoodManager {
     /** 
-     * Allows to get a food if present in the manager.
-     * @param name of the food to be getted.
-     * @return a optional that contains the food if is present.
+     * Get a map that contains all existent foods.
+     * @return a map with couple name of food-correspondent food.
      */
-    Optional<Food> getFood(String name);
+    Map<String, Food> getExistingFoodsMap();
     /**
      * Allows to add a new food in the manager.
      * @param food to add to the manager.
@@ -29,5 +26,5 @@ public interface ExistentFoodManager {
      * 
      * @return an unmodifiable copy of the entire set of existent foods.
      */
-    Set<Food> getExsistentFoods();
+    Set<Food> getExistingFoodsSet();
 }
