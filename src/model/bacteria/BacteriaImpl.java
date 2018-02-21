@@ -1,9 +1,13 @@
-package model;
+package model.bacteria;
 
 import java.util.Map;
 
+import model.Energy;
+import model.GeneticCode;
+import model.action.Action;
 import model.food.Food;
 import model.food.Nutrient;
+import model.perception.Perception;
 
 /**
  * Implementation of interface Bacteria.
@@ -52,7 +56,7 @@ public class BacteriaImpl implements Bacteria {
         if (this.energyStorage.getClass() != NutrientStorage.class) {
             throw new IllegalStateException();
         }
-        NutrientStorage storage = (NutrientStorage) this.energyStorage;
+        final NutrientStorage storage = (NutrientStorage) this.energyStorage;
         storage.setNutrientToEnergyConverter(this.geneticCode::getEnergyFromNutrient);
     }
 
@@ -81,7 +85,7 @@ public class BacteriaImpl implements Bacteria {
         if (this.energyStorage.getClass() != NutrientStorage.class) {
             throw new IllegalStateException();
         }
-        NutrientStorage storage = (NutrientStorage) this.energyStorage;
+        final NutrientStorage storage = (NutrientStorage) this.energyStorage;
         return storage.getNutrients();
     }
 

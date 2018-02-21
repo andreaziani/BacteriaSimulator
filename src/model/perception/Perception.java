@@ -1,7 +1,8 @@
-package model;
+package model.perception;
 
 import java.util.Optional;
 
+import model.Direction;
 import model.food.Food;
 
 /**

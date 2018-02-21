@@ -1,4 +1,4 @@
-package model;
+package model.action;
 
 /**
  * Types of actions that a bacteria can choose.
