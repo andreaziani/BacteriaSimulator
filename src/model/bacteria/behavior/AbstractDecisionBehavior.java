@@ -15,6 +15,7 @@ import model.perception.Perception;
 public abstract class AbstractDecisionBehavior implements Behavior {
 
     private final Set<Decision> decisionSet;
+    private Perception perception;
 
     /**
      * Create an abstractDecisionBehavior.
@@ -30,17 +31,26 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     protected final Set<Decision> getDecisionSet() {
         return decisionSet;
     }
+    /**
+     * @return the current perception this behavior is analyzing.
+     */
+    protected final Perception getCurrentPerception() {
+        return perception;
+    }
 
     /**
      * This method must be used internally to modify the decision set, which can be
-     * accessed using getDecisionSet. This method is the only way for an extension
-     * of this class to make a decision about the Action to choose.
+     * accessed using getDecisionSet, while the perception can be accessed using
+     * getCurrentPerception. This method is the only way for an extension of this
+     * class to make a decision about the Action to choose.
      */
     protected abstract void updateDecisionSet();
 
     @Override
     public final Action chooseAction(final Perception perception) {
         decisionSet.clear();
+        this.perception = perception;
+
         updateDecisionSet();
         return decisionSet.stream().max((d1, d2) -> (int) (d1.getConfidence() - d2.getConfidence()))
                 .map(x -> x.getAction()).orElseGet(() -> new SimpleAction(ActionType.NOTHING));
