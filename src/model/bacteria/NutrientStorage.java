@@ -53,7 +53,7 @@ public class NutrientStorage implements EnergyStorage {
     }
 
     @Override
-    public void takeEnergy(final Energy energy) {//TODO very bad implementation
+    public void takeEnergy(final Energy energy) { //TODO very bad implementation
         if (this.getEnergyStored().getAmount() < energy.getAmount()) {
             throw new NotEnounghEnergyException();
         }
