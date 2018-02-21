@@ -24,9 +24,8 @@ public class BacteriaImpl implements Bacteria {
      * Construct a Bacteria from a Behavior strategy and a genetic code. This
      * constructor use a nutrientStorage as a default EnergyStorage strategy.
      * 
-     * @param specesBehavior
-     *            a behavior strategy defining the behavior of this bacteria's
-     *            species
+     * @param species
+     *            this bacteria's species.
      * @param initialGeneticCode
      *            a geneticCode to be inserted in the bacteria.
      */
@@ -46,7 +45,7 @@ public class BacteriaImpl implements Bacteria {
     public Species getSpecies() {
         return this.species;
     }
-    
+
     @Override
     public Action getAction() {
         return this.behavior.chooseAction(this.currPerception);
