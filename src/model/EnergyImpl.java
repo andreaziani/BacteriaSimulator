@@ -9,7 +9,7 @@ public class EnergyImpl implements Energy {
      */
     public static final Energy ZERO = new EnergyImpl(0);
 
-    private double amount;
+    private final double amount;
 
     /**
      * Create an Energy from a given amount.
