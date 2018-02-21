@@ -1,11 +1,36 @@
 package model;
+
 /**
- *Representation of an amount of energy. Bacteria acquire it by eating foods and use it doing actions. 
+ * Representation of an amount of energy. Bacteria acquire it by eating foods
+ * and use it doing actions.
  */
-@FunctionalInterface
-public interface Energy {
+public interface Energy extends Comparable<Energy> {
     /**
      * @return a double representing the amount of energy this object has.
      */
     double getAmount();
+
+    /**
+     * Get the addition of this energy an other.
+     * 
+     * @param other
+     *            an other Energy.
+     * @return an new Energy which amount is the sum of the two amounts.
+     */
+    Energy add(Energy other);
+
+    /**
+     * Get the subtraction of an Energy to this.
+     * 
+     * @param other
+     *            the Energy to be subtracted.
+     * @return a new Energy which amount is the subtraction of the two amounts.
+     */
+    Energy subtract(Energy other);
+
+    /**
+     * @return a new Energy which amount is equals to additive inverse of this
+     *         object's amount.
+     */
+    Energy invert();
 }
