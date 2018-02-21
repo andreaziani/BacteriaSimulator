@@ -1,4 +1,4 @@
-package model.bacteria;
+package model.bacteria.behavior;
 
 import model.action.Action;
 import model.action.ActionType;

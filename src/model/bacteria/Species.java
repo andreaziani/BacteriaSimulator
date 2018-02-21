@@ -1,5 +1,7 @@
 package model.bacteria;
 
+import model.bacteria.behavior.Behavior;
+
 /**
  * Represent a Species of bacteria. It defines a common behavior between its members.
  */

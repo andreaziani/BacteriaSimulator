@@ -5,6 +5,7 @@ import java.util.Map;
 import model.Energy;
 import model.GeneticCode;
 import model.action.Action;
+import model.bacteria.behavior.Behavior;
 import model.food.Food;
 import model.food.Nutrient;
 import model.perception.Perception;
