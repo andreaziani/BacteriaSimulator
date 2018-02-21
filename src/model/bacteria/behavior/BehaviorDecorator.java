@@ -20,7 +20,7 @@ public abstract class BehaviorDecorator implements Behavior {
     public BehaviorDecorator(final Behavior delegate) {
         this.delegate = delegate;
     }
-
+    
     @Override
     public Action chooseAction(final Perception perception) {
         return delegate.chooseAction(perception);
