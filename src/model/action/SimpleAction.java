@@ -2,7 +2,7 @@ package model.action;
 
 /**
  * An implementation of action that contains only the action type. Can only be
- * used by Eat, Nothing and Replicate action types.
+ * used with Eat, Nothing and Replicate action types.
  */
 public class SimpleAction extends AbstractAction {
 
