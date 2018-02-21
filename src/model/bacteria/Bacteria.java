@@ -27,6 +27,11 @@ public interface Bacteria {
     Action getAction();
 
     /**
+     * @return the species of this bacteria.
+     */
+    Species getSpecies();
+
+    /**
      * @return the genetic code of the bacteria.
      */
     GeneticCode getGeneticCode();
@@ -57,7 +62,8 @@ public interface Bacteria {
     /**
      * @return a collection of all the nutrients eaten by this bacteria and not yet
      *         consumed associated with the amount of each.
-     * @throws IllegalStateExeption if this bacteria does not contains his nutrients.
+     * @throws IllegalStateExeption
+     *             if this bacteria does not contains his nutrients.
      */
     Map<Nutrient, Double> getNutrients();
 

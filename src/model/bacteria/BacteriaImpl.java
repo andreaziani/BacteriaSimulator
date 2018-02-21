@@ -5,6 +5,7 @@ import java.util.Map;
 import model.Energy;
 import model.GeneticCode;
 import model.action.Action;
+import model.bacteria.behavior.Behavior;
 import model.food.Food;
 import model.food.Nutrient;
 import model.perception.Perception;
@@ -16,6 +17,7 @@ public class BacteriaImpl implements Bacteria {
 
     private Perception currPerception;
     private GeneticCode geneticCode;
+    private final Species species;
     private final Behavior behavior;
     private final EnergyStorage energyStorage;
 
@@ -23,14 +25,14 @@ public class BacteriaImpl implements Bacteria {
      * Construct a Bacteria from a Behavior strategy and a genetic code. This
      * constructor use a nutrientStorage as a default EnergyStorage strategy.
      * 
-     * @param specesBehavior
-     *            a behavior strategy defining the behavior of this bacteria's
-     *            species
+     * @param species
+     *            this bacteria's species.
      * @param initialGeneticCode
      *            a geneticCode to be inserted in the bacteria.
      */
-    public BacteriaImpl(final Behavior specesBehavior, final GeneticCode initialGeneticCode) {
-        this.behavior = specesBehavior;
+    public BacteriaImpl(final Species species, final GeneticCode initialGeneticCode) {
+        this.species = species;
+        this.behavior = species.getBehavior();
         this.geneticCode = initialGeneticCode;
         this.energyStorage = new NutrientStorage(this.geneticCode::getEnergyFromNutrient);
     }
@@ -38,6 +40,11 @@ public class BacteriaImpl implements Bacteria {
     @Override
     public void setPerception(final Perception perception) {
         this.currPerception = perception;
+    }
+
+    @Override
+    public Species getSpecies() {
+        return this.species;
     }
 
     @Override
@@ -88,5 +95,4 @@ public class BacteriaImpl implements Bacteria {
         final NutrientStorage storage = (NutrientStorage) this.energyStorage;
         return storage.getNutrients();
     }
-
 }
