@@ -18,4 +18,9 @@ public interface Food {
      * @return quantity the quantity of nutrient in the food.
      */
     double getQuantityFromNutrient(Nutrient nutrient);
+    /**
+     * 
+     * @return the radius of the food.
+     */
+    double getRadius();
 }

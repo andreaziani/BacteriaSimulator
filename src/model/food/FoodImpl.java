@@ -14,6 +14,7 @@ import java.util.Set;
  *
  */
 public class FoodImpl implements Food {
+    private final double radius = 1.0;
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
     /** 
      * Constructor of food from FoodBuilder.
@@ -34,6 +35,11 @@ public class FoodImpl implements Food {
             return 0.0;
         }
         return this.nutrients.get(nutrient);
+    }
+
+    @Override
+    public double getRadius() {
+        return this.radius;
     }
 
     //TODO hashcode.
@@ -109,4 +115,6 @@ public class FoodImpl implements Food {
             throw new IllegalStateException();
         }
     }
+
+
 }
