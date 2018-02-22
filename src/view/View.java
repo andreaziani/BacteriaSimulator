@@ -14,11 +14,12 @@ public interface View {
      * @param state of view.
      */
     void update(ViewState state);
-    /** Add a food.
-     * 
+    /**
+     * Insert a new food.
      * @param food info.
+     * @param position of the food.
      */
-    void addFood(ViewFood food);
+    void addFood(ViewFood food, ViewPosition position);
     /** Load a replay.
      * 
      * @param path of the Replay file.

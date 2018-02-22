@@ -1,20 +1,21 @@
-package view.food;
+package view;
 
 import controller.ObserverInsertionFromView;
-import view.ViewPosition;
+import view.food.ViewFood;
 
 /**
- * Manager for ViewFoods.
- * Subject observed from ObserverView.
+ * Interface that allows observing and communicate to all the observers
+ * the inseriment of foods by user.
+ * (Subject observed from ObserverView).
  *
  */
-public interface ViewFoodManager {
+public interface ViewInsertion {
     /**
-     * insert a new food by user.
+     * Notify all the observers the insertion a new food by user.
      * @param food to add.
      * @param position of the food.
      */
-    void insertFood(ViewFood food, ViewPosition position);
+    void notifyInsertionOfFood(ViewFood food, ViewPosition position);
     /**
      * Add an observer on the foodmanager.
      * @param observer to add.
