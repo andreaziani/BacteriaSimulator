@@ -5,5 +5,4 @@ package view;
  *
  */
 public interface ViewState {
-
 }
