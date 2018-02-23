@@ -25,5 +25,4 @@ public class ViewInsertionImpl implements ViewInsertion {
     public void notifyInsertionOfFood(final ViewFood food, final ViewPosition position) {
         this.observers.forEach(o -> o.update(food, position));
     }
-
 }
