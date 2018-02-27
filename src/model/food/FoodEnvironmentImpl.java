@@ -42,6 +42,7 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
        removeFood(food, oldPosition); //maybe they can generate an Exception.
        addFood(food, newPosition);
     }
+    //TODO impostare la dimensione massima dell'env.
     @Override
     public void addRandomFood(final ExistingFoodManager manager) {
         boolean check = true;

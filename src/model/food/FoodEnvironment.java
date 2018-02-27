@@ -38,6 +38,7 @@ public interface FoodEnvironment {
      * 
      * @param position of the food that will be removed.
      * @param food to be removed from the enviroment.
+     * @throws IllegalArgumentException if the food isn't present at this position.
      */
     void removeFood(Food food, Position position);
     /**
