@@ -25,4 +25,9 @@ public interface FoodController {
      * @return a unmodifiable set of existing view foods.
      */
     Set<ViewFood> getExistingViewFoods();
+    /**
+     * Add a new type of food to existing foods.
+     * @param food to add.
+     */
+    void addNewFood(ViewFood food);
 }

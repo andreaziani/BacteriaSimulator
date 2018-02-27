@@ -27,13 +27,12 @@ public class FoodControllerImpl implements FoodController {
     public FoodControllerImpl(final Environment env) {
         this.env = env;
     }
+    
     @Override
     public void addFoodFromViewToModel(final ViewFood food, final ViewPosition position) {
-        if (!manager.getExistingFoodsMap().containsKey(food.getName())) { // se non c'è lo sta aggiungendo per la prima volta.
-            manager.addFood(food.getName(), convertionFromViewToModel(food));
-        }
         this.env.addFood(manager.getExistingFoodsMap().get(food.getName()), new PositionImpl(position.getX(), position.getY()));
     }
+    
     @Override
     public Set<ViewFood> getExistingViewFoods() {
         return Collections.unmodifiableSet(manager.getExistingFoodsMap()
@@ -59,5 +58,10 @@ public class FoodControllerImpl implements FoodController {
         food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n)))
                                     .entrySet().forEach(e -> builder.addNutrient(e));
         return builder.build();
+    }
+
+    @Override
+    public void addNewFood(final ViewFood food) {
+        this.manager.addFood(food.getName(), convertionFromViewToModel(food));
     }
 }

@@ -15,7 +15,8 @@ public interface Food {
     /**
      * 
      * @param nutrient the nutrient to consider
-     * @return quantity the quantity of nutrient in the food.
+     * @return quantity the quantity of nutrient in the food 
+     * (if the nutrient isn't present in the food return 0.0).
      */
     double getQuantityFromNutrient(Nutrient nutrient);
     /**
