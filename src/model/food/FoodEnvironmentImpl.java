@@ -16,6 +16,15 @@ import utils.PositionAlreadyOccupiedException;
 public class FoodEnvironmentImpl implements FoodEnvironment {
     private static final int MAXATTEMPS = 10;
     private final Map<Position, Food> foods = new HashMap<>();
+    private final ExistingFoodManager manager;
+    /**
+     * Construct the FoodEnvironment from an ExistingFoodManager 
+     * with which to know the types of food already created.
+     * @param manager that contains all existing foods.
+     */
+    public FoodEnvironmentImpl(final ExistingFoodManager manager) {
+        this.manager = manager;
+    }
 
     @Override
     public void addFood(final Food food, final Position position) {
@@ -44,7 +53,7 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
     }
     //TODO impostare la dimensione massima dell'env.
     @Override
-    public void addRandomFood(final ExistingFoodManager manager) {
+    public void addRandomFood() {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
         final RandomPositionStrategy positionStrategy = new ExponentialDistribuitionStrategyImpl();

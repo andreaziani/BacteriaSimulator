@@ -101,7 +101,6 @@ public class TestFood {
     @Test
     public void testFoodEnv() {
         createNutrients();
-        final FoodEnvironment env = new FoodEnvironmentImpl();
         final FoodFactory factory = new FoodFactoryImpl();
         final Position position = new PositionImpl(V1, V2);
         final Position position2 = new PositionImpl(V3, V2);
@@ -110,6 +109,7 @@ public class TestFood {
         final Food food2 = factory.createFoodFromNutrients(nutrients2);
         final Food food3 = factory.createFoodFromNutrients(nutrients1);
         final ExistingFoodManager manager = new ExistingFoodManagerImpl();
+        final FoodEnvironment env = new FoodEnvironmentImpl(manager);
         manager.addFood("banana", food1);
         manager.addFood("mela", food2);
         manager.addFood("arancia", food3);
@@ -124,7 +124,7 @@ public class TestFood {
                                                                                                                 // position but position is wrong.
         assertThrows(PositionAlreadyOccupiedException.class, () -> env.addFood(food1, position2)); // trying to add a food in a position already occupied.
         for (int i = 0; i < 100; i++) {
-            env.addRandomFood(manager);
+            env.addRandomFood();
         }
         System.out.println(env.getFoodsState().size());
         env.getFoodsState().forEach((k, v) -> System.out.println(k.getX() + " " + k.getY()));
