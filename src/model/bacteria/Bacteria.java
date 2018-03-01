@@ -32,6 +32,16 @@ public interface Bacteria {
     Species getSpecies();
 
     /**
+     * @return the radius of this bacteria.
+     */
+    Double getRadius();
+
+    /**
+     * @return the radius of perception of this bacteria.
+     */
+    Double getPerceptionRadius();
+
+    /**
      * @return the genetic code of the bacteria.
      */
     GeneticCode getGeneticCode();

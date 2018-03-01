@@ -34,4 +34,14 @@ public interface GeneticCode {
      *         Nutrient, it is negative if the Nutrient is nocive.
      */
     Energy getEnergyFromNutrient(Nutrient nutrient);
+
+    /**
+     * @return the radius of a bacteria with this GeneticCode.
+     */
+    Double getRadius();
+
+    /**
+     * @return the radius of the perception of a bacteria with this GeneticCode.
+     */
+    Double getPerceptionRadius();
 }

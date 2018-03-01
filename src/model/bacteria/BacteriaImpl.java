@@ -48,6 +48,16 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
+    public Double getRadius() {
+        return this.geneticCode.getRadius();
+    }
+
+    @Override
+    public Double getPerceptionRadius() {
+        return this.geneticCode.getPerceptionRadius();
+    }
+
+    @Override
     public Action getAction() {
         return this.behavior.chooseAction(this.currPerception);
     }
