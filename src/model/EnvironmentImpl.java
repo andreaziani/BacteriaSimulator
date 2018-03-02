@@ -10,8 +10,8 @@ import model.food.FoodEnvironmentImpl;
  *
  */
 public class EnvironmentImpl implements Environment {
-    private ExistingFoodManager manager = new ExistingFoodManagerImpl();
-    private FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
+    private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
+    private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     @Override
     public void addFood(final Food food, final Position position) {
         this.foodEnv.addFood(food, position);
