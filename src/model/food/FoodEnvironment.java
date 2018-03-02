@@ -23,22 +23,22 @@ public interface FoodEnvironment {
      * Add a random food taken from the manager of the existing foods in a random position.
      * If the food is placed in an already occupied position (from foods), 
      * try entering again up to the maximum number of attempts specified in the class.
-     * @param manager that contains all the existing foods.
      */
-    void addRandomFood(ExistingFoodManager manager);
+    void addRandomFood();
     /**
      * 
      * @param oldPosition of the food, to be changed.
      * @param newPosition of the food.
      * @param food that changes position.
      * @throws RuntimeException if the declaration of food isn't correct.
+     * @throws PositionAlreadyOccupiedException if the position is occupied by another food.
      */
     void changeFoodPosition(Position oldPosition, Position newPosition, Food food);
     /**
      * 
      * @param position of the food that will be removed.
-     * @param food to be removed from the enviroment.
-     * @throws IllegalArgumentException if the food isn't present at this position.
+     * @param food to be removed from the environment.
+     * @throws IllegalArgumentException if this food isn't present at this position.
      */
     void removeFood(Food food, Position position);
     /**
