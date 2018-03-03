@@ -40,6 +40,15 @@ public interface Bacteria {
     Double getPerceptionRadius();
 
     /**
+     * Get the Energy cost for executing an Action by this Bacteria.
+     * 
+     * @param action
+     *            an Action
+     * @return the cost of executing that Action by this Bacteria.
+     */
+    Energy getActionCost(Action action);
+
+    /**
      * @return the genetic code of the bacteria.
      */
     GeneticCode getGeneticCode();

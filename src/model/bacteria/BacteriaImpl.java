@@ -61,6 +61,11 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
+    public Energy getActionCost(final Action action) {
+        return this.geneticCode.getActionCost(action);
+    }
+
+    @Override
     public GeneticCode getGeneticCode() {
         return this.geneticCode;
     }
