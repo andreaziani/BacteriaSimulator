@@ -23,7 +23,7 @@ public class RandomMovementDecisionBehavior extends DecisionBehaviorDecorator im
 
     @Override
     protected void updateDecisionSet() {
-        Random rand = new Random();
+        final Random rand = new Random();
         this.getDecisionSet().add(DecisionFactory.directionalDecision(ActionType.MOVE,
                 Direction.values()[rand.nextInt(Direction.values().length)], 1));
         super.updateDecisionSet();
