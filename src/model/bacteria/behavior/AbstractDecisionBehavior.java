@@ -2,6 +2,7 @@ package model.bacteria.behavior;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import model.action.Action;
 import model.action.ActionType;
@@ -37,6 +38,21 @@ public abstract class AbstractDecisionBehavior implements Behavior {
      */
     protected final Perception getCurrentPerception() {
         return perception;
+    }
+
+    /**
+     * Search the decisions of the behavior and set to zero the value of all actions
+     * that satisfy the Predicate.
+     * 
+     * @param cond
+     *            a condition for each Action.
+     */
+    protected void cleanActionDecisions(final Predicate<Action> cond) {
+        this.getDecisions().forEach((a, b) -> {
+            if (cond.test(a)) {
+                getDecisions().put(a, 0.0);
+            }
+        });
     }
 
     /**

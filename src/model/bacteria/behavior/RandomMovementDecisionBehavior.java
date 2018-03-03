@@ -25,15 +25,10 @@ public class RandomMovementDecisionBehavior extends DecisionBehaviorDecorator im
     @Override
     protected void updateDecisions() {
         final Random rand = new Random();
-        this.getDecisions().forEach((a, b) -> {
-            if (a.getType() == ActionType.MOVE) {
-                getDecisions().put(a, 0.0);
-            }
-        });
+        cleanActionDecisions(a -> a.getType() == ActionType.MOVE);
         this.getDecisions().put(
                 new DirectionalActionImpl(ActionType.MOVE, Direction.values()[rand.nextInt(Direction.values().length)]),
                 1.0);
         super.updateDecisions();
     }
-
 }
