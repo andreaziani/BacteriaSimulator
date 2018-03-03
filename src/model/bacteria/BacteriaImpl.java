@@ -1,13 +1,11 @@
 package model.bacteria;
 
-import java.util.Map;
-
 import model.Energy;
 import model.GeneticCode;
 import model.action.Action;
 import model.bacteria.behavior.Behavior;
 import model.food.Food;
-import model.food.Nutrient;
+import model.food.FoodFactory;
 import model.perception.Perception;
 
 /**
@@ -98,11 +96,11 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
-    public Map<Nutrient, Double> getNutrients() {
+    public Food getInternalFood(final FoodFactory factory) {
         if (this.energyStorage.getClass() != NutrientStorage.class) {
             throw new IllegalStateException();
         }
         final NutrientStorage storage = (NutrientStorage) this.energyStorage;
-        return storage.getNutrients();
+        return factory.createFoodFromNutrients(storage.getNutrients());
     }
 }

@@ -1,12 +1,10 @@
 package model.bacteria;
 
-import java.util.Map;
-
 import model.Energy;
 import model.GeneticCode;
 import model.action.Action;
 import model.food.Food;
-import model.food.Nutrient;
+import model.food.FoodFactory;
 import model.perception.Perception;
 
 /**
@@ -70,12 +68,16 @@ public interface Bacteria {
     void addFood(Food food);
 
     /**
-     * @return a collection of all the nutrients eaten by this bacteria and not yet
-     *         consumed associated with the amount of each.
+     * Create a Food from a bacteria, takes a FoodFactory as a strategy to create a
+     * Food from the bacteria nutrients.
+     * 
+     * @param factory
+     *            a FoodFactory from to create a food from the bacteria.
+     * @return a new food, representing the nutrients not consumed by the bacteria.
      * @throws IllegalStateExeption
-     *             if this bacteria does not contains his nutrients.
+     *             if this bacteria does not contain nutrients.
      */
-    Map<Nutrient, Double> getNutrients();
+    Food getInternalFood(FoodFactory factory);
 
     /**
      * @param amount
