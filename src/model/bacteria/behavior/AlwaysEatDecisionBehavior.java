@@ -4,8 +4,8 @@ import model.action.ActionType;
 import model.action.SimpleAction;
 
 /**
- * A behavior for choosing out to move that assigns to each move direction a
- * preference based on the percepted distance from the nearest foods.
+ * A behavior for choosing if to eat that always choose to eat if there is Food
+ * where it stands.
  */
 public class AlwaysEatDecisionBehavior extends DecisionBehaviorDecorator implements EatingBehavior {
     /**

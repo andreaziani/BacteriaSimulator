@@ -8,7 +8,7 @@ import model.action.ActionType;
 import model.action.DirectionalActionImpl;
 
 /**
- * A behavior for choosing out to move that assigns to each move direction a
+ * A behavior for choosing how to move that assigns to each move direction a
  * preference based on the percepted distance from the nearest foods.
  */
 public class NearFoodMovementDecisionBehavior extends DecisionBehaviorDecorator implements MovementBehavior {
