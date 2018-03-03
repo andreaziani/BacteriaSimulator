@@ -21,7 +21,7 @@ import utils.NotEnounghEnergyException;
 public class NutrientStorage implements EnergyStorage {
 
     private final Map<Nutrient, Double> store;
-    private double reserve;
+    private Energy reserve;
     private Function<Nutrient, Energy> nutrientToEnergyConverter;
 
     /**
@@ -31,10 +31,11 @@ public class NutrientStorage implements EnergyStorage {
      * @param nutrientToEnergyConverter
      *            a function that associates nutrients and energy.
      */
-    public NutrientStorage(final Function<Nutrient, Energy> nutrientToEnergyConverter) {
+    public NutrientStorage(final Energy startingEnergy, final Function<Nutrient, Energy> nutrientToEnergyConverter) {
+        this.reserve = startingEnergy;
         this.store = new EnumMap<>(Nutrient.class);
         this.nutrientToEnergyConverter = nutrientToEnergyConverter;
-        this.reserve = 0;
+        this.reserve = EnergyImpl.ZERO;
     }
 
     /**
@@ -53,24 +54,24 @@ public class NutrientStorage implements EnergyStorage {
     }
 
     @Override
-    public void takeEnergy(final Energy energy) { //TODO very bad implementation
+    public void takeEnergy(final Energy energy) { // TODO very bad implementation
         if (this.getEnergyStored().getAmount() < energy.getAmount()) {
             throw new NotEnounghEnergyException();
         }
-        if (energy.getAmount() <= this.reserve) {
-            this.reserve -= energy.getAmount();
+        if (energy.compareTo(this.reserve) <= 0) {
+            this.reserve = this.reserve.subtract(energy);
         } else {
-            double remained = energy.getAmount() - this.reserve;
-            this.reserve = 0;
+            Energy remained = energy.subtract(this.reserve);
+            this.reserve = EnergyImpl.ZERO;
 
             final List<Nutrient> orderedNutrients = this.store.keySet().stream().sorted(
                     (n1, n2) -> (int) (this.totalEnergyStoredPerNutrient(n2) - this.totalEnergyStoredPerNutrient(n1)))
                     .collect(Collectors.toList());
-            for (int i = 0; i < orderedNutrients.size() && remained > 0; i++) {
+            for (int i = 0; i < orderedNutrients.size() && remained.compareTo(EnergyImpl.ZERO) > 0; i++) {
                 final Nutrient nutrient = orderedNutrients.get(i);
                 final double nutrientValue = this.nutrientToEnergyConverter.apply(nutrient).getAmount();
-                final double necessary = remained / nutrientValue;
-                remained -= nutrientValue * Math.min(necessary, this.store.get(nutrient));
+                final double necessary = remained.getAmount() / nutrientValue;
+                remained.subtract(new EnergyImpl(nutrientValue * Math.min(necessary, this.store.get(nutrient))));
                 this.store.put(nutrient, this.store.get(nutrient) - Math.min(necessary, this.store.get(nutrient)));
             }
         }

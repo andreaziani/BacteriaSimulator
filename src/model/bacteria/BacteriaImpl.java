@@ -27,12 +27,14 @@ public class BacteriaImpl implements Bacteria {
      *            this bacteria's species.
      * @param initialGeneticCode
      *            a geneticCode to be inserted in the bacteria.
+     * @param startingEnergy
+     *            the initial Energy of this bacteria.
      */
-    public BacteriaImpl(final Species species, final GeneticCode initialGeneticCode) {
+    public BacteriaImpl(final Species species, final GeneticCode initialGeneticCode, final Energy startingEnergy) {
         this.species = species;
         this.behavior = species.getBehavior();
         this.geneticCode = initialGeneticCode;
-        this.energyStorage = new NutrientStorage(this.geneticCode::getEnergyFromNutrient);
+        this.energyStorage = new NutrientStorage(startingEnergy, this.geneticCode::getEnergyFromNutrient);
     }
 
     @Override
