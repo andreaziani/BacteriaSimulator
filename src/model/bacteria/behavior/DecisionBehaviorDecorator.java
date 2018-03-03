@@ -21,7 +21,7 @@ public abstract class DecisionBehaviorDecorator extends AbstractDecisionBehavior
     }
 
     @Override
-    protected void updateDecisionSet() {
-        this.delegate.updateDecisionSet();
+    protected void updateDecisions() {
+        this.delegate.updateDecisions();
     }
 }

@@ -1,7 +1,7 @@
 package model.bacteria.behavior;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import model.action.Action;
 import model.action.ActionType;
@@ -14,23 +14,24 @@ import model.perception.Perception;
  */
 public abstract class AbstractDecisionBehavior implements Behavior {
 
-    private final Set<Decision> decisionSet;
+    private final Map<Action, Double> decisions;
     private Perception perception;
 
     /**
      * Create an abstractDecisionBehavior.
      */
     public AbstractDecisionBehavior() {
-        this.decisionSet = new HashSet<>();
+        this.decisions = new HashMap<>();
     }
 
     /**
-     * @return the decision set. This is not a copy or an unmodifiable set, it is
+     * @return the decisions. This is not a copy or an unmodifiable set, it is
      *         intended to be modified.
      */
-    protected final Set<Decision> getDecisionSet() {
-        return decisionSet;
+    protected final Map<Action, Double> getDecisions() {
+        return decisions;
     }
+
     /**
      * @return the current perception this behavior is analyzing.
      */
@@ -39,20 +40,20 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     }
 
     /**
-     * This method must be used internally to modify the decision set, which can be
-     * accessed using getDecisionSet, while the perception can be accessed using
+     * This method must be used internally to modify the decisions, which can be
+     * accessed using getDecisions, while the perception can be accessed using
      * getCurrentPerception. This method is the only way for an extension of this
      * class to make a decision about the Action to choose.
      */
-    protected abstract void updateDecisionSet();
+    protected abstract void updateDecisions();
 
     @Override
     public final Action chooseAction(final Perception perception) {
-        decisionSet.clear();
+        decisions.clear();
         this.perception = perception;
 
-        updateDecisionSet();
-        return decisionSet.stream().max((d1, d2) -> (int) (d1.getConfidence() - d2.getConfidence()))
-                .map(x -> x.getAction()).orElseGet(() -> new SimpleAction(ActionType.NOTHING));
+        updateDecisions();
+        return decisions.keySet().stream().max((a1, a2) -> (int) (decisions.get(a1) - decisions.get(a2)))
+                .orElseGet(() -> new SimpleAction(ActionType.NOTHING));
     }
 }
