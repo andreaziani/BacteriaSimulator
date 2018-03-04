@@ -19,4 +19,9 @@ public interface EnvironmentController {
      * @param state Initial.
      */
     void start(InitialState state);
+    /**
+     * Add a new type of food created by user.
+     * @param food to be added at ExistingFoodManager.
+     */
+    void addNewFood(ViewFood food);
 }

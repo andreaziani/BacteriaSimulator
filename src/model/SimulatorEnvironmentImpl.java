@@ -1,7 +1,5 @@
 package model;
 
-import model.bacteria.BacteriaEnvironment;
-import model.bacteria.BacteriaEnvironmentImpl;
 import model.food.ExistingFoodManager;
 import model.food.ExistingFoodManagerImpl;
 import model.food.Food;

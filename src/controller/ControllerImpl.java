@@ -1,7 +1,5 @@
 package controller;
 
-//import controller.food.FoodController;
-//import controller.food.FoodControllerImpl;
 import model.Analisys;
 import model.Environment;
 import model.SimulatorEnvironmentImpl;
@@ -41,6 +39,11 @@ public class ControllerImpl implements Controller {
     @Override
     public void saveAnalisys(final String path, final Analisys analisys) {
         this.fileController.saveAnalisys(path, analisys);
+    }
+
+    @Override
+    public void addNewFood(final ViewFood food) {
+        this.envController.addNewFood(food);
     }
 
 }

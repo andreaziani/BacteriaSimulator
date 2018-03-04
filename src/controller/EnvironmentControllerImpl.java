@@ -29,7 +29,11 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public void start(final InitialState state) {
-        
+    }
+
+    @Override
+    public void addNewFood(final ViewFood food) {
+        this.foodController.addNewFood(food);
     }
 
 }
