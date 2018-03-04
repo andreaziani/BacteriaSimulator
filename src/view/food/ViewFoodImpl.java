@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import model.food.Nutrient;
+import utils.Pair;
 import view.ViewPosition;
 
 //TODO verificare se si può refattorizzare.
@@ -104,9 +105,9 @@ public class ViewFoodImpl implements ViewFood {
          * @param nutrients to add.
          * @return this builder.
          */
-        public ViewFoodBuilder addNutrient(final Entry<Nutrient, Double> nutrients) {
+        public ViewFoodBuilder addNutrient(final Pair<Nutrient, Double> nutrients) {
             checkBuilt();
-            this.nutrients.put(nutrients.getKey(), nutrients.getValue());
+            this.nutrients.put(nutrients.getFirst(), nutrients.getSecond());
             return this;
         }
         /**

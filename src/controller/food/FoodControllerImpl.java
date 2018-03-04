@@ -10,6 +10,7 @@ import model.food.ExistingFoodManager;
 import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
 import model.food.FoodImpl.FoodBuilder;
+import utils.Pair;
 import utils.PositionAlreadyOccupiedException;
 import view.ViewPosition;
 import view.food.ViewFood;
@@ -53,7 +54,7 @@ public class FoodControllerImpl implements FoodController {
     private ViewFood convertionFromModelToView(final String name, final Food food) {
         final ViewFoodBuilder builder = new ViewFoodBuilder();
         food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n)))
-                                    .entrySet().forEach(e -> builder.addNutrient(e));
+                                    .entrySet().forEach(e -> builder.addNutrient(new Pair<>(e.getKey(), e.getValue())));
         return builder.setName(name).build();
     }
 

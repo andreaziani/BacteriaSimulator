@@ -19,7 +19,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      */
     public EnvironmentControllerImpl(final Environment env) {
         this.env = env;
-        this.foodController = new FoodControllerImpl(env);
+        this.foodController = new FoodControllerImpl(this.env);
     }
 
     @Override
