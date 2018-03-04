@@ -22,8 +22,8 @@ public class FoodControllerImpl implements FoodController {
     private final Environment env;
     private final ExistingFoodManager manager;
     /**
-     * Costructor that build the controller from an Environment from 
-     * wich also get the ExistingFoodManager.
+     * Constructor that build the controller from an Environment from 
+     * which also get the ExistingFoodManager.
      * @param env environment.
      */
     public FoodControllerImpl(final Environment env) {
