@@ -5,16 +5,24 @@ import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodEnvironmentImpl;
+
 /**
- * Implementation of Environment. 
+ * implementation of SimulatorEnvironment.
  *
  */
-public class EnvironmentImpl implements Environment {
+public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     @Override
     public void addFood(final Food food, final Position position) {
+        // TODO Auto-generated method stub
         this.foodEnv.addFood(food, position);
+    }
+
+    @Override
+    public ExistingFoodManager getExistingFoods() {
+        // TODO Auto-generated method stub
+        return this.manager;
     }
 
     @Override
@@ -25,7 +33,6 @@ public class EnvironmentImpl implements Environment {
 
     @Override
     public void update() {
-        this.foodEnv.addRandomFood();
         // TODO Auto-generated method stub
 
     }
@@ -34,11 +41,6 @@ public class EnvironmentImpl implements Environment {
     public Analisys getAnalisys() {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public ExistingFoodManager getExistingFoods() {
-        return this.manager;
     }
 
 }

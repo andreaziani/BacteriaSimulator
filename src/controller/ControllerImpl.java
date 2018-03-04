@@ -3,7 +3,7 @@ package controller;
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Analisys;
-import model.EnvironmentImpl;
+import model.SimulatorEnvironmentImpl;
 import view.InitialState;
 import view.ViewPosition;
 import view.food.ViewFood;
@@ -12,7 +12,7 @@ import view.food.ViewFood;
  *
  */
 public class ControllerImpl implements Controller {
-    private final FoodController foodController = new FoodControllerImpl(new EnvironmentImpl());
+    private final FoodController foodController = new FoodControllerImpl(new SimulatorEnvironmentImpl());
     @Override
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
         this.foodController.addFoodFromViewToModel(food, position);
