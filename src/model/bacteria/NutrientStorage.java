@@ -61,7 +61,7 @@ public class NutrientStorage implements EnergyStorage {
         if (energy.compareTo(this.reserve) <= 0) {
             this.reserve = this.reserve.subtract(energy);
         } else {
-            Energy remained = energy.subtract(this.reserve);
+            final Energy remained = energy.subtract(this.reserve);
             this.reserve = EnergyImpl.ZERO;
 
             final List<Nutrient> orderedNutrients = this.store.keySet().stream().sorted(
