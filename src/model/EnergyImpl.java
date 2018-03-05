@@ -42,7 +42,7 @@ public class EnergyImpl implements Energy {
     }
 
     @Override
-    public Energy multiply(double amount) {
+    public Energy multiply(final double amount) {
         return new EnergyImpl(this.amount * amount);
     }
 

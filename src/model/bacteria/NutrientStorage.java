@@ -28,6 +28,17 @@ public class NutrientStorage implements EnergyStorage {
      * Creates an empty nutrient storage and initialize a function to convert
      * nutrients to energy.
      * 
+     * @param nutrientToEnergyConverter
+     *            a function that associates nutrients and energy.
+     */
+    public NutrientStorage(final Function<Nutrient, Energy> nutrientToEnergyConverter) {
+        this(EnergyImpl.ZERO, nutrientToEnergyConverter);
+    }
+
+    /**
+     * Creates a nutrient storage with a starting Energy reserve and initialize a
+     * function to convert nutrients to energy.
+     * 
      * @param startingEnergy
      *            the initial energy of the storage.
      * @param nutrientToEnergyConverter
