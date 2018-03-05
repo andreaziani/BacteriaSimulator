@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Set;
+
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Environment;
@@ -36,4 +38,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         this.foodController.addNewFood(food);
     }
 
+    @Override
+    public Set<ViewFood> getExistingViewFoods() {
+        return this.foodController.getExistingViewFoods();
+    }
 }

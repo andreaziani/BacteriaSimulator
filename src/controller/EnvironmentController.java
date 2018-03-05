@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Set;
+
 import view.InitialState;
 import view.ViewPosition;
 import view.food.ViewFood;
@@ -24,4 +26,9 @@ public interface EnvironmentController {
      * @param food to be added at ExistingFoodManager.
      */
     void addNewFood(ViewFood food);
+    /**
+     * 
+     * @return a set that contains all the existing types of food.
+     */
+    Set<ViewFood> getExistingViewFoods();
 }

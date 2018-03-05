@@ -32,7 +32,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     @Override
     public void update() {
         // TODO Auto-generated method stub
-
+//        this.foodEnv.addRandomFood();
     }
 
     @Override

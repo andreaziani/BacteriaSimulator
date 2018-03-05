@@ -7,7 +7,6 @@ import java.util.Set;
 import model.Environment;
 import model.PositionImpl;
 import model.food.ExistingFoodManager;
-import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
 import model.food.FoodImpl.FoodBuilder;
 import utils.Pair;

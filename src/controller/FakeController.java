@@ -65,4 +65,11 @@ public class FakeController implements Controller {
 
     }
 
+
+    @Override
+    public Set<ViewFood> getExistingViewFoods() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

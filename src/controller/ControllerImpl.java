@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Set;
+
 import model.Analisys;
 import model.Environment;
 import model.SimulatorEnvironmentImpl;
@@ -16,6 +18,7 @@ public class ControllerImpl implements Controller {
     private final Environment env = new SimulatorEnvironmentImpl();
     private final EnvironmentController envController = new EnvironmentControllerImpl(env);
     private final FileController fileController = new FileControllerImpl();
+
     @Override
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
         this.envController.addFoodFromView(food, position);
@@ -45,5 +48,11 @@ public class ControllerImpl implements Controller {
     public void addNewFood(final ViewFood food) {
         this.envController.addNewFood(food);
     }
+
+    @Override
+    public Set<ViewFood> getExistingViewFoods() {
+        return this.envController.getExistingViewFoods();
+    }
+
 
 }
