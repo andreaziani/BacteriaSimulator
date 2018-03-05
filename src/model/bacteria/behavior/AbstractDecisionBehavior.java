@@ -2,11 +2,14 @@ package model.bacteria.behavior;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
+import model.Energy;
 import model.action.Action;
 import model.action.ActionType;
 import model.action.SimpleAction;
+import model.food.Nutrient;
 import model.perception.Perception;
 
 /**
@@ -64,7 +67,7 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     protected abstract void updateDecisions();
 
     @Override
-    public final Action chooseAction(final Perception perception) {
+    public final Action chooseAction(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter) {
         decisions.clear();
         this.perception = perception;
 
