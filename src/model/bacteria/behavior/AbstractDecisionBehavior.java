@@ -20,6 +20,7 @@ public abstract class AbstractDecisionBehavior implements Behavior {
 
     private final Map<Action, Double> decisions;
     private Perception perception;
+    private Function<Nutrient, Energy> nutrientToEnergyConverter;
 
     /**
      * Create an abstractDecisionBehavior.
@@ -41,6 +42,15 @@ public abstract class AbstractDecisionBehavior implements Behavior {
      */
     protected final Perception getCurrentPerception() {
         return perception;
+    }
+
+    /**
+     * @param nutrient
+     *            a Nutrient.
+     * @return the amount of Energy a Nutrient can give.
+     */
+    protected final Energy getNutrientEnergy(final Nutrient nutrient) {
+        return this.nutrientToEnergyConverter.apply(nutrient);
     }
 
     /**
@@ -67,9 +77,11 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     protected abstract void updateDecisions();
 
     @Override
-    public final Action chooseAction(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter) {
+    public final Action chooseAction(final Perception perception,
+            final Function<Nutrient, Energy> nutrientToEnergyConverter) {
         decisions.clear();
         this.perception = perception;
+        this.nutrientToEnergyConverter = nutrientToEnergyConverter;
 
         updateDecisions();
         return decisions.keySet().stream().max((a1, a2) -> (int) (decisions.get(a1) - decisions.get(a2)))
