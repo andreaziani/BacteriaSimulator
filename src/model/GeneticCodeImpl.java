@@ -13,16 +13,25 @@ public class GeneticCodeImpl implements GeneticCode {
 	public Map<Nutrient, Energy> nutrients;
 	public double speed;
 	
-	//insert exceptions!!
-	public GeneticCodeImpl(final String code, Map<Action, Energy> actions, final double speed){
+	/**
+     * Construct a Bacteria's Genetic Code.
+     * 
+     * @param code
+     *            the "name" of genetic code.
+     * @param actions
+     *            a list of possible bacteria's actions.
+     * @param speed
+     * 			  speed of bacteria.
+     */
+	public GeneticCodeImpl(final String code, final Map<Action, Energy> actions, final double speed) {
 		this.code = code;
 		this.actions = new HashMap<>();
 		this.speed = speed;
 	}
 
 	@Override
-	public void setActionCost(Action action, Energy cost){
-		if(!this.actions.containsKey(action)) {
+	public void setActionCost(final Action action, final Energy cost) {
+		if (!this.actions.containsKey(action)) {
 			throw new IllegalArgumentException();
 		}
 		else {
@@ -31,30 +40,28 @@ public class GeneticCodeImpl implements GeneticCode {
 	 }
 
 	@Override
-	public String getCode(){
+	public String getCode() {
 		 return code;
 	 }
 
 	@Override
-    public Energy getActionCost(Action action){
-		if(!this.actions.containsKey(action)) {
+    public Energy getActionCost(final Action action) {
+		if (!this.actions.containsKey(action)) {
 			throw new IllegalArgumentException();
 		}
 		else {
 			return (Energy) actions.get(action);
 		}
-	}//MOLTO BRUTTO. GET NON DOVREBBE PRENDERE IN INPUT NIENTE
-    
+	}
+
     @Override
-    public double getSpeed(){
+    public double getSpeed() {
 		return speed;
 	}
-    
-    
-    
+
     @Override
-	public Energy getEnergyFromNutrient(Nutrient nutrient) {
-    	if(!this.nutrients.containsKey(nutrient)) {
+	public Energy getEnergyFromNutrient(final Nutrient nutrient) {
+    	if (!this.nutrients.containsKey(nutrient)) {
 			throw new IllegalArgumentException();
 		}
 		else {
@@ -63,13 +70,13 @@ public class GeneticCodeImpl implements GeneticCode {
     }
 
 	@Override
-	public void setSpeed(double speed) {
+	public void setSpeed(final double speed) {
 		this.speed = speed;
 	}
 
 	@Override
-	public Energy setEnergyFromNutrient(Nutrient nutrient, Energy cost) {
-		if(!this.nutrients.containsKey(nutrient)) {
+	public Energy setEnergyFromNutrient(final Nutrient nutrient, final Energy cost) {
+		if (!this.nutrients.containsKey(nutrient)) {
 			throw new IllegalArgumentException();
 		}
 		else {
