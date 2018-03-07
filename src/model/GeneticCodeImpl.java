@@ -49,6 +49,11 @@ public class GeneticCodeImpl implements GeneticCode {
 	 }
 
 	@Override
+	public void setCode(final String code) {
+		this.code = code;
+	}
+	
+	@Override
     public Energy getActionCost(final Action action) {
 		if (!this.actions.containsKey(action)) {
 			throw new IllegalArgumentException();
