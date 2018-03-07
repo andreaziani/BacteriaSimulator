@@ -1,8 +1,12 @@
 package model.bacteria.behavior;
 
+import java.util.function.Function;
+
+import model.Energy;
 import model.action.Action;
 import model.action.ActionType;
 import model.action.SimpleAction;
+import model.food.Nutrient;
 import model.perception.Perception;
 
 /**
@@ -11,7 +15,7 @@ import model.perception.Perception;
 public class VoidBehavior implements Behavior {
 
     @Override
-    public Action chooseAction(final Perception perception) {
+    public Action chooseAction(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter) {
         return new SimpleAction(ActionType.NOTHING);
     }
 

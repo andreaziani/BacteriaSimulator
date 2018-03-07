@@ -42,6 +42,11 @@ public class EnergyImpl implements Energy {
     }
 
     @Override
+    public Energy multiply(final double amount) {
+        return new EnergyImpl(this.amount * amount);
+    }
+
+    @Override
     public Energy invert() {
         return new EnergyImpl(this.amount * -1);
     }
@@ -67,11 +72,8 @@ public class EnergyImpl implements Energy {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        EnergyImpl other = (EnergyImpl) obj;
-        if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount)) {
-            return false;
-        }
-        return true;
+        final EnergyImpl other = (EnergyImpl) obj;
+        return Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount);
     }
 
 }

@@ -31,6 +31,19 @@ public class NutrientStorage implements EnergyStorage {
      * @param nutrientToEnergyConverter
      *            a function that associates nutrients and energy.
      */
+    public NutrientStorage(final Function<Nutrient, Energy> nutrientToEnergyConverter) {
+        this(EnergyImpl.ZERO, nutrientToEnergyConverter);
+    }
+
+    /**
+     * Creates a nutrient storage with a starting Energy reserve and initialize a
+     * function to convert nutrients to energy.
+     * 
+     * @param startingEnergy
+     *            the initial energy of the storage.
+     * @param nutrientToEnergyConverter
+     *            a function that associates nutrients and energy.
+     */
     public NutrientStorage(final Energy startingEnergy, final Function<Nutrient, Energy> nutrientToEnergyConverter) {
         this.reserve = startingEnergy;
         this.store = new EnumMap<>(Nutrient.class);
@@ -61,7 +74,7 @@ public class NutrientStorage implements EnergyStorage {
         if (energy.compareTo(this.reserve) <= 0) {
             this.reserve = this.reserve.subtract(energy);
         } else {
-            Energy remained = energy.subtract(this.reserve);
+            final Energy remained = energy.subtract(this.reserve);
             this.reserve = EnergyImpl.ZERO;
 
             final List<Nutrient> orderedNutrients = this.store.keySet().stream().sorted(

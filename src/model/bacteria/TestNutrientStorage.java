@@ -61,7 +61,7 @@ public class TestNutrientStorage {
      */
     @Test
     public void testEmpty() {
-        final NutrientStorage storage = new NutrientStorage(EnergyImpl.ZERO, n -> (new EnergyImpl(1)));
+        final NutrientStorage storage = new NutrientStorage(n -> (new EnergyImpl(1)));
         assertEquals(storage.getEnergyStored().getAmount(), 0);
         assertTrue(storage.getNutrients().isEmpty());
         assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
@@ -78,7 +78,7 @@ public class TestNutrientStorage {
      */
     @Test
     public void testNoEnergy() {
-        final NutrientStorage storage = new NutrientStorage(EnergyImpl.ZERO, n -> (EnergyImpl.ZERO));
+        final NutrientStorage storage = new NutrientStorage(n -> (EnergyImpl.ZERO));
         storage.storeFood(food1);
         assertFalse(storage.getNutrients().isEmpty());
         assertEquals(storage.getEnergyStored().getAmount(), 0);
@@ -96,7 +96,7 @@ public class TestNutrientStorage {
      */
     @Test
     public void testStoreFood() {
-        final NutrientStorage storage = new NutrientStorage(EnergyImpl.ZERO, n -> (EnergyImpl.ZERO));
+        final NutrientStorage storage = new NutrientStorage(n -> (EnergyImpl.ZERO));
         storage.storeFood(food1);
         assertEquals(new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()), food1);
         storage.storeFood(food2);
@@ -110,7 +110,7 @@ public class TestNutrientStorage {
      */
     @Test
     public void testTakeAndStoreEnergy() {
-        final NutrientStorage storage = new NutrientStorage(EnergyImpl.ZERO, n -> (new EnergyImpl(n.ordinal())));
+        final NutrientStorage storage = new NutrientStorage(n -> (new EnergyImpl(n.ordinal())));
         storage.storeFood(food3);
         assertEquals(storage.getEnergyStored().getAmount(),
                 Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal());

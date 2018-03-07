@@ -29,6 +29,15 @@ public interface Energy extends Comparable<Energy> {
     Energy subtract(Energy other);
 
     /**
+     * Get the multiplication of this Energy and a double.
+     * 
+     * @param amount
+     *            a double to multiply.
+     * @return a new Energy which amount is multiply by the parameter.
+     */
+    Energy multiply(double amount);
+
+    /**
      * @return a new Energy which amount is equals to additive inverse of this
      *         object's amount.
      */
