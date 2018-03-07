@@ -15,9 +15,10 @@ import view.food.ViewFood;
  */
 public interface FoodController {
     /**
-     * Add a food added by user.
+     * Add a food added by user from view to model.
      * @param food viewfood to add.
      * @param position of the food in the view.
+     * @throws PositionAlreadyOccupiedException
      */
     void addFoodFromViewToModel(ViewFood food, ViewPosition position);
     /**
@@ -28,6 +29,7 @@ public interface FoodController {
     /**
      * Add a new type of food to existing foods.
      * @param food to add.
+     * @throws AlreadyExistingFoodException
      */
     void addNewFood(ViewFood food);
 }

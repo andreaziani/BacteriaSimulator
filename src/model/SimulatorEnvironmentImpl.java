@@ -1,4 +1,4 @@
-package model;
+ package model;
 
 import model.food.ExistingFoodManager;
 import model.food.ExistingFoodManagerImpl;

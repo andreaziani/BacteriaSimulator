@@ -10,8 +10,8 @@ import model.food.Food;
  *
  */
 public interface Environment {
-    /** add food.
-     * 
+    /** 
+     * Add a food in a position.
      * @param food to insert.
      * @param position of the food in the environment.
      * @throws PositionAlreadyOccupiedException if the position is already occupied
@@ -23,17 +23,17 @@ public interface Environment {
      * @return the manager that have all the existing foods.
      */
     ExistingFoodManager getExistingFoods();
-    /** return the EnvState.
-     * 
+    /** 
+     * return the EnvState. 
      * @return EnvState state of env.
      */
     State getState();
-    /** update environment.
-     * 
+    /** 
+     * update environment.
      */
     void update();
-    /** return the analisys of the species.
-     * 
+    /** 
+     * return the analisys of the species.
      * @return Analisys of fitness.
      */
     Analisys getAnalisys();

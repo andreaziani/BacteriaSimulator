@@ -23,7 +23,7 @@ public interface EnvironmentController {
     void start(InitialState state);
     /**
      * Add a new type of food created by user.
-     * @param food to be added at ExistingFoodManager.
+     * @param food to be added int the ExistingFoodManager.
      */
     void addNewFood(ViewFood food);
     /**

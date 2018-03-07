@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -15,6 +16,7 @@ import java.util.Set;
  */
 public class FoodImpl implements Food {
     private final double radius = 1.0;
+    private final Optional<String> name;
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
     /** 
      * Constructor of food from FoodBuilder.
@@ -22,6 +24,7 @@ public class FoodImpl implements Food {
      */
     private FoodImpl(final FoodBuilder builder) {
         builder.nutrients.keySet().stream().forEach(n -> this.nutrients.put(n, builder.nutrients.get(n)));
+        this.name = builder.name;
     }
 
     @Override
@@ -38,19 +41,29 @@ public class FoodImpl implements Food {
     }
 
     @Override
+    public String getName() {
+       return this.name.get(); // if the name is present return the name, else this is a bacteria that's dead.
+    }
+
+    @Override
     public double getRadius() {
         return this.radius;
     }
+
+
+
+
 
     //TODO hashcode.
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((nutrients == null) ? 0 : nutrients.hashCode());
         return result;
     }
-
+    //Two foods are the same food if they have the same name and the same nutrients.
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -63,6 +76,13 @@ public class FoodImpl implements Food {
             return false;
         }
         final FoodImpl other = (FoodImpl) obj;
+        if (name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
         if (nutrients == null) {
             if (other.nutrients != null) {
                 return false;
@@ -78,6 +98,11 @@ public class FoodImpl implements Food {
         return true;
     }
 
+
+
+
+
+
     /**
      * Builder for food.
      * Allows you to create a food by adding nutrients, 
@@ -86,8 +111,22 @@ public class FoodImpl implements Food {
      *
      */
     public static class FoodBuilder {
+        private Optional<String> name = Optional.empty();
         private final Map<Nutrient, Double> nutrients = new HashMap<>();
         private boolean built;
+        /**
+         * Setter the name of the food.
+         * @param name of the food.
+         * @return this builder.
+         */
+        public FoodBuilder setName(final String name) {
+            if (built) {
+                throw new IllegalStateException();
+            } else {
+                this.name = Optional.of(name);
+                return this;
+            }
+        }
         /**
          * Add nutrients to builder.
          * 
@@ -115,6 +154,4 @@ public class FoodImpl implements Food {
             throw new IllegalStateException();
         }
     }
-
-
 }

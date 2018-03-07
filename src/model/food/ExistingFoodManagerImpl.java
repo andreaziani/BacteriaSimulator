@@ -1,10 +1,8 @@
 package model.food;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import utils.AlreadyExistingFoodException;
 /** 
@@ -12,11 +10,11 @@ import utils.AlreadyExistingFoodException;
  *
  */
 public class ExistingFoodManagerImpl implements ExistingFoodManager {
-    private final Map<String, Food> existingFoods = new HashMap<>();
+    private final  Set<Food> existingFoods = new HashSet<>();
     @Override
-    public void addFood(final String name, final Food food) {
-        if (!this.existingFoods.containsKey(name)) {
-            this.existingFoods.put(name, food); // if someone add 2 foods with same name, the first only will be saved.
+    public void addFood(final Food food) {
+        if (!this.existingFoods.contains(food)) {
+            this.existingFoods.add(food); // if someone add 2 foods with same name, the first only will be saved.
         } else {
             throw new AlreadyExistingFoodException();
         }
@@ -24,13 +22,7 @@ public class ExistingFoodManagerImpl implements ExistingFoodManager {
 
     @Override
     public Set<Food> getExistingFoodsSet() {
-       return Collections.unmodifiableSet(this.existingFoods.values().stream()
-                                                                     .collect(Collectors.toSet()));
-    }
-
-    @Override
-    public Map<String, Food> getExistingFoodsMap() {
-        return Collections.unmodifiableMap(this.existingFoods);
+       return Collections.unmodifiableSet(this.existingFoods);
     }
 
 }
