@@ -6,14 +6,18 @@ import java.util.Map;
 import model.action.Action;
 import model.food.Nutrient;
 
+/**
+ * Implementation of interface GeneticCode.
+ */
+
 public class GeneticCodeImpl implements GeneticCode {
-    
-	public String code;
-	public Map<Action, Energy> actions;
-	public Map<Nutrient, Energy> nutrients;
-	public double speed;
-	
-	/**
+
+    public String code;
+    public Map<Action, Energy> actions;
+    public Map<Nutrient, Energy> nutrients;
+    public double speed;
+
+    /**
      * Construct a Bacteria's Genetic Code.
      * 
      * @param code
@@ -21,13 +25,13 @@ public class GeneticCodeImpl implements GeneticCode {
      * @param actions
      *            a list of possible bacteria's actions.
      * @param speed
-     * 			  speed of bacteria.
+     *            speed of bacteria.
      */
-	public GeneticCodeImpl(final String code, final Map<Action, Energy> actions, final double speed) {
-		this.code = code;
-		this.actions = new HashMap<>();
-		this.speed = speed;
-	}
+    public GeneticCodeImpl(final String code, final Map<Action, Energy> actions, final double speed) {
+        this.code = code;
+        this.actions = new HashMap<>();
+        this.speed = speed;
+    }
 
 	@Override
 	public void setActionCost(final Action action, final Energy cost) {
@@ -54,6 +58,11 @@ public class GeneticCodeImpl implements GeneticCode {
 		}
 	}
 
+	@Override
+	public void setSpeed(final double speed) {
+		this.speed = speed;
+	}
+
     @Override
     public double getSpeed() {
 		return speed;
@@ -68,11 +77,6 @@ public class GeneticCodeImpl implements GeneticCode {
 			return (Energy) nutrients.get(nutrient);
 		}
     }
-
-	@Override
-	public void setSpeed(final double speed) {
-		this.speed = speed;
-	}
 
 	@Override
 	public Energy setEnergyFromNutrient(final Nutrient nutrient, final Energy cost) {

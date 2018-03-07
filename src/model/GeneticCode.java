@@ -48,6 +48,15 @@ public interface GeneticCode {
      * @return the code of bacteria.
      */
     String getCode();
+    
+    /**
+     * Set Code of bacteria's genetic code.
+     *
+     * @param code
+     *            new genetic code.
+     * @return the code of bacteria.
+     */
+    String setCode(String code);
 
     /**
      * Set the amount of Energy a Nutrient can provide to a Bacteria with this
