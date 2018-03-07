@@ -84,12 +84,12 @@ public class GeneticCodeImpl implements GeneticCode {
     }
 
 	@Override
-	public Energy setEnergyFromNutrient(final Nutrient nutrient, final Energy cost) {
+	public void setEnergyFromNutrient(final Nutrient nutrient, final Energy cost) {
 		if (!this.nutrients.containsKey(nutrient)) {
 			throw new IllegalArgumentException();
 		}
 		else {
-			return nutrients.put(nutrient, cost);
+			nutrients.put(nutrient, cost);
 		}
 	}
 

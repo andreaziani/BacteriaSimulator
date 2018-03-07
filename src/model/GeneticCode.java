@@ -65,10 +65,8 @@ public interface GeneticCode {
      *            a Nutrient.
      * @param cost
      *            the amount of Energy from nutrients.
-     * @return the amount of Energy that the Bacteria can gain by eating the given
-     *         Nutrient, it is negative if the Nutrient is nocive.
      */
-    Energy setEnergyFromNutrient(Nutrient nutrient, Energy cost);
+    void setEnergyFromNutrient(Nutrient nutrient, Energy cost);
 
     /**
      * Get the amount of Energy a Nutrient can provide to a Bacteria with this
