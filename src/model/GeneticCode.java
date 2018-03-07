@@ -9,16 +9,18 @@ import model.food.Nutrient;
  * alive.
  */
 public interface GeneticCode {
-	/**
+    /**
      * Set the Energy cost for executing an Action, depends on the action but also
      * on the particular GeneticCode.
      * 
      * @param action
-     *            an action
+     *            an action.
+     * @param cost
+     *            the energy cost of each action.
      */
     void setActionCost(Action action, Energy cost);
 
-	/**
+    /**
      * Get the Energy cost for executing an Action, depends on the action but also
      * on the particular GeneticCode.
      * 
@@ -31,10 +33,11 @@ public interface GeneticCode {
     /**
      * Set speed of a bacteria with this GeneticCode.
      * @param speed
+     *           speed of bacteria.
      */
-    
+
     void setSpeed(double speed);
-    
+
     /**
      * @return the speed of a bacteria with this GeneticCode.
      */
@@ -45,18 +48,20 @@ public interface GeneticCode {
      * @return the code of bacteria.
      */
     String getCode();
-    
+
     /**
      * Set the amount of Energy a Nutrient can provide to a Bacteria with this
      * GenetiCode.
      * 
      * @param nutrient
      *            a Nutrient.
+     * @param cost
+     *            the amount of Energy from nutrients.
      * @return the amount of Energy that the Bacteria can gain by eating the given
      *         Nutrient, it is negative if the Nutrient is nocive.
      */
     Energy setEnergyFromNutrient(Nutrient nutrient, Energy cost);
-    
+
     /**
      * Get the amount of Energy a Nutrient can provide to a Bacteria with this
      * GenetiCode.
@@ -67,7 +72,7 @@ public interface GeneticCode {
      *         Nutrient, it is negative if the Nutrient is nocive.
      */
     Energy getEnergyFromNutrient(Nutrient nutrient);
-    
+
     /**
      * @return the radius of a bacteria with this GeneticCode.
      */
