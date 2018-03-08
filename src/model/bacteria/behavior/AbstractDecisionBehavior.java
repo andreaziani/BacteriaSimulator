@@ -21,6 +21,7 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     private final Map<Action, Double> decisions;
     private Perception perception;
     private Function<Nutrient, Energy> nutrientToEnergyConverter;
+    private Function<Action, Energy> actionCostFunction;
 
     /**
      * Create an abstractDecisionBehavior.
@@ -54,6 +55,16 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     }
 
     /**
+     * @param action
+     *            an Action.
+     * @return the Energy cost of an action for the current bacteria with this
+     *         behavior.
+     */
+    protected final Energy getActionCost(final Action action) {
+        return this.actionCostFunction.apply(action);
+    }
+
+    /**
      * Search the decisions of the behavior and set to zero the value of all actions
      * that satisfy the Predicate.
      * 
@@ -78,10 +89,12 @@ public abstract class AbstractDecisionBehavior implements Behavior {
 
     @Override
     public final Action chooseAction(final Perception perception,
-            final Function<Nutrient, Energy> nutrientToEnergyConverter) {
+            final Function<Nutrient, Energy> nutrientToEnergyConverter,
+            final Function<Action, Energy> actionCostFunction) {
         decisions.clear();
         this.perception = perception;
         this.nutrientToEnergyConverter = nutrientToEnergyConverter;
+        this.actionCostFunction = actionCostFunction;
 
         updateDecisions();
         return decisions.keySet().stream().max((a1, a2) -> (int) (decisions.get(a1) - decisions.get(a2)))

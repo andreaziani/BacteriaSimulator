@@ -15,7 +15,8 @@ import model.perception.Perception;
 public class VoidBehavior implements Behavior {
 
     @Override
-    public Action chooseAction(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter) {
+    public Action chooseAction(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter,
+            final Function<Action, Energy> actionCostFunction) {
         return new SimpleAction(ActionType.NOTHING);
     }
 
