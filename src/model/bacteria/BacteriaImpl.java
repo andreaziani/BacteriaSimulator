@@ -38,6 +38,11 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
+    public Perception getPerception() {
+        return this.currPerception;
+    }
+
+    @Override
     public void setPerception(final Perception perception) {
         this.currPerception = perception;
     }
@@ -59,7 +64,8 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public Action getAction() {
-        return this.behavior.chooseAction(this.currPerception, this.geneticCode::getEnergyFromNutrient);
+        return this.behavior.chooseAction(this.currPerception, this.geneticCode::getEnergyFromNutrient,
+                this::getActionCost, this.getEnergy());
     }
 
     @Override
@@ -110,4 +116,5 @@ public class BacteriaImpl implements Bacteria {
         final NutrientStorage storage = (NutrientStorage) this.energyStorage;
         return factory.createFoodFromNutrients(storage.getNutrients());
     }
+
 }

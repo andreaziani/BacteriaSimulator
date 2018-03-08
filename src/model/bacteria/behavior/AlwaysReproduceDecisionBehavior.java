@@ -4,10 +4,9 @@ import model.action.ActionType;
 import model.action.SimpleAction;
 
 /**
- * A behavior for choosing if to eat that always choose to eat if there is Food
- * where it stands.
+ * A behavior that always propose to reproduce.
  */
-public class AlwaysEatDecisionBehavior extends DecisionBehaviorDecorator implements EatingBehavior {
+public class AlwaysReproduceDecisionBehavior extends DecisionBehaviorDecorator implements ReproductionBehavior {
     /**
      * Construct a new NearFoodMovementDecisionBehavior by taking a delegate. It
      * implements the decorator pattern.
@@ -16,16 +15,13 @@ public class AlwaysEatDecisionBehavior extends DecisionBehaviorDecorator impleme
      *            a Behavior that will make decisions and choose an action using
      *            this object's decisions.
      */
-    public AlwaysEatDecisionBehavior(final AbstractDecisionBehavior delegate) {
+    public AlwaysReproduceDecisionBehavior(final AbstractDecisionBehavior delegate) {
         super(delegate);
     }
 
     @Override
     protected void updateDecisions() {
         super.updateDecisions();
-        cleanActionDecisions(a -> a.getType() == ActionType.EAT);
-        if (this.getCurrentPerception().getFood().isPresent()) {
-            this.getDecisions().put(new SimpleAction(ActionType.EAT), 1.0);
-        }
+        this.getDecisions().put(new SimpleAction(ActionType.REPLICATE), 1.0);
     }
 }

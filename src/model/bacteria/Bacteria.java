@@ -17,6 +17,11 @@ public interface Bacteria {
      *            bacteria.
      */
     void setPerception(Perception perception);
+    
+    /**
+     * @return the current perception of the bacteria.
+     */
+    Perception getPerception();
 
     /**
      * @return an action the bacteria will choose given the current perception it

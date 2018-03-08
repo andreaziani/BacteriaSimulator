@@ -23,11 +23,10 @@ public class RandomReproductionDecisionBehavior extends DecisionBehaviorDecorato
 
     @Override
     protected void updateDecisions() {
+        super.updateDecisions();
         final Random rand = new Random();
-        cleanActionDecisions(a -> a.getType() == ActionType.REPLICATE);
         if (rand.nextBoolean()) {
             this.getDecisions().put(new SimpleAction(ActionType.REPLICATE), 1.0);
         }
-        super.updateDecisions();
     }
 }
