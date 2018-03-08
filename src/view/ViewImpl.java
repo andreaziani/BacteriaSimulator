@@ -6,7 +6,6 @@ import model.Analisys;
 import view.food.ViewFood;
 /**
  * Implementation of View.
- * @author Andrea PC
  *
  */
 public class ViewImpl implements View {
