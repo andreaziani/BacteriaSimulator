@@ -6,7 +6,7 @@ import model.action.SimpleAction;
 /**
  * A behavior that always propose to reproduce.
  */
-public class AiwaysReproduceDecisionBehavior extends DecisionBehaviorDecorator implements ReproductionBehavior {
+public class AlwaysReproduceDecisionBehavior extends DecisionBehaviorDecorator implements ReproductionBehavior {
     /**
      * Construct a new NearFoodMovementDecisionBehavior by taking a delegate. It
      * implements the decorator pattern.
@@ -15,7 +15,7 @@ public class AiwaysReproduceDecisionBehavior extends DecisionBehaviorDecorator i
      *            a Behavior that will make decisions and choose an action using
      *            this object's decisions.
      */
-    public AiwaysReproduceDecisionBehavior(final AbstractDecisionBehavior delegate) {
+    public AlwaysReproduceDecisionBehavior(final AbstractDecisionBehavior delegate) {
         super(delegate);
     }
 
