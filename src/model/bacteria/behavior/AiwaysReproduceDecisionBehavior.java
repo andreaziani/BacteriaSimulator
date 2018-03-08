@@ -1,14 +1,12 @@
 package model.bacteria.behavior;
 
-import java.util.Random;
-
 import model.action.ActionType;
 import model.action.SimpleAction;
 
 /**
- * A behavior for choosing if to reproduce randomly.
+ * A behavior that always propose to reproduce.
  */
-public class RandomReproductionDecisionBehavior extends DecisionBehaviorDecorator implements ReproductionBehavior {
+public class AiwaysReproduceDecisionBehavior extends DecisionBehaviorDecorator implements ReproductionBehavior {
     /**
      * Construct a new NearFoodMovementDecisionBehavior by taking a delegate. It
      * implements the decorator pattern.
@@ -17,16 +15,13 @@ public class RandomReproductionDecisionBehavior extends DecisionBehaviorDecorato
      *            a Behavior that will make decisions and choose an action using
      *            this object's decisions.
      */
-    public RandomReproductionDecisionBehavior(final AbstractDecisionBehavior delegate) {
+    public AiwaysReproduceDecisionBehavior(final AbstractDecisionBehavior delegate) {
         super(delegate);
     }
 
     @Override
     protected void updateDecisions() {
-        final Random rand = new Random();
-        if (rand.nextBoolean()) {
-            this.getDecisions().put(new SimpleAction(ActionType.REPLICATE), 1.0);
-        }
+        this.getDecisions().put(new SimpleAction(ActionType.REPLICATE), 1.0);
         super.updateDecisions();
     }
 }
