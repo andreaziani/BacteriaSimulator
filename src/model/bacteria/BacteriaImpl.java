@@ -65,7 +65,7 @@ public class BacteriaImpl implements Bacteria {
     @Override
     public Action getAction() {
         return this.behavior.chooseAction(this.currPerception, this.geneticCode::getEnergyFromNutrient,
-                this::getActionCost);
+                this::getActionCost, this.getEnergy());
     }
 
     @Override

@@ -22,6 +22,7 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     private Perception perception;
     private Function<Nutrient, Energy> nutrientToEnergyConverter;
     private Function<Action, Energy> actionCostFunction;
+    private Energy bacteriaEnergy;
 
     /**
      * Create an abstractDecisionBehavior.
@@ -43,6 +44,13 @@ public abstract class AbstractDecisionBehavior implements Behavior {
      */
     protected final Perception getCurrentPerception() {
         return perception;
+    }
+    
+    /**
+     * @return the current maximal Energy the bacteria can spend.
+     */
+    protected final Energy getBacteriaEnergy() {
+        return bacteriaEnergy;
     }
 
     /**
@@ -90,11 +98,12 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     @Override
     public final Action chooseAction(final Perception perception,
             final Function<Nutrient, Energy> nutrientToEnergyConverter,
-            final Function<Action, Energy> actionCostFunction) {
+            final Function<Action, Energy> actionCostFunction, final Energy bacteriaEnergy) {
         decisions.clear();
         this.perception = perception;
         this.nutrientToEnergyConverter = nutrientToEnergyConverter;
         this.actionCostFunction = actionCostFunction;
+        this.bacteriaEnergy = bacteriaEnergy;
 
         updateDecisions();
         return decisions.keySet().stream().max((a1, a2) -> (int) (decisions.get(a1) - decisions.get(a2)))

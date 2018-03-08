@@ -16,7 +16,7 @@ public class VoidBehavior implements Behavior {
 
     @Override
     public Action chooseAction(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter,
-            final Function<Action, Energy> actionCostFunction) {
+            final Function<Action, Energy> actionCostFunction, final Energy bacteriaEnergy) {
         return new SimpleAction(ActionType.NOTHING);
     }
 

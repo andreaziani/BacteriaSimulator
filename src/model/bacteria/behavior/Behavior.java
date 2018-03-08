@@ -21,9 +21,11 @@ public interface Behavior {
      *            can gain consuming them.
      * @param actionCostFunction
      *            a function that associates actions to their cost in energy.
+     * @param bacteriaEnergy
+     *            the total maximal Energy the bacteria can spend.
      * @return the action preferred from this behavior given the informations it
      *         has.
      */
     Action chooseAction(Perception perception, Function<Nutrient, Energy> nutrientToEnergyConverter,
-            Function<Action, Energy> actionCostFunction);
+            Function<Action, Energy> actionCostFunction, Energy bacteriaEnergy);
 }
