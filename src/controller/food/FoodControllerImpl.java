@@ -57,7 +57,7 @@ public class FoodControllerImpl implements FoodController {
     }
 
     @Override
-    public void addNewFood(final ViewFood food) {
+    public void addNewTypeOfFood(final ViewFood food) {
         this.manager.addFood(convertionFromViewToModel(food));
     }
 }

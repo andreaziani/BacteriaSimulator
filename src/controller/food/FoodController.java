@@ -31,5 +31,5 @@ public interface FoodController {
      * @param food to add.
      * @throws AlreadyExistingFoodException
      */
-    void addNewFood(ViewFood food);
+    void addNewTypeOfFood(ViewFood food);
 }

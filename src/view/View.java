@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Set;
+
 import model.Analisys;
 import view.food.ViewFood;
 
@@ -20,6 +22,16 @@ public interface View {
      * @param position of the food.
      */
     void addFood(ViewFood food, ViewPosition position);
+    /**
+     * Add a new Food type.
+     * @param food type of food to add.
+     */
+    void addNewTypeOfFood(ViewFood food);
+    /**
+     * 
+     * @return all the type of foods created.
+     */
+    Set<ViewFood> getFoodsType();
     /** Load a replay.
      * 
      * @param path of the Replay file.
