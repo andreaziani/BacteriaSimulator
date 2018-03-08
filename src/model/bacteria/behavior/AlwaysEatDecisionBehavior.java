@@ -22,10 +22,10 @@ public class AlwaysEatDecisionBehavior extends DecisionBehaviorDecorator impleme
 
     @Override
     protected void updateDecisions() {
+        super.updateDecisions();
         cleanActionDecisions(a -> a.getType() == ActionType.EAT);
         if (this.getCurrentPerception().getFood().isPresent()) {
             this.getDecisions().put(new SimpleAction(ActionType.EAT), 1.0);
         }
-        super.updateDecisions();
     }
 }

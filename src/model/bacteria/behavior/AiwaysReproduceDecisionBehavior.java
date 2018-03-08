@@ -21,7 +21,7 @@ public class AiwaysReproduceDecisionBehavior extends DecisionBehaviorDecorator i
 
     @Override
     protected void updateDecisions() {
-        this.getDecisions().put(new SimpleAction(ActionType.REPLICATE), 1.0);
         super.updateDecisions();
+        this.getDecisions().put(new SimpleAction(ActionType.REPLICATE), 1.0);
     }
 }

@@ -26,6 +26,7 @@ public class NearFoodMovementDecisionBehavior extends DecisionBehaviorDecorator 
 
     @Override
     protected void updateDecisions() {
+        super.updateDecisions();
         cleanActionDecisions(a -> a.getType() == ActionType.MOVE);
         final Map<Direction, Double> values = new EnumMap<>(Direction.class);
         Double tempVal = 0.0;
@@ -36,6 +37,5 @@ public class NearFoodMovementDecisionBehavior extends DecisionBehaviorDecorator 
         }
         final double maxVal = tempVal;
         values.forEach((d, v) -> this.getDecisions().put(new DirectionalActionImpl(ActionType.MOVE, d), v / maxVal));
-        super.updateDecisions();
     }
 }

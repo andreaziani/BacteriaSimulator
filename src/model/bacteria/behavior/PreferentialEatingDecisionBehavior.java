@@ -22,6 +22,7 @@ public class PreferentialEatingDecisionBehavior extends DecisionBehaviorDecorato
 
     @Override
     protected void updateDecisions() {
+        super.updateDecisions();
         cleanActionDecisions(a -> a.getType() == ActionType.EAT);
         if (this.getCurrentPerception().getFood().isPresent()) {
             this.getDecisions().put(new SimpleAction(ActionType.EAT),
@@ -31,6 +32,5 @@ public class PreferentialEatingDecisionBehavior extends DecisionBehaviorDecorato
                                     .getAmount())
                             .sum() > 0 ? 1.0 : 0);
         }
-        super.updateDecisions();
     }
 }
