@@ -1,6 +1,6 @@
 package view;
-/** InitialState.
- * 
+/** 
+ * InitialState.
  * 
  */
 public interface InitialState {
