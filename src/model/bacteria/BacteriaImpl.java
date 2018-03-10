@@ -117,4 +117,66 @@ public class BacteriaImpl implements Bacteria {
         return factory.createFoodFromNutrients(storage.getNutrients());
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((behavior == null) ? 0 : behavior.hashCode());
+        result = prime * result + ((currPerception == null) ? 0 : currPerception.hashCode());
+        result = prime * result + ((energyStorage == null) ? 0 : energyStorage.hashCode());
+        result = prime * result + ((geneticCode == null) ? 0 : geneticCode.hashCode());
+        result = prime * result + ((species == null) ? 0 : species.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BacteriaImpl other = (BacteriaImpl) obj;
+        if (behavior == null) {
+            if (other.behavior != null) {
+                return false;
+            }
+        } else if (!behavior.equals(other.behavior)) {
+            return false;
+        }
+        if (currPerception == null) {
+            if (other.currPerception != null) {
+                return false;
+            }
+        } else if (!currPerception.equals(other.currPerception)) {
+            return false;
+        }
+        if (energyStorage == null) {
+            if (other.energyStorage != null) {
+                return false;
+            }
+        } else if (!energyStorage.equals(other.energyStorage)) {
+            return false;
+        }
+        if (geneticCode == null) {
+            if (other.geneticCode != null) {
+                return false;
+            }
+        } else if (!geneticCode.equals(other.geneticCode)) {
+            return false;
+        }
+        if (species == null) {
+            if (other.species != null) {
+                return false;
+            }
+        } else if (!species.equals(other.species)) {
+            return false;
+        }
+        return true;
+    }
+
 }
