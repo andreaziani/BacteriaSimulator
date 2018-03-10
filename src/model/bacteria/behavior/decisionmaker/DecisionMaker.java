@@ -1,4 +1,4 @@
-package model.bacteria.behavior;
+package model.bacteria.behavior.decisionmaker;
 
 import java.util.Map;
 
