@@ -6,6 +6,7 @@ import java.util.EnumMap;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import model.bacteria.Bacteria;
 import model.food.ExistingFoodManager;
@@ -24,6 +25,7 @@ import utils.EnvGeometry;
  *
  */
 public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
+    private final int foodPerRound = 15;
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     private final FoodFactory factory = new FoodFactoryImpl();
@@ -44,14 +46,13 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
         // TODO Auto-generated method stub
         return null;
     }
-  
+
     private void updateDeadBacteria() {
-        Set<Position> toBeRemoved = this.bacteria.entrySet().stream()
+        final Set<Position> toBeRemoved = this.bacteria.entrySet().stream()
                                                             .filter(e -> e.getValue().isDead())
                                                             .peek(e -> this.foodEnv.addFood(e.getValue().getInternalFood(this.factory), e.getKey()))
                                                             .map(e -> e.getKey())
                                                             .collect(Collectors.toSet());
-        
         this.bacteria.keySet().removeAll(toBeRemoved);
     }
 
@@ -64,7 +65,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
                 final Position currentPos = new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y);
                 final double distanceToPos = EnvGeometry.distance(currentPos, bacteriaPos);
                 if (distanceToPos <= radius && foodsState.containsKey(currentPos)) {
-                    Direction closestDir = EnvGeometry.directionFromAngle(EnvGeometry.angle(bacteriaPos, currentPos));
+                    final Direction closestDir = EnvGeometry.directionFromAngle(EnvGeometry.angle(bacteriaPos, currentPos));
                     if (!distsToFood.containsKey(closestDir) || distanceToPos < distsToFood.get(closestDir)) {
                         distsToFood.put(closestDir, distanceToPos);
                     }
@@ -84,11 +85,11 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
         switch (bacteria.getAction().getType()) {
         case MOVE: 
             break;
-        case EAT: 
+        case EAT:
             break;
         case REPLICATE: 
             break;
-        default:    // NOTHING
+        default: 
             break;
         }
     }
@@ -99,11 +100,16 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
                                 .peek(e -> e.getValue().setPerception(this.createPerception(e.getKey(), foodsState)))
                                 .forEach(e -> this.performAction(e.getKey(), e.getValue()));
     }
-    
+
+    private void updateFood() {
+        IntStream.range(0, foodPerRound).forEach(x -> this.foodEnv.addRandomFood());
+    }
+
     @Override
     public void update() {
-        updateDeadBacteria();
-        updateLivingBacteria();
+        this.updateDeadBacteria();
+        this.updateLivingBacteria();
+        this.updateFood();
     }
 
     @Override
