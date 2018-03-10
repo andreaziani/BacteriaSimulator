@@ -1,5 +1,7 @@
 package model.action;
 
+import java.util.Objects;
+
 /**
  * Abstract implementation of Action. It is a complete implementation but cannot
  * be instantiated because different ActionType require different implementation
@@ -26,25 +28,16 @@ public abstract class AbstractAction implements Action {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        return result;
+        return Objects.hash(type);
     }
 
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final AbstractAction other = (AbstractAction) obj;
-        return type != other.type;
+        return Objects.equals(type, other.type);
     }
 
 }
