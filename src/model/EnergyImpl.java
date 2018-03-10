@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 /**
  * Implementation of Energy as a wrapper of a double.
  */
@@ -53,27 +55,16 @@ public class EnergyImpl implements Energy {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        long temp;
-        temp = Double.doubleToLongBits(amount);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        return Objects.hash(amount);
     }
 
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final EnergyImpl other = (EnergyImpl) obj;
-        return Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount);
+        return amount == other.amount;
     }
 
 }

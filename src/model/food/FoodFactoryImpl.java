@@ -17,4 +17,11 @@ public class FoodFactoryImpl implements FoodFactory {
         return builder.build();
     }
 
+    @Override
+    public Food createFoodFromNameAndNutrients(final String name, final Map<Nutrient, Double> nutrients) {
+        final FoodBuilder builder = new FoodBuilder();
+        nutrients.entrySet().forEach(e -> builder.addNutrient(e));
+        return builder.setName(name).build();
+    }
+
 }

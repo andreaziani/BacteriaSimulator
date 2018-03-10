@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,7 @@ import model.Energy;
 import model.EnergyImpl;
 import model.food.Food;
 import model.food.Nutrient;
-import utils.NotEnounghEnergyException;
+import utils.exceptions.NotEnounghEnergyException;
 
 /**
  * This class implement an EnergyStorage that does keeps all the nutrients of
@@ -106,6 +107,20 @@ public class NutrientStorage implements EnergyStorage {
      */
     public Map<Nutrient, Double> getNutrients() {
         return Collections.unmodifiableMap(this.store);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(reserve, store);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final NutrientStorage other = (NutrientStorage) obj;
+        return Objects.equals(this.store, other.store) && Objects.equals(this.reserve, other.reserve);
     }
 
 }

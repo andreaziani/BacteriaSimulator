@@ -1,4 +1,4 @@
-package view;
+package utils.tests;
 import org.junit.Test;
 /**
  * TestClass for insertion of foods.

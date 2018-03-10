@@ -8,9 +8,10 @@ import model.Environment;
 import model.PositionImpl;
 import model.food.ExistingFoodManager;
 import model.food.Food;
+import model.food.FoodFactory;
+import model.food.FoodFactoryImpl;
 import model.food.FoodImpl.FoodBuilder;
 import utils.Pair;
-import utils.PositionAlreadyOccupiedException;
 import view.ViewPosition;
 import view.food.ViewFood;
 import view.food.ViewFoodImpl.ViewFoodBuilder;
@@ -33,39 +34,30 @@ public class FoodControllerImpl implements FoodController {
 
     @Override
     public void addFoodFromViewToModel(final ViewFood food, final ViewPosition position) {
-        try {
-            this.env.addFood(manager.getExistingFoodsMap().get(food.getName()), new PositionImpl(position.getX(), position.getY()));
-        } catch (PositionAlreadyOccupiedException e) {
-            //TODO notificare la view o non fare nulla.
-        }
+        this.env.addFood(convertionFromViewToModel(food), new PositionImpl(position.getX(), position.getY()));
     }
 
     @Override
     public Set<ViewFood> getExistingViewFoods() {
-        return Collections.unmodifiableSet(manager.getExistingFoodsMap()
-                                                  .keySet()
-                                                  .stream()
-                                                  .map(k -> convertionFromModelToView(k, manager.getExistingFoodsMap().get(k)))
-                                                  .collect(Collectors.toSet()));
+        return Collections.unmodifiableSet(manager.getExistingFoodsSet().stream().map(food -> convertionFromModelToView(food))
+                                                                                 .collect(Collectors.toSet()));
     }
 
-    // name = nome del cibo in viewfood, food cibo da convertire in viewFood.
-    private ViewFood convertionFromModelToView(final String name, final Food food) {
+    private ViewFood convertionFromModelToView(final Food food) {
         final ViewFoodBuilder builder = new ViewFoodBuilder();
         food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n)))
                                     .entrySet().forEach(e -> builder.addNutrient(new Pair<>(e.getKey(), e.getValue())));
-        return builder.setName(name).build();
+        return builder.setName(food.getName()).build();
     }
 
     private Food convertionFromViewToModel(final ViewFood food) {
-        final FoodBuilder builder = new FoodBuilder();
-        food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n)))
-                                    .entrySet().forEach(e -> builder.addNutrient(e));
-        return builder.build();
+        FoodFactory factory = new FoodFactoryImpl();
+        return factory.createFoodFromNameAndNutrients(food.getName(), 
+                food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n))));
     }
 
     @Override
-    public void addNewFood(final ViewFood food) {
-        this.manager.addFood(food.getName(), convertionFromViewToModel(food));
+    public void addNewTypeOfFood(final ViewFood food) {
+        this.manager.addFood(convertionFromViewToModel(food));
     }
 }

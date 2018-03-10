@@ -1,5 +1,7 @@
 package model.action;
 
+import java.util.Objects;
+
 import model.Direction;
 
 /**
@@ -31,6 +33,20 @@ public class DirectionalActionImpl extends AbstractAction implements Directional
     @Override
     public Direction getDirection() {
         return this.dir;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dir, super.hashCode());
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final DirectionalActionImpl other = (DirectionalActionImpl) obj;
+        return Objects.equals(dir, other.dir);
     }
 
 }

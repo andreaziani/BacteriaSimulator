@@ -24,11 +24,11 @@ public class RandomMovementDecisionBehavior extends DecisionBehaviorDecorator im
 
     @Override
     protected void updateDecisions() {
+        super.updateDecisions();
         final Random rand = new Random();
         cleanActionDecisions(a -> a.getType() == ActionType.MOVE);
         this.getDecisions().put(
                 new DirectionalActionImpl(ActionType.MOVE, Direction.values()[rand.nextInt(Direction.values().length)]),
                 1.0);
-        super.updateDecisions();
     }
 }

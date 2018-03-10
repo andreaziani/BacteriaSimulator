@@ -1,5 +1,7 @@
 package model.bacteria;
 
+import java.util.Objects;
+
 import model.Energy;
 import model.GeneticCode;
 import model.action.Action;
@@ -38,6 +40,11 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
+    public Perception getPerception() {
+        return this.currPerception;
+    }
+
+    @Override
     public void setPerception(final Perception perception) {
         this.currPerception = perception;
     }
@@ -59,7 +66,8 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public Action getAction() {
-        return this.behavior.chooseAction(this.currPerception, this.geneticCode::getEnergyFromNutrient);
+        return this.behavior.chooseAction(this.currPerception, this.geneticCode::getEnergyFromNutrient,
+                this::getActionCost, this.getEnergy());
     }
 
     @Override
@@ -110,4 +118,23 @@ public class BacteriaImpl implements Bacteria {
         final NutrientStorage storage = (NutrientStorage) this.energyStorage;
         return factory.createFoodFromNutrients(storage.getNutrients());
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(behavior, currPerception, energyStorage, geneticCode, species);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final BacteriaImpl other = (BacteriaImpl) obj;
+        return Objects.equals(this.behavior, other.behavior)
+                && Objects.equals(this.currPerception, other.currPerception)
+                && Objects.equals(this.energyStorage, other.energyStorage)
+                && Objects.equals(this.geneticCode, other.geneticCode)
+                && Objects.equals(this.species, other.species);
+    }
+
 }

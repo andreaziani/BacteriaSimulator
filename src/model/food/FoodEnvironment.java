@@ -46,5 +46,4 @@ public interface FoodEnvironment {
      * @return an unmodifiable copy of a map that contains positions and foods.
      */
     Map<Position, Food> getFoodsState();
-
 }

@@ -18,7 +18,7 @@ public class ConcreteObserverCreationOfFood implements ObserverCreationOfFood {
     }
     @Override
     public void update(final ViewFood food) {
-        controller.addNewFood(food);
+        controller.addNewTypeOfFood(food);
     }
 
 }

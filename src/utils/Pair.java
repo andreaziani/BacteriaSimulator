@@ -1,4 +1,7 @@
 package utils;
+
+import java.util.Objects;
+
 /** A class that contains a pair of objects.
  * 
  *
@@ -33,37 +36,17 @@ public class Pair<X, Y> {
         return elem2;
     }
 
-    //TODO non so se sia un buon hashcode.
     @Override
     public int hashCode() {
-        return (elem1 == null ? 0 : elem1.hashCode()) ^ (elem2 == null ? 0 : elem2.hashCode());
+        return Objects.hash(this.elem1, this.elem2);
     }
+
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
+        if (obj != null && obj.getClass() == getClass()) {
+            final Pair<?, ?> other = (Pair<?, ?>) obj;
+            return Objects.equals(other.elem1, this.elem1) && Objects.equals(other.elem2, this.elem2);
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Pair<?, ?> other = (Pair<?, ?>) obj;
-        if (elem1 == null) {
-            if (other.elem1 != null) {
-                return false;
-            }
-        } else if (!elem1.equals(other.elem1)) {
-            return false;
-        }
-        if (elem2 == null) {
-            if (other.elem2 != null) {
-                return false;
-            }
-        } else if (!elem2.equals(other.elem2)) {
-            return false;
-        }
-        return true;
+        return false;
     }
 }

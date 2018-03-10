@@ -1,13 +1,15 @@
-package controller;
+package utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import controller.Controller;
+import controller.Replay;
 import model.Analisys;
 import view.InitialState;
+import view.ObserverExistingFoods;
 import view.ViewPosition;
 import view.food.ViewFood;
 /**
@@ -24,7 +26,7 @@ public class FakeController implements Controller {
 
 
     @Override
-    public void addNewFood(final ViewFood food) {
+    public void addNewTypeOfFood(final ViewFood food) {
         this.foods.add(food);
     }
     /**
@@ -41,26 +43,24 @@ public class FakeController implements Controller {
     public Map<ViewPosition, ViewFood> getInsertedFoods() {
         return this.map;
     }
-    
     @Override
-    public void start(InitialState state) {
+    public void start(final InitialState state) {
         // TODO Auto-generated method stub
-        
     }
     @Override
-    public void loadReplay(String path) {
+    public void loadReplay(final String path) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void saveReplay(String path, Replay rep) {
+    public void saveReplay(final String path, final Replay rep) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void saveAnalisys(String path, Analisys analisys) {
+    public void saveAnalisys(final String path, final Analisys analisys) {
         // TODO Auto-generated method stub
 
     }
@@ -72,4 +72,9 @@ public class FakeController implements Controller {
         return null;
     }
 
+
+    @Override
+    public void addObserverExisistingFoods(final ObserverExistingFoods obs) {
+        // TODO Auto-generated method stub
+    }
 }

@@ -7,6 +7,11 @@ import java.util.Set;
  *
  */
 public interface Food {
+    /**
+     * 
+     * @return the name of the food.
+     */
+    String getName();
     /** 
      * 
      * @return a set of nutrients present in the food.

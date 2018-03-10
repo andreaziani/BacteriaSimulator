@@ -1,7 +1,8 @@
-package model.food;
+package utils.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
@@ -12,8 +13,16 @@ import org.junit.Test;
 
 import model.Position;
 import model.PositionImpl;
-import utils.AlreadyExistingFoodException;
-import utils.PositionAlreadyOccupiedException;
+import model.food.ExistingFoodManager;
+import model.food.ExistingFoodManagerImpl;
+import model.food.Food;
+import model.food.FoodEnvironment;
+import model.food.FoodEnvironmentImpl;
+import model.food.FoodFactory;
+import model.food.FoodFactoryImpl;
+import model.food.Nutrient;
+import utils.exceptions.AlreadyExistingFoodException;
+import utils.exceptions.PositionAlreadyOccupiedException;
 /**
  * Test class for food.
  * 
@@ -57,16 +66,16 @@ public class TestFood {
     @Test
     public void testFoodCreation() {
         final FoodFactory factory = new FoodFactoryImpl();
-        final Food food1 = factory.createFoodFromNutrients(nutrients1);
-        final Food food2 = factory.createFoodFromNutrients(nutrients2);
-        final Food food3 = factory.createFoodFromNutrients(nutrients1);
-        final Food food4 = factory.createFoodFromNutrients(nutrients3);
+        final Food food1 = factory.createFoodFromNameAndNutrients("banana", nutrients1);
+        final Food food2 = factory.createFoodFromNameAndNutrients("pera", nutrients2);
+        final Food food3 = factory.createFoodFromNameAndNutrients("banana", nutrients1);
+        final Food food4 = factory.createFoodFromNameAndNutrients("pesca", nutrients3);
 
         assertNotEquals("Foods are not equals", food1, food2);
         assertNotEquals("Foods are not equals", food1, food4);
         assertEquals("Foods are equals", food1, food3);
         modifyNutrients(); // verifico che modificando i nutrienti non si modifichino i food già creati.
-        final Food food5 = factory.createFoodFromNutrients(nutrients1);
+        final Food food5 = factory.createFoodFromNameAndNutrients("Banana", nutrients1);
         assertNotEquals("Foods are not equals", food1, food5);
     }
     /**
@@ -78,21 +87,21 @@ public class TestFood {
     @Test
     public void testManager() {
         final FoodFactory factory = new FoodFactoryImpl();
-        final Food food1 = factory.createFoodFromNutrients(nutrients1);
-        final Food food2 = factory.createFoodFromNutrients(nutrients2);
-        final Food food3 = factory.createFoodFromNutrients(nutrients1);
+        final Food food1 = factory.createFoodFromNameAndNutrients("Banana", nutrients1);
+        final Food food2 = factory.createFoodFromNameAndNutrients("pera", nutrients2);
+        final Food food3 = factory.createFoodFromNameAndNutrients("Banana", nutrients1);
         final ExistingFoodManager manager = new ExistingFoodManagerImpl();
 
-        manager.addFood("banana", food1);
-        manager.addFood("mela", food2);
-        assertThrows(AlreadyExistingFoodException.class, () -> manager.addFood("banana", food3));
+        manager.addFood(food1);
+        manager.addFood(food2);
+        assertThrows(AlreadyExistingFoodException.class, () -> manager.addFood(food3));
         modifyNutrients();
-        final Food food4 = factory.createFoodFromNutrients(nutrients1);
+        final Food food4 = factory.createFoodFromNameAndNutrients("lampone", nutrients1);
         assertThrows(UnsupportedOperationException.class, () -> manager.getExistingFoodsSet().add(food4)); // try to add into an unmodifiable copy.
         assertEquals("Size must be 2", manager.getExistingFoodsSet().size(), 2);
-        manager.addFood("lampone", food4);
+        manager.addFood(food4);
         assertEquals("Size must be 3", manager.getExistingFoodsSet().size(), 3);
-        assertEquals("names are equals", manager.getExistingFoodsMap().get("lampone"), food4);
+        assertTrue("names are equals", manager.getExistingFoodsSet().contains(food4));
     }
     /**
      * Test for FoodEnvironment's methods.
@@ -105,14 +114,14 @@ public class TestFood {
         final Position position = new PositionImpl(V1, V2);
         final Position position2 = new PositionImpl(V3, V2);
         final Position position3 = new PositionImpl(V1, V3);
-        final Food food1 = factory.createFoodFromNutrients(nutrients1);
-        final Food food2 = factory.createFoodFromNutrients(nutrients2);
-        final Food food3 = factory.createFoodFromNutrients(nutrients1);
+        final Food food1 = factory.createFoodFromNameAndNutrients("banana", nutrients1);
+        final Food food2 = factory.createFoodFromNameAndNutrients("mela", nutrients2);
+        final Food food3 = factory.createFoodFromNameAndNutrients("arancia", nutrients1);
         final ExistingFoodManager manager = new ExistingFoodManagerImpl();
         final FoodEnvironment env = new FoodEnvironmentImpl(manager);
-        manager.addFood("banana", food1);
-        manager.addFood("mela", food2);
-        manager.addFood("arancia", food3);
+        manager.addFood(food1);
+        manager.addFood(food2);
+        manager.addFood(food3);
         env.addFood(food1, position);
         env.addFood(food1, position3);
         assertEquals("Size must be 2", env.getFoodsState().size(), 2);

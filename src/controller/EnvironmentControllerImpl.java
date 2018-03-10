@@ -34,8 +34,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     @Override
-    public void addNewFood(final ViewFood food) {
-        this.foodController.addNewFood(food);
+    public void addNewTypeOfFood(final ViewFood food) {
+        this.foodController.addNewTypeOfFood(food);
     }
 
     @Override
