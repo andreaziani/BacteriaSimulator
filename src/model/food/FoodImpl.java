@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -50,52 +51,25 @@ public class FoodImpl implements Food {
         return this.radius;
     }
 
-
-
-
-
-    //TODO hashcode.
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((nutrients == null) ? 0 : nutrients.hashCode());
-        return result;
+        return Objects.hash(name, nutrients);
+//        final int prime = 31;
+//        int result = 1;
+//        result = prime * result + ((name == null) ? 0 : name.hashCode());
+//        result = prime * result + ((nutrients == null) ? 0 : nutrients.hashCode());
+//        return result;
     }
     //Two foods are the same food if they have the same name and the same nutrients.
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final FoodImpl other = (FoodImpl) obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (nutrients == null) {
-            if (other.nutrients != null) {
-                return false;
-            }
-        } else if (!nutrients.keySet().containsAll(other.nutrients.keySet()) 
-                || !other.nutrients.keySet().containsAll(this.nutrients.keySet())) {
-            return false;
-        } else if (!this.nutrients.keySet()
-                                  .stream()
-                                  .allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue())) {
-              return false;
-        }
-        return true;
+        if (obj instanceof FoodImpl) {
+            final FoodImpl other = (FoodImpl) obj;
+            return Objects.equals(this.name, other.name) && Objects.equals(this.nutrients.keySet(), other.nutrients.keySet())
+                    && this.nutrients.keySet().stream()
+                                              .allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue());
+        } 
+        return false;
     }
 
 
