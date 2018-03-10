@@ -66,8 +66,8 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public Action getAction() {
-        return this.behavior.chooseAction(this.currPerception, this.geneticCode::getEnergyFromNutrient,
-                this::getActionCost, this.getEnergy());
+        return this.behavior.chooseAction(new BacteriaKnowledge(this.currPerception,
+                this.geneticCode::getEnergyFromNutrient, this::getActionCost, this.getEnergy()));
     }
 
     @Override
@@ -133,8 +133,7 @@ public class BacteriaImpl implements Bacteria {
         return Objects.equals(this.behavior, other.behavior)
                 && Objects.equals(this.currPerception, other.currPerception)
                 && Objects.equals(this.energyStorage, other.energyStorage)
-                && Objects.equals(this.geneticCode, other.geneticCode)
-                && Objects.equals(this.species, other.species);
+                && Objects.equals(this.geneticCode, other.geneticCode) && Objects.equals(this.species, other.species);
     }
 
 }

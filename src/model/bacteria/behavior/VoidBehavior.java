@@ -1,13 +1,9 @@
 package model.bacteria.behavior;
 
-import java.util.function.Function;
-
-import model.Energy;
 import model.action.Action;
 import model.action.ActionType;
 import model.action.SimpleAction;
-import model.food.Nutrient;
-import model.perception.Perception;
+import model.bacteria.BacteriaKnowledge;
 
 /**
  * A behavior that always choose to do nothing.
@@ -15,8 +11,7 @@ import model.perception.Perception;
 public class VoidBehavior implements Behavior {
 
     @Override
-    public Action chooseAction(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter,
-            final Function<Action, Energy> actionCostFunction, final Energy bacteriaEnergy) {
+    public Action chooseAction(final BacteriaKnowledge knowledge) {
         return new SimpleAction(ActionType.NOTHING);
     }
 
