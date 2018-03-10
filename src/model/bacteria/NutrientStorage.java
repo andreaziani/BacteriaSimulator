@@ -108,4 +108,50 @@ public class NutrientStorage implements EnergyStorage {
         return Collections.unmodifiableMap(this.store);
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((nutrientToEnergyConverter == null) ? 0 : nutrientToEnergyConverter.hashCode());
+        result = prime * result + ((reserve == null) ? 0 : reserve.hashCode());
+        result = prime * result + ((store == null) ? 0 : store.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final NutrientStorage other = (NutrientStorage) obj;
+        if (nutrientToEnergyConverter == null) {
+            if (other.nutrientToEnergyConverter != null) {
+                return false;
+            }
+        } else if (!nutrientToEnergyConverter.equals(other.nutrientToEnergyConverter)) {
+            return false;
+        }
+        if (reserve == null) {
+            if (other.reserve != null) {
+                return false;
+            }
+        } else if (!reserve.equals(other.reserve)) {
+            return false;
+        }
+        if (store == null) {
+            if (other.store != null) {
+                return false;
+            }
+        } else if (!store.equals(other.store)) {
+            return false;
+        }
+        return true;
+    }
+
 }
