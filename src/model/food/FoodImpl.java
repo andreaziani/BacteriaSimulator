@@ -63,7 +63,7 @@ public class FoodImpl implements Food {
     //Two foods are the same food if they have the same name and the same nutrients.
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof FoodImpl) {
+        if (obj.getClass() == getClass()) {
             final FoodImpl other = (FoodImpl) obj;
             return Objects.equals(this.name, other.name) && Objects.equals(this.nutrients.keySet(), other.nutrients.keySet())
                     && this.nutrients.keySet().stream()
