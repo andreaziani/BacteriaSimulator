@@ -33,4 +33,27 @@ public class DirectionalActionImpl extends AbstractAction implements Directional
         return this.dir;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((dir == null) ? 0 : dir.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DirectionalActionImpl other = (DirectionalActionImpl) obj;
+        return dir != other.dir;
+    }
+
 }
