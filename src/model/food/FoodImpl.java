@@ -9,8 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Implementation of Food. 
- * A "Food" contains the nutrients that compose the food
+ * Implementation of Food. A "Food" contains the nutrients that compose the food
  * and their quantity.
  *
  *
@@ -19,9 +18,12 @@ public class FoodImpl implements Food {
     private final double radius = 1.0;
     private final Optional<String> name;
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
-    /** 
+
+    /**
      * Constructor of food from FoodBuilder.
-     * @param builder that creates food.
+     * 
+     * @param builder
+     *            that creates food.
      */
     private FoodImpl(final FoodBuilder builder) {
         builder.nutrients.keySet().stream().forEach(n -> this.nutrients.put(n, builder.nutrients.get(n)));
@@ -43,7 +45,7 @@ public class FoodImpl implements Food {
 
     @Override
     public String getName() {
-       return this.name.get(); // if the name is present return the name, else this is a bacteria that's dead.
+        return this.name.get(); // if the name is present return the name, else this is a bacteria that's dead.
     }
 
     @Override
@@ -54,33 +56,23 @@ public class FoodImpl implements Food {
     @Override
     public int hashCode() {
         return Objects.hash(name, nutrients);
-//        final int prime = 31;
-//        int result = 1;
-//        result = prime * result + ((name == null) ? 0 : name.hashCode());
-//        result = prime * result + ((nutrients == null) ? 0 : nutrients.hashCode());
-//        return result;
     }
-    //Two foods are the same food if they have the same name and the same nutrients.
+
     @Override
     public boolean equals(final Object obj) {
-        if (obj.getClass() == getClass()) {
+        if (obj != null && obj.getClass() == getClass()) {
             final FoodImpl other = (FoodImpl) obj;
-            return Objects.equals(this.name, other.name) && Objects.equals(this.nutrients.keySet(), other.nutrients.keySet())
+            return Objects.equals(this.name, other.name)
+                    && Objects.equals(this.nutrients.keySet(), other.nutrients.keySet())
                     && this.nutrients.keySet().stream()
-                                              .allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue());
-        } 
+                            .allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue());
+        }
         return false;
     }
 
-
-
-
-
-
     /**
-     * Builder for food.
-     * Allows you to create a food by adding nutrients, 
-     * when food is built it is no longer possible to change its nutrients.
+     * Builder for food. Allows you to create a food by adding nutrients, when food
+     * is built it is no longer possible to change its nutrients.
      *
      *
      */
@@ -88,9 +80,12 @@ public class FoodImpl implements Food {
         private Optional<String> name = Optional.empty();
         private final Map<Nutrient, Double> nutrients = new HashMap<>();
         private boolean built;
+
         /**
          * Setter the name of the food.
-         * @param name of the food.
+         * 
+         * @param name
+         *            of the food.
          * @return this builder.
          */
         public FoodBuilder setName(final String name) {
@@ -101,10 +96,12 @@ public class FoodImpl implements Food {
                 return this;
             }
         }
+
         /**
          * Add nutrients to builder.
          * 
-         * @param nutrients to add.
+         * @param nutrients
+         *            to add.
          * @return this builder.
          */
         public FoodBuilder addNutrient(final Entry<Nutrient, Double> nutrients) {
@@ -115,6 +112,7 @@ public class FoodImpl implements Food {
                 return this;
             }
         }
+
         /**
          * Build a food.
          * 

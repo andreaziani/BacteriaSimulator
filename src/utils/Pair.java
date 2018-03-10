@@ -43,7 +43,7 @@ public class Pair<X, Y> {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj.getClass() == getClass()) {
+        if (obj != null && obj.getClass() == getClass()) {
             final Pair<?, ?> other = (Pair<?, ?>) obj;
             return Objects.equals(other.elem1, this.elem1) && Objects.equals(other.elem2, this.elem2);
         }

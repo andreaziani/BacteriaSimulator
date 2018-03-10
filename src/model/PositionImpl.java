@@ -1,6 +1,9 @@
 package model;
 
+import java.util.Objects;
+
 import utils.Pair;
+
 
 /**
  * Position of objects in the environment.
@@ -28,28 +31,18 @@ public class PositionImpl implements Position {
     }
     @Override
     public int hashCode() {
-        return coordinates.hashCode();
+        return Objects.hash(coordinates);
     }
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final PositionImpl other = (PositionImpl) obj;
-        if (coordinates == null) {
+        if (obj != null && obj.getClass() == getClass()) {
+            final PositionImpl other = (PositionImpl) obj;
             if (other.coordinates != null) {
-                return false;
+                return Objects.equals(coordinates, other.coordinates);
             }
-        } else if (!coordinates.equals(other.coordinates)) {
             return false;
         }
-        return true;
+        return false;
     }
 
 }
