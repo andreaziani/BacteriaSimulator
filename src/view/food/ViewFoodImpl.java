@@ -3,14 +3,11 @@ package view.food;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.Map.Entry;
-
 import model.food.Nutrient;
 import utils.Pair;
-import view.ViewPosition;
 
-//TODO verificare se si può refattorizzare.
 
 /**
  * The class representing a food in the view.
@@ -38,44 +35,20 @@ public class ViewFoodImpl implements ViewFood {
         return this.nutrients.get(nutrient);
     }
 
-    //TODO rifare hashcode.
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((nutrients == null) ? 0 : nutrients.hashCode());
-        return result;
+        return Objects.hash(this.name, this.nutrients);
     }
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
+        if (obj != null && obj.getClass() == getClass()) {
+            final ViewFoodImpl other = (ViewFoodImpl) obj;
+            return Objects.equals(this.name, other.name)
+                    && Objects.equals(this.nutrients.keySet(), other.nutrients.keySet())
+                    && this.nutrients.keySet().stream()
+                            .allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue());
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ViewFoodImpl other = (ViewFoodImpl) obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (nutrients == null) {
-            if (other.nutrients != null) {
-                return false;
-            }
-        }  else if (!nutrients.keySet().containsAll(other.nutrients.keySet()) || !other.nutrients.keySet().containsAll(this.nutrients.keySet())) {
-            return false;
-        } else if (!this.nutrients.keySet().stream().allMatch(k -> other.nutrients.get(k).doubleValue() == this.nutrients.get(k).doubleValue())) {
-              return false;
-        }
-        return true;
+        return false;
     }
 
 
