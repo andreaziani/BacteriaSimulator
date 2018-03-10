@@ -1,5 +1,7 @@
 package model;
 
+import utils.Pair;
+
 /**
  * Possible direction in which an action can be executed and in which a food can
  * be detected.
@@ -8,35 +10,49 @@ public enum Direction {
     /**
      * north direction.
      */
-    NORTH,
+    NORTH(67.5),
     /**
      * northeast direction.
      */
-    NORTHEAST,
+    NORTHEAST(22.5),
     /**
      * east direction.
      */
-    EAST,
+    EAST(337.5),
     /**
      * southeast direction.
      */
-    SOUTHEAST,
+    SOUTHEAST(292.5),
     /**
      * south direction.
      */
-    SOUTH,
+    SOUTH(247.5),
     /**
      * southwest direction.
      */
-    SOUTHWEST,
+    SOUTHWEST(202.5),
     /**
      * west direction.
      */
-    WEST,
+    WEST(157.5),
     /**
      * northwest direction.
      */
-    NORTHWEST;
+    NORTHWEST(112.5);
+
+    private final double angleLowerLimit;
+
+    Direction(final double angle) {
+        this.angleLowerLimit = angle;
+    }
+
+    /**
+     * Return the angle lower and upper limit for the Direction, lower is inclusive, upper is exclusive.
+     * @return a Pair<Double, Double> that represent the two angles
+     */
+    public Pair<Double, Double> angleInterval() {
+        return new Pair<Double, Double>(this.angleLowerLimit, this.rotateRight().angleLowerLimit);
+    }
     /**
      * @return a direction rotated clockwise.
      */

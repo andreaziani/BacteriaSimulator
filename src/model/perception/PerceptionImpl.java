@@ -16,7 +16,7 @@ public class PerceptionImpl implements Perception {
     /**
      * Constructor for the Perception class.
      * @param foodInPosition Optional<Food> that indicate whether a food is present in the given Position
-     * @param distsFromFood Map that associate to every direction the minimum distance to Food, no distance if there is no Food
+     * @param distsToFood Map that associate to every direction the minimum distance to Food, no distance if there is no Food
      */
     public PerceptionImpl(final Optional<Food> foodInPosition, final Map<Direction, Double> distsToFood) {
         this.foodInPosition = foodInPosition;

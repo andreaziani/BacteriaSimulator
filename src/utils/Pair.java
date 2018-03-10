@@ -49,4 +49,9 @@ public class Pair<X, Y> {
         }
         return false;
     }
+    
+    @Override
+    public String toString() {
+        return "(" + this.elem1.toString() + ", " + this.elem2.toString() + ")";
+    }
 }

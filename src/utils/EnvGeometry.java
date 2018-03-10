@@ -9,14 +9,8 @@ import model.Position;
  *
  */
 public final class EnvGeometry {
-    private static final double NORTHEAST_LIMIT = 67.5;
-    private static final double NORTH_LIMIT = 112.5;
-    private static final double NORTHWEST_LIMIT = 157.5;
-    private static final double WEST_LIMIT = 202.5;
-    private static final double SOUTHWEST_LIMIT = 247.5;
-    private static final double SOUTH_LIMIT = 292.5;
-    private static final double SOUTHEAST_LIMIT = 337.5;
-    private static final double EAST_LIMIT = 22.5;
+    private static final double ZERO_DEGREE = 0.0;
+    private static final double PERIOD = 360.0;
 
     private EnvGeometry() {
     }
@@ -48,24 +42,38 @@ public final class EnvGeometry {
     }
 
     /**
+     * Check if the angle is included in angleInterval.
+     * @param angle the angle that have to be checked
+     * @param angleInterval the interval in which the angle should fall into
+     * @return if the angle in inside the interval
+     */
+    private static boolean isIncluded(final double angle, final Pair<Double, Double> angleInterval) {
+        if (angleInterval.getSecond() < angleInterval.getFirst()) {
+            return (angle >= angleInterval.getFirst() && angle <= ZERO_DEGREE + PERIOD)
+                    || (angle >= ZERO_DEGREE && angle < angleInterval.getSecond());
+        }
+        return angle >= angleInterval.getFirst() && angle < angleInterval.getSecond();
+    }
+
+    /**
      * Convert an angle to the closest Direction.
      * @param angle the angle to be converted in Direction
      * @return the Direction
      */
     public static Direction directionFromAngle(final double angle) {
-        if (angle > EnvGeometry.EAST_LIMIT && angle <= EnvGeometry.NORTHEAST_LIMIT) {
+        if (isIncluded(angle, Direction.NORTHEAST.angleInterval())) {
             return Direction.NORTHEAST;
-        } else if (angle > EnvGeometry.NORTHEAST_LIMIT && angle <= EnvGeometry.NORTH_LIMIT) {
+        } else if (isIncluded(angle, Direction.NORTH.angleInterval())) {
             return Direction.NORTH;
-        } else if (angle > EnvGeometry.NORTH_LIMIT && angle <= EnvGeometry.NORTHWEST_LIMIT) {
+        } else if (isIncluded(angle, Direction.NORTHWEST.angleInterval())) {
             return Direction.NORTHWEST;
-        } else if (angle > EnvGeometry.NORTHWEST_LIMIT && angle <= EnvGeometry.WEST_LIMIT) {
+        } else if (isIncluded(angle, Direction.WEST.angleInterval())) {
             return Direction.WEST;
-        } else if (angle > EnvGeometry.WEST_LIMIT && angle <= EnvGeometry.SOUTHWEST_LIMIT) {
+        } else if (isIncluded(angle, Direction.SOUTHWEST.angleInterval())) {
             return Direction.SOUTHWEST;
-        } else if (angle > EnvGeometry.SOUTHWEST_LIMIT && angle <= EnvGeometry.SOUTH_LIMIT) {
+        } else if (isIncluded(angle, Direction.SOUTH.angleInterval())) {
             return Direction.SOUTH;
-        } else if (angle > EnvGeometry.SOUTH_LIMIT && angle <= EnvGeometry.SOUTHEAST_LIMIT) {
+        } else if (isIncluded(angle, Direction.SOUTHEAST.angleInterval())) {
             return Direction.SOUTHEAST;
         } else {
             return Direction.EAST;
