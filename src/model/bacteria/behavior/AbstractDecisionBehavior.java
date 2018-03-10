@@ -20,7 +20,7 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     private final Map<ActionType, DecisionMaker> decisionStrategies;
 
     /**
-     * Create an abstractDecisionBehavior.
+     * Create an AbstractDecisionBehavior.
      * 
      * @param decisionStrategies
      *            the strategies this Behavior will use to make decisions about each
