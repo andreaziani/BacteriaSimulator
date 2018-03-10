@@ -1,11 +1,12 @@
-package utils;
+package utils.tests;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import model.Direction;
 import model.Position;
-import model.PositionImpl;;
+import model.PositionImpl;
+import utils.EnvGeometry;;
 
 /**
  * Test class for the EnvGeometry class.
