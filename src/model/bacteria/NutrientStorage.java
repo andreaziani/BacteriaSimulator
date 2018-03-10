@@ -12,7 +12,7 @@ import model.Energy;
 import model.EnergyImpl;
 import model.food.Food;
 import model.food.Nutrient;
-import utils.NotEnounghEnergyException;
+import utils.exceptions.NotEnounghEnergyException;
 
 /**
  * This class implement an EnergyStorage that does keeps all the nutrients of

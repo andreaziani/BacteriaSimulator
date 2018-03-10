@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import utils.AlreadyExistingFoodException;
+import utils.exceptions.AlreadyExistingFoodException;
 /** 
  * Manager that contains all the existing foods.
  *

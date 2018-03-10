@@ -1,4 +1,4 @@
-package model.food;
+package utils.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -13,8 +13,16 @@ import org.junit.Test;
 
 import model.Position;
 import model.PositionImpl;
-import utils.AlreadyExistingFoodException;
-import utils.PositionAlreadyOccupiedException;
+import model.food.ExistingFoodManager;
+import model.food.ExistingFoodManagerImpl;
+import model.food.Food;
+import model.food.FoodEnvironment;
+import model.food.FoodEnvironmentImpl;
+import model.food.FoodFactory;
+import model.food.FoodFactoryImpl;
+import model.food.Nutrient;
+import utils.exceptions.AlreadyExistingFoodException;
+import utils.exceptions.PositionAlreadyOccupiedException;
 /**
  * Test class for food.
  * 

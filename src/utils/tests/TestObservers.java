@@ -1,10 +1,15 @@
-package controller;
+package utils.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import controller.ConcreteObserverCreationOfFood;
+import controller.ConcreteObserverInsertionFromView;
+import controller.ObserverCreationOfFood;
+import controller.ObserverInsertionFromView;
 import model.food.Nutrient;
+import utils.FakeController;
 import utils.Pair;
 import view.ViewInteraction;
 import view.ViewInteractionImpl;
@@ -16,7 +21,7 @@ import view.food.ViewFoodImpl;
  * Test in which it occurs if the observer is actually updated when the ViewInteraction change his state.
  *
  */
-public class ObserversTest {
+public class TestObservers {
     private final FakeController controller = new FakeController(); // controller used only for 
     private final ObserverCreationOfFood obsCreation = new ConcreteObserverCreationOfFood(controller);
     private final ObserverInsertionFromView obsInsertion = new ConcreteObserverInsertionFromView(controller);

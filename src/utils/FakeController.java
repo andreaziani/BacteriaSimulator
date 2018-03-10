@@ -1,10 +1,12 @@
-package controller;
+package utils;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import controller.Controller;
+import controller.Replay;
 import model.Analisys;
 import view.InitialState;
 import view.ObserverExistingFoods;

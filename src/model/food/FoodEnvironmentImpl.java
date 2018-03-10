@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.Position;
-import utils.PositionAlreadyOccupiedException;
+import utils.exceptions.PositionAlreadyOccupiedException;
 
 /** 
  * Implementation of FoodEnvironment, contains information
