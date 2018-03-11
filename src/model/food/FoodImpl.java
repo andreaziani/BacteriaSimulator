@@ -15,17 +15,18 @@ import java.util.Set;
  *
  */
 public class FoodImpl implements Food {
-    private final double radius = 1.0;
+    private static final double RADIUS = 1.0;
     private final Optional<String> name;
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
 
     /**
-     * Constructor of food from FoodBuilder.
      * 
+     * Constructor of food from FoodBuilder.
+     * Package private.
      * @param builder
-     *            that creates food.
+     *            FoodBuilder that creates food.
      */
-    private FoodImpl(final FoodBuilder builder) {
+    FoodImpl(final FoodBuilder builder) {
         builder.nutrients.keySet().stream().forEach(n -> this.nutrients.put(n, builder.nutrients.get(n)));
         this.name = builder.name;
     }
@@ -50,7 +51,7 @@ public class FoodImpl implements Food {
 
     @Override
     public double getRadius() {
-        return this.radius;
+        return RADIUS;
     }
 
     @Override
@@ -125,5 +126,6 @@ public class FoodImpl implements Food {
             }
             throw new IllegalStateException();
         }
+
     }
 }

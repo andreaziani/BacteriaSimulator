@@ -10,7 +10,6 @@ import model.food.ExistingFoodManager;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
-import model.food.FoodImpl.FoodBuilder;
 import utils.Pair;
 import view.ViewPosition;
 import view.food.ViewFood;
@@ -51,7 +50,7 @@ public class FoodControllerImpl implements FoodController {
     }
 
     private Food convertionFromViewToModel(final ViewFood food) {
-        FoodFactory factory = new FoodFactoryImpl();
+        final FoodFactory factory = new FoodFactoryImpl();
         return factory.createFoodFromNameAndNutrients(food.getName(), 
                 food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n))));
     }

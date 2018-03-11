@@ -10,10 +10,9 @@ import model.food.Nutrient;
  */
 
 public class GeneticCodeImpl implements GeneticCode {
-
     private String code;
     private final Map<Action, Energy> actions;
-    private Map<Nutrient, Energy> nutrients;
+    private Map<Nutrient, Energy> nutrients; // è da inizializzare.
     private double speed;
 
     /**
@@ -56,7 +55,7 @@ public class GeneticCodeImpl implements GeneticCode {
         if (!this.actions.containsKey(action)) {
             throw new IllegalArgumentException();
         } else {
-            return (Energy) actions.get(action);
+            return (Energy) actions.get(action); //non c'è bisogno di castare è gia un Energy quello che ritorna il metodo.
         }
     }
 
@@ -72,16 +71,16 @@ public class GeneticCodeImpl implements GeneticCode {
 
     @Override
     public Energy getEnergyFromNutrient(final Nutrient nutrient) {
-        if (!this.nutrients.containsKey(nutrient)) {
+        if (!this.nutrients.containsKey(nutrient)) { //qui findbug trova dei bug perchè nutrients non è stato inizializzato
             throw new IllegalArgumentException();
         } else {
-            return (Energy) nutrients.get(nutrient);
+            return (Energy) nutrients.get(nutrient); //non c'è bisogno di castare è gia un Energy quello che ritorna il metodo.
         }
     }
 
     @Override
     public void setEnergyFromNutrient(final Nutrient nutrient, final Energy cost) {
-        if (!this.nutrients.containsKey(nutrient)) {
+        if (!this.nutrients.containsKey(nutrient)) { //qui findbug trova dei bug perchè nutrients non è stato inizializzato
             throw new IllegalArgumentException();
         } else {
             nutrients.put(nutrient, cost);
