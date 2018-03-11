@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import model.action.ActionType;
 import model.bacteria.behavior.AbstractDecisionBehavior;
@@ -22,11 +23,11 @@ public class SpeciesBuilder { // TODO documentation!
     private final List<BehaviorDecoratorOption> decorators;
     private boolean built;
 
-    private class SpieciesImpl implements Species {
+    private class SpeciesImpl implements Species {
         private final String name;
         private final Behavior behavior;
 
-        SpieciesImpl(final String name, final Behavior behavior) {
+        SpeciesImpl(final String name, final Behavior behavior) {
             super();
             this.name = name;
             this.behavior = behavior;
@@ -40,6 +41,19 @@ public class SpeciesBuilder { // TODO documentation!
         @Override
         public Behavior getBehavior() {
             return behavior;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name);
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (obj == null || obj.getClass() != getClass()) {
+                return false;
+            }
+            return Objects.equals(name, ((SpeciesImpl) obj).name);
         }
     }
 
@@ -100,6 +114,6 @@ public class SpeciesBuilder { // TODO documentation!
             behavior = BehaviorDecoratorFactory.createDecorator(d, behavior);
         }
         built = true;
-        return new SpieciesImpl(name, behavior);
+        return new SpeciesImpl(name, behavior);
     }
 }
