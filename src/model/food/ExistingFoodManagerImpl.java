@@ -6,7 +6,7 @@ import java.util.Set;
 
 import utils.exceptions.AlreadyExistingFoodException;
 /** 
- * Manager that contains all the existing foods.
+ * Manager that contains all the existing types of food.
  *
  */
 public class ExistingFoodManagerImpl implements ExistingFoodManager {

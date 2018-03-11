@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.Position;
+import model.food.insertionstrategy.ExponentialDistribuitionStrategyImpl;
+import model.food.insertionstrategy.RandomFoodStrategy;
+import model.food.insertionstrategy.RandomFoodStrategyImpl;
+import model.food.insertionstrategy.RandomPositionStrategy;
 import utils.exceptions.PositionAlreadyOccupiedException;
 
 /** 
