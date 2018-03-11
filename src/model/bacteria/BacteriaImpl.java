@@ -121,7 +121,7 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(behavior, currPerception, energyStorage, geneticCode, species);
+        return Objects.hash(currPerception, energyStorage, geneticCode, species);
     }
 
     @Override
@@ -130,8 +130,7 @@ public class BacteriaImpl implements Bacteria {
             return false;
         }
         final BacteriaImpl other = (BacteriaImpl) obj;
-        return Objects.equals(this.behavior, other.behavior)
-                && Objects.equals(this.currPerception, other.currPerception)
+        return Objects.equals(this.currPerception, other.currPerception)
                 && Objects.equals(this.energyStorage, other.energyStorage)
                 && Objects.equals(this.geneticCode, other.geneticCode) && Objects.equals(this.species, other.species);
     }
