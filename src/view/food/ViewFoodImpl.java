@@ -16,7 +16,12 @@ import utils.Pair;
 public class ViewFoodImpl implements ViewFood {
     private final String name;
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
-    private ViewFoodImpl(final ViewFoodBuilder builder) {
+    /**
+     * Constructor package private.
+     * A ViewFood can be built only using ViewFoodBuilder.
+     * @param builder from which take informations.
+     */
+    ViewFoodImpl(final ViewFoodBuilder builder) {
         this.name = builder.name;
         builder.nutrients.keySet().stream().forEach(k -> this.nutrients.put(k, builder.nutrients.get(k)));
     }

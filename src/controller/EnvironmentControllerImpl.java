@@ -31,6 +31,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public void start(final InitialState state) {
+        //TODO start 
     }
 
     @Override
