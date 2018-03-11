@@ -98,7 +98,10 @@ public class NutrientStorage implements EnergyStorage {
     @Override
     public Energy getEnergyStored() {
         return new EnergyImpl(
-                this.store.keySet().stream().mapToDouble(this::totalEnergyStoredPerNutrient).filter(x -> x > 0).sum());
+                this.store.keySet().stream()
+                                   .mapToDouble(this::totalEnergyStoredPerNutrient)
+                                   .filter(x -> x > 0)
+                                   .sum());
     }
 
     /**
@@ -120,7 +123,9 @@ public class NutrientStorage implements EnergyStorage {
             return false;
         }
         final NutrientStorage other = (NutrientStorage) obj;
-        return Objects.equals(this.store, other.store) && Objects.equals(this.reserve, other.reserve);
+        return this.store.entrySet().containsAll(other.store.entrySet()) 
+                && other.store.entrySet().containsAll(this.store.entrySet())
+                && Objects.equals(this.reserve, other.reserve);
     }
 
 }
