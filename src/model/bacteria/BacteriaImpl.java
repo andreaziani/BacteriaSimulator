@@ -81,16 +81,6 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
-    public void setGeneticCode(final GeneticCode code) {
-        this.geneticCode = code;
-        if (this.energyStorage.getClass() != NutrientStorage.class) {
-            throw new IllegalStateException();
-        }
-        final NutrientStorage storage = (NutrientStorage) this.energyStorage;
-        storage.setNutrientToEnergyConverter(this.geneticCode::getEnergyFromNutrient);
-    }
-
-    @Override
     public Energy getEnergy() {
         return this.energyStorage.getEnergyStored();
     }

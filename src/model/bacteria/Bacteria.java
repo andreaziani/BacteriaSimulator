@@ -17,7 +17,7 @@ public interface Bacteria {
      *            bacteria.
      */
     void setPerception(Perception perception);
-    
+
     /**
      * @return the current perception of the bacteria.
      */
@@ -57,13 +57,6 @@ public interface Bacteria {
      * @return the genetic code of the bacteria.
      */
     GeneticCode getGeneticCode();
-
-    /**
-     * @param code
-     *            a new genetic code for the bacteria, generally called after a
-     *            mutation of the previous code.
-     */
-    void setGeneticCode(GeneticCode code);
 
     /**
      * @return the amount of energy this bacteria currently have as a reserve.
