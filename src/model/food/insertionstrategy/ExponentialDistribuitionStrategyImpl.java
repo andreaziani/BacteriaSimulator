@@ -1,4 +1,4 @@
-package model.food;
+package model.food.insertionstrategy;
 import java.util.Random;
 
 import org.uncommons.maths.random.ExponentialGenerator;

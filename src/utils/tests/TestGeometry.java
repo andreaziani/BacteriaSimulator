@@ -42,7 +42,7 @@ public class TestGeometry {
         assertEquals(315.0, EnvGeometry.angle(ORIGIN, p6), DELTA);
         assertEquals(247.5, EnvGeometry.angle(ORIGIN, p7), DELTA);
         assertEquals(247.5, EnvGeometry.angle(ORIGIN, p8), DELTA);
-        
+
         assertEquals(0, EnvGeometry.angle(ORIGIN, left), DELTA);
         assertEquals(90, EnvGeometry.angle(ORIGIN, top), DELTA);
         assertEquals(180, EnvGeometry.angle(ORIGIN, right), DELTA);

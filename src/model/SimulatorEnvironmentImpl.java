@@ -28,7 +28,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     private final FoodFactory factory = new FoodFactoryImpl();
     private final Map<Position, Bacteria> bacteria = new HashMap<>();
-    
+
     @Override
     public void addFood(final Food food, final Position position) {
         this.foodEnv.addFood(food, position);
@@ -44,14 +44,13 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
         // TODO Auto-generated method stub
         return null;
     }
-  
+
     private void updateDeadBacteria() {
         Set<Position> toBeRemoved = this.bacteria.entrySet().stream()
                                                             .filter(e -> e.getValue().isDead())
                                                             .peek(e -> this.foodEnv.addFood(e.getValue().getInternalFood(this.factory), e.getKey()))
                                                             .map(e -> e.getKey())
                                                             .collect(Collectors.toSet());
-        
         this.bacteria.keySet().removeAll(toBeRemoved);
     }
 
