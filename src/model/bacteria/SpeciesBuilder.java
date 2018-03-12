@@ -15,12 +15,13 @@ import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMaker;
 
 /**
- * 
+ * A builder for an object of type Species. Can create only a single instance of
+ * the object but it can be reseted to build a new one.
  */
-public class SpeciesBuilder { // TODO documentation!
+public class SpeciesBuilder {
     private String name;
-    private final Map<ActionType, DecisionMaker> decisionMakers;
-    private final List<BehaviorDecoratorOption> decorators;
+    private Map<ActionType, DecisionMaker> decisionMakers;
+    private List<BehaviorDecoratorOption> decorators;
     private boolean built;
 
     private class SpeciesImpl implements Species {
@@ -28,7 +29,6 @@ public class SpeciesBuilder { // TODO documentation!
         private final Behavior behavior;
 
         SpeciesImpl(final String name, final Behavior behavior) {
-            super();
             this.name = name;
             this.behavior = behavior;
         }
@@ -58,9 +58,18 @@ public class SpeciesBuilder { // TODO documentation!
     }
 
     /**
-     * 
+     * Create a new SpeciesBuilder with no information.
      */
     public SpeciesBuilder() {
+        reset();
+    }
+
+    /**
+     * Reset the builder to its initial state, removing the object being constructed
+     * and all the information about it.
+     */
+    public final void reset() {
+        name = null;
         built = false;
         decisionMakers = new EnumMap<>(ActionType.class);
         decorators = new ArrayList<>();
@@ -73,8 +82,10 @@ public class SpeciesBuilder { // TODO documentation!
     }
 
     /**
-     * 
      * @param name
+     *            the name of the Species being built.
+     * @throws IllegalStateException
+     *             if the object has already being built.
      */
     public void setName(final String name) {
         controlBuiltIs(false);
@@ -82,9 +93,14 @@ public class SpeciesBuilder { // TODO documentation!
     }
 
     /**
+     * Set the DecisionMaker of this Species relative to an ActionType.
      * 
      * @param type
+     *            the type of the action this DecisionMaker will decide.
      * @param decisionMaker
+     *            a DecisionMaker.
+     * @throws IllegalStateException
+     *             if the object has already being built.
      */
     public void setDecisionMaker(final ActionType type, final DecisionMaker decisionMaker) {
         controlBuiltIs(false);
@@ -92,8 +108,11 @@ public class SpeciesBuilder { // TODO documentation!
     }
 
     /**
-     * 
      * @param decoratorOption
+     *            add a BehaviorDecoratorOption to evaluate the decisions made by
+     *            the DecisionMakers of the Species being constructed.
+     * @throws IllegalStateException
+     *             if the object has already being built.
      */
     public void addDecisionBehaiorDecorator(final BehaviorDecoratorOption decoratorOption) {
         controlBuiltIs(false);
@@ -101,11 +120,13 @@ public class SpeciesBuilder { // TODO documentation!
     }
 
     /**
-     * 
-     * @return
+     * @return a new Species with the given configurations if it has a name and at
+     *         least a DecisionMaker.
+     * @throws IllegalStateException
+     *             if the object has already being built.
      */
     public Species build() {
-        controlBuiltIs(true);
+        controlBuiltIs(false);
         if (this.name == null || decisionMakers.isEmpty()) {
             throw new IllegalStateException();
         }
