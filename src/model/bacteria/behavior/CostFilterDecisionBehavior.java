@@ -3,9 +3,7 @@ package model.bacteria.behavior;
 import java.util.Map;
 
 import model.action.Action;
-import model.action.ActionType;
 import model.bacteria.BacteriaKnowledge;
-import model.bacteria.behavior.decisionmaker.DecisionMaker;
 
 /**
  * A behavior that filters all decisions taken and keeps only the ones the
@@ -18,14 +16,9 @@ public class CostFilterDecisionBehavior extends DecisionBehaviorDecorator {
      * 
      * @param delegate
      *            a Behavior.
-     *
-     * @param decisionStrategies
-     *            the strategies this Behavior will use to make decisions about each
-     *            ActionType.
      */
-    public CostFilterDecisionBehavior(final AbstractDecisionBehavior delegate,
-            final Map<ActionType, DecisionMaker> decisionStrategies) {
-        super(delegate, decisionStrategies);
+    public CostFilterDecisionBehavior(final AbstractDecisionBehavior delegate) {
+        super(delegate);
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.Map;
 import model.action.Action;
 import model.action.ActionType;
 import model.bacteria.BacteriaKnowledge;
-import model.bacteria.behavior.decisionmaker.DecisionMaker;
 
 /**
  * A behavior that set a preference for a particular ActionType if it is
@@ -22,16 +21,12 @@ public class PreferentialDecisionBehavior extends DecisionBehaviorDecorator {
      * @param delegate
      *            a Behavior that will make decisions and choose an action using
      *            this object's decisions.
-     * @param decisionStrategies
-     *            the strategies this Behavior will use to make decisions about each
-     *            ActionType.
      * @param preferredType
      *            an ActionType that this behavior will prefer, giving it more
      *            priority than the others.
      */
-    public PreferentialDecisionBehavior(final AbstractDecisionBehavior delegate,
-            final Map<ActionType, DecisionMaker> decisionStrategies, final ActionType preferredType) {
-        super(delegate, decisionStrategies);
+    public PreferentialDecisionBehavior(final AbstractDecisionBehavior delegate, final ActionType preferredType) {
+        super(delegate);
         this.preferred = preferredType;
     }
 

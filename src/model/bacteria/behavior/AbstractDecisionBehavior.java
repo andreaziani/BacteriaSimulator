@@ -57,7 +57,7 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     protected abstract void updateDecisions(Map<Action, Double> decisions, BacteriaKnowledge knowledge);
 
     @Override
-    public final Action chooseAction(final BacteriaKnowledge knowledge) {
+    public Action chooseAction(final BacteriaKnowledge knowledge) {
         final Map<Action, Double> decisions = this.decisionStrategies.entrySet().stream()
                                         .flatMap(x -> x.getValue()
                                                        .getDecision(knowledge)
