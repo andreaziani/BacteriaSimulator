@@ -12,7 +12,7 @@ import model.food.Nutrient;
 public class GeneticCodeImpl implements GeneticCode {
     private String code;
     private final Map<Action, Energy> actions;
-    private Map<Nutrient, Energy> nutrients; // è da inizializzare.
+    private Map<Nutrient, Energy> nutrients;
     private double speed;
 
     /**
@@ -22,12 +22,15 @@ public class GeneticCodeImpl implements GeneticCode {
      *            the "name" of genetic code.
      * @param actions
      *            a list of possible bacteria's actions.
+     * @param nutrients
+     *            a list of nutrients of bacteria.
      * @param speed
      *            speed of bacteria.
      */
-    public GeneticCodeImpl(final String code, final Map<Action, Energy> actions, final double speed) {
+    public GeneticCodeImpl(final String code, final Map<Action, Energy> actions, final Map<Nutrient, Energy> nutrients, final double speed) {
         this.code = code;
         this.actions = actions;
+        this.nutrients = nutrients;
         this.speed = speed;
     }
 
@@ -55,7 +58,7 @@ public class GeneticCodeImpl implements GeneticCode {
         if (!this.actions.containsKey(action)) {
             throw new IllegalArgumentException();
         } else {
-            return (Energy) actions.get(action); //non c'è bisogno di castare è gia un Energy quello che ritorna il metodo.
+            return actions.get(action);
         }
     }
 
@@ -71,16 +74,16 @@ public class GeneticCodeImpl implements GeneticCode {
 
     @Override
     public Energy getEnergyFromNutrient(final Nutrient nutrient) {
-        if (!this.nutrients.containsKey(nutrient)) { //qui findbug trova dei bug perchè nutrients non è stato inizializzato
+        if (!this.nutrients.containsKey(nutrient)) {
             throw new IllegalArgumentException();
         } else {
-            return (Energy) nutrients.get(nutrient); //non c'è bisogno di castare è gia un Energy quello che ritorna il metodo.
+            return nutrients.get(nutrient);
         }
     }
 
     @Override
     public void setEnergyFromNutrient(final Nutrient nutrient, final Energy cost) {
-        if (!this.nutrients.containsKey(nutrient)) { //qui findbug trova dei bug perchè nutrients non è stato inizializzato
+        if (!this.nutrients.containsKey(nutrient)) {
             throw new IllegalArgumentException();
         } else {
             nutrients.put(nutrient, cost);
