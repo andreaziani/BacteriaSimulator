@@ -16,7 +16,7 @@ import model.perception.Perception;
 public class BacteriaImpl implements Bacteria {
 
     private Perception currPerception;
-    private GeneticCode geneticCode;
+    private final GeneticCode geneticCode;
     private final Species species;
     private final Behavior behavior;
     private final EnergyStorage energyStorage;
