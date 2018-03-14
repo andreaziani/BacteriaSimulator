@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import model.action.ActionType;
 import model.bacteria.behavior.AbstractDecisionBehavior;
@@ -130,7 +131,10 @@ public class SpeciesBuilder {
         if (this.name == null || decisionMakers.isEmpty()) {
             throw new IllegalStateException();
         }
-        AbstractDecisionBehavior behavior = new BaseDecisionBehavior(decisionMakers);
+        AbstractDecisionBehavior behavior = new BaseDecisionBehavior(
+                decisionMakers.values()
+                              .stream()
+                              .collect(Collectors.toSet()));
         for (final BehaviorDecoratorOption d : decorators) {
             behavior = BehaviorDecoratorFactory.createDecorator(d, behavior);
         }
