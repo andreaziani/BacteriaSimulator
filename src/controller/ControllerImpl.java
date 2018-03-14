@@ -6,7 +6,6 @@ import model.Analisys;
 import model.Environment;
 import model.SimulatorEnvironmentImpl;
 import view.InitialState;
-import view.ObserverExistingFoods;
 import view.ViewPosition;
 import view.food.ViewFood;
 
@@ -19,11 +18,6 @@ public class ControllerImpl implements Controller {
     private final Environment env = new SimulatorEnvironmentImpl();
     private final EnvironmentController envController = new EnvironmentControllerImpl(env);
     private final FileController fileController = new FileControllerImpl();
-    private ObserverExistingFoods observer;
-    @Override
-    public void addObserverExisistingFoods(final ObserverExistingFoods obs) {
-        this.observer = obs;
-    }
 
     @Override
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
@@ -53,7 +47,6 @@ public class ControllerImpl implements Controller {
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
         this.envController.addNewTypeOfFood(food);
-        this.observer.update(getExistingViewFoods());
     }
 
     @Override

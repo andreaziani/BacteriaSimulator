@@ -1,8 +1,7 @@
 package model;
-/** Environment State.
+/** 
+ * Environment State.
  * 
- * @author Andrea PC
- *
  */
 public interface State {
 

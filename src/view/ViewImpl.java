@@ -2,8 +2,7 @@ package view;
 
 import java.util.Set;
 
-import controller.ObserverCreationOfFood;
-import controller.ObserverInsertionFromView;
+import controller.Controller;
 import model.Analisys;
 import view.food.ViewFood;
 /**
@@ -11,18 +10,13 @@ import view.food.ViewFood;
  *
  */
 public class ViewImpl implements View {
-    private final ViewInteraction interaction = new ViewInteractionImpl();
-    private final ObserverExistingFoods observer;
+    private final Controller controller;
 /**
  * Constructor that build a View and initializing her observers.
- * @param observer that watch the set of existing foods.
- * @param observerCreation that watch creation of food.
- * @param observerInsertion that watch insertion of foods.
+ * @param controller controller that allows interactions with the model. 
  */
-    public ViewImpl(final ObserverExistingFoods observer, final ObserverCreationOfFood observerCreation, final ObserverInsertionFromView observerInsertion) {
-        this.observer = observer;
-        this.interaction.addCreationObserver(observerCreation);
-        this.interaction.addInsertionObserver(observerInsertion);
+    public ViewImpl(final Controller controller) {
+        this.controller = controller;
     }
     @Override
     public void update(final ViewState state) {
@@ -32,7 +26,7 @@ public class ViewImpl implements View {
 
     @Override
     public void addFood(final ViewFood food, final ViewPosition position) {
-        this.interaction.notifyInsertionOfFood(food, position);
+        this.controller.addFoodFromView(food, position);
 
     }
 
@@ -50,12 +44,12 @@ public class ViewImpl implements View {
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
-        this.interaction.notifyCreationOfFood(food);
+        this.controller.addNewTypeOfFood(food);
     }
 
     @Override
     public Set<ViewFood> getFoodsType() {
-        return this.observer.getTypeOfFoods();
+        return this.controller.getExistingViewFoods();
     }
 
 }

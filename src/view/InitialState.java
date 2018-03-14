@@ -4,5 +4,5 @@ package view;
  * 
  */
 public interface InitialState {
-
+    
 }
