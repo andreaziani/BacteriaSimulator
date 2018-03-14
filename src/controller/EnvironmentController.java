@@ -4,6 +4,7 @@ import java.util.Set;
 
 import view.InitialState;
 import view.ViewPosition;
+import view.ViewState;
 import view.food.ViewFood;
 
 /**Env Controller.
@@ -31,5 +32,9 @@ public interface EnvironmentController {
      * @return a set that contains all the existing types of food.
      */
     Set<ViewFood> getExistingViewFoods();
-    
+    /**
+     * Transforms the State and returns it as ViewState.
+     * @return the last ViewState.
+     */
+    ViewState getState();
 }

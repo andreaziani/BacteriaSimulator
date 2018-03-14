@@ -7,6 +7,7 @@ import model.Environment;
 import model.SimulatorEnvironmentImpl;
 import view.InitialState;
 import view.ViewPosition;
+import view.ViewState;
 import view.food.ViewFood;
 
 /**
@@ -53,6 +54,13 @@ public class ControllerImpl implements Controller {
     public Set<ViewFood> getExistingViewFoods() {
         return this.envController.getExistingViewFoods();
     }
+
+    @Override
+    public ViewState getState() {
+        return this.envController.getState();
+    }
+    
+
 
 
 }

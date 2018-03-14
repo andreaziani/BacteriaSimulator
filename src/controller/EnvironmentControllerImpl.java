@@ -5,8 +5,10 @@ import java.util.Set;
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Environment;
+import utils.ConversionsUtil;
 import view.InitialState;
 import view.ViewPosition;
+import view.ViewState;
 import view.food.ViewFood;
 
 /**
@@ -43,4 +45,10 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     public Set<ViewFood> getExistingViewFoods() {
         return this.foodController.getExistingViewFoods();
     }
+
+    @Override
+    public ViewState getState() {
+        return ConversionsUtil.conversionFromStateToViewState(this.env.getState());
+    }
+
 }

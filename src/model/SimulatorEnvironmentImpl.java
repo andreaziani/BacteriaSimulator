@@ -30,6 +30,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     private final FoodFactory factory = new FoodFactoryImpl();
     private final Map<Position, Bacteria> bacteria = new HashMap<>();
+    private final State state = new StateImpl(this.foodEnv);
 
     @Override
     public void addFood(final Food food, final Position position) {
@@ -43,8 +44,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
 
     @Override
     public State getState() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.state;
     }
 
     private void updateDeadBacteria() {
