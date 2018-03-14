@@ -5,9 +5,9 @@ import java.util.Set;
 import model.Analisys;
 import model.Environment;
 import model.SimulatorEnvironmentImpl;
-import view.InitialState;
-import view.ViewPosition;
-import view.food.ViewFood;
+import view.model.InitialState;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
 
 /**
  * Controller implementation. 

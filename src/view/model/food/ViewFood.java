@@ -1,4 +1,4 @@
-package view.food;
+package view.model.food;
 
 import java.util.Set;
 

@@ -5,9 +5,9 @@ import java.util.Set;
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Environment;
-import view.InitialState;
-import view.ViewPosition;
-import view.food.ViewFood;
+import view.model.InitialState;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
 
 /**
  * Implementation of EnvironmentController.

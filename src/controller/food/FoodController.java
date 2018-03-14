@@ -3,8 +3,8 @@ package controller.food;
 
 import java.util.Set;
 
-import view.ViewPosition;
-import view.food.ViewFood;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
 
 /**
  * 

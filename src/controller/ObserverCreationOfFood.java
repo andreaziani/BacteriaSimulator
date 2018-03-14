@@ -1,6 +1,6 @@
 package controller;
 
-import view.food.ViewFood;
+import view.model.food.ViewFood;
 /**
  * The Observer interface, observe the creation of food by the user.
  * User can create foods in the simulation.

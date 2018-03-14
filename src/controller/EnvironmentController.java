@@ -2,9 +2,9 @@ package controller;
 
 import java.util.Set;
 
-import view.InitialState;
-import view.ViewPosition;
-import view.food.ViewFood;
+import view.model.InitialState;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
 
 /**Env Controller.
  * 

@@ -11,9 +11,9 @@ import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import utils.Pair;
-import view.ViewPosition;
-import view.food.ViewFood;
-import view.food.ViewFoodImpl.ViewFoodBuilder;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
+import view.model.food.ViewFoodImpl.ViewFoodBuilder;
 /**
  * Controller for food.
  *

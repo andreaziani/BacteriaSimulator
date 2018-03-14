@@ -1,4 +1,4 @@
-package view;
+package view.model.bacteria;
 
 import java.awt.Color;
 
