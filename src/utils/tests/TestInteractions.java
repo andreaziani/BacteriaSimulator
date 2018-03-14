@@ -11,9 +11,9 @@ import utils.exceptions.AlreadyExistingFoodException;
 import utils.exceptions.PositionAlreadyOccupiedException;
 import view.View;
 import view.ViewImpl;
-import view.ViewPositionImpl;
-import view.food.ViewFood;
-import view.food.ViewFoodImpl;
+import view.model.ViewPositionImpl;
+import view.model.food.ViewFood;
+import view.model.food.ViewFoodImpl;
 /**
  * TestClass for interaction of the user adding foods.
  *

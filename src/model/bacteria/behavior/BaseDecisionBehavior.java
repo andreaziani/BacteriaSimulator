@@ -1,9 +1,9 @@
 package model.bacteria.behavior;
 
 import java.util.Map;
+import java.util.Set;
 
 import model.action.Action;
-import model.action.ActionType;
 import model.bacteria.BacteriaKnowledge;
 import model.bacteria.behavior.decisionmaker.DecisionMaker;
 
@@ -19,7 +19,7 @@ public class BaseDecisionBehavior extends AbstractDecisionBehavior {
      *            the strategies this Behavior will use to make decisions about each
      *            ActionType.
      */
-    public BaseDecisionBehavior(final Map<ActionType, DecisionMaker> decisionStrategies) {
+    public BaseDecisionBehavior(final Set<DecisionMaker> decisionStrategies) {
         super(decisionStrategies);
     }
 

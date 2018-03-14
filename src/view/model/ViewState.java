@@ -1,4 +1,4 @@
-package view;
+package view.model;
 /** 
  * ViewState contains information of objects present in the simulation.
  *

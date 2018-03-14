@@ -2,6 +2,7 @@ package model.bacteria.behavior;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ import model.bacteria.behavior.decisionmaker.DecisionMaker;
  */
 public abstract class AbstractDecisionBehavior implements Behavior {
 
-    private final Map<ActionType, DecisionMaker> decisionStrategies;
+    private final Set<DecisionMaker> decisionStrategies;
 
     /**
      * Create an AbstractDecisionBehavior.
@@ -26,7 +27,7 @@ public abstract class AbstractDecisionBehavior implements Behavior {
      *            the strategies this Behavior will use to make decisions about each
      *            ActionType.
      */
-    public AbstractDecisionBehavior(final Map<ActionType, DecisionMaker> decisionStrategies) {
+    public AbstractDecisionBehavior(final Set<DecisionMaker> decisionStrategies) {
         this.decisionStrategies = decisionStrategies;
     }
 
@@ -46,24 +47,24 @@ public abstract class AbstractDecisionBehavior implements Behavior {
             }
         });
     }
-    
+
     /**
      * Modify the decisions already taken to adjust them accordingly to this
      * behavior preferences.
      * 
      * @param decisions
      *            the collection of decisions taken until now.
+     * @param knowledge 
+     *            the current knowledge of the bacteria making this decisions.
      */
     protected abstract void updateDecisions(Map<Action, Double> decisions, BacteriaKnowledge knowledge);
 
     @Override
     public Action chooseAction(final BacteriaKnowledge knowledge) {
-        final Map<Action, Double> decisions = this.decisionStrategies.entrySet().stream()
-                                        .flatMap(x -> x.getValue()
-                                                       .getDecision(knowledge)
+        final Map<Action, Double> decisions = this.decisionStrategies.stream()
+                                        .flatMap(x -> x.getDecision(knowledge)
                                                        .entrySet()
-                                                       .stream()
-                                                       .filter(k -> k.getKey().getType().equals(x.getKey())))
+                                                       .stream())
                                         .collect(Collectors.toMap(Entry::getKey, Entry::getValue, 
                                                 (v1, v2) -> Math.max(v1, v2)));
         updateDecisions(decisions, knowledge);

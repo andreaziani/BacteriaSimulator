@@ -8,8 +8,8 @@ import model.Environment;
 import model.PositionImpl;
 import model.food.ExistingFoodManager;
 import utils.ConversionsUtil;
-import view.ViewPosition;
-import view.food.ViewFood;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
 /**
  * Controller for food.
  *

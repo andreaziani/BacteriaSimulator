@@ -1,8 +1,8 @@
-package view;
+package view.model;
 
 import java.util.Map;
 
-import view.food.ViewFood;
+import view.model.food.ViewFood;
 
 /**
  * Implementation of ViewState.
