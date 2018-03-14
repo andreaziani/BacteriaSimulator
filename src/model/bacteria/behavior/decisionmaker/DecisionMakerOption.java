@@ -22,7 +22,7 @@ public enum DecisionMakerOption {
     /**
      * Represents a PreferentialMovementDecisionMaker.
      */
-    PREFERENTIAL_MOVEMENT(ActionType.MOVE),
+    NEAR_FOOD_MOVEMENT(ActionType.MOVE),
     /**
      * Represents an AlwaysReproduceDecisionMaker.
      */
@@ -30,7 +30,7 @@ public enum DecisionMakerOption {
     /**
      * Represents a RandomReproductionDecisionMaker.
      */
-    RANDOM_REPLICATE(ActionType.REPLICATE);
+    RANDOM_REPLICATION(ActionType.REPLICATE);
 
     private final ActionType type;
 
