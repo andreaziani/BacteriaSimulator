@@ -37,6 +37,8 @@ public class MutationImpl implements Mutation {
      *            a list of nutrients of bacteria.
      * @param speed
      *            speed of modified bacteria.
+     * @param geneticCode
+     *            the code of bacteria to be modified.
      */
     public MutationImpl(final String code, final Map<Action, Energy> actions, final Map<Nutrient, Energy> nutrients, final double speed, final GeneticCode geneticCode) {
         this.code = code;
