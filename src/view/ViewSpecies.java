@@ -18,7 +18,6 @@ public class ViewSpecies {
      *            the color of the bacteria of this species.
      */
     public ViewSpecies(final String name, final Color color) {
-        super();
         this.name = name;
         this.color = color;
     }
