@@ -1,7 +1,11 @@
 package utils;
 
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import model.Direction;
 import model.Position;
+import model.PositionImpl;
 
 /**
  * 
@@ -10,7 +14,7 @@ import model.Position;
  */
 public final class EnvGeometry {
     private static final double ZERO_DEGREE = 0.0;
-    private static final double PERIOD = 360.0;
+    private static final double ANGLE_PERIOD = 360.0;
 
     private EnvGeometry() {
     }
@@ -48,8 +52,9 @@ public final class EnvGeometry {
      * @return if the angle in inside the interval
      */
     private static boolean isIncluded(final double angle, final Pair<Double, Double> angleInterval) {
+        // case when the interval angles is [337.5, 22.5]
         if (angleInterval.getSecond() < angleInterval.getFirst()) {
-            return (angle >= angleInterval.getFirst() && angle <= ZERO_DEGREE + PERIOD)
+            return (angle >= angleInterval.getFirst() && angle <= ZERO_DEGREE + ANGLE_PERIOD)
                     || (angle >= ZERO_DEGREE && angle < angleInterval.getSecond());
         }
         return angle >= angleInterval.getFirst() && angle < angleInterval.getSecond();
@@ -78,5 +83,21 @@ public final class EnvGeometry {
         } else {
             return Direction.EAST;
         }
+    }
+
+    /**
+     * Generate stream of Position in the range [(startX, startY), (endX, endY)].
+     * @param startX the start value for the X coordinate
+     * @param endX the end value for the X coordinate
+     * @param startY the start value for the Y coordinate
+     * @param endY the end value for the Y coordinate
+     * @param bacteriaPos the original Position of the Bacteria
+     * @return a stream of Position
+     */
+    public static Stream<Position> positionStream(final int startX, final int endX, final int startY, final int endY, final Position bacteriaPos) {
+        return IntStream.range(startX, endX)
+                        .mapToObj(x -> IntStream.range(startY, endY)
+                                                .mapToObj(y -> new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y)))
+                        .flatMap(position -> position);
     }
 }
