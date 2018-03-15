@@ -1,4 +1,7 @@
-package model;
+package model.simulator;
+
+import model.Environment;
+
 /**
  * Environment used for the actual simulation.
  */
