@@ -65,7 +65,7 @@ public final class EnvGeometry {
      * @param angle the angle to be converted in Direction
      * @return the Direction
      */
-    public static Direction directionFromAngle(final double angle) {
+    public static Direction angleToDir(final double angle) {
         if (isIncluded(angle, Direction.NORTHEAST.angleInterval())) {
             return Direction.NORTHEAST;
         } else if (isIncluded(angle, Direction.NORTH.angleInterval())) {
@@ -99,5 +99,16 @@ public final class EnvGeometry {
                         .mapToObj(x -> IntStream.range(startY, endY)
                                                 .mapToObj(y -> new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y)))
                         .flatMap(position -> position);
+    }
+
+    /**
+     * Generate stream of Position in the range [(start, start), (end, end)].
+     * @param start the start value for both the X and the Y coordinate
+     * @param end the end value for both the X and the Y coordinate
+     * @param bacteriaPos the original Position of the Bacteria
+     * @return a stream of Position
+     */
+    public static Stream<Position> positionStream(final int start, final int end, final Position bacteriaPos) {
+        return positionStream(start, end, start, end, bacteriaPos);
     }
 }

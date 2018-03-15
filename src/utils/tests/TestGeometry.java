@@ -59,19 +59,19 @@ public class TestGeometry {
      */
     @Test
     public void testDirection() {
-        assertEquals(Direction.NORTHEAST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p1)));
-        assertEquals(Direction.EAST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p2)));
-        assertEquals(Direction.NORTH, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p3)));
-        assertEquals(Direction.NORTHWEST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p4)));
-        assertEquals(Direction.SOUTHWEST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p5)));
-        assertEquals(Direction.SOUTHEAST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p6)));
-        assertEquals(Direction.SOUTHWEST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p7)));
-        assertEquals(Direction.SOUTH, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p8)));
+        assertEquals(Direction.NORTHEAST, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, p1)));
+        assertEquals(Direction.EAST, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, p2)));
+        assertEquals(Direction.NORTH, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, p3)));
+        assertEquals(Direction.NORTHWEST, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, p4)));
+        assertEquals(Direction.SOUTHWEST, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, p5)));
+        assertEquals(Direction.SOUTHEAST, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, p6)));
+        assertEquals(Direction.SOUTHWEST, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, p7)));
+        assertEquals(Direction.SOUTH, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, p8)));
 
-        assertEquals(Direction.EAST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, left)));
-        assertEquals(Direction.NORTH, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, top)));
-        assertEquals(Direction.WEST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, right)));
-        assertEquals(Direction.SOUTH, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, down)));
+        assertEquals(Direction.EAST, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, left)));
+        assertEquals(Direction.NORTH, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, top)));
+        assertEquals(Direction.WEST, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, right)));
+        assertEquals(Direction.SOUTH, EnvGeometry.angleToDir(EnvGeometry.angle(ORIGIN, down)));
     }
 
     /**
