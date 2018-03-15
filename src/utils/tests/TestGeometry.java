@@ -1,12 +1,17 @@
 package utils.tests;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.junit.Test;
 
 import model.Direction;
 import model.Position;
 import model.PositionImpl;
-import utils.EnvGeometry;;
+import utils.EnvGeometry;
 
 /**
  * Test class for the EnvGeometry class.
@@ -62,10 +67,33 @@ public class TestGeometry {
         assertEquals(Direction.SOUTHEAST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p6)));
         assertEquals(Direction.SOUTHWEST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p7)));
         assertEquals(Direction.SOUTH, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, p8)));
-        
+
         assertEquals(Direction.EAST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, left)));
         assertEquals(Direction.NORTH, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, top)));
         assertEquals(Direction.WEST, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, right)));
         assertEquals(Direction.SOUTH, EnvGeometry.directionFromAngle(EnvGeometry.angle(ORIGIN, down)));
+    }
+
+    /**
+     * Test for the positionStream generator.
+     */
+    @Test
+    public void testPosStream() {
+        final Set<Position> myPosition = new HashSet<>();
+        final int start = 0;
+        final int end = 10;
+        final int bacteriaX = -3;
+        final int bacteriaY = 12;
+
+        for (int i = start; i < end; i++) {
+            for (int j = start; j < end; j++) {
+                myPosition.add(new PositionImpl(bacteriaX + i, bacteriaY + j));
+            }
+        }
+
+        final Set<Position> streamPosition = EnvGeometry.positionStream(start, end, start, end, new PositionImpl(bacteriaX, bacteriaY))
+                                                  .collect(Collectors.toSet());
+
+        assertEquals(myPosition, streamPosition);
     }
 }
