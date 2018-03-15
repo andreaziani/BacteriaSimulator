@@ -4,7 +4,7 @@ import java.util.Set;
 
 import model.Analisys;
 import model.Environment;
-import model.SimulatorEnvironmentImpl;
+import model.simulator.SimulatorEnvironmentImpl;
 import view.model.InitialState;
 import view.model.ViewPosition;
 import view.model.ViewState;
@@ -58,8 +58,4 @@ public class ControllerImpl implements Controller {
     public ViewState getState() {
         return this.envController.getState();
     }
-    
-
-
-
 }
