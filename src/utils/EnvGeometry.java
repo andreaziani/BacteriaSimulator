@@ -10,7 +10,8 @@ import model.Position;
  */
 public final class EnvGeometry {
     private static final double ZERO_DEGREE = 0.0;
-    private static final double PERIOD = 360.0;
+    private static final double ANGLE_PERIOD = 360.0;
+    public static final double SPACE_UNIT = 1.0;
 
     private EnvGeometry() {
     }
@@ -48,8 +49,9 @@ public final class EnvGeometry {
      * @return if the angle in inside the interval
      */
     private static boolean isIncluded(final double angle, final Pair<Double, Double> angleInterval) {
+        // case when the interval angles is [337.5, 22.5]
         if (angleInterval.getSecond() < angleInterval.getFirst()) {
-            return (angle >= angleInterval.getFirst() && angle <= ZERO_DEGREE + PERIOD)
+            return (angle >= angleInterval.getFirst() && angle <= ZERO_DEGREE + ANGLE_PERIOD)
                     || (angle >= ZERO_DEGREE && angle < angleInterval.getSecond());
         }
         return angle >= angleInterval.getFirst() && angle < angleInterval.getSecond();

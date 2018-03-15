@@ -60,8 +60,8 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
         final double radius = this.bacteria.get(bacteriaPos).getPerceptionRadius();
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
-        for (int y = (int) -Math.ceil(radius); y <= (int) Math.ceil(radius); ++y) {
-            for (int x = (int) -Math.ceil(radius); x <= (int) Math.ceil(radius); ++x) {
+        for (double y = -Math.ceil(radius); y <= Math.ceil(radius); y += EnvGeometry.SPACE_UNIT) {
+            for (double x = -Math.ceil(radius); x <= Math.ceil(radius); x += EnvGeometry.SPACE_UNIT) {
                 final Position currentPos = new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y);
                 final double distanceToPos = EnvGeometry.distance(currentPos, bacteriaPos);
                 if (distanceToPos <= radius && foodsState.containsKey(currentPos)) {
@@ -117,5 +117,4 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
         // TODO Auto-generated method stub
         return null;
     }
-
 }
