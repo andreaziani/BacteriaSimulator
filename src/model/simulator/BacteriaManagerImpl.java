@@ -18,6 +18,7 @@ import model.food.FoodFactoryImpl;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
 import utils.EnvGeometry;
+import utils.Pair;
 
 /**
  * Implementation of BacteriaManager.
@@ -40,22 +41,22 @@ public class BacteriaManagerImpl implements BacteriaManager {
         this.ENV_COST_OF_LIVING = COST_OF_LIVING;
     }
 
-    // TODO separate this method whit IntPairStream()
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos, final Map<Position, Food> foodsState) {
         final double radius = this.bacteria.get(bacteriaPos).getPerceptionRadius();
         final int start = (int) -Math.ceil(radius);
         final int end = (int) Math.ceil(radius);
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
-        EnvGeometry.positionStream(start, end, start, end, bacteriaPos).forEach(position -> {
-            final double distanceToPos = EnvGeometry.distance(position, bacteriaPos);
-            if (distanceToPos <= radius && foodsState.containsKey(position)) {
-                final Direction closestDir = EnvGeometry.directionFromAngle(EnvGeometry.angle(bacteriaPos, position));
-                if (!distsToFood.containsKey(closestDir) || distanceToPos < distsToFood.get(closestDir)) {
-                    distsToFood.put(closestDir, distanceToPos);
-                }
-            }
-        });
+        // TODO simply froEach with stream
+        EnvGeometry.positionStream(start, end, bacteriaPos).map(position -> new Pair<>(position, EnvGeometry.distance(position, bacteriaPos)))
+                                                           .filter(e -> e.getSecond() <= radius)
+                                                           .filter(e -> foodsState.containsKey(e.getFirst()))
+                                                           .forEach(e -> {
+                                                               final Direction closestDir = EnvGeometry.angleToDir(EnvGeometry.angle(bacteriaPos, e.getFirst()));
+                                                               if (!distsToFood.containsKey(closestDir) || e.getSecond() < distsToFood.get(closestDir)) {
+                                                                   distsToFood.put(closestDir, e.getSecond());
+                                                               }
+                                                           });
         return distsToFood;
     }
 
