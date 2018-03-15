@@ -1,8 +1,8 @@
-package view;
+package view.model;
 /** 
  * InitialState.
  * 
  */
 public interface InitialState {
-
+    
 }

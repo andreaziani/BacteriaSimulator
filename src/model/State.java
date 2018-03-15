@@ -1,9 +1,18 @@
 package model;
-/** Environment State.
+
+import java.util.Map;
+
+import model.food.Food;
+
+/** 
+ * Environment's State, contains information of foods, bacteria
+ * and all the helpful information.
  * 
- * @author Andrea PC
- *
  */
 public interface State {
-
+    /**
+     * 
+     * @return an unmodifiable copy of the state of Foods present in the simulation.
+     */
+    Map<Position, Food> getFoodsState();
 }

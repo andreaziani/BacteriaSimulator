@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import model.action.ActionType;
 import model.bacteria.behavior.AbstractDecisionBehavior;
@@ -13,6 +14,8 @@ import model.bacteria.behavior.Behavior;
 import model.bacteria.behavior.BehaviorDecoratorFactory;
 import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMaker;
+import model.bacteria.behavior.decisionmaker.DecisionMakerFactory;
+import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 
 /**
  * A builder for an object of type Species. Can create only a single instance of
@@ -93,18 +96,17 @@ public class SpeciesBuilder {
     }
 
     /**
-     * Set the DecisionMaker of this Species relative to an ActionType.
-     * 
-     * @param type
-     *            the type of the action this DecisionMaker will decide.
-     * @param decisionMaker
-     *            a DecisionMaker.
+     * @param option
+     *            add a DecisionMaker associated to a DecisionMakerOption to the
+     *            decision makers of the Species Behavior. If there is already a
+     *            DecisionMaker associated with a particular type it will be
+     *            replaced instead of added.
      * @throws IllegalStateException
      *             if the object has already being built.
      */
-    public void setDecisionMaker(final ActionType type, final DecisionMaker decisionMaker) {
+    public void addDecisionMaker(final DecisionMakerOption option) {
         controlBuiltIs(false);
-        decisionMakers.put(type, decisionMaker);
+        decisionMakers.put(option.getType(), DecisionMakerFactory.createDecisionMaker(option));
     }
 
     /**
@@ -130,7 +132,10 @@ public class SpeciesBuilder {
         if (this.name == null || decisionMakers.isEmpty()) {
             throw new IllegalStateException();
         }
-        AbstractDecisionBehavior behavior = new BaseDecisionBehavior(decisionMakers);
+        AbstractDecisionBehavior behavior = new BaseDecisionBehavior(
+                decisionMakers.values()
+                              .stream()
+                              .collect(Collectors.toSet()));
         for (final BehaviorDecoratorOption d : decorators) {
             behavior = BehaviorDecoratorFactory.createDecorator(d, behavior);
         }

@@ -1,7 +1,7 @@
 package controller;
 
-import view.ViewPosition;
-import view.food.ViewFood;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
 
 /**
  * The Observer interface, observe the insertion by the user.

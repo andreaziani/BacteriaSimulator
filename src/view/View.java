@@ -3,7 +3,9 @@ package view;
 import java.util.Set;
 
 import model.Analisys;
-import view.food.ViewFood;
+import view.model.ViewPosition;
+import view.model.ViewState;
+import view.model.food.ViewFood;
 
 /** View.
  * 

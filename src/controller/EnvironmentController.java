@@ -2,9 +2,10 @@ package controller;
 
 import java.util.Set;
 
-import view.InitialState;
-import view.ViewPosition;
-import view.food.ViewFood;
+import view.model.InitialState;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
+import view.model.ViewState;
 
 /**Env Controller.
  * 
@@ -31,5 +32,9 @@ public interface EnvironmentController {
      * @return a set that contains all the existing types of food.
      */
     Set<ViewFood> getExistingViewFoods();
-    
+    /**
+     * Transforms the State and returns it as ViewState.
+     * @return the last ViewState.
+     */
+    ViewState getState();
 }

@@ -1,4 +1,4 @@
-package view;
+package view.model;
 /**
  * Interface to manage the coordinates
  * of bacteria and food in the view.
