@@ -1,5 +1,8 @@
-package model;
+package model.replay;
 
+import model.Analisys;
+import model.Position;
+import model.State;
 import model.food.ExistingFoodManager;
 import model.food.Food;
 

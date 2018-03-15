@@ -1,4 +1,6 @@
-package model;
+package model.replay;
+
+import model.Environment;
 
 /**
  * Environment used to replay a saved simulation.
