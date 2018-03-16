@@ -50,4 +50,9 @@ public class ViewPositionImpl implements ViewPosition {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return " position coordinates= (" + coordinates.getFirst() + " " + coordinates.getSecond() + ") ";
+    }
+
 }

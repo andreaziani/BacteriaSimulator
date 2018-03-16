@@ -57,6 +57,12 @@ public class ViewFoodImpl implements ViewFood {
     }
 
 
+    @Override
+    public String toString() {
+        return "{FOOD name:" + name + ", nutrients:" + nutrients + "}";
+    }
+
+
     /**
      * Builder for ViewFood.
      * Allows you to create a food by adding name and nutrients, 

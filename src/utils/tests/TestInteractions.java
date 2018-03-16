@@ -35,7 +35,6 @@ public class TestInteractions {
         assertEquals("There is only one type of food", this.controller.getExistingViewFoods().size(), 1);
         this.view.addNewTypeOfFood(creationOfFood("Mela", new Pair<>(Nutrient.WATER, 1.0)));
         assertEquals("There are two types of food", this.controller.getExistingViewFoods().size(), 2);
-        //TODO ancora non ho gestito l'eccezione, penso che quando verrà tirata la catcherò portando una finestra di dialogo all'utente.
         assertThrows(AlreadyExistingFoodException.class, () -> this.view.addNewTypeOfFood(creationOfFood("Mela", new Pair<>(Nutrient.WATER, 1.0))));
         this.view.addNewTypeOfFood(creationOfFood("banana", new Pair<>(Nutrient.CARBOHYDRATES, 1.0))); // "banana" è diverso da "Banana".
         assertEquals("banana is different from Banana", this.controller.getExistingViewFoods().size(), 3);
@@ -47,10 +46,10 @@ public class TestInteractions {
     public void testInsertion() {
         this.view.addNewTypeOfFood(creationOfFood("Banana", new Pair<>(Nutrient.CARBOHYDRATES, 1.0)));
         this.view.addFood(creationOfFood("Banana", new Pair<>(Nutrient.CARBOHYDRATES, 1.0)), new ViewPositionImpl(1.0, 2.0));
-        // il cibo precedente viene correttamente inserito poichè è impossibile inserire un nuovo cibo in quella posizione.
-        // TODO ancora non ho gestito l'eccezione, penso che quando verrà tirata la catcherò portando una finestra di dialogo all'utente.
+        this.view.addFood(creationOfFood("Mela", new Pair<>(Nutrient.WATER, 2.0)), new ViewPositionImpl(3.0, 2.0));
         assertThrows(PositionAlreadyOccupiedException.class, () -> this.view.addFood(creationOfFood("Pera", new Pair<>(Nutrient.CARBOHYDRATES, 1.0)),
                                                                                      new ViewPositionImpl(1.0, 2.0)));
+        System.out.println(this.controller.getState().toString());
         //TODO aggiungere un controllo che verifichi se inserendo dalla view viene modificato correttamente l'environment
     }
 }

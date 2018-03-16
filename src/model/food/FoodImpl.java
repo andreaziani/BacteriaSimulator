@@ -71,6 +71,11 @@ public class FoodImpl implements Food {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Food's Name=" + name + ", nutrients=" + nutrients + "]";
+    }
+
     /**
      * Builder for food. Allows you to create a food by adding nutrients, when food
      * is built it is no longer possible to change its nutrients.
