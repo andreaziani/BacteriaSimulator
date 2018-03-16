@@ -9,16 +9,20 @@ import java.util.stream.Collectors;
 
 import model.Direction;
 import model.EnergyImpl;
+import model.GeneticCode;
+import model.GeneticCodeImpl;
 import model.Position;
 import model.bacteria.Bacteria;
+import model.bacteria.BacteriaImpl;
 import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
-import utils.EnvGeometry;
-import utils.Pair;
+import utils.EnvUtil;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 /**
  * Implementation of BacteriaManager.
@@ -47,16 +51,14 @@ public class BacteriaManagerImpl implements BacteriaManager {
         final int end = (int) Math.ceil(radius);
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
-        // TODO simply froEach with stream
-        EnvGeometry.positionStream(start, end, bacteriaPos).map(position -> new Pair<>(position, EnvGeometry.distance(position, bacteriaPos)))
-                                                           .filter(e -> e.getSecond() <= radius)
-                                                           .filter(e -> foodsState.containsKey(e.getFirst()))
-                                                           .forEach(e -> {
-                                                               final Direction closestDir = EnvGeometry.angleToDir(EnvGeometry.angle(bacteriaPos, e.getFirst()));
-                                                               if (!distsToFood.containsKey(closestDir) || e.getSecond() < distsToFood.get(closestDir)) {
-                                                                   distsToFood.put(closestDir, e.getSecond());
-                                                               }
-                                                           });
+        EnvUtil.positionStream(start, end, bacteriaPos).map(pos -> ImmutablePair.of(pos, EnvUtil.distance(pos, bacteriaPos)))
+                                                           .filter(posDistPair -> posDistPair.getRight() <= radius)
+                                                           .filter(posDistPair -> foodsState.containsKey(posDistPair.getLeft()))
+                                                           .map(posDistPair -> ImmutablePair.of(EnvUtil.angle(bacteriaPos, posDistPair.getLeft()), posDistPair.getRight()))
+                                                           .map(angleDistPair -> ImmutablePair.of(EnvUtil.angleToDir(angleDistPair.getLeft()), angleDistPair.getRight()))
+                                                           .filter(dirDistPair -> !distsToFood.containsKey(dirDistPair.getLeft()) 
+                                                                                  || dirDistPair.getRight() < distsToFood.get(dirDistPair.getLeft()))
+                                                           .forEach(dirDist -> distsToFood.put(dirDist.getLeft(), dirDist.getRight()));
         return distsToFood;
     }
 
@@ -67,6 +69,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private void performAction(final Position bacteriaPos, final Bacteria bacteria) {
+        actionPerf.setStatus(bacteriaPos, bacteria);
         switch (bacteria.getAction().getType()) {
         case MOVE: actionPerf.move();
             break;
@@ -110,6 +113,14 @@ public class BacteriaManagerImpl implements BacteriaManager {
      * Inner class whose sole task is to perform Baacteria's actions.
      */
     private class ActionPerformer {
+        private Position bacteriaPos;
+        private Bacteria bacteria;
+
+        private void setStatus(final Position bacteriaPos, final Bacteria bacteria) {
+            this.bacteriaPos = bacteriaPos;
+            this.bacteria = bacteria;
+        }
+
         private void move() {
             //
         }
@@ -119,7 +130,22 @@ public class BacteriaManagerImpl implements BacteriaManager {
         }
 
         private void replicate() {
-            //
+            final double bacteriaRadius = this.bacteria.getRadius();
+            final int start = (int) -Math.ceil(bacteriaRadius * 2);
+            final int end = (int) Math.ceil(bacteriaRadius * 2);
+            final Optional<Position> freePosition = EnvUtil.positionStream(start, end, this.bacteriaPos)
+                                                     .filter(position -> !BacteriaManagerImpl.this.bacteria.containsKey(position))
+                                                     .filter(position -> !EnvUtil.isCollision(position, this.bacteriaPos, BacteriaManagerImpl.this.bacteria))
+                                                     .findAny();
+            if (freePosition.isPresent()) {
+                // TODO maybe a .clone() method could be useful
+                final GeneticCode oldGenCode = this.bacteria.getGeneticCode();
+                // TODO can't clone genetic code in this way (actions and nutrients are missing)
+                final GeneticCode newGenCode = new GeneticCodeImpl(oldGenCode.getCode(), null, null, oldGenCode.getSpeed());
+                // TODO clone both species and energy
+                final Bacteria newBacteria = new BacteriaImpl(this.bacteria.getSpecies(), newGenCode, this.bacteria.getEnergy());
+                BacteriaManagerImpl.this.bacteria.put(freePosition.get(), newBacteria);
+            }
         }
 
         private void doNothing() {
