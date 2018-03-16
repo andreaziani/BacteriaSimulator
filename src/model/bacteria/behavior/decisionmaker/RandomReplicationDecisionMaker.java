@@ -9,10 +9,7 @@ import model.action.ActionType;
 import model.action.SimpleAction;
 import model.bacteria.BacteriaKnowledge;
 
-/**
- * A DecisionMaker for choosing if to reproduce randomly.
- */
-public class RandomReplicationDecisionMaker implements DecisionMaker {
+class RandomReplicationDecisionMaker implements DecisionMaker {
 
     @Override
     public Map<Action, Double> getDecision(final BacteriaKnowledge knowledge) {

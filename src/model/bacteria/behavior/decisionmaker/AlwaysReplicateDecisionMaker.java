@@ -8,10 +8,7 @@ import model.action.ActionType;
 import model.action.SimpleAction;
 import model.bacteria.BacteriaKnowledge;
 
-/**
- * A DecisionMaker that always propose to reproduce.
- */
-public class AlwaysReplicateDecisionMaker implements DecisionMaker {
+class AlwaysReplicateDecisionMaker implements DecisionMaker {
 
     @Override
     public Map<Action, Double> getDecision(final BacteriaKnowledge knowledge) {
