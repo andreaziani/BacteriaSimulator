@@ -1,7 +1,7 @@
 package model.bacteria.behavior.decisionmaker;
 
 /**
- * Abstract factory of decision makers that takes a DecisionMakerOption as an
+ * Static factory of decision makers that takes a DecisionMakerOption as an
  * input and gives a DecisionMaker as output.
  */
 public final class DecisionMakerFactory {

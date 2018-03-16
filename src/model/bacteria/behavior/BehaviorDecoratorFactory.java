@@ -3,7 +3,7 @@ package model.bacteria.behavior;
 import model.action.ActionType;
 
 /**
- * Abstract factory of behavior decorators that takes a BehaviorDecoratorOption
+ * Static factory of behavior decorators that takes a BehaviorDecoratorOption
  * as an input and gives a DecisionBehaviorDecorator as output.
  */
 public final class BehaviorDecoratorFactory {
