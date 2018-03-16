@@ -16,7 +16,7 @@ public class StateImpl implements State {
      * 
      * @param foodEnv environment that contains the information of foods.
      */
-    public StateImpl(final FoodEnvironment foodEnv) {
+    public StateImpl(final FoodEnvironment foodEnv) { // TODO aggiungere lo stato dei batteri.
         this.foodEnv = foodEnv;
     }
     @Override

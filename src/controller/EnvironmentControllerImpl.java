@@ -6,7 +6,6 @@ import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Environment;
 import utils.ConversionsUtil;
-import view.model.InitialState;
 import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.food.ViewFood;
@@ -32,7 +31,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     @Override
-    public void start(final InitialState state) {
+    public void start() {
         //TODO start 
     }
 

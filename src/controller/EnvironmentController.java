@@ -1,8 +1,6 @@
 package controller;
 
 import java.util.Set;
-
-import view.model.InitialState;
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 import view.model.ViewState;
@@ -18,10 +16,10 @@ public interface EnvironmentController {
      * @param position of the food.
      */
     void addFoodFromView(ViewFood food, ViewPosition position);
-    /** Start.
-     * @param state Initial.
+    /** 
+     * Start the simulation.
      */
-    void start(InitialState state);
+    void start();
     /**
      * Add a new type of food created by user.
      * @param food to be added int the ExistingFoodManager.

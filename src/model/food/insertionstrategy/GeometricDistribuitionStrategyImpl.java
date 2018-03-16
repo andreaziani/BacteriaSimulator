@@ -12,7 +12,7 @@ import model.PositionImpl;
 public class GeometricDistribuitionStrategyImpl implements RandomPositionStrategy {
     @Override
     public Position getPosition() {
-        final GeometricDistribution dist = new GeometricDistribution(0.001);
+        final GeometricDistribution dist = new GeometricDistribution(0.01);
         return new PositionImpl(dist.sample(), dist.sample());
     }
 }

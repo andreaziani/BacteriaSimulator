@@ -26,7 +26,7 @@ public final class ConversionsUtil {
      * @param food Food to convert in ViewFood;
      * @return the converted ViewFood.
      */
-    public static ViewFood convertionFromModelToView(final Food food) {
+    public static ViewFood conversionFromModelToView(final Food food) {
         final ViewFoodBuilder builder = new ViewFoodBuilder();
         food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n)))
                                     .entrySet().forEach(e -> builder.addNutrient(new Pair<>(e.getKey(), e.getValue())));
@@ -37,7 +37,7 @@ public final class ConversionsUtil {
      * @param food ViewFood to convert.
      * @return the converted food.
      */
-    public static Food convertionFromViewToModel(final ViewFood food) {
+    public static Food conversionFromViewToModel(final ViewFood food) {
         final FoodFactory factory = new FoodFactoryImpl();
         return factory.createFoodFromNameAndNutrients(food.getName(), 
                 food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n))));
@@ -52,7 +52,7 @@ public final class ConversionsUtil {
                                                      .keySet()
                                                      .stream()
                                                      .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p), 
-                                                                               p -> convertionFromModelToView(state.getFoodsState().get(p))));
+                                                                               p -> conversionFromModelToView(state.getFoodsState().get(p))));
         return new ViewStateImpl(foodState); // TODO Aggiungere la mappa di bacteria state.
     }
     private static ViewPosition conversionFromPositionToViewPosition(final Position k) {

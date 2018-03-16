@@ -29,18 +29,18 @@ public class FoodControllerImpl implements FoodController {
 
     @Override
     public void addFoodFromViewToModel(final ViewFood food, final ViewPosition position) {
-        this.env.addFood(ConversionsUtil.convertionFromViewToModel(food), new PositionImpl(position.getX(), position.getY()));
+        this.env.addFood(ConversionsUtil.conversionFromViewToModel(food), new PositionImpl(position.getX(), position.getY()));
     }
 
     @Override
     public Set<ViewFood> getExistingViewFoods() {
-        return Collections.unmodifiableSet(manager.getExistingFoodsSet().stream().map(food -> ConversionsUtil.convertionFromModelToView(food))
+        return Collections.unmodifiableSet(manager.getExistingFoodsSet().stream().map(food -> ConversionsUtil.conversionFromModelToView(food))
                                                                                  .collect(Collectors.toSet()));
     }
 
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
-        this.manager.addFood(ConversionsUtil.convertionFromViewToModel(food));
+        this.manager.addFood(ConversionsUtil.conversionFromViewToModel(food));
     }
 }

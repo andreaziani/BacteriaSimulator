@@ -15,4 +15,5 @@ public interface State {
      * @return an unmodifiable copy of the state of Foods present in the simulation.
      */
     Map<Position, Food> getFoodsState();
+    //TODO fare metodo per prendere lo stato dei batteri.
 }
