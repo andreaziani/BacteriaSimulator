@@ -48,7 +48,7 @@ public final class ConversionsUtil {
      * @return the converted state.
      */
     public static ViewState conversionFromStateToViewState(final State state) {
-        Map<ViewPosition, ViewFood> foodState = state.getFoodsState()
+        final Map<ViewPosition, ViewFood> foodState = state.getFoodsState()
                                                      .keySet()
                                                      .stream()
                                                      .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p), 

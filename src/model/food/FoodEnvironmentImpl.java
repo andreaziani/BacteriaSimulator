@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.Position;
-import model.food.insertionstrategy.ExponentialDistribuitionStrategyImpl;
+import model.food.insertionstrategy.GeometricDistribuitionStrategyImpl;
 import model.food.insertionstrategy.RandomFoodStrategy;
 import model.food.insertionstrategy.RandomFoodStrategyImpl;
 import model.food.insertionstrategy.RandomPositionStrategy;
@@ -60,7 +60,7 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
     public void addRandomFood() {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
-        final RandomPositionStrategy positionStrategy = new ExponentialDistribuitionStrategyImpl();
+        final RandomPositionStrategy positionStrategy = new GeometricDistribuitionStrategyImpl();
         for (int i = MAXATTEMPS; (i > 0 && check); i--) {
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
