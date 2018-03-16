@@ -1,22 +1,24 @@
 package utils;
 
+import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import model.Direction;
 import model.Position;
 import model.PositionImpl;
+import model.bacteria.Bacteria;
 
 /**
  * 
  * Utility class for geometric operations.
  *
  */
-public final class EnvGeometry {
+public final class EnvUtil {
     private static final double ZERO_DEGREE = 0.0;
     private static final double ANGLE_PERIOD = 360.0;
 
-    private EnvGeometry() {
+    private EnvUtil() {
     }
     /**
      * Calculate the distance between two Position in a 2D space.
@@ -51,7 +53,7 @@ public final class EnvGeometry {
      * @param angleInterval the interval in which the angle should fall into
      * @return if the angle in inside the interval
      */
-    private static boolean isIncluded(final double angle, final Pair<Double, Double> angleInterval) {
+    public static boolean angleInInterval(final double angle, final Pair<Double, Double> angleInterval) {
         // case when the interval angles is [337.5, 22.5]
         if (angleInterval.getSecond() < angleInterval.getFirst()) {
             return (angle >= angleInterval.getFirst() && angle <= ZERO_DEGREE + ANGLE_PERIOD)
@@ -66,19 +68,19 @@ public final class EnvGeometry {
      * @return the Direction
      */
     public static Direction angleToDir(final double angle) {
-        if (isIncluded(angle, Direction.NORTHEAST.angleInterval())) {
+        if (angleInInterval(angle, Direction.NORTHEAST.angleInterval())) {
             return Direction.NORTHEAST;
-        } else if (isIncluded(angle, Direction.NORTH.angleInterval())) {
+        } else if (angleInInterval(angle, Direction.NORTH.angleInterval())) {
             return Direction.NORTH;
-        } else if (isIncluded(angle, Direction.NORTHWEST.angleInterval())) {
+        } else if (angleInInterval(angle, Direction.NORTHWEST.angleInterval())) {
             return Direction.NORTHWEST;
-        } else if (isIncluded(angle, Direction.WEST.angleInterval())) {
+        } else if (angleInInterval(angle, Direction.WEST.angleInterval())) {
             return Direction.WEST;
-        } else if (isIncluded(angle, Direction.SOUTHWEST.angleInterval())) {
+        } else if (angleInInterval(angle, Direction.SOUTHWEST.angleInterval())) {
             return Direction.SOUTHWEST;
-        } else if (isIncluded(angle, Direction.SOUTH.angleInterval())) {
+        } else if (angleInInterval(angle, Direction.SOUTH.angleInterval())) {
             return Direction.SOUTH;
-        } else if (isIncluded(angle, Direction.SOUTHEAST.angleInterval())) {
+        } else if (angleInInterval(angle, Direction.SOUTHEAST.angleInterval())) {
             return Direction.SOUTHEAST;
         } else {
             return Direction.EAST;
@@ -97,6 +99,7 @@ public final class EnvGeometry {
     public static Stream<Position> positionStream(final int startX, final int endX, final int startY, final int endY, final Position bacteriaPos) {
         return IntStream.range(startX, endX)
                         .mapToObj(x -> IntStream.range(startY, endY)
+                                                .filter(y -> x != 0 && y != 0)
                                                 .mapToObj(y -> new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y)))
                         .flatMap(position -> position);
     }
@@ -110,5 +113,17 @@ public final class EnvGeometry {
      */
     public static Stream<Position> positionStream(final int start, final int end, final Position bacteriaPos) {
         return positionStream(start, end, start, end, bacteriaPos);
+    }
+
+    /**
+     * Given two Bacteri's Map entry, check if Bacteria collide.
+     * @param firstPos the first entry of Bacteria's Map
+     * @param secondPos the second entry of Bacteria's Map
+     * @param bacteriaMap the Map in which check for the collision
+     * @return a boolean value that indicate whether there is a collision
+     */
+    public static boolean isCollision(final Position firstPos, final Position secondPos, final Map<Position, Bacteria> bacteriaMap) {
+        final double distance = EnvUtil.distance(firstPos, secondPos);
+        return (distance <= bacteriaMap.get(firstPos).getRadius() || distance <= bacteriaMap.get(secondPos).getRadius());
     }
 }
