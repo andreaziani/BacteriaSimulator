@@ -1,7 +1,6 @@
 package model;
 
 import model.bacteria.Species;
-import model.bacteria.SpeciesManager;
 import model.food.ExistingFoodManager;
 import model.food.Food;
 

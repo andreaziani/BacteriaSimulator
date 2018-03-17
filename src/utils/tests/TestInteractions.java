@@ -13,7 +13,7 @@ import view.View;
 import view.ViewImpl;
 import view.model.ViewPositionImpl;
 import view.model.food.ViewFood;
-import view.model.food.ViewFoodImpl;
+import view.model.food.ViewFoodImpl.ViewFoodBuilder;
 /**
  * TestClass for interaction of the user adding foods.
  *
@@ -23,7 +23,7 @@ public class TestInteractions {
     private final View view = new ViewImpl(this.controller);
 
     private ViewFood creationOfFood(final String name, final Pair<Nutrient, Double> pair) {
-        return new ViewFoodImpl.ViewFoodBuilder().addNutrient(pair).setName(name).build();
+        return new ViewFoodBuilder(name).addNutrient(pair).build();
     }
 
     /**

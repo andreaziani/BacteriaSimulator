@@ -27,10 +27,10 @@ public final class ConversionsUtil {
      * @return the converted ViewFood.
      */
     public static ViewFood conversionFromModelToView(final Food food) {
-        final ViewFoodBuilder builder = new ViewFoodBuilder();
+        final ViewFoodBuilder builder = new ViewFoodBuilder(food.getName());
         food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n)))
                                     .entrySet().forEach(e -> builder.addNutrient(new Pair<>(e.getKey(), e.getValue())));
-        return builder.setName(food.getName()).build();
+        return builder.build();
     }
     /**
      * Convert a ViewFood in Food.
