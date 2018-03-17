@@ -60,7 +60,7 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void addSpecies(ViewSpecies species) {
+    public void addSpecies(final ViewSpecies species) {
         this.envController.addSpecies(species);
     }
 }

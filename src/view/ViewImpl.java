@@ -7,6 +7,7 @@ import model.Analisys;
 import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.food.ViewFood;
+
 /**
  * Implementation of View.
  *
@@ -14,13 +15,17 @@ import view.model.food.ViewFood;
 public class ViewImpl implements View {
     private final Controller controller;
     private ViewState state;
-/**
- * Constructor that build a View and initializing her observers.
- * @param controller controller that allows interactions with the model. 
- */
+
+    /**
+     * Constructor that build a View and initializing her observers.
+     * 
+     * @param controller
+     *            controller that allows interactions with the model.
+     */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
     }
+
     @Override
     public void update(final ViewState state) {
         this.state = state;
