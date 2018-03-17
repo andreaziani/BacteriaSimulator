@@ -5,9 +5,11 @@ import java.util.Set;
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Environment;
+import model.bacteria.SpeciesBuilder;
 import utils.ConversionsUtil;
 import view.model.ViewPosition;
 import view.model.ViewState;
+import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
 
 /**
@@ -48,6 +50,11 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public ViewState getState() {
         return ConversionsUtil.conversionFromStateToViewState(this.env.getState());
+    }
+
+    @Override
+    public void addSpecies(final ViewSpecies species) {
+        //TODO
     }
 
 }
