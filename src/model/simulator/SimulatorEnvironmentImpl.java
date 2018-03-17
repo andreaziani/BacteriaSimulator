@@ -6,6 +6,7 @@ import model.Analisys;
 import model.Position;
 import model.State;
 import model.StateImpl;
+import model.bacteria.Species;
 import model.bacteria.SpeciesManager;
 import model.bacteria.SpeciesManagerImpl;
 import model.food.ExistingFoodManager;
@@ -46,7 +47,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     private void updateFood() {
         IntStream.range(0, FOOD_PER_ROUND).forEach(x -> this.foodEnv.addRandomFood());
     }
-    
+
     private void updateBacteria() {
         this.bactManager.updateBacteria();
     }
@@ -64,7 +65,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     }
 
     @Override
-    public SpeciesManager getSpeciesManager() {
-        return speciesManager;
+    public void addSpecies(final Species species) {
+        speciesManager.addSpecies(species);
     }
 }

@@ -3,7 +3,7 @@ package model.replay;
 import model.Analisys;
 import model.Position;
 import model.State;
-import model.bacteria.SpeciesManager;
+import model.bacteria.Species;
 import model.food.ExistingFoodManager;
 import model.food.Food;
 
@@ -44,9 +44,8 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public SpeciesManager getSpeciesManager() {
+    public void addSpecies(final Species species) {
         // TODO Auto-generated method stub
-        return null;
     }
 
 }

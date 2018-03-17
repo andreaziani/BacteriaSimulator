@@ -67,7 +67,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             builder.setName(species.getName());
             species.getDecisionOptions().forEach(builder::addDecisionMaker);
             species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
-            env.getSpeciesManager().addSpecies(builder.build());
+            env.addSpecies(builder.build());
         } catch (IllegalStateException | AlreadyExistingSpeciesExeption e) {
             throw new InvalidSpeicesExeption();
         }

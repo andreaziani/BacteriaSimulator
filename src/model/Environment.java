@@ -1,5 +1,6 @@
 package model;
 
+import model.bacteria.Species;
 import model.bacteria.SpeciesManager;
 import model.food.ExistingFoodManager;
 import model.food.Food;
@@ -49,7 +50,8 @@ public interface Environment {
     Analisys getAnalisys();
 
     /**
-     * @return the SpeciesManager of this Environment.
+     * @param species
+     *            add a Species to the simulation.
      */
-    SpeciesManager getSpeciesManager();
+    void addSpecies(Species species);
 }
