@@ -57,6 +57,8 @@ public interface EnvironmentController {
      *            the new Species.
      * @throws SimulationAlreadyStartedExeption
      *             if the simulation is already started.
+     * @throws InvalidSpeicesExeption
+     *             if the given Species cannot be added correctly.
      */
     void addSpecies(ViewSpecies species);
 }

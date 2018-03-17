@@ -7,6 +7,7 @@ import model.Environment;
 import model.simulator.SimulatorEnvironmentImpl;
 import view.model.ViewPosition;
 import view.model.ViewState;
+import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
 /**
  * Controller implementation. 
@@ -56,5 +57,10 @@ public class ControllerImpl implements Controller {
     @Override
     public ViewState getState() {
         return this.envController.getState();
+    }
+
+    @Override
+    public void addSpecies(ViewSpecies species) {
+        this.envController.addSpecies(species);
     }
 }

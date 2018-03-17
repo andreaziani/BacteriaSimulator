@@ -7,6 +7,9 @@ import controller.food.FoodControllerImpl;
 import model.Environment;
 import model.bacteria.SpeciesBuilder;
 import utils.ConversionsUtil;
+import utils.exceptions.AlreadyExistingSpeciesExeption;
+import utils.exceptions.InvalidSpeicesExeption;
+import utils.exceptions.SimulationAlreadyStartedExeption;
 import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
@@ -54,7 +57,22 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public void addSpecies(final ViewSpecies species) {
-        //TODO
+        if (isSimulationStarted()) {
+            throw new SimulationAlreadyStartedExeption();
+        }
+        final SpeciesBuilder builder = new SpeciesBuilder();
+        try {
+        builder.setName(species.getName());
+        species.getDecisionOptions().forEach(builder::addDecisionMaker);
+        species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
+        env.getSpeciesManager().addSpecies(builder.build());
+        } catch (IllegalStateException | AlreadyExistingSpeciesExeption e) {
+            throw new InvalidSpeicesExeption();
+        }
     }
 
+    private boolean isSimulationStarted() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
