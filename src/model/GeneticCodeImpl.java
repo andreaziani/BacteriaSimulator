@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import model.action.Action;
@@ -100,6 +101,13 @@ public class GeneticCodeImpl implements GeneticCode {
     public Double getPerceptionRadius() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public GeneticCode clone() {
+        final Map<Action, Energy> clonedActions = new HashMap<>(this.actions);
+        final Map<Nutrient, Energy> clonedNutrients = new HashMap<>(this.nutrients);
+        return new GeneticCodeImpl(this.code, clonedActions, clonedNutrients, this.speed);
     }
 
 }
