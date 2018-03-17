@@ -78,7 +78,7 @@ public class SpeciesBuilder {
         decorators = new ArrayList<>();
     }
 
-    private void controlBuiltIs(final boolean builtState) {
+    private void controlIsBuilt(final boolean builtState) {
         if (built != builtState) {
             throw new IllegalStateException();
         }
@@ -91,7 +91,7 @@ public class SpeciesBuilder {
      *             if the object has already being built.
      */
     public void setName(final String name) {
-        controlBuiltIs(false);
+        controlIsBuilt(false);
         this.name = name;
     }
 
@@ -105,7 +105,7 @@ public class SpeciesBuilder {
      *             if the object has already being built.
      */
     public void addDecisionMaker(final DecisionMakerOption option) {
-        controlBuiltIs(false);
+        controlIsBuilt(false);
         decisionMakers.put(option.getType(), DecisionMakerFactory.createDecisionMaker(option));
     }
 
@@ -117,7 +117,7 @@ public class SpeciesBuilder {
      *             if the object has already being built.
      */
     public void addDecisionBehaiorDecorator(final BehaviorDecoratorOption decoratorOption) {
-        controlBuiltIs(false);
+        controlIsBuilt(false);
         decorators.add(decoratorOption);
     }
 
@@ -128,7 +128,7 @@ public class SpeciesBuilder {
      *             if the object has already being built.
      */
     public Species build() {
-        controlBuiltIs(false);
+        controlIsBuilt(false);
         if (this.name == null || decisionMakers.isEmpty()) {
             throw new IllegalStateException();
         }
