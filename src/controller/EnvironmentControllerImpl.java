@@ -22,8 +22,10 @@ import view.model.food.ViewFood;
 public class EnvironmentControllerImpl implements EnvironmentController {
     private final Environment env;
     private final FoodController foodController;
-    /** 
-     *  @param env the environment that controller will interact.
+
+    /**
+     * @param env
+     *            the environment that controller will interact.
      */
     public EnvironmentControllerImpl(final Environment env) {
         this.env = env;
@@ -37,7 +39,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public void start() {
-        //TODO start 
+        // TODO start
     }
 
     @Override
@@ -62,10 +64,10 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         }
         final SpeciesBuilder builder = new SpeciesBuilder();
         try {
-        builder.setName(species.getName());
-        species.getDecisionOptions().forEach(builder::addDecisionMaker);
-        species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
-        env.getSpeciesManager().addSpecies(builder.build());
+            builder.setName(species.getName());
+            species.getDecisionOptions().forEach(builder::addDecisionMaker);
+            species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
+            env.getSpeciesManager().addSpecies(builder.build());
         } catch (IllegalStateException | AlreadyExistingSpeciesExeption e) {
             throw new InvalidSpeicesExeption();
         }
