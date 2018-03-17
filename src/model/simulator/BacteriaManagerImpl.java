@@ -8,9 +8,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import model.Direction;
+import model.Energy;
 import model.EnergyImpl;
 import model.GeneticCode;
-import model.GeneticCodeImpl;
 import model.Position;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
@@ -21,6 +21,7 @@ import model.food.FoodFactoryImpl;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
 import utils.EnvUtil;
+import utils.Collision;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
@@ -29,7 +30,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
  *
  */
 public class BacteriaManagerImpl implements BacteriaManager {
-    private final double ENV_COST_OF_LIVING;
+    private final Energy energyForLiving;
     private final FoodFactory factory = new FoodFactoryImpl();
     private final FoodEnvironment foodEnv;
     private final Map<Position, Bacteria> bacteria = new HashMap<>();
@@ -37,12 +38,12 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
     /**
      * Constructor.
-     * @param foodEnv used to update food env according to bacteria actions
-     * @param COST_OF_LIVING amount of energy that a Bacteria spend just to stay alive
+     * @param foodEnv used to update food environment according to bacteria actions
+     * @param costOfLiving amount of energy that a Bacteria spend just to stay alive
      */
-    public BacteriaManagerImpl(final FoodEnvironment foodEnv, final double COST_OF_LIVING) {
+    public BacteriaManagerImpl(final FoodEnvironment foodEnv, final double costOfLiving) {
         this.foodEnv = foodEnv;
-        this.ENV_COST_OF_LIVING = COST_OF_LIVING;
+        this.energyForLiving = new EnergyImpl(costOfLiving);
     }
 
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos, final Map<Position, Food> foodsState) {
@@ -54,8 +55,11 @@ public class BacteriaManagerImpl implements BacteriaManager {
         EnvUtil.positionStream(start, end, bacteriaPos).map(pos -> ImmutablePair.of(pos, EnvUtil.distance(pos, bacteriaPos)))
                                                            .filter(posDistPair -> posDistPair.getRight() <= radius)
                                                            .filter(posDistPair -> foodsState.containsKey(posDistPair.getLeft()))
-                                                           .map(posDistPair -> ImmutablePair.of(EnvUtil.angle(bacteriaPos, posDistPair.getLeft()), posDistPair.getRight()))
-                                                           .map(angleDistPair -> ImmutablePair.of(EnvUtil.angleToDir(angleDistPair.getLeft()), angleDistPair.getRight()))
+                                                           .map(posDistPair -> {
+                                                               final double angle = EnvUtil.angle(bacteriaPos, posDistPair.getLeft());
+                                                               final Direction dir = EnvUtil.angleToDir(angle);
+                                                               return ImmutablePair.of(dir, posDistPair.getRight());
+                                                           })
                                                            .filter(dirDistPair -> !distsToFood.containsKey(dirDistPair.getLeft()) 
                                                                                   || dirDistPair.getRight() < distsToFood.get(dirDistPair.getLeft()))
                                                            .forEach(dirDist -> distsToFood.put(dirDist.getLeft(), dirDist.getRight()));
@@ -83,7 +87,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private void costOfLiving(final Bacteria bacteria) {
-        bacteria.spendEnergy(new EnergyImpl(this.ENV_COST_OF_LIVING));
+        bacteria.spendEnergy(this.energyForLiving);
     }
 
     private void updateLivingBacteria() {
@@ -103,18 +107,29 @@ public class BacteriaManagerImpl implements BacteriaManager {
         this.bacteria.keySet().removeAll(toBeRemoved);
     }
 
+    /**
+     * Update Bacteria every turn.
+     */
     @Override
     public void updateBacteria() {
-        this.updateLivingBacteria();
         this.updateDeadBacteria();
+        this.updateLivingBacteria();
     }
 
     /**
-     * Inner class whose sole task is to perform Baacteria's actions.
+     * Inner class whose sole task is to perform Bacteria's actions.
      */
     private class ActionPerformer {
         private Position bacteriaPos;
         private Bacteria bacteria;
+        private final Collision<Bacteria> bacteriaCollision;
+
+        private ActionPerformer() {
+            this.bacteriaCollision = (p1, p2, map) -> {
+                final double distance = EnvUtil.distance(p1, p2);
+                return (distance <= map.get(p1).getRadius() || distance <= map.get(p2).getRadius());
+            };
+        }
 
         private void setStatus(final Position bacteriaPos, final Bacteria bacteria) {
             this.bacteriaPos = bacteriaPos;
@@ -126,7 +141,13 @@ public class BacteriaManagerImpl implements BacteriaManager {
         }
 
         private void eat() {
-            //
+            final Optional<Food> foodInPosition = BacteriaManagerImpl.this.foodEnv.getFoodsState().containsKey(this.bacteriaPos)
+                                                        ? Optional.of(foodEnv.getFoodsState().get(this.bacteriaPos)) 
+                                                            : Optional.empty();
+            if (foodInPosition.isPresent()) {
+                this.bacteria.addFood(foodInPosition.get());
+                BacteriaManagerImpl.this.foodEnv.removeFood(foodInPosition.get(), this.bacteriaPos);
+            }
         }
 
         private void replicate() {
@@ -135,15 +156,15 @@ public class BacteriaManagerImpl implements BacteriaManager {
             final int end = (int) Math.ceil(bacteriaRadius * 2);
             final Optional<Position> freePosition = EnvUtil.positionStream(start, end, this.bacteriaPos)
                                                      .filter(position -> !BacteriaManagerImpl.this.bacteria.containsKey(position))
-                                                     .filter(position -> !EnvUtil.isCollision(position, this.bacteriaPos, BacteriaManagerImpl.this.bacteria))
+                                                     .filter(position -> !EnvUtil.<Bacteria>isCollision(position, this.bacteriaPos, BacteriaManagerImpl.this.bacteria, this.bacteriaCollision))
                                                      .findAny();
+
             if (freePosition.isPresent()) {
-                // TODO maybe a .clone() method could be useful
-                final GeneticCode oldGenCode = this.bacteria.getGeneticCode();
-                // TODO can't clone genetic code in this way (actions and nutrients are missing)
-                final GeneticCode newGenCode = new GeneticCodeImpl(oldGenCode.getCode(), null, null, oldGenCode.getSpeed());
-                // TODO clone both species and energy
-                final Bacteria newBacteria = new BacteriaImpl(this.bacteria.getSpecies(), newGenCode, this.bacteria.getEnergy());
+                final GeneticCode clonedGenCode = this.bacteria.getGeneticCode().clone();
+                final Energy bactEnergy = this.bacteria.getEnergy();
+                final Energy halfEnergy = bactEnergy.multiply(0.5);
+                this.bacteria.spendEnergy(halfEnergy);
+                final Bacteria newBacteria = new BacteriaImpl(this.bacteria.getSpecies(), clonedGenCode, halfEnergy);
                 BacteriaManagerImpl.this.bacteria.put(freePosition.get(), newBacteria);
             }
         }

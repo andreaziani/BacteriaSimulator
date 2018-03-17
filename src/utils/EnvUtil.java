@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 import model.Direction;
 import model.Position;
 import model.PositionImpl;
-import model.bacteria.Bacteria;
 
 /**
  * 
@@ -20,6 +19,7 @@ public final class EnvUtil {
 
     private EnvUtil() {
     }
+
     /**
      * Calculate the distance between two Position in a 2D space.
      * @param current the original Position
@@ -40,9 +40,9 @@ public final class EnvUtil {
         final double slope = (other.getY() - current.getY()) / (other.getX() - current.getX());
         double angle = Math.toDegrees(Math.atan(slope));
         if (other.getX() < current.getX()) {
-            angle += 180.0;
+            angle += ANGLE_PERIOD / 2;
         } else if (other.getY() < current.getY()) {
-            angle += 360.0;
+            angle += ANGLE_PERIOD;
         }
         return angle;
     }
@@ -54,7 +54,7 @@ public final class EnvUtil {
      * @return if the angle in inside the interval
      */
     public static boolean angleInInterval(final double angle, final Pair<Double, Double> angleInterval) {
-        // case when the interval angles is [337.5, 22.5]
+        // case when the angle interval is [337.5, 22.5]
         if (angleInterval.getSecond() < angleInterval.getFirst()) {
             return (angle >= angleInterval.getFirst() && angle <= ZERO_DEGREE + ANGLE_PERIOD)
                     || (angle >= ZERO_DEGREE && angle < angleInterval.getSecond());
@@ -94,7 +94,7 @@ public final class EnvUtil {
      * @param startY the start value for the Y coordinate
      * @param endY the end value for the Y coordinate
      * @param bacteriaPos the original Position of the Bacteria
-     * @return a stream of Position
+     * @return a stream of Position in the given range excluding the same Position
      */
     public static Stream<Position> positionStream(final int startX, final int endX, final int startY, final int endY, final Position bacteriaPos) {
         return IntStream.range(startX, endX)
@@ -116,14 +116,15 @@ public final class EnvUtil {
     }
 
     /**
-     * Given two Bacteri's Map entry, check if Bacteria collide.
-     * @param firstPos the first entry of Bacteria's Map
-     * @param secondPos the second entry of Bacteria's Map
-     * @param bacteriaMap the Map in which check for the collision
-     * @return a boolean value that indicate whether there is a collision
+     * Given a Map containing Position, check if two Position collide.
+     * @param p1 the first position
+     * @param p2 the second position
+     * @param map the Map containing the position
+     * @param collision the strategy to detect a collision
+     * @return boolean that indicate if the collision takes place
+     * @param <X> the type of the value in the map
      */
-    public static boolean isCollision(final Position firstPos, final Position secondPos, final Map<Position, Bacteria> bacteriaMap) {
-        final double distance = EnvUtil.distance(firstPos, secondPos);
-        return (distance <= bacteriaMap.get(firstPos).getRadius() || distance <= bacteriaMap.get(secondPos).getRadius());
+    public static <X> boolean isCollision(final Position p1, final Position p2, final Map<Position, X> map, final Collision<X> collision) {
+        return collision.check(p1, p2, map);
     }
 }
