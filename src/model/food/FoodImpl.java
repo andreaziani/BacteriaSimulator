@@ -26,7 +26,7 @@ public class FoodImpl implements Food {
      * @param builder
      *            FoodBuilder that creates food.
      */
-    FoodImpl(final FoodBuilder builder) {
+    private FoodImpl(final FoodBuilder builder) {
         builder.nutrients.keySet().stream().forEach(n -> this.nutrients.put(n, builder.nutrients.get(n)));
         this.name = builder.name;
     }
@@ -131,6 +131,6 @@ public class FoodImpl implements Food {
             }
             throw new IllegalStateException();
         }
-
     }
+
 }
