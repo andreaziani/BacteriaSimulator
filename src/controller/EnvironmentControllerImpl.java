@@ -62,9 +62,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         if (isSimulationStarted()) {
             throw new SimulationAlreadyStartedExeption();
         }
-        final SpeciesBuilder builder = new SpeciesBuilder();
         try {
-            builder.setName(species.getName());
+            final SpeciesBuilder builder = new SpeciesBuilder(species.getName());
             species.getDecisionOptions().forEach(builder::addDecisionMaker);
             species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
             env.addSpecies(builder.build());

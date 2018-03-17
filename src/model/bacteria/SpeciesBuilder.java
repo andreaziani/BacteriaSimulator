@@ -61,18 +61,25 @@ public class SpeciesBuilder {
     }
 
     /**
-     * Create a new SpeciesBuilder with no information.
+     * Create a new SpeciesBuilder with no information except the name of the
+     * Species.
+     * 
+     * @param name
+     *            the name of the Species.
      */
-    public SpeciesBuilder() {
-        reset();
+    public SpeciesBuilder(String name) {
+        reset(name);
     }
 
     /**
      * Reset the builder to its initial state, removing the object being constructed
      * and all the information about it.
+     * 
+     * @param name
+     *            the name of the Species.
      */
-    public final void reset() {
-        name = null;
+    public final void reset(String name) {
+        this.name = name;
         built = false;
         decisionMakers = new EnumMap<>(ActionType.class);
         decorators = new ArrayList<>();
@@ -129,9 +136,6 @@ public class SpeciesBuilder {
      */
     public Species build() {
         controlIsBuilt(false);
-        if (this.name == null || decisionMakers.isEmpty()) {
-            throw new IllegalStateException();
-        }
         AbstractDecisionBehavior behavior = new BaseDecisionBehavior(
                 decisionMakers.values().stream().collect(Collectors.toSet()));
         for (final BehaviorDecoratorOption d : decorators) {
