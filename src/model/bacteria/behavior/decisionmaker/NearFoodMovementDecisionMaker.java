@@ -10,11 +10,7 @@ import model.action.ActionType;
 import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
 
-/**
- * A DecisionMaker for choosing how to move that assigns to each move direction a
- * preference based on the percepted distance from the nearest foods.
- */
-public class NearFoodMovementDecisionMaker implements DecisionMaker {
+class NearFoodMovementDecisionMaker implements DecisionMaker {
 
     @Override
     public Map<Action, Double> getDecision(final BacteriaKnowledge knowledge) {

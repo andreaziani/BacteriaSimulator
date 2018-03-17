@@ -10,10 +10,7 @@ import model.action.ActionType;
 import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
 
-/**
- * A DecisionMaker for choosing out to move that prefers going in a random direction.
- */
-public class RandomMovementDecisionMaker implements DecisionMaker {
+class RandomMovementDecisionMaker implements DecisionMaker {
 
     @Override
     public Map<Action, Double> getDecision(final BacteriaKnowledge knowledge) {

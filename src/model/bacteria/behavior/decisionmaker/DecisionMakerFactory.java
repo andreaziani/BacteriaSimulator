@@ -1,10 +1,17 @@
 package model.bacteria.behavior.decisionmaker;
 
+import java.util.EnumMap;
+import java.util.Map;
+
+import utils.exceptions.IllegalDecisionMakerOptionExeption;
+
 /**
- * Abstract factory of decision makers that takes a DecisionMakerOption as an
+ * Static factory of decision makers that takes a DecisionMakerOption as an
  * input and gives a DecisionMaker as output.
  */
 public final class DecisionMakerFactory {
+
+    private static Map<DecisionMakerOption, DecisionMaker> instances = new EnumMap<>(DecisionMakerOption.class);
 
     private DecisionMakerFactory() {
     }
@@ -16,8 +23,17 @@ public final class DecisionMakerFactory {
      * @param option
      *            the option corresponding to the type of DecisionMaker to create.
      * @return a new DecisionMaker of the type indicated by option.
+     * @throws IllegalDecisionMakerOptionExeption
+     *             if the given option does not correspond to a DecisionMaker
      */
     public static DecisionMaker createDecisionMaker(final DecisionMakerOption option) {
+        if (!instances.containsKey(option)) {
+            instances.put(option, createNewDecisionMaker(option));
+        }
+        return instances.get(option);
+    }
+
+    private static DecisionMaker createNewDecisionMaker(final DecisionMakerOption option) {
         DecisionMaker result = null;
         switch (option) {
         case ALWAYS_EAT:
@@ -39,7 +55,7 @@ public final class DecisionMakerFactory {
             result = new RandomReplicationDecisionMaker();
             break;
         default:
-            break;
+            throw new IllegalDecisionMakerOptionExeption();
         }
         return result;
     }

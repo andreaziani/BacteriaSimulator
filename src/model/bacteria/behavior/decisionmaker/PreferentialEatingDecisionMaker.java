@@ -8,11 +8,7 @@ import model.action.ActionType;
 import model.action.SimpleAction;
 import model.bacteria.BacteriaKnowledge;
 
-/**
- * A DecisionMaker for choosing if to eat that considers the nutrients composing the
- * Food where it stands before assigning a value to the action.
- */
-public class PreferentialEatingDecisionMaker implements DecisionMaker {
+class PreferentialEatingDecisionMaker implements DecisionMaker {
 
     @Override
     public Map<Action, Double> getDecision(final BacteriaKnowledge knowledge) {

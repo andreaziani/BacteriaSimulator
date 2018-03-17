@@ -133,9 +133,7 @@ public class SpeciesBuilder {
             throw new IllegalStateException();
         }
         AbstractDecisionBehavior behavior = new BaseDecisionBehavior(
-                decisionMakers.values()
-                              .stream()
-                              .collect(Collectors.toSet()));
+                decisionMakers.values().stream().collect(Collectors.toSet()));
         for (final BehaviorDecoratorOption d : decorators) {
             behavior = BehaviorDecoratorFactory.createDecorator(d, behavior);
         }
