@@ -70,15 +70,12 @@ public class SpeciesBuilder {
     /**
      * Reset the builder to its initial state, removing the object being constructed
      * and all the information about it.
-     * 
-     * @return the builder.
      */
-    public final SpeciesBuilder reset() {
+    public final void reset() {
         name = null;
         built = false;
         decisionMakers = new EnumMap<>(ActionType.class);
         decorators = new ArrayList<>();
-        return this;
     }
 
     private void controlBuiltIs(final boolean builtState) {
@@ -92,12 +89,10 @@ public class SpeciesBuilder {
      *            the name of the Species being built.
      * @throws IllegalStateException
      *             if the object has already being built.
-     * @return the builder.
      */
-    public SpeciesBuilder setName(final String name) {
+    public void setName(final String name) {
         controlBuiltIs(false);
         this.name = name;
-        return this;
     }
 
     /**
@@ -106,28 +101,24 @@ public class SpeciesBuilder {
      *            decision makers of the Species Behavior. If there is already a
      *            DecisionMaker associated with a particular type it will be
      *            replaced instead of added.
-     * @return the builder.
      * @throws IllegalStateException
      *             if the object has already being built.
      */
-    public SpeciesBuilder addDecisionMaker(final DecisionMakerOption option) {
+    public void addDecisionMaker(final DecisionMakerOption option) {
         controlBuiltIs(false);
         decisionMakers.put(option.getType(), DecisionMakerFactory.createDecisionMaker(option));
-        return this;
     }
 
     /**
      * @param decoratorOption
      *            add a BehaviorDecoratorOption to evaluate the decisions made by
      *            the DecisionMakers of the Species being constructed.
-     * @return the builder.
      * @throws IllegalStateException
      *             if the object has already being built.
      */
-    public SpeciesBuilder addDecisionBehaiorDecorator(final BehaviorDecoratorOption decoratorOption) {
+    public void addDecisionBehaiorDecorator(final BehaviorDecoratorOption decoratorOption) {
         controlBuiltIs(false);
         decorators.add(decoratorOption);
-        return this;
     }
 
     /**
