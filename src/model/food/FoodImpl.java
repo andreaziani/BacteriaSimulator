@@ -1,9 +1,7 @@
 package model.food;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -14,21 +12,27 @@ import java.util.Set;
  *
  *
  */
-public class FoodImpl implements Food {
+public final class FoodImpl implements Food {
     private static final double RADIUS = 1.0;
     private final Optional<String> name;
-    private final Map<Nutrient, Double> nutrients = new HashMap<>();
+    private final Map<Nutrient, Double> nutrients;
 
     /**
-     * 
-     * Constructor of food from FoodBuilder.
-     * Package private.
-     * @param builder
-     *            FoodBuilder that creates food.
+     * Constructor of food from name and nutrients.
+     * @param name the name of the food.
+     * @param nutrients the nutrients of the food.
      */
-    FoodImpl(final FoodBuilder builder) {
-        builder.nutrients.keySet().stream().forEach(n -> this.nutrients.put(n, builder.nutrients.get(n)));
-        this.name = builder.name;
+    public FoodImpl(final String name, final Map<Nutrient, Double> nutrients) {
+        this.name = Optional.of(name);
+        this.nutrients = nutrients;
+    }
+    /**
+     * Constructor of food from nutrients.
+     * @param nutrients the nutrients of the food.
+     */
+    public FoodImpl(final Map<Nutrient, Double> nutrients) {
+        this.name = Optional.empty();
+        this.nutrients = nutrients;
     }
 
     @Override
@@ -71,61 +75,8 @@ public class FoodImpl implements Food {
         return false;
     }
 
-    /**
-     * Builder for food. Allows you to create a food by adding nutrients, when food
-     * is built it is no longer possible to change its nutrients.
-     *
-     *
-     */
-    public static class FoodBuilder {
-        private Optional<String> name = Optional.empty();
-        private final Map<Nutrient, Double> nutrients = new HashMap<>();
-        private boolean built;
-
-        /**
-         * Setter the name of the food.
-         * 
-         * @param name
-         *            of the food.
-         * @return this builder.
-         */
-        public FoodBuilder setName(final String name) {
-            if (built) {
-                throw new IllegalStateException();
-            } else {
-                this.name = Optional.of(name);
-                return this;
-            }
-        }
-
-        /**
-         * Add nutrients to builder.
-         * 
-         * @param nutrients
-         *            to add.
-         * @return this builder.
-         */
-        public FoodBuilder addNutrient(final Entry<Nutrient, Double> nutrients) {
-            if (built) {
-                throw new IllegalStateException();
-            } else {
-                this.nutrients.put(nutrients.getKey(), nutrients.getValue());
-                return this;
-            }
-        }
-
-        /**
-         * Build a food.
-         * 
-         * @return the food.
-         */
-        public Food build() {
-            if (!this.nutrients.isEmpty() && !this.built) {
-                this.built = true;
-                return new FoodImpl(this);
-            }
-            throw new IllegalStateException();
-        }
-
+    @Override
+    public String toString() {
+        return "Food's Name=" + name + ", nutrients=" + nutrients + "]";
     }
 }

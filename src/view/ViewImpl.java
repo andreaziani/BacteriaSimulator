@@ -13,6 +13,7 @@ import view.model.food.ViewFood;
  */
 public class ViewImpl implements View {
     private final Controller controller;
+    private ViewState state;
 /**
  * Constructor that build a View and initializing her observers.
  * @param controller controller that allows interactions with the model. 
@@ -22,8 +23,7 @@ public class ViewImpl implements View {
     }
     @Override
     public void update(final ViewState state) {
-        // TODO Auto-generated method stub
-
+        this.state = state;
     }
 
     @Override

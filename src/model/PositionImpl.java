@@ -44,5 +44,9 @@ public class PositionImpl implements Position {
         }
         return false;
     }
+    @Override
+    public String toString() {
+        return "Position coordinates=" + coordinates.getFirst() + " " + coordinates.getSecond() +  "]";
+    }
 
 }
