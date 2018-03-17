@@ -141,7 +141,13 @@ public class BacteriaManagerImpl implements BacteriaManager {
         }
 
         private void eat() {
-            //
+            final Optional<Food> foodInPosition = BacteriaManagerImpl.this.foodEnv.getFoodsState().containsKey(this.bacteriaPos)
+                                                        ? Optional.of(foodEnv.getFoodsState().get(this.bacteriaPos)) 
+                                                            : Optional.empty();
+            if (foodInPosition.isPresent()) {
+                this.bacteria.addFood(foodInPosition.get());
+                BacteriaManagerImpl.this.foodEnv.removeFood(foodInPosition.get(), this.bacteriaPos);
+            }
         }
 
         private void replicate() {
