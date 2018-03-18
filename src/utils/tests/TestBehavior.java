@@ -3,8 +3,8 @@ package utils.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +21,7 @@ import model.Energy;
 import model.EnergyImpl;
 import model.action.Action;
 import model.action.ActionType;
+import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
 import model.bacteria.behavior.AbstractDecisionBehavior;
 import model.bacteria.behavior.BaseDecisionBehavior;
@@ -61,7 +62,7 @@ public class TestBehavior {
     private Function<Action, Energy> singleLowCostActionType(final ActionType type) {
         return x -> x.getType().equals(type) ? SMALL_ENERGY : LARGE_ENERGY;
     }
-    
+
     private Function<Action, Energy> singleLargeCostActionType(final ActionType type) {
         return x -> x.getType().equals(type) ? LARGE_ENERGY : SMALL_ENERGY;
     }
@@ -82,9 +83,31 @@ public class TestBehavior {
         return x -> SMALL_ENERGY;
     }
 
+    private Function<Nutrient, Energy> allNutrientsBad() {
+        return x -> SMALL_ENERGY.invert();
+    }
+
     private BaseDecisionBehavior baseBehaviorFromOptions(final List<DecisionMakerOption> options) {
         return new BaseDecisionBehavior(
                 options.stream().map(DecisionMakerFactory::createDecisionMaker).collect(Collectors.toSet()));
+    }
+
+    /**
+     * Test DecisionMakers.
+     */
+    @Test
+    public void testDecisionMakers() {
+        final BacteriaKnowledge knowledge = new BacteriaKnowledge(
+                new PerceptionImpl(Optional.of(food1), bestDirection(Direction.NORTH)), allNutrientsBad(),
+                x -> SMALL_ENERGY, SMALL_ENERGY);
+        AbstractDecisionBehavior behavior = baseBehaviorFromOptions(Collections.emptyList());
+        assertEquals(ActionType.NOTHING, behavior.chooseAction(knowledge).getType());
+        behavior = baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING,
+                DecisionMakerOption.NEAR_FOOD_MOVEMENT));
+        assertEquals(new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH), behavior.chooseAction(knowledge));
+        behavior = baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.ALWAYS_EAT,
+                DecisionMakerOption.NEAR_FOOD_MOVEMENT));
+        assertEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());
     }
 
     /**
@@ -94,12 +117,12 @@ public class TestBehavior {
     public void testCostFilterBehavior() {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(food1), bestDirection(Direction.NORTH)), allNutrientGood(),
-                singleLowCostActionType(ActionType.EAT), SMALL_ENERGY);
+                singleLowCostActionType(ActionType.MOVE), SMALL_ENERGY);
         AbstractDecisionBehavior behavior = baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.ALWAYS_EAT,
                 DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.ALWAYS_REPLICATE));
-        assertNotEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());
+        assertNotEquals(ActionType.MOVE, behavior.chooseAction(knowledge).getType());
         behavior = new CostFilterDecisionBehavior(behavior);
-        assertEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());
+        assertEquals(ActionType.MOVE, behavior.chooseAction(knowledge).getType());
     }
 
     /**
