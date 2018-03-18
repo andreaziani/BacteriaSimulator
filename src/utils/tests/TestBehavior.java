@@ -89,10 +89,10 @@ public class TestBehavior {
     }
 
     /**
-     * Test that the action given by a Behavior are as expected.
+     * Test the CostFilterDecisionBehavior.
      */
     @Test
-    public void testCorrectAction() {
+    public void testCostFilterAction() {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(food1), bestDirection(Direction.NORTH)), 
                 allNutrientGood(),
