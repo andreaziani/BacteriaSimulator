@@ -12,6 +12,8 @@ import model.Energy;
 import model.EnergyImpl;
 import model.GeneticCode;
 import model.Position;
+import model.action.Action;
+import model.action.ActionType;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.food.Food;
@@ -74,7 +76,10 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
     private void performAction(final Position bacteriaPos, final Bacteria bacteria) {
         actionPerf.setStatus(bacteriaPos, bacteria);
-        switch (bacteria.getAction().getType()) {
+        final Action action = bacteria.getAction();
+        final ActionType actionType = action.getType();
+
+        switch (actionType) {
         case MOVE: actionPerf.move();
             break;
         case EAT: actionPerf.eat();
@@ -84,6 +89,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
         default: actionPerf.doNothing();
             break;
         }
+        bacteria.spendEnergy(bacteria.getActionCost(action));
     }
 
     private void costOfLiving(final Bacteria bacteria) {
