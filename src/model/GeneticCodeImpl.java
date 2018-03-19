@@ -92,15 +92,15 @@ public class GeneticCodeImpl implements GeneticCode {
     }
 
     @Override
-    public Double getRadius() {
+    public double getRadius() {
         // TODO Auto-generated method stub
-        return null;
+        return 0;
     }
 
     @Override
-    public Double getPerceptionRadius() {
+    public double getPerceptionRadius() {
         // TODO Auto-generated method stub
-        return null;
+        return 0;
     }
 
     @Override

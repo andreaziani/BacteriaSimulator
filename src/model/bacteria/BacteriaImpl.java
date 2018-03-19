@@ -60,7 +60,7 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
-    public Double getPerceptionRadius() {
+    public double getPerceptionRadius() {
         return this.geneticCode.getPerceptionRadius();
     }
 
@@ -78,6 +78,11 @@ public class BacteriaImpl implements Bacteria {
     @Override
     public GeneticCode getGeneticCode() {
         return this.geneticCode;
+    }
+
+    @Override
+    public double getSpeed() {
+        return this.geneticCode.getSpeed();
     }
 
     @Override

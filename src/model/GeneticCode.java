@@ -82,12 +82,12 @@ public interface GeneticCode extends Cloneable {
     /**
      * @return the radius of a bacteria with this GeneticCode.
      */
-    Double getRadius();
+    double getRadius();
 
     /**
      * @return the radius of the perception of a bacteria with this GeneticCode.
      */
-    Double getPerceptionRadius();
+    double getPerceptionRadius();
 
     /**
      * @return a new GeneticCode object that is a copy of the current GeneticCode

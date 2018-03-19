@@ -38,7 +38,7 @@ public interface Bacteria extends Collidable {
     /**
      * @return the radius of perception of this bacteria.
      */
-    Double getPerceptionRadius();
+    double getPerceptionRadius();
 
     /**
      * Get the Energy cost for executing an Action by this Bacteria.
@@ -53,6 +53,11 @@ public interface Bacteria extends Collidable {
      * @return the genetic code of the bacteria.
      */
     GeneticCode getGeneticCode();
+
+    /**
+     * @return the speed of the Bacteria.
+     */
+    double getSpeed();
 
     /**
      * @return the amount of energy this bacteria currently have as a reserve.
