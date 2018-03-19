@@ -3,6 +3,8 @@ package utils;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import model.Position;
 import model.State;
 import model.food.Food;
@@ -29,7 +31,7 @@ public final class ConversionsUtil {
     public static ViewFood conversionFromModelToView(final Food food) {
         final ViewFoodBuilder builder = new ViewFoodBuilder(food.getName());
         food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n)))
-                                    .entrySet().forEach(e -> builder.addNutrient(new Pair<>(e.getKey(), e.getValue())));
+                                    .entrySet().forEach(e -> builder.addNutrient(Pair.of(e.getKey(), e.getValue())));
         return builder.build();
     }
     /**

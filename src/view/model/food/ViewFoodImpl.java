@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import model.food.Nutrient;
-import utils.Pair;
 
 /**
  * The class representing a food in the view.
@@ -98,7 +100,7 @@ public final class ViewFoodImpl implements ViewFood {
          */
         public ViewFoodBuilder addNutrient(final Pair<Nutrient, Double> nutrients) {
             checkBuilt();
-            this.nutrients.put(nutrients.getFirst(), nutrients.getSecond());
+            this.nutrients.put(nutrients.getLeft(), nutrients.getRight());
             return this;
         }
 

@@ -54,7 +54,7 @@ public final class FoodImpl implements Food {
     }
 
     @Override
-    public Double getRadius() {
+    public double getRadius() {
         return RADIUS;
     }
 

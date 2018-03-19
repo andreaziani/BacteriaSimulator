@@ -16,7 +16,7 @@ public class TestPosition {
      * Test equals of Position.
      */
     @Test
-    public void testPosition() { // verify the equals implementation of position (and pair).
+    public void testPosition() { // verify the equals implementation of position.
         final Position position1 = new PositionImpl(2.0, 1.0);
         final Position position2 = new PositionImpl(2.0, 1.0);
         final Position position3 = new PositionImpl(2.0, 3.0);

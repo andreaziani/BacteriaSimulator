@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import model.Direction;
 import model.Energy;
 import model.EnergyImpl;
@@ -24,7 +26,6 @@ import model.perception.Perception;
 import model.perception.PerceptionImpl;
 import utils.EnvUtil;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 /**
  * Implementation of BacteriaManager.
@@ -58,12 +59,12 @@ public class BacteriaManagerImpl implements BacteriaManager {
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
         EnvUtil.positionStream(start, end, bacteriaPos)
-                .map(pos -> ImmutablePair.of(pos, EnvUtil.distance(pos, bacteriaPos)))
+                .map(pos -> Pair.of(pos, EnvUtil.distance(pos, bacteriaPos)))
                 .filter(posDistPair -> posDistPair.getRight() <= radius)
                 .filter(posDistPair -> foodsState.containsKey(posDistPair.getLeft())).map(posDistPair -> {
                     final double angle = EnvUtil.angle(bacteriaPos, posDistPair.getLeft());
                     final Direction dir = EnvUtil.angleToDir(angle);
-                    return ImmutablePair.of(dir, posDistPair.getRight());
+                    return Pair.of(dir, posDistPair.getRight());
                 })
                 .filter(dirDistPair -> !distsToFood.containsKey(dirDistPair.getLeft())
                         || dirDistPair.getRight() < distsToFood.get(dirDistPair.getLeft()))
@@ -164,8 +165,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
             final Optional<Position> freePosition = EnvUtil.positionStream(start, end, this.bacteriaPos)
                     .filter(position -> !BacteriaManagerImpl.this.bacteria.containsKey(position))
                     .filter(position -> !EnvUtil.isCollision(
-                            ImmutablePair.of(position, BacteriaManagerImpl.this.bacteria.get(position)),
-                            ImmutablePair.of(this.bacteriaPos, this.bacteria)))
+                            Pair.of(position, BacteriaManagerImpl.this.bacteria.get(position)),
+                            Pair.of(this.bacteriaPos, this.bacteria)))
                     .findAny();
 
             if (freePosition.isPresent()) {

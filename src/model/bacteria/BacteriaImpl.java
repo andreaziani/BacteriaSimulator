@@ -55,7 +55,7 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
-    public Double getRadius() {
+    public double getRadius() {
         return this.geneticCode.getRadius();
     }
 

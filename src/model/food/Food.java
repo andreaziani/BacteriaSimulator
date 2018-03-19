@@ -26,9 +26,4 @@ public interface Food extends Collidable {
      * (if the nutrient isn't present in the food return 0.0).
      */
     double getQuantityFromNutrient(Nutrient nutrient);
-    /**
-     * 
-     * @return the radius of the food.
-     */
-    Double getRadius();
 }
