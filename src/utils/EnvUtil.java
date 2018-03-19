@@ -4,6 +4,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import model.Direction;
 import model.Position;
@@ -70,11 +71,11 @@ public final class EnvUtil {
      */
     public static boolean angleInInterval(final double angle, final Pair<Double, Double> angleInterval) {
         // case when the angle interval is [337.5, 22.5]
-        if (angleInterval.getSecond() < angleInterval.getFirst()) {
-            return (angle >= angleInterval.getFirst() && angle <= ZERO_DEGREE + ANGLE_PERIOD)
-                    || (angle >= ZERO_DEGREE && angle < angleInterval.getSecond());
+        if (angleInterval.getRight() < angleInterval.getLeft()) {
+            return (angle >= angleInterval.getLeft() && angle <= ZERO_DEGREE + ANGLE_PERIOD)
+                    || (angle >= ZERO_DEGREE && angle < angleInterval.getRight());
         }
-        return angle >= angleInterval.getFirst() && angle < angleInterval.getSecond();
+        return angle >= angleInterval.getLeft() && angle < angleInterval.getRight();
     }
 
     /**

@@ -18,7 +18,7 @@ public class CollidableTest implements Collidable {
     }
 
     @Override
-    public Double getRadius() {
+    public double getRadius() {
         return this.radius;
     }
 

@@ -2,7 +2,8 @@ package view.model;
 
 import java.util.Objects;
 
-import utils.Pair;
+import org.apache.commons.lang3.tuple.Pair;
+
 
 /**
  * Class to manage the coordinates of bacteria and food in the view.
@@ -20,17 +21,17 @@ public class ViewPositionImpl implements ViewPosition {
      *            the second coordinate.
      */
     public ViewPositionImpl(final double x, final double y) {
-        this.coordinates = new Pair<>(x, y);
+        this.coordinates = Pair.of(x, y);
     }
 
     @Override
     public double getX() {
-        return this.coordinates.getFirst();
+        return this.coordinates.getLeft();
     }
 
     @Override
     public double getY() {
-        return this.coordinates.getSecond();
+        return this.coordinates.getRight();
     }
 
     @Override
@@ -52,7 +53,7 @@ public class ViewPositionImpl implements ViewPosition {
 
     @Override
     public String toString() {
-        return " position coordinates= (" + coordinates.getFirst() + " " + coordinates.getSecond() + ") ";
+        return " position coordinates= (" + coordinates.getLeft() + " " + coordinates.getRight() + ") ";
     }
 
 }

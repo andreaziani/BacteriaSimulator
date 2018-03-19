@@ -2,7 +2,8 @@ package model;
 
 import java.util.Objects;
 
-import utils.Pair;
+import org.apache.commons.lang3.tuple.Pair;
+
 
 
 /**
@@ -18,16 +19,16 @@ public class PositionImpl implements Position {
      * @param y the second coordinate.
      */
     public PositionImpl(final double x, final double y) {
-        this.coordinates = new Pair<>(x, y);
+        this.coordinates = Pair.of(x, y);
     }
     @Override
     public double getX() {
-       return this.coordinates.getFirst();
+       return this.coordinates.getLeft();
     }
 
     @Override
     public double getY() {
-        return this.coordinates.getSecond();
+        return this.coordinates.getRight();
     }
     @Override
     public int hashCode() {
@@ -46,7 +47,7 @@ public class PositionImpl implements Position {
     }
     @Override
     public String toString() {
-        return "Position coordinates=" + coordinates.getFirst() + " " + coordinates.getSecond() +  "]";
+        return "Position coordinates=" + coordinates.getLeft() + " " + coordinates.getRight() + "]";
     }
 
 }

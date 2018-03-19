@@ -8,5 +8,5 @@ public interface Collidable {
      * Return the radius of a circular entity.
      * @return the radius
      */
-    Double getRadius();
+    double getRadius();
 }

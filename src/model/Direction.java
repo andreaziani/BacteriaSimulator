@@ -1,6 +1,6 @@
 package model;
 
-import utils.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Possible direction in which an action can be executed and in which a food can
@@ -51,7 +51,7 @@ public enum Direction {
      * @return a Pair<Double, Double> that represent the two angles
      */
     public Pair<Double, Double> angleInterval() {
-        return new Pair<Double, Double>(this.angleLowerLimit, this.rotateRight().angleLowerLimit);
+        return Pair.of(this.angleLowerLimit, this.rotateRight().angleLowerLimit);
     }
     /**
      * @return a direction rotated clockwise.
