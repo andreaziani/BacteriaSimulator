@@ -13,7 +13,7 @@ import java.util.Set;
  *
  */
 public final class FoodImpl implements Food {
-    private static final double RADIUS = 1.0;
+    private static final double RADIUS = 10.0;
     private final Optional<String> name;
     private final Map<Nutrient, Double> nutrients;
 
@@ -54,7 +54,7 @@ public final class FoodImpl implements Food {
     }
 
     @Override
-    public double getRadius() {
+    public Double getRadius() {
         return RADIUS;
     }
 
@@ -77,6 +77,6 @@ public final class FoodImpl implements Food {
 
     @Override
     public String toString() {
-        return "Food's Name=" + name + ", nutrients=" + nutrients + "]";
+        return "Food's Name=" + name + ", nutrients=" + nutrients;
     }
 }

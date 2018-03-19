@@ -2,11 +2,13 @@ package model.food;
 
 import java.util.Set;
 
+import model.simulator.Collidable;
+
 /** 
  * The interface representing a food in the simulation.
  * 
  */
-public interface Food {
+public interface Food extends Collidable {
     /**
      * 
      * @return the name of the food.
@@ -28,5 +30,5 @@ public interface Food {
      * 
      * @return the radius of the food.
      */
-    double getRadius();
+    Double getRadius();
 }
