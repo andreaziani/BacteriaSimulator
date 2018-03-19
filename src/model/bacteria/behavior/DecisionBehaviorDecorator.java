@@ -20,17 +20,12 @@ public abstract class DecisionBehaviorDecorator extends AbstractDecisionBehavior
      *            a Behavior.
      */
     public DecisionBehaviorDecorator(final AbstractDecisionBehavior delegate) {
-        super(null);
+        super();
         this.delegate = delegate;
     }
 
     @Override
     protected void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
         this.delegate.updateDecisions(decisions, knowledge);
-    }
-
-    @Override
-    public final Action chooseAction(final BacteriaKnowledge knowledge) {
-        return this.delegate.chooseAction(knowledge);
     }
 }

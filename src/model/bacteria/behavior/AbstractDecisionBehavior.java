@@ -1,35 +1,19 @@
 package model.bacteria.behavior;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import model.action.Action;
 import model.action.ActionType;
 import model.action.SimpleAction;
 import model.bacteria.BacteriaKnowledge;
-import model.bacteria.behavior.decisionmaker.DecisionMaker;
 
 /**
  * Abstract implementation of a Behavior that evaluates some actions, assign a
  * score to each of them and choose the one with the best score.
  */
 public abstract class AbstractDecisionBehavior implements Behavior {
-
-    private final Set<DecisionMaker> decisionStrategies;
-
-    /**
-     * Create an AbstractDecisionBehavior.
-     * 
-     * @param decisionStrategies
-     *            the strategies this Behavior will use to make decisions about each
-     *            ActionType.
-     */
-    public AbstractDecisionBehavior(final Set<DecisionMaker> decisionStrategies) {
-        this.decisionStrategies = decisionStrategies;
-    }
 
     /**
      * Search the decisions of the behavior and set to zero the value of all actions
@@ -54,22 +38,16 @@ public abstract class AbstractDecisionBehavior implements Behavior {
      * 
      * @param decisions
      *            the collection of decisions taken until now.
-     * @param knowledge 
+     * @param knowledge
      *            the current knowledge of the bacteria making this decisions.
      */
     protected abstract void updateDecisions(Map<Action, Double> decisions, BacteriaKnowledge knowledge);
 
     @Override
     public Action chooseAction(final BacteriaKnowledge knowledge) {
-        final Map<Action, Double> decisions = this.decisionStrategies.stream()
-                                        .flatMap(x -> x.getDecision(knowledge)
-                                                       .entrySet()
-                                                       .stream())
-                                        .collect(Collectors.toMap(Entry::getKey, Entry::getValue, 
-                                                (v1, v2) -> Math.max(v1, v2)));
+        final Map<Action, Double> decisions = new HashMap<>();
         updateDecisions(decisions, knowledge);
-        return decisions.keySet().stream()
-                                 .max((a1, a2) -> (int) (decisions.get(a1) - decisions.get(a2)))
-                                 .orElseGet(() -> new SimpleAction(ActionType.NOTHING));
+        return decisions.keySet().stream().max((a1, a2) -> Double.compare(decisions.get(a1), decisions.get(a2)))
+                .orElseGet(() -> new SimpleAction(ActionType.NOTHING));
     }
 }

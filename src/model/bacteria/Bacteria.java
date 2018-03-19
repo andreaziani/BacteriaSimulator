@@ -6,11 +6,12 @@ import model.action.Action;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.perception.Perception;
+import model.simulator.Collidable;
 
 /**
  * The interface representing a bacteria in the simulation.
  */
-public interface Bacteria {
+public interface Bacteria extends Collidable {
     /**
      * @param perception
      *            a perception that will be set to be the current perception of the
@@ -33,11 +34,6 @@ public interface Bacteria {
      * @return the species of this bacteria.
      */
     Species getSpecies();
-
-    /**
-     * @return the radius of this bacteria.
-     */
-    Double getRadius();
 
     /**
      * @return the radius of perception of this bacteria.

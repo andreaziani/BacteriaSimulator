@@ -1,12 +1,14 @@
 package utils;
 
-import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import model.Direction;
 import model.Position;
 import model.PositionImpl;
+import model.simulator.Collidable;
 
 /**
  * 
@@ -16,14 +18,21 @@ import model.PositionImpl;
 public final class EnvUtil {
     private static final double ZERO_DEGREE = 0.0;
     private static final double ANGLE_PERIOD = 360.0;
+    /**
+     * The minimum amount of space in the enviroment.
+     */
+    public static final double UNIT_OF_SPACE = 1.0;
 
     private EnvUtil() {
     }
 
     /**
      * Calculate the distance between two Position in a 2D space.
-     * @param current the original Position
-     * @param other the other Position from which calculate the distance
+     * 
+     * @param current
+     *            the original Position
+     * @param other
+     *            the other Position from which calculate the distance
      * @return the absolute value of the distance between two Position
      */
     public static double distance(final Position current, final Position other) {
@@ -32,8 +41,11 @@ public final class EnvUtil {
 
     /**
      * Calculate the angle of the vector between two Position.
-     * @param current the Position considered as the origin of the vector
-     * @param other the Position considered as the end of the vector
+     * 
+     * @param current
+     *            the Position considered as the origin of the vector
+     * @param other
+     *            the Position considered as the end of the vector
      * @return the angle of the vector in the range [0, 360]
      */
     public static double angle(final Position current, final Position other) {
@@ -49,8 +61,11 @@ public final class EnvUtil {
 
     /**
      * Check if the angle is included in angleInterval.
-     * @param angle the angle that have to be checked
-     * @param angleInterval the interval in which the angle should fall into
+     * 
+     * @param angle
+     *            the angle that have to be checked
+     * @param angleInterval
+     *            the interval in which the angle should fall into
      * @return if the angle in inside the interval
      */
     public static boolean angleInInterval(final double angle, final Pair<Double, Double> angleInterval) {
@@ -64,7 +79,9 @@ public final class EnvUtil {
 
     /**
      * Convert an angle to the closest Direction.
-     * @param angle the angle to be converted in Direction
+     * 
+     * @param angle
+     *            the angle to be converted in Direction
      * @return the Direction
      */
     public static Direction angleToDir(final double angle) {
@@ -89,26 +106,36 @@ public final class EnvUtil {
 
     /**
      * Generate stream of Position in the range [(startX, startY), (endX, endY)].
-     * @param startX the start value for the X coordinate
-     * @param endX the end value for the X coordinate
-     * @param startY the start value for the Y coordinate
-     * @param endY the end value for the Y coordinate
-     * @param bacteriaPos the original Position of the Bacteria
+     * 
+     * @param startX
+     *            the start value for the X coordinate
+     * @param endX
+     *            the end value for the X coordinate
+     * @param startY
+     *            the start value for the Y coordinate
+     * @param endY
+     *            the end value for the Y coordinate
+     * @param bacteriaPos
+     *            the original Position of the Bacteria
      * @return a stream of Position in the given range excluding the same Position
      */
-    public static Stream<Position> positionStream(final int startX, final int endX, final int startY, final int endY, final Position bacteriaPos) {
+    public static Stream<Position> positionStream(final int startX, final int endX, final int startY, final int endY,
+            final Position bacteriaPos) {
         return IntStream.range(startX, endX)
-                        .mapToObj(x -> IntStream.range(startY, endY)
-                                                .filter(y -> x != 0 && y != 0)
-                                                .mapToObj(y -> new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y)))
-                        .flatMap(position -> position);
+                .mapToObj(x -> IntStream.range(startY, endY).filter(y -> x != 0 && y != 0)
+                        .mapToObj(y -> new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y)))
+                .flatMap(position -> position);
     }
 
     /**
      * Generate stream of Position in the range [(start, start), (end, end)].
-     * @param start the start value for both the X and the Y coordinate
-     * @param end the end value for both the X and the Y coordinate
-     * @param bacteriaPos the original Position of the Bacteria
+     * 
+     * @param start
+     *            the start value for both the X and the Y coordinate
+     * @param end
+     *            the end value for both the X and the Y coordinate
+     * @param bacteriaPos
+     *            the original Position of the Bacteria
      * @return a stream of Position
      */
     public static Stream<Position> positionStream(final int start, final int end, final Position bacteriaPos) {
@@ -116,15 +143,17 @@ public final class EnvUtil {
     }
 
     /**
-     * Given a Map containing Position, check if two Position collide.
-     * @param p1 the first position
-     * @param p2 the second position
-     * @param map the Map containing the position
-     * @param collision the strategy to detect a collision
+     * Given two entry, check if they collide.
+     * 
+     * @param entry1
+     *            the first entry
+     * @param entry2
+     *            the second position
      * @return boolean that indicate if the collision takes place
-     * @param <X> the type of the value in the map
      */
-    public static <X> boolean isCollision(final Position p1, final Position p2, final Map<Position, X> map, final Collision<X> collision) {
-        return collision.check(p1, p2, map);
+    public static boolean isCollision(final ImmutablePair<Position, ? extends Collidable> entry1,
+            final ImmutablePair<Position, ? extends Collidable> entry2) {
+        final double distance = distance(entry1.getLeft(), entry2.getLeft());
+        return (distance <= entry1.getRight().getRadius() || distance <= entry2.getRight().getRadius());
     }
 }

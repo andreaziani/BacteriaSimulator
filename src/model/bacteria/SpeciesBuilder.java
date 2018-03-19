@@ -67,7 +67,7 @@ public class SpeciesBuilder {
      * @param name
      *            the name of the Species.
      */
-    public SpeciesBuilder(String name) {
+    public SpeciesBuilder(final String name) {
         reset(name);
     }
 
@@ -78,7 +78,7 @@ public class SpeciesBuilder {
      * @param name
      *            the name of the Species.
      */
-    public final void reset(String name) {
+    public final void reset(final String name) {
         this.name = name;
         built = false;
         decisionMakers = new EnumMap<>(ActionType.class);
