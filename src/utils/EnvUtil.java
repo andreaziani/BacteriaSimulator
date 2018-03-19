@@ -3,7 +3,6 @@ package utils;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import model.Direction;
@@ -152,8 +151,8 @@ public final class EnvUtil {
      *            the second position
      * @return boolean that indicate if the collision takes place
      */
-    public static boolean isCollision(final ImmutablePair<Position, ? extends Collidable> entry1,
-            final ImmutablePair<Position, ? extends Collidable> entry2) {
+    public static boolean isCollision(final Pair<Position, ? extends Collidable> entry1,
+            final Pair<Position, ? extends Collidable> entry2) {
         final double distance = distance(entry1.getLeft(), entry2.getLeft());
         return (distance <= entry1.getRight().getRadius() || distance <= entry2.getRight().getRadius());
     }
