@@ -2,14 +2,13 @@ package utils.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import model.Direction;
@@ -109,19 +108,21 @@ public class TestEnvUtils {
      */
     @Test
     public void testCollision() {
-        final Collidable c1 = new CollidableTest(0.5);
+        //final Collidable c1 = new CollidableTest(0.5);
         final Collidable c2 = new CollidableTest(2.0 * Math.sqrt(2));
         final Collidable c3 = new CollidableTest(2.5);
-        final Collidable c4 = new CollidableTest(3.5);
-        final Collidable c5 = new CollidableTest(4.5);
-        
+        //final Collidable c4 = new CollidableTest(3.5);
+        //final Collidable c5 = new CollidableTest(4.5);
+
         final Position p1 = new PositionImpl(0.0, 0.0);
-        final Position p2 = new PositionImpl(3.0, 3.0);
+        final Position p2 = new PositionImpl(0.0, 5.1);
         final Position p3 = new PositionImpl(2.1, 2.1);
-        final Position p4 = new PositionImpl(0, 2.5);
+        final Position p4 = new PositionImpl(0.0, 5.0);
         final Position p5 = new PositionImpl(2.0, 2.0);
-        
-        assertTrue(EnvUtil.isCollision(ImmutablePair.of(p1, c2), ImmutablePair.of(p5, c2)));
-        assertFalse(EnvUtil.isCollision(ImmutablePair.of(p1, c2), ImmutablePair.of(p3, c2)));
+
+        assertTrue(EnvUtil.isCollision(Pair.of(p1, c2), Pair.of(p5, c2)));
+        assertTrue(EnvUtil.isCollision(Pair.of(p1, c2), Pair.of(p3, c2)));
+        assertTrue(EnvUtil.isCollision(Pair.of(p1, c3), Pair.of(p4, c3)));
+        assertFalse(EnvUtil.isCollision(Pair.of(p1, c3), Pair.of(p2, c3)));
     }
 }
