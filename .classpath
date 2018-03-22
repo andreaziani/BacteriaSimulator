@@ -10,13 +10,13 @@
 	<classpathentry kind="lib" path="lib/commons-lang3-3.7-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.7.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/oop17-bacteriasimulator/lib/commons-lang3-3.7-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/BacteriaSimulator/lib/commons-lang3-3.7-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/commons-math3-3.6.1-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/commons-math3-3.6.1.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/oop17-bacteriasimulator/lib/commons-math3-3.6.1-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/BacteriaSimulator/lib/commons-math3-3.6.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
