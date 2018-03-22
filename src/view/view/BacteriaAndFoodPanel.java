@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -32,10 +33,10 @@ public class BacteriaAndFoodPanel extends JPanel {
         this.setLayout(new FlowLayout());
         this.createBacteria.addActionListener(e -> {
             //TODO
-            //this.foods.addItem(food.name);
         });
         this.createFood.addActionListener(e -> {
-            //TODO
+            JFrame f = new FoodCreation(view);
+            //this.foods.addItem(food.name);
         });
         this.add(this.selectFood);
         this.add(this.foods);
