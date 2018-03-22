@@ -17,9 +17,9 @@ import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import utils.exceptions.AlreadyExistingSpeciesExeption;
 
 /**
- * Unit test for the Bacteria and Species of the model.
+ * Unit test for the Species building and storing in the manager.
  */
-public class TestBacteria {
+public class TestSpecies {
     private static final String NAME_1 = "name";
     private static final String NAME_2 = "new name";
 
@@ -59,7 +59,8 @@ public class TestBacteria {
         assertFalse(manager.getSpecies().isEmpty());
         assertEquals(NAME_1, manager.getSpecies().stream().findFirst().get().getName());
 
-        assertThrows(AlreadyExistingSpeciesExeption.class, () -> manager.addSpecies(new SpeciesBuilder(NAME_1).build()));
+        assertThrows(AlreadyExistingSpeciesExeption.class,
+                () -> manager.addSpecies(new SpeciesBuilder(NAME_1).build()));
         assertEquals(1, manager.getSpecies().size());
 
         final SpeciesBuilder builder = new SpeciesBuilder(NAME_1);
