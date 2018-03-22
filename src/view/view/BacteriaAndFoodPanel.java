@@ -18,7 +18,7 @@ public class BacteriaAndFoodPanel extends JPanel {
     private final JButton createFood = new JButton("Create Food");
     private final JButton createBacteria = new JButton("Create Bacteria");
     private final JLabel selectFood = new JLabel("Select Food: ");
-    private final JComboBox<?> foods;
+    private final JComboBox<String> foods = new JComboBox<>();
     /**
      * Automatically generated.
      */
@@ -30,9 +30,9 @@ public class BacteriaAndFoodPanel extends JPanel {
     public BacteriaAndFoodPanel(final View view) {
         super();
         this.setLayout(new FlowLayout());
-        this.foods = new JComboBox<>(view.getFoodsType().stream().map(f -> f.getName()).collect(Collectors.toList()).toArray());
         this.createBacteria.addActionListener(e -> {
             //TODO
+            //this.foods.addItem(food.name);
         });
         this.createFood.addActionListener(e -> {
             //TODO
@@ -41,6 +41,12 @@ public class BacteriaAndFoodPanel extends JPanel {
         this.add(this.foods);
         this.add(this.createBacteria);
         this.add(this.createFood);
-        
+    }
+    /**
+     * 
+     * @return the selected food.
+     */
+    public String getSelectedFood() {
+        return (String) this.foods.getSelectedItem();
     }
 }

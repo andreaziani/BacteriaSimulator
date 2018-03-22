@@ -30,14 +30,17 @@ public class TopPanel extends JPanel {
         super(new BorderLayout());
         final JPanel bacteriaAndFood = new BacteriaAndFoodPanel(view);
         final JPanel choicesPanel = new ChoicesPanel(view);
-        this.fileMenu.setActionCommand("File");
-        this.fileMenu.add(loadSimulation);
-        this.helpMenu.add(help);
-        this.menuBar.add(this.fileMenu);
-        this.menuBar.add(helpMenu);
+        this.componentsSettings();
         this.add(menuBar, BorderLayout.NORTH);
         this.add(choicesPanel, BorderLayout.SOUTH);
         this.add(bacteriaAndFood, BorderLayout.CENTER);
     }
 
+    private void componentsSettings() {
+        this.fileMenu.setActionCommand("File");
+        this.fileMenu.add(loadSimulation);
+        this.helpMenu.add(help);
+        this.menuBar.add(this.fileMenu);
+        this.menuBar.add(helpMenu);
+    }
 }

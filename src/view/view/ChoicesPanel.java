@@ -14,7 +14,6 @@ public class ChoicesPanel extends JPanel {
     private final JButton startSimulation = new JButton("Start");
     private final JButton stopSimulation = new JButton("Stop");
     private final JButton pauseSimulation = new JButton("Pause");
-    
     /**
      * Automatically generated.
      */
