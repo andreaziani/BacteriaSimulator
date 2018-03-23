@@ -1,6 +1,8 @@
 package view.view;
 
 import java.awt.FlowLayout;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,7 +19,7 @@ public class BacteriaAndFoodPanel extends JPanel {
     private final JButton createFood = new JButton("Create Food");
     private final JButton createBacteria = new JButton("Create Bacteria");
     private final JLabel selectFood = new JLabel("Select Food: ");
-    private JComboBox<String> foods = new JComboBox<>();
+    private final JComboBox<String> foods = new JComboBox<>();
     /**
      * Automatically generated.
      */
@@ -35,7 +37,6 @@ public class BacteriaAndFoodPanel extends JPanel {
         });
         this.createFood.addActionListener(e -> {
             new FoodCreation(view, this);
-            
         });
         this.add(this.selectFood);
         this.add(this.foods);
@@ -54,7 +55,7 @@ public class BacteriaAndFoodPanel extends JPanel {
      * @param view from which to take existing food's name.
      */
     public void updateFoods(final View view) {
-        this.foods = new JComboBox<>();
+        this.foods.removeAllItems();
         view.getFoodsType().forEach(f -> this.foods.addItem(f.getName()));
     }
 }
