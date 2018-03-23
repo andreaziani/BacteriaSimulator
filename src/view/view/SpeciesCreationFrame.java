@@ -1,6 +1,7 @@
 package view.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class SpeciesCreationFrame extends JFrame {
      */
     private static final long serialVersionUID = -3946173214672360528L;
     private final JTextField txtName;
-    private final JColorChooser colorChooser;
+    // private final JColorChooser colorChooser;
     private final Map<ActionType, JComboBox<String>> comboBoxes;
     private final List<JCheckBox> checkBoxList;
     private final View view;
@@ -55,7 +56,7 @@ public class SpeciesCreationFrame extends JFrame {
         final JLabel txtLabel = new JLabel("Set the name of the Species");
         txtName = new JTextField(INITIAL_TXT_SIZE);
 
-        colorChooser = new JColorChooser();
+        // colorChooser = new JColorChooser();
         comboBoxes = new EnumMap<>(ActionType.class);
         Arrays.asList(ActionType.values()).stream().forEach(a -> {
             if (a != ActionType.NOTHING) {
@@ -69,7 +70,7 @@ public class SpeciesCreationFrame extends JFrame {
         final JButton btnCreate = new JButton("create Species");
         btnCreate.addActionListener(e -> createSpecies());
 
-        this.add(colorChooser, BorderLayout.WEST);
+        // this.add(colorChooser, BorderLayout.WEST);
         final JPanel comboPanel = new JPanel(new GridLayout(comboBoxes.size() * 2, 1));
         for (final ActionType type : ActionType.values()) {
             if (type != ActionType.NOTHING) {
@@ -84,7 +85,7 @@ public class SpeciesCreationFrame extends JFrame {
         behaviorPanel.add(comboPanel);
         behaviorPanel.add(checkPanel);
 
-        final JPanel txtPanel = new JPanel(new GridLayout(2, 1));
+        final JPanel txtPanel = new JPanel(new GridLayout(3, 1));
         txtPanel.add(txtLabel);
         txtPanel.add(txtName);
         final JPanel createPanel = new JPanel(new FlowLayout());
@@ -102,10 +103,12 @@ public class SpeciesCreationFrame extends JFrame {
 
     private void createSpecies() {
         try {
-            view.createSpecies(txtName.getText(), colorChooser.getColor(),
+            view.createSpecies(txtName.getText(),
+                    JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK),
                     comboBoxes.entrySet().stream()
                             .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue().getSelectedIndex())),
                     checkBoxList.stream().map(x -> x.isSelected()).collect(Collectors.toList()));
+            JOptionPane.showMessageDialog(this, "Species " + txtName.getText() + " added succesfully");
             this.setVisible(false);
             this.dispose();
         } catch (InvalidSpeciesExeption e) {
