@@ -38,29 +38,29 @@ public class SpeciesCreationFrame extends JFrame {
         super("Create a Species");
         this.setLayout(new FlowLayout());
         final JPanel panel = new JPanel();
-        final JTextField name = new JTextField();
-        final JColorChooser color = new JColorChooser();
-        final Map<ActionType, JComboBox<String>> groups = new EnumMap<>(ActionType.class);
+        final JTextField txtName = new JTextField();
+        final JColorChooser colorChooser = new JColorChooser();
+        final Map<ActionType, JComboBox<String>> comboBoxes = new EnumMap<>(ActionType.class);
         Arrays.asList(ActionType.values()).stream().forEach(a -> {
             if (a != ActionType.NOTHING) {
-                groups.put(a, new JComboBox<>());
+                comboBoxes.put(a, new JComboBox<>());
             }
         });
         view.getDecisionOptions().entrySet().stream()
-                .forEach(x -> x.getValue().stream().forEach(s -> groups.get(x.getKey()).addItem(s)));
-        final List<JCheckBox> decoratorsGroup = new ArrayList<>();
-        view.getDecoratorOptions().stream().map(x -> new JCheckBox(x)).forEach(decoratorsGroup::add);
-        final JButton create = new JButton("create Species");
-        create.addActionListener(e -> view.createSpecies(name.getText(), color.getColor(),
-                groups.entrySet().stream()
+                .forEach(x -> x.getValue().stream().forEach(s -> comboBoxes.get(x.getKey()).addItem(s)));
+        final List<JCheckBox> checkBoxList = new ArrayList<>();
+        view.getDecoratorOptions().stream().map(x -> new JCheckBox(x)).forEach(checkBoxList::add);
+        final JButton btnCreate = new JButton("create Species");
+        btnCreate.addActionListener(e -> view.createSpecies(txtName.getText(), colorChooser.getColor(),
+                comboBoxes.entrySet().stream()
                         .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue().getSelectedIndex())),
-                decoratorsGroup.stream().map(x -> x.isSelected()).collect(Collectors.toList())));
+                checkBoxList.stream().map(x -> x.isSelected()).collect(Collectors.toList())));
 
-        panel.add(name);
-        panel.add(color);
-        groups.values().forEach(panel::add);
-        decoratorsGroup.forEach(panel::add);
-        panel.add(create);
+        panel.add(txtName);
+        panel.add(colorChooser);
+        comboBoxes.values().forEach(panel::add);
+        checkBoxList.forEach(panel::add);
+        panel.add(btnCreate);
         this.add(panel);
         this.pack();
         this.setVisible(true);
