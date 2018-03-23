@@ -1,0 +1,96 @@
+package model.geneticcode;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import model.Energy;
+import model.action.Action;
+import model.food.Nutrient;
+
+/**
+ * Implementation of interface GeneticCode.
+ */
+
+public class GeneticCodeImpl implements GeneticCode {
+    public List<NucleicAcid> code = new ArrayList<NucleicAcid>();
+    public double radius;
+    public double perceptionRadius;
+    public static final int DNAnumber = 12;
+
+    /**
+     * Construct a Bacteria's Genetic Code.
+     * 
+     * @param code
+     *            the code of DNA.
+     * @param radius
+     *          radius of bacteria.
+     * @param perceptionRadius
+     *          perception of radius of bacteria.
+     */
+    public GeneticCodeImpl(final List<NucleicAcid> code, final double radius, final double perceptionRadius) {
+        this.code = code;
+        this.radius = radius;
+        this.perceptionRadius = perceptionRadius;
+    }
+
+    /**
+     * Construct a Bacteria's Genetic Code.
+     */
+    public GeneticCodeImpl() {
+        for (int i = 0; i < DNAnumber; i++) {
+            Random rand = new Random();
+            int rnd = rand.nextInt(NucleicAcid.values().length);
+            this.code.add(NucleicAcid.values()[rnd]);
+        }
+    }
+
+    @Override
+    public Gene getCode() {
+        return (Gene) this.code;
+    }
+
+    @Override
+    public Energy getActionCost(final Action action) {
+        if (!this.actions.containsKey(action)) {
+            throw new IllegalArgumentException();
+        } else {
+            return actions.get(action);
+        }
+    }
+
+    @Override
+    public double getSpeed() {
+        return speed;
+    }
+
+    @Override
+    public Energy getEnergyFromNutrient(final Nutrient nutrient) {
+        if (!this.nutrients.containsKey(nutrient)) {
+            throw new IllegalArgumentException();
+        } else {
+            return nutrients.get(nutrient);
+        }
+    }
+
+    @Override
+    public Double getRadius() {
+        return this.radius;
+    }
+
+    @Override
+    public Double getPerceptionRadius() {
+        return this.perceptionRadius;
+    }
+
+    @Override
+    public GeneticCode clone() {
+        final Map<Action, Energy> clonedActions = new HashMap<>(this.actions);
+        final Map<Nutrient, Energy> clonedNutrients = new HashMap<>(this.nutrients);
+        return new GeneticCodeImpl((Gene) this.code.getCode(), clonedActions, clonedNutrients, this.speed, this.radius, this.perceptionRadius);
+    }
+
+}

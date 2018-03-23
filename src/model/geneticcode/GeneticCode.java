@@ -1,5 +1,6 @@
-package model;
+package model.geneticcode;
 
+import model.Energy;
 import model.action.Action;
 import model.food.Nutrient;
 
@@ -9,17 +10,6 @@ import model.food.Nutrient;
  * alive.
  */
 public interface GeneticCode extends Cloneable {
-    /**
-     * Set the Energy cost for executing an Action, depends on the action but also
-     * on the particular GeneticCode.
-     * 
-     * @param action
-     *            an action.
-     * @param cost
-     *            the energy cost of each action.
-     */
-    void setActionCost(Action action, Energy cost);
-
     /**
      * Get the Energy cost for executing an Action, depends on the action but also
      * on the particular GeneticCode.
@@ -31,14 +21,6 @@ public interface GeneticCode extends Cloneable {
     Energy getActionCost(Action action);
 
     /**
-     * Set speed of a bacteria with this GeneticCode.
-     * @param speed
-     *           speed of bacteria.
-     */
-
-    void setSpeed(double speed);
-
-    /**
      * @return the speed of a bacteria with this GeneticCode.
      */
     double getSpeed();
@@ -47,26 +29,7 @@ public interface GeneticCode extends Cloneable {
      * 
      * @return the code of bacteria.
      */
-    String getCode();
-
-    /**
-     * Set Code of bacteria's genetic code.
-     *
-     * @param code
-     *            new genetic code.
-     */
-    void setCode(String code);
-
-    /**
-     * Set the amount of Energy a Nutrient can provide to a Bacteria with this
-     * GenetiCode.
-     * 
-     * @param nutrient
-     *            a Nutrient.
-     * @param cost
-     *            the amount of Energy from nutrients.
-     */
-    void setEnergyFromNutrient(Nutrient nutrient, Energy cost);
+    Gene getCode();
 
     /**
      * Get the amount of Energy a Nutrient can provide to a Bacteria with this
