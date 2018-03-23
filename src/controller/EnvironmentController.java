@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.Set;
+
+import utils.exceptions.AlreadyExistingSpeciesExeption;
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 import view.model.ViewState;
@@ -57,8 +59,10 @@ public interface EnvironmentController {
      *            the new Species.
      * @throws SimulationAlreadyStartedExeption
      *             if the simulation is already started.
-     * @throws InvalidSpeicesExeption
+     * @throws InvalidSpeciesExeption
      *             if the given Species cannot be added correctly.
+     * @throws AlreadyExistingSpeciesExeption
+     *             if a species with that name already exists.
      */
     void addSpecies(ViewSpecies species);
 }
