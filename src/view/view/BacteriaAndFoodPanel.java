@@ -1,8 +1,6 @@
 package view.view;
 
 import java.awt.FlowLayout;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
