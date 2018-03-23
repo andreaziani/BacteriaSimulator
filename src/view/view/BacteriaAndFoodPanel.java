@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -18,7 +17,7 @@ public class BacteriaAndFoodPanel extends JPanel {
     private final JButton createFood = new JButton("Create Food");
     private final JButton createBacteria = new JButton("Create Bacteria");
     private final JLabel selectFood = new JLabel("Select Food: ");
-    private final JComboBox<String> foods = new JComboBox<>();
+    private JComboBox<String> foods = new JComboBox<>();
     /**
      * Automatically generated.
      */
@@ -32,12 +31,11 @@ public class BacteriaAndFoodPanel extends JPanel {
         this.setLayout(new FlowLayout());
         this.foods.addItem("No Food");
         this.createBacteria.addActionListener(e -> {
-            //TODO complete integration of this frame into the view.
-            JFrame f = new SpeciesCreationFrame(view);
+            new SpeciesCreationFrame(view);
         });
         this.createFood.addActionListener(e -> {
-            JFrame foodFrame = new FoodCreation(view);
-            //this.foods.addItem(food.name);
+            new FoodCreation(view, this);
+            
         });
         this.add(this.selectFood);
         this.add(this.foods);
@@ -50,5 +48,13 @@ public class BacteriaAndFoodPanel extends JPanel {
      */
     public String getSelectedFood() {
         return (String) this.foods.getSelectedItem();
+    }
+    /**
+     * Update food's type.
+     * @param view from which to take existing food's name.
+     */
+    public void updateFoods(final View view) {
+        this.foods = new JComboBox<>();
+        view.getFoodsType().forEach(f -> this.foods.addItem(f.getName()));
     }
 }

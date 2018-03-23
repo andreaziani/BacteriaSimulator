@@ -23,5 +23,9 @@ public enum Nutrient {
     /**
      * Inorganic salt.
      */
-    INORGANIC_SALT;
+    INORGANIC_SALT,
+    /**
+     * Proteins.
+     */
+    PROTEINS;
 }

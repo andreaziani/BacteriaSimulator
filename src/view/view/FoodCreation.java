@@ -1,10 +1,6 @@
 package view.view;
 
 import java.awt.BorderLayout;
-//import java.awt.Dimension;
-//import java.awt.Toolkit;
-import java.util.Arrays;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -29,11 +25,6 @@ public class FoodCreation extends JFrame {
      * Automatically generated.
      */
     private static final long serialVersionUID = 82976646298898908L;
-    // private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-    // private final int height = dim.height * 2 / 5; // get 2/5 of the screen
-    // dimension.
-    // private final int width = dim.width * 2 / 5; // get 2/5 of the screen
-    // dimension.
     private ViewFoodBuilder builder;
     private final JPanel top = new JPanel();
     private final JPanel center = new JPanel();
@@ -51,17 +42,18 @@ public class FoodCreation extends JFrame {
     /**
      * Constructor the frame by passing a View.
      * 
-     * @param view
-     *            the View with which to interact.
+     * @param view the View with which to interact.
+     * @param superPanel that's called the frame.
      */
-    public FoodCreation(final View view) {
+    public FoodCreation(final View view, final BacteriaAndFoodPanel superPanel) {
         super("Food Creation");
         this.setLayout(new BorderLayout());
-        // this.setSize(width, height);
-        view.getNutrients().forEach(n -> nutrients.addItem(n));
+        start(view);
         this.addName.addActionListener(e -> {
             try {
                 this.builder = new ViewFoodBuilder(this.name.getText());
+                this.addNutrient.setEnabled(true);
+                this.addName.setEnabled(false);
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(this, "Food should have a name!");
             }
@@ -69,20 +61,23 @@ public class FoodCreation extends JFrame {
 
         this.addNutrient.addActionListener(e -> {
             try {
-                this.builder.addNutrient(Pair.of(getSelectedNutrient(),  Double.parseDouble(this.quantity.getText())));
+                this.builder.addNutrient(Pair.of(getSelectedNutrient(), Double.parseDouble(this.quantity.getText())));
+                this.createFood.setEnabled(true);
             } catch (Exception exception1) {
-                JOptionPane.showMessageDialog(this, "ATTENTION SOMETHING WRONG!" + "\n" + "-Check that you have set the name before adding" 
-                                                    + "\n" + "-Check that you have entered numbers in quantity");
+                exception1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "ATTENTION SOMETHING'S WRONG!" + "\n"
+                        + "-Check that you have entered numbers in quantity like 10.00");
             }
         });
 
         this.createFood.addActionListener(e -> {
             try {
                 view.addNewTypeOfFood(this.builder.build());
-            } catch (NullPointerException exception) {
-                JOptionPane.showMessageDialog(this, "You have to add Name and Nutrients before!");
+                this.dispose();
+                superPanel.updateFoods(view); //TODO PERCHE' NON WORKA?
             } catch (AlreadyExistingFoodException exception2) {
-                JOptionPane.showMessageDialog(this, "THIS FOOD ALREADY EXIST! CHANGE THE NAME");
+                JOptionPane.showMessageDialog(this, "This food already exist!");
+                this.dispose();
             }
         });
         top.add(this.setName);
@@ -97,13 +92,21 @@ public class FoodCreation extends JFrame {
         this.add(this.top, BorderLayout.NORTH);
         this.add(this.center, BorderLayout.CENTER);
         this.add(this.bot, BorderLayout.SOUTH);
+        
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.pack();
         this.setVisible(true);
     }
 
+    private void start(final View view) {
+        this.addNutrient.setEnabled(false);
+        this.createFood.setEnabled(false);
+        this.name.setText("Food1");
+        this.quantity.setText("10.00");
+        view.getNutrients().forEach(n -> nutrients.addItem(n));
+    }
+
     private Nutrient getSelectedNutrient() {
-        return Arrays.asList(Nutrient.values())
-                .get(Arrays.asList(Nutrient.values()).indexOf(this.nutrients.getSelectedItem()));
+        return Nutrient.valueOf((String) this.nutrients.getSelectedItem());
     }
 }
