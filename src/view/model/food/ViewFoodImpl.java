@@ -83,10 +83,16 @@ public final class ViewFoodImpl implements ViewFood {
         /**
          * Constructor a FoodBuilder by passing the name of the food.
          * 
-         * @param name
-         *            of the food.
+         * @param name the name of the food.
+         * @throws NullPointerException if name is null.
+         * @throws IllegalArgumentException if name isn't correct.
+         * 
          */
         public ViewFoodBuilder(final String name) {
+            Objects.requireNonNull(name);
+            if (name.isEmpty()) {
+                throw new IllegalArgumentException();
+            }
             this.name = name;
             this.built = false;
         }

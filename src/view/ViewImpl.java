@@ -13,6 +13,7 @@ import model.Analisys;
 import model.action.ActionType;
 import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.food.Nutrient;
 import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
@@ -25,7 +26,6 @@ import view.model.food.ViewFood;
 public class ViewImpl implements View {
     private final Controller controller;
     private ViewState state;
-
     private final Map<ActionType, List<DecisionMakerOption>> decisionOptionsMap;
     private final List<BehaviorDecoratorOption> decoratorOptionsList;
 
@@ -95,6 +95,16 @@ public class ViewImpl implements View {
                         .collect(Collectors.toSet()),
                 decoratorOptionsList.stream().filter(x -> decorators.get(decoratorOptionsList.indexOf(x)))
                         .collect(Collectors.toList())));
+    }
+
+    @Override
+    public List<String> getFoodsName() {
+        return this.getFoodsType().stream().map(f -> f.getName()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getNutrients() {
+        return Arrays.asList(Nutrient.values()).stream().map(n -> n.toString()).collect(Collectors.toList());
     }
 
 }

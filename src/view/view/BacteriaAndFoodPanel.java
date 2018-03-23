@@ -30,12 +30,13 @@ public class BacteriaAndFoodPanel extends JPanel {
     public BacteriaAndFoodPanel(final View view) {
         super();
         this.setLayout(new FlowLayout());
+        this.foods.addItem("No Food");
         this.createBacteria.addActionListener(e -> {
             //TODO complete integration of this frame into the view.
             JFrame f = new SpeciesCreationFrame(view);
         });
         this.createFood.addActionListener(e -> {
-            JFrame f = new FoodCreation(view);
+            JFrame foodFrame = new FoodCreation(view);
             //this.foods.addItem(food.name);
         });
         this.add(this.selectFood);

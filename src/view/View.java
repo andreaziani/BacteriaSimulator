@@ -49,7 +49,16 @@ public interface View {
      * @return all the type of foods created.
      */
     Set<ViewFood> getFoodsType();
-
+    /**
+     * 
+     * @return the list of names of all the type of foods created.
+     */
+    List<String> getFoodsName();
+    /**
+     * 
+     * @return the existing nutrients.
+     */
+    List<String> getNutrients();
     /**
      * Load a replay.
      * 
