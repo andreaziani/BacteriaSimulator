@@ -1,8 +1,13 @@
-package model;
+package model.geneticcode;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import model.Energy;
 import model.action.Action;
 import model.food.Nutrient;
 
@@ -11,47 +16,41 @@ import model.food.Nutrient;
  */
 
 public class GeneticCodeImpl implements GeneticCode {
-    private String code;
-    private final Map<Action, Energy> actions;
-    private Map<Nutrient, Energy> nutrients;
-    private double speed;
+    public List<NucleicAcid> code = new ArrayList<NucleicAcid>();
+    public double radius;
+    public double perceptionRadius;
+    public static final int DNAnumber = 12;
 
     /**
      * Construct a Bacteria's Genetic Code.
      * 
      * @param code
-     *            the "name" of genetic code.
-     * @param actions
-     *            a list of possible bacteria's actions.
-     * @param nutrients
-     *            a list of nutrients of bacteria.
-     * @param speed
-     *            speed of bacteria.
+     *            the code of DNA.
+     * @param radius
+     *          radius of bacteria.
+     * @param perceptionRadius
+     *          perception of radius of bacteria.
      */
-    public GeneticCodeImpl(final String code, final Map<Action, Energy> actions, final Map<Nutrient, Energy> nutrients, final double speed) {
+    public GeneticCodeImpl(final List<NucleicAcid> code, final double radius, final double perceptionRadius) {
         this.code = code;
-        this.actions = actions;
-        this.nutrients = nutrients;
-        this.speed = speed;
+        this.radius = radius;
+        this.perceptionRadius = perceptionRadius;
     }
 
-    @Override
-    public void setActionCost(final Action action, final Energy cost) {
-        if (!this.actions.containsKey(action)) {
-            throw new IllegalArgumentException();
-        } else {
-            actions.put(action, cost);
+    /**
+     * Construct a Bacteria's Genetic Code.
+     */
+    public GeneticCodeImpl() {
+        for (int i = 0; i < DNAnumber; i++) {
+            Random rand = new Random();
+            int rnd = rand.nextInt(NucleicAcid.values().length);
+            this.code.add(NucleicAcid.values()[rnd]);
         }
     }
 
     @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
-    public void setCode(final String code) {
-        this.code = code;
+    public Gene getCode() {
+        return (Gene) this.code;
     }
 
     @Override
@@ -61,11 +60,6 @@ public class GeneticCodeImpl implements GeneticCode {
         } else {
             return actions.get(action);
         }
-    }
-
-    @Override
-    public void setSpeed(final double speed) {
-        this.speed = speed;
     }
 
     @Override
@@ -83,31 +77,20 @@ public class GeneticCodeImpl implements GeneticCode {
     }
 
     @Override
-    public void setEnergyFromNutrient(final Nutrient nutrient, final Energy cost) {
-        if (!this.nutrients.containsKey(nutrient)) {
-            throw new IllegalArgumentException();
-        } else {
-            nutrients.put(nutrient, cost);
-        }
-    }
-
-    @Override
     public Double getRadius() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.radius;
     }
 
     @Override
     public Double getPerceptionRadius() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.perceptionRadius;
     }
 
     @Override
     public GeneticCode clone() {
         final Map<Action, Energy> clonedActions = new HashMap<>(this.actions);
         final Map<Nutrient, Energy> clonedNutrients = new HashMap<>(this.nutrients);
-        return new GeneticCodeImpl(this.code, clonedActions, clonedNutrients, this.speed);
+        return new GeneticCodeImpl((Gene) this.code.getCode(), clonedActions, clonedNutrients, this.speed, this.radius, this.perceptionRadius);
     }
 
 }

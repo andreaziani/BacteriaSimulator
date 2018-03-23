@@ -1,5 +1,7 @@
 package model.geneticcode;
 
+import java.util.List;
+
 /**
  * Interface of a GeneticCode type. It represent individual specific
  * characteristic of a Bacteria and can mutate while the bacteria is still
@@ -8,23 +10,17 @@ package model.geneticcode;
 
 public interface Gene {
     /**
-     * Set Code of bacteria's genetic code.
-     *
-     * @param code
-     *            new genetic code.
-     */
-    void setCode(String code);
-
-    /**
      * DNA code.
      * @return the code of bacteria.
      */
-    String getCode();
+    List<NucleicAcid> getCode();
 
     /**
-     * Gene interprets the DNA code.
+     * Gene interprets part of the DNA code.
      * eg. ""AAA" "AAT" "AAC" "AAG".
+     * @param list
+     *          sector of DNA to interpret.
      * @return an interpretation of DNA.
      */
-    int interpret();
+    int interpret(List<Integer> list);
 }
