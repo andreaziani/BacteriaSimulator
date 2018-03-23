@@ -7,8 +7,7 @@ import controller.food.FoodControllerImpl;
 import model.Environment;
 import model.bacteria.SpeciesBuilder;
 import utils.ConversionsUtil;
-import utils.exceptions.AlreadyExistingSpeciesExeption;
-import utils.exceptions.InvalidSpeicesExeption;
+import utils.exceptions.InvalidSpeciesExeption;
 import utils.exceptions.SimulationAlreadyStartedExeption;
 import view.model.ViewPosition;
 import view.model.ViewState;
@@ -67,8 +66,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             species.getDecisionOptions().forEach(builder::addDecisionMaker);
             species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
             env.addSpecies(builder.build());
-        } catch (IllegalStateException | AlreadyExistingSpeciesExeption e) {
-            throw new InvalidSpeicesExeption();
+        } catch (IllegalStateException e) {
+            throw new InvalidSpeciesExeption();
         }
     }
 

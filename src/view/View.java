@@ -7,6 +7,7 @@ import java.util.Set;
 
 import model.Analisys;
 import model.action.ActionType;
+import utils.exceptions.AlreadyExistingSpeciesExeption;
 import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.food.ViewFood;
@@ -49,16 +50,19 @@ public interface View {
      * @return all the type of foods created.
      */
     Set<ViewFood> getFoodsType();
+
     /**
      * 
      * @return the list of names of all the type of foods created.
      */
     List<String> getFoodsName();
+
     /**
      * 
      * @return the existing nutrients.
      */
     List<String> getNutrients();
+
     /**
      * Load a replay.
      * 
@@ -98,6 +102,12 @@ public interface View {
      *            the decision makers associated with each ActionType.
      * @param decorators
      *            the behavior decorators independent from the action types.
+     * @throws SimulationAlreadyStartedExeption
+     *             - if the simulation is already started.
+     * @throws InvalidSpeciesExeption
+     *             - if the given Species cannot be added correctly.
+     * @throws AlreadyExistingSpeciesExeption
+     *             if a species with that name already exists.
      */
     void createSpecies(String name, Color color, Map<ActionType, Integer> decisionOptions, List<Boolean> decorators);
 }
