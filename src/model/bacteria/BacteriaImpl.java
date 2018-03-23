@@ -3,11 +3,11 @@ package model.bacteria;
 import java.util.Objects;
 
 import model.Energy;
-import model.GeneticCode;
 import model.action.Action;
 import model.bacteria.behavior.Behavior;
 import model.food.Food;
 import model.food.FoodFactory;
+import model.geneticcode.GeneticCode;
 import model.perception.Perception;
 
 /**

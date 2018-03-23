@@ -1,10 +1,10 @@
 package model.bacteria;
 
 import model.Energy;
-import model.GeneticCode;
 import model.action.Action;
 import model.food.Food;
 import model.food.FoodFactory;
+import model.geneticcode.GeneticCode;
 import model.perception.Perception;
 
 /**
