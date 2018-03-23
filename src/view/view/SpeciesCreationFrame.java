@@ -1,10 +1,13 @@
 package view.view;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -13,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -26,6 +30,7 @@ import view.View;
  * Frame that enable creation of Species composing different attributes.
  */
 public class SpeciesCreationFrame extends JFrame {
+    private static final int INITIAL_TXT_SIZE = 20;
     /**
      * Automatically generated.
      */
@@ -45,9 +50,11 @@ public class SpeciesCreationFrame extends JFrame {
     public SpeciesCreationFrame(final View view) {
         super("Create a Species");
         this.view = view;
-        this.setLayout(new FlowLayout());
-        final JPanel panel = new JPanel();
-        txtName = new JTextField();
+        this.setLayout(new BorderLayout());
+
+        final JLabel txtLabel = new JLabel("Set the name of the Species");
+        txtName = new JTextField(INITIAL_TXT_SIZE);
+
         colorChooser = new JColorChooser();
         comboBoxes = new EnumMap<>(ActionType.class);
         Arrays.asList(ActionType.values()).stream().forEach(a -> {
@@ -62,12 +69,33 @@ public class SpeciesCreationFrame extends JFrame {
         final JButton btnCreate = new JButton("create Species");
         btnCreate.addActionListener(e -> createSpecies());
 
-        panel.add(txtName);
-        panel.add(colorChooser);
-        comboBoxes.values().forEach(panel::add);
-        checkBoxList.forEach(panel::add);
-        panel.add(btnCreate);
-        this.add(panel);
+        this.add(colorChooser, BorderLayout.WEST);
+        final JPanel comboPanel = new JPanel(new GridLayout(comboBoxes.size() * 2, 1));
+        for (final ActionType type : ActionType.values()) {
+            if (type != ActionType.NOTHING) {
+                comboPanel.add(new JLabel(type.toString().toLowerCase(Locale.ENGLISH)));
+                comboPanel.add(comboBoxes.get(type));
+            }
+        }
+
+        final JPanel checkPanel = new JPanel(new GridLayout(checkBoxList.size(), 1));
+        checkBoxList.forEach(checkPanel::add);
+        final JPanel behaviorPanel = new JPanel();
+        behaviorPanel.add(comboPanel);
+        behaviorPanel.add(checkPanel);
+
+        final JPanel txtPanel = new JPanel(new GridLayout(2, 1));
+        txtPanel.add(txtLabel);
+        txtPanel.add(txtName);
+        final JPanel createPanel = new JPanel(new FlowLayout());
+        createPanel.add(btnCreate);
+        final JPanel centerPanel = new JPanel(new GridLayout(2, 1));
+        centerPanel.add(behaviorPanel);
+        centerPanel.add(txtPanel);
+        final JPanel centerPanelContainer = new JPanel(new FlowLayout());
+        centerPanelContainer.add(centerPanel);
+        this.add(centerPanelContainer, BorderLayout.CENTER);
+        this.add(createPanel, BorderLayout.SOUTH);
         this.pack();
         this.setVisible(true);
     }
