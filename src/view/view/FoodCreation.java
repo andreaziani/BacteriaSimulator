@@ -17,6 +17,11 @@ import view.View;
  *
  */
 public class FoodCreation extends JFrame {
+    /**
+     * Automatically generated.
+     */
+    private static final long serialVersionUID = 82976646298898908L;
+
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private final int height = dim.height * 2 / 5;  // get 2/5 of the screen dimension.
     private final int width = dim.width * 2 / 5;    // get 2/5 of the screen dimension.

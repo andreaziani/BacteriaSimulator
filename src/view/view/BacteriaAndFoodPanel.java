@@ -1,7 +1,6 @@
 package view.view;
 
 import java.awt.FlowLayout;
-import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
