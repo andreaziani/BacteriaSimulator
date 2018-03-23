@@ -4,6 +4,7 @@ import java.util.Map;
 
 import model.action.Action;
 import model.food.Nutrient;
+import model.geneticcode.GeneticCode;
 
 /**
  * 
