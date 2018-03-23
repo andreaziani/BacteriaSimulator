@@ -2,6 +2,8 @@ package model.geneticcode;
 
 import java.util.List;
 
+import model.Energy;
+
 /**
  * Implementation of interface SpeedGene.
  */
@@ -24,8 +26,8 @@ public class SpeedGeneImpl implements SpeedGene {
     }
 
     @Override
-    public int interpretSpeed() {
-        int b = code.interpret(list);
+    public Energy interpretSpeed() {
+        Energy b = code.interpret(list);
         return b;
     }
 }

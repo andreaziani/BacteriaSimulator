@@ -1,5 +1,7 @@
 package model.geneticcode;
 
+import model.Energy;
+
 /**
  * Interface of a part of GeneticCode. It represent the speed of bacteria.
  */
@@ -9,5 +11,5 @@ public interface NutrientsGene {
      * eg. ""AAA" "AAT" "AAC" "AAG".
      * @return an interpretation of DNA.
      */
-    int interpretNutrients();
+    Energy interpretNutrients();
 }

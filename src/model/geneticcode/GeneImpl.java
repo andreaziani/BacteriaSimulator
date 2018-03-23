@@ -2,6 +2,8 @@
 
 import java.util.List;
 
+import model.Energy;
+
 /**
  * Implementation of interface Gene.
  */
@@ -34,8 +36,8 @@ public class GeneImpl implements Gene {
     }
 
     @Override
-    public int interpret(final List<Integer> list) {
-        int b = (this.getCode().get(list.get(0)).ordinal() + this.getCode().get(list.get(1)).ordinal() + this.getCode().get(list.get(2)).ordinal()) % var;
+    public Energy interpret(final List<Integer> list) {
+        Energy b = (this.getCode().get(list.get(0)).ordinal() + this.getCode().get(list.get(1)).ordinal() + this.getCode().get(list.get(2)).ordinal()) % var;
         return b;
     }
 

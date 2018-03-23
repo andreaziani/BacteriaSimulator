@@ -2,6 +2,8 @@ package model.geneticcode;
 
 import java.util.List;
 
+import model.Energy;
+
 /**
  * Implementation of interface NutrientsGene.
  */
@@ -24,8 +26,8 @@ public class NutrientsGeneImpl implements NutrientsGene {
     }
 
     @Override
-    public int interpretNutrients() {
-        int b = code.interpret(list);
+    public Energy interpretNutrients() {
+        Energy b = code.interpret(list);
         return b;
     }
 }

@@ -2,6 +2,8 @@ package model.geneticcode;
 
 import java.util.List;
 
+import model.Energy;
+
 /**
  * Interface of a GeneticCode type. It represent individual specific
  * characteristic of a Bacteria and can mutate while the bacteria is still
@@ -22,5 +24,5 @@ public interface Gene {
      *          sector of DNA to interpret.
      * @return an interpretation of DNA.
      */
-    int interpret(List<Integer> list);
+    Energy interpret(List<Integer> list);
 }
