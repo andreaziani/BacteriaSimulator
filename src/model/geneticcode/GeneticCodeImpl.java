@@ -17,6 +17,9 @@ import model.food.Nutrient;
 
 public class GeneticCodeImpl implements GeneticCode {
     public List<NucleicAcid> code = new ArrayList<NucleicAcid>();
+    public SpeedGene speed;
+    public NutrientsGene nutrients;
+    public ActionsGene actions;
     public double radius;
     public double perceptionRadius;
     public static final int DNAnumber = 12;
@@ -55,25 +58,16 @@ public class GeneticCodeImpl implements GeneticCode {
 
     @Override
     public Energy getActionCost(final Action action) {
-        if (!this.actions.containsKey(action)) {
-            throw new IllegalArgumentException();
-        } else {
-            return actions.get(action);
-        }
+        return actions.interpretActionCost(action);
     }
 
     @Override
     public double getSpeed() {
-        return speed;
+        return speed.interpretSpeed();
     }
-
     @Override
     public Energy getEnergyFromNutrient(final Nutrient nutrient) {
-        if (!this.nutrients.containsKey(nutrient)) {
-            throw new IllegalArgumentException();
-        } else {
-            return nutrients.get(nutrient);
-        }
+        return nutrients.interpretNutrients(nutrient);
     }
 
     @Override
@@ -85,12 +79,12 @@ public class GeneticCodeImpl implements GeneticCode {
     public Double getPerceptionRadius() {
         return this.perceptionRadius;
     }
-
+/*
     @Override
     public GeneticCode clone() {
-        final Map<Action, Energy> clonedActions = new HashMap<>(this.actions);
+        final ActionsGene clonedActions = 
         final Map<Nutrient, Energy> clonedNutrients = new HashMap<>(this.nutrients);
         return new GeneticCodeImpl((Gene) this.code.getCode(), clonedActions, clonedNutrients, this.speed, this.radius, this.perceptionRadius);
-    }
+    }*/
 
 }
