@@ -16,7 +16,7 @@ public interface GeneticCode extends Cloneable {
      * 
      * @return the cost of executing that action with this GeneticCode.
      */
-    Energy getActionCost();
+    Energy getActionCost(Action action);
 
     /**
      * @return the speed of a bacteria with this GeneticCode.
@@ -36,7 +36,7 @@ public interface GeneticCode extends Cloneable {
      * @return the amount of Energy that the Bacteria can gain by eating the given
      *         Nutrient, it is negative if the Nutrient is nocive.
      */
-    Energy getEnergyFromNutrient();
+    Energy getEnergyFromNutrient(Nutrient nutrient);
 
     /**
      * @return the radius of a bacteria with this GeneticCode.
@@ -47,11 +47,13 @@ public interface GeneticCode extends Cloneable {
      * @return the radius of the perception of a bacteria with this GeneticCode.
      */
     Double getPerceptionRadius();
-
+/*
     /**
      * @return a new GeneticCode object that is a copy of the current GeneticCode
      *          this == this.clone() result is false
      *          this.equals(this.clone()) result is true
      */
-    GeneticCode clone();
+    /*
+    GeneticCode clone()
+    */
 }

@@ -22,7 +22,9 @@ public interface Gene {
      * eg. ""AAA" "AAT" "AAC" "AAG".
      * @param list
      *          sector of DNA to interpret.
+     * @param var
+     *          variable to divide energy.
      * @return an interpretation of DNA.
      */
-    Energy interpret(List<Integer> list);
+    Energy interpret(List<Integer> list, int var);
 }

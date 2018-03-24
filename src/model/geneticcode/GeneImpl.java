@@ -3,6 +3,7 @@
 import java.util.List;
 
 import model.Energy;
+import model.EnergyImpl;
 
 /**
  * Implementation of interface Gene.
@@ -10,7 +11,7 @@ import model.Energy;
 public class GeneImpl implements Gene {
 
     public List<NucleicAcid> code;
-    public static final int var = 15;
+    public static final double var = 15.0;
     /**
      * Construct a Gene of GeneticCode.
      * 
@@ -36,8 +37,9 @@ public class GeneImpl implements Gene {
     }
 
     @Override
-    public Energy interpret(final List<Integer> list) {
-        Energy b = (this.getCode().get(list.get(0)).ordinal() + this.getCode().get(list.get(1)).ordinal() + this.getCode().get(list.get(2)).ordinal()) % var;
+    public Energy interpret(final List<Integer> list, final int var) {
+        int a = (this.getCode().get(list.get(0)).ordinal() + this.getCode().get(list.get(1)).ordinal() + this.getCode().get(list.get(2)).ordinal()) % var;
+        Energy b = new EnergyImpl(a);
         return b;
     }
 

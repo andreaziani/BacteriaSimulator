@@ -57,8 +57,8 @@ public class GeneticCodeImpl implements GeneticCode {
     }
 
     @Override
-    public Energy getActionCost() {
-        return actions.interpretActionCost();
+    public Energy getActionCost(final Action action) {
+        return actions.interpretActionCost(action);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class GeneticCodeImpl implements GeneticCode {
     }
     @Override
     public Energy getEnergyFromNutrient(final Nutrient nutrient) {
-        return nutrients.interpretNutrients();
+        return nutrients.interpretNutrients(nutrient);
     }
 
     @Override
@@ -79,12 +79,12 @@ public class GeneticCodeImpl implements GeneticCode {
     public Double getPerceptionRadius() {
         return this.perceptionRadius;
     }
-
+/*
     @Override
     public GeneticCode clone() {
         final ActionsGene clonedActions = 
         final Map<Nutrient, Energy> clonedNutrients = new HashMap<>(this.nutrients);
         return new GeneticCodeImpl((Gene) this.code.getCode(), clonedActions, clonedNutrients, this.speed, this.radius, this.perceptionRadius);
-    }
+    }*/
 
 }
