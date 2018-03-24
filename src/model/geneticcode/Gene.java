@@ -26,5 +26,5 @@ public interface Gene {
      *          variable to divide energy.
      * @return an interpretation of DNA.
      */
-    Energy interpret(List<Integer> list, int var);
+    Double interpret(List<Integer> list, int var);
 }

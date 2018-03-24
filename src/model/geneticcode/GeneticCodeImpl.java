@@ -1,12 +1,5 @@
 package model.geneticcode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import model.Energy;
 import model.action.Action;
 import model.food.Nutrient;
@@ -16,13 +9,12 @@ import model.food.Nutrient;
  */
 
 public class GeneticCodeImpl implements GeneticCode {
-    public List<NucleicAcid> code = new ArrayList<NucleicAcid>();
-    public SpeedGene speed;
-    public NutrientsGene nutrients;
-    public ActionsGene actions;
-    public double radius;
-    public double perceptionRadius;
-    public static final int DNAnumber = 12;
+    private Gene code;
+    private SpeedGene speed;
+    private NutrientsGene nutrients;
+    private ActionsGene actions;
+    private double radius;
+    private double perceptionRadius;
 
     /**
      * Construct a Bacteria's Genetic Code.
@@ -34,26 +26,18 @@ public class GeneticCodeImpl implements GeneticCode {
      * @param perceptionRadius
      *          perception of radius of bacteria.
      */
-    public GeneticCodeImpl(final List<NucleicAcid> code, final double radius, final double perceptionRadius) {
+    public GeneticCodeImpl(final Gene code, final double radius, final double perceptionRadius) {
         this.code = code;
         this.radius = radius;
         this.perceptionRadius = perceptionRadius;
-    }
-
-    /**
-     * Construct a Bacteria's Genetic Code.
-     */
-    public GeneticCodeImpl() {
-        for (int i = 0; i < DNAnumber; i++) {
-            Random rand = new Random();
-            int rnd = rand.nextInt(NucleicAcid.values().length);
-            this.code.add(NucleicAcid.values()[rnd]);
-        }
+        this.speed = new SpeedGeneImpl(code);
+        this.nutrients = new NutrientsGeneImpl(code);
+        this.actions = new ActionsGeneImpl(code);
     }
 
     @Override
     public Gene getCode() {
-        return (Gene) this.code;
+        return this.code;
     }
 
     @Override
@@ -79,12 +63,5 @@ public class GeneticCodeImpl implements GeneticCode {
     public Double getPerceptionRadius() {
         return this.perceptionRadius;
     }
-/*
-    @Override
-    public GeneticCode clone() {
-        final ActionsGene clonedActions = 
-        final Map<Nutrient, Energy> clonedNutrients = new HashMap<>(this.nutrients);
-        return new GeneticCodeImpl((Gene) this.code.getCode(), clonedActions, clonedNutrients, this.speed, this.radius, this.perceptionRadius);
-    }*/
 
 }

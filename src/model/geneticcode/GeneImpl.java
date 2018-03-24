@@ -1,6 +1,8 @@
     package model.geneticcode;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import model.Energy;
 import model.EnergyImpl;
@@ -10,8 +12,9 @@ import model.EnergyImpl;
  */
 public class GeneImpl implements Gene {
 
-    public List<NucleicAcid> code;
-    public static final double var = 15.0;
+    private List<NucleicAcid> code = new ArrayList<>();
+    private static final int DNA_NUMBER = 12;
+
     /**
      * Construct a Gene of GeneticCode.
      * 
@@ -20,6 +23,16 @@ public class GeneImpl implements Gene {
      */
     public GeneImpl(final List<NucleicAcid> code) {
         this.code = code;
+    }
+    /**
+     * Constructor empty for Gene.
+     */
+    public GeneImpl() {
+        for (int i = 0; i < DNA_NUMBER; i++) {
+            Random rand = new Random();
+            int rnd = rand.nextInt(NucleicAcid.values().length);
+            this.code.add(NucleicAcid.values()[rnd]);
+        }
     }
 
     /*TODO definire che le caratteristiche riguardano A T C G e solo quelle.
@@ -37,10 +50,9 @@ public class GeneImpl implements Gene {
     }
 
     @Override
-    public Energy interpret(final List<Integer> list, final int var) {
-        int a = (this.getCode().get(list.get(0)).ordinal() + this.getCode().get(list.get(1)).ordinal() + this.getCode().get(list.get(2)).ordinal()) % var;
-        Energy b = new EnergyImpl(a);
-        return b;
+    public Double interpret(final List<Integer> list, final int var) {
+        double a = (this.getCode().get(list.get(0)).ordinal() + this.getCode().get(list.get(1)).ordinal() + this.getCode().get(list.get(2)).ordinal()) % var;
+        return a;
     }
 
 }

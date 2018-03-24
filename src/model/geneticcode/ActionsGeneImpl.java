@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 import model.Energy;
+import model.EnergyImpl;
 import model.action.Action;
 import model.action.ActionType;
 /**
@@ -14,43 +15,39 @@ import model.action.ActionType;
  */
 public class ActionsGeneImpl implements ActionsGene {
 
-    public Gene code;
-    //public static final int var = 15;
+    private Gene code;
     private List<Integer> list;
-    //public Map<Integer<Action, Integer>> actions;
-    public List<ActionType> actions;
     private static final int VAR_EAT = 3;
     private static final int VAR_REPLICATE = 5;
     private static final int VAR_MOVE = 8;
     private static final int VAR_NOTHING = 1;
+    private double en;
     /**
      * Construct a SpeedGene of GeneticCode.
      * 
      * @param code
      *          the code of DNA.
      */
-    public ActionsGeneImpl(final Gene code, final List<ActionType> actions) {
+    public ActionsGeneImpl(final Gene code) {
         this.code = code;
-        this.actions = actions;
+        this.list = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             list.add(i);
         }
     }
-    @SuppressWarnings("unlikely-arg-type")
     @Override
-    public Energy interpretActionCost(final Action action) { //TODO chiamato TEMPORANEAMENTE b
-        Energy b = null;
-        if (action.equals(ActionType.EAT)) {
-            b = code.interpret(list, VAR_EAT);
-        } else if (action.equals(ActionType.REPLICATE)) {
-            b = code.interpret(list, VAR_REPLICATE);
-        } else if (action.equals(ActionType.MOVE)) {
-            b = code.interpret(list, VAR_MOVE);
-        } else if (action.equals(ActionType.NOTHING)) {
-            b = code.interpret(list, VAR_NOTHING);
+    public Energy interpretActionCost(final Action action) {
+        if (action.getType().equals(ActionType.EAT)) {
+            this.en = code.interpret(list, VAR_EAT);
+        } else if (action.getType().equals(ActionType.REPLICATE)) {
+            this.en = code.interpret(list, VAR_REPLICATE);
+        } else if (action.getType().equals(ActionType.MOVE)) {
+            this.en = code.interpret(list, VAR_MOVE);
+        } else if (action.getType().equals(ActionType.NOTHING)) {
+            this.en = code.interpret(list, VAR_NOTHING);
         } else {
-            throw new IllegalArgumentException("error");
+            throw new IllegalArgumentException("error type of action");
         }
-        return b;
+        return new EnergyImpl(en);
     }
 }

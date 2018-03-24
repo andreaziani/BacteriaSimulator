@@ -1,17 +1,20 @@
 package model.geneticcode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Energy;
+import model.EnergyImpl;
 
 /**
  * Implementation of interface SpeedGene.
  */
 public class SpeedGeneImpl implements SpeedGene {
 
-    public Gene code;
-    public static final int var = 10;
+    private Gene code;
+    private static final int VAR = 10;
     private List<Integer> list;
+    private double speed;
     /**
      * Construct a SpeedGene of GeneticCode.
      * 
@@ -20,14 +23,15 @@ public class SpeedGeneImpl implements SpeedGene {
      */
     public SpeedGeneImpl(final Gene code) {
         this.code = code;
+        this.list = new ArrayList<>();
         for (int i = 4; i < 7; i++) {
-            list.add(i);
+            this.list.add(i);
         }
     }
 
     @Override
-    public Energy interpretSpeed() {
-        Energy b = code.interpret(list);
-        return b;
+    public double interpretSpeed() {
+        this.speed = code.interpret(list, VAR);
+        return speed;
     }
 }

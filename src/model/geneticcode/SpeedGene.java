@@ -9,5 +9,5 @@ public interface SpeedGene {
      * eg. ""AAA" "AAT" "AAC" "AAG".
      * @return an interpretation of DNA.
      */
-    int interpretSpeed();
+    double interpretSpeed();
 }

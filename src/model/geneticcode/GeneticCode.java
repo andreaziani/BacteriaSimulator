@@ -9,10 +9,13 @@ import model.food.Nutrient;
  * characteristic of a Bacteria and can mutate while the bacteria is still
  * alive.
  */
-public interface GeneticCode extends Cloneable {
+public interface GeneticCode {
     /**
      * Get the Energy cost for executing an Action, depends on the action but also
      * on the particular GeneticCode.
+     * 
+     * @param action
+     *          the action of bacteria that get cost.
      * 
      * @return the cost of executing that action with this GeneticCode.
      */
@@ -48,13 +51,5 @@ public interface GeneticCode extends Cloneable {
      * @return the radius of the perception of a bacteria with this GeneticCode.
      */
     Double getPerceptionRadius();
-/*
-    /**
-     * @return a new GeneticCode object that is a copy of the current GeneticCode
-     *          this == this.clone() result is false
-     *          this.equals(this.clone()) result is true
-     */
-    /*
-    GeneticCode clone()
-    */
+
 }
