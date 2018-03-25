@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import model.Direction;
@@ -69,8 +68,8 @@ public class TestBacteria {
         return new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(),
                 TestUtils.getLargeDouble());
     }
-    
-    private Bacteria getTestBacteria(GeneticCode code, Energy startingEnergy) {
+
+    private Bacteria getTestBacteria(final GeneticCode code, final Energy startingEnergy) {
         return new BacteriaImpl(new Species() {
 
             @Override
@@ -84,7 +83,7 @@ public class TestBacteria {
             }
         }, code, startingEnergy);
     }
-    
+
     /**
      * Test correct functionality of bacteria perception and action selection.
      */
