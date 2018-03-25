@@ -103,14 +103,18 @@ public class SpeciesCreationFrame extends JFrame {
 
     private void createSpecies() {
         try {
-            view.createSpecies(txtName.getText(),
-                    JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK),
-                    comboBoxes.entrySet().stream()
-                            .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue().getSelectedIndex())),
-                    checkBoxList.stream().map(x -> x.isSelected()).collect(Collectors.toList()));
-            JOptionPane.showMessageDialog(this, "Species " + txtName.getText() + " added succesfully");
-            this.setVisible(false);
-            this.dispose();
+            if (txtName.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Name not valid");
+            } else {
+                view.createSpecies(txtName.getText(),
+                        JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK),
+                        comboBoxes.entrySet().stream()
+                                .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue().getSelectedIndex())),
+                        checkBoxList.stream().map(x -> x.isSelected()).collect(Collectors.toList()));
+                JOptionPane.showMessageDialog(this, "Species " + txtName.getText() + " added succesfully");
+                this.setVisible(false);
+                this.dispose();
+            }
         } catch (InvalidSpeciesExeption e) {
             JOptionPane.showMessageDialog(this, "Can't create the Species correctly");
         } catch (AlreadyExistingSpeciesExeption e) {
