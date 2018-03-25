@@ -2,6 +2,7 @@ package view.view;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -26,9 +27,9 @@ public class TopPanel extends JPanel {
      * Constructor.
      * @param view the View with which to interact.
      */
-    public TopPanel(final View view) {
+    public TopPanel(final View view, final JFrame main) {
         super(new BorderLayout());
-        final JPanel bacteriaAndFood = new BacteriaAndFoodPanel(view);
+        final JPanel bacteriaAndFood = new BacteriaAndFoodPanel(view, main);
         final JPanel choicesPanel = new ChoicesPanel(view);
         this.componentsSettings();
         this.add(menuBar, BorderLayout.NORTH);

@@ -29,7 +29,7 @@ public class MainFrame extends JFrame {
      */
     public MainFrame(final View view) {
         super("Bacteria Simulator");
-        final JPanel topPanel = new TopPanel(view);
+        final JPanel topPanel = new TopPanel(view, this);
         this.setSize(width, height);
         this.add(topPanel, BorderLayout.NORTH);
         this.add(centerPanel, BorderLayout.CENTER);

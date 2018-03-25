@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,7 +31,7 @@ import view.View;
 /**
  * Frame that enable creation of Species composing different attributes.
  */
-public class SpeciesCreationFrame extends JFrame {
+public class SpeciesCreationDialog extends JDialog {
     private static final int INITIAL_TXT_SIZE = 20;
     /**
      * Automatically generated.
@@ -42,13 +43,16 @@ public class SpeciesCreationFrame extends JFrame {
     private final View view;
 
     /**
-     * Create a new SpeciesCreationFrame.
+     * Create a new SpeciesCreationDialog.
      * 
      * @param view
      *            the View with which this frame interacts.
+     * @param main
+     *            the JFrame that will be blocked by this dialog.
      */
-    public SpeciesCreationFrame(final View view) {
-        super("Create a Species");
+    public SpeciesCreationDialog(final View view, final JFrame main) {
+        super(main, true);
+        this.setTitle("Create a Species");
         this.view = view;
         this.setLayout(new BorderLayout());
 
