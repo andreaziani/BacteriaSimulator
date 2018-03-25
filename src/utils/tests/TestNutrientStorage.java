@@ -42,6 +42,17 @@ public class TestNutrientStorage {
     }
 
     /**
+     * This test assert that the constructor which takes the initial energy works
+     * properly.
+     */
+    @Test
+    public void testStartingEnergy() {
+        final NutrientStorage storage = new NutrientStorage(TestUtils.getLargeEnergy(), TestUtils.allNutrientGood());
+        assertEquals(TestUtils.getLargeEnergy().getAmount(), storage.getEnergyStored().getAmount(), TestUtils.getDoubleCompareDelta());
+        assertEquals(TestUtils.getLargeEnergy(), storage.getEnergyStored());
+    }
+
+    /**
      * This test assert that a storage has no energy if all its nutrients don't
      * provide any.
      */

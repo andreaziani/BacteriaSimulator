@@ -5,10 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Optional;
+
 import org.junit.Test;
 
 import model.Direction;
-import model.Energy;
 import model.EnergyImpl;
 import model.action.Action;
 import model.action.ActionType;
@@ -22,6 +23,7 @@ import model.bacteria.behavior.Behavior;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCode;
 import model.geneticcode.GeneticCodeImpl;
+import model.perception.PerceptionImpl;
 import utils.exceptions.MissingPerceptionExeption;
 
 /**
@@ -34,7 +36,8 @@ public class TestBacteria {
      */
     @Test
     public void testCreation() {
-        final GeneticCode code = new GeneticCodeImpl(new GeneImpl(), 1, 10);
+        final GeneticCode code = new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(),
+                TestUtils.getLargeDouble());
         final Bacteria bacteria = new BacteriaImpl(new SpeciesBuilder("").build(), code, EnergyImpl.ZERO);
 
         Action action = new SimpleAction(ActionType.EAT);
@@ -59,13 +62,12 @@ public class TestBacteria {
     }
 
     /**
-     * Test whether a Bacteria respects the dynamics of Energy insertion and
-     * removal.
+     * Test correct functionality of bacteria perception and action selection.
      */
     @Test
-    public void testEnergyDynamics() {
-        final GeneticCode code = new GeneticCodeImpl(new GeneImpl(), 1, 10);
-        Energy startingEnergy = new EnergyImpl(10);
+    public void testPerceptionAndActionSelection() {
+        final GeneticCode code = new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(),
+                TestUtils.getLargeDouble());
         final Bacteria bacteria = new BacteriaImpl(new Species() {
 
             @Override
@@ -77,11 +79,16 @@ public class TestBacteria {
             public Behavior getBehavior() {
                 return (b) -> new SimpleAction(ActionType.EAT);
             }
-        }, code, startingEnergy);
+        }, code, TestUtils.getLargeEnergy());
         assertFalse(bacteria.isDead());
 
         assertThrows(MissingPerceptionExeption.class, bacteria::getAction);
-        
+
+        bacteria.setPerception(
+                new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)));
+        assertTrue(bacteria.getPerception().getFood().isPresent());
+        assertEquals(TestUtils.getAFood(), bacteria.getPerception().getFood().get());
+
         assertEquals(new SimpleAction(ActionType.EAT), bacteria.getAction());
     }
 }

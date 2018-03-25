@@ -3,6 +3,7 @@ package model.bacteria;
 import java.util.Objects;
 
 import model.Energy;
+import model.EnergyImpl;
 import model.action.Action;
 import model.bacteria.behavior.Behavior;
 import model.food.Food;
@@ -96,7 +97,7 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public boolean isDead() {
-        return getEnergy().getAmount() > 0;
+        return getEnergy().compareTo(EnergyImpl.ZERO) <= 0;
     }
 
     @Override
