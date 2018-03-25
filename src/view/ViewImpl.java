@@ -69,8 +69,8 @@ public class ViewImpl implements View {
     }
 
     @Override
-    public Set<ViewFood> getFoodsType() {
-        return this.controller.getExistingViewFoods();
+    public List<ViewFood> getFoodsType() {
+        return this.controller.getExistingViewFoods().stream().collect(Collectors.toList());
     }
 
     @Override

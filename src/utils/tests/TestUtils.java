@@ -60,27 +60,31 @@ public final class TestUtils {
     public static double getDoubleCompareDelta() {
         return DELTA;
     }
-/**
- * @return a small double value (compared to the large double).
- */
+
+    /**
+     * @return a small double value (compared to the large double).
+     */
     public static double getSmallDouble() {
         return SMALL_DOUBLE;
     }
-/**
- * @return a large double value (compared to the small double).
- */
+
+    /**
+     * @return a large double value (compared to the small double).
+     */
     public static double getLargeDouble() {
         return LARGE_DOUBLE;
     }
-/**
- * @return a small Energy value (compared to the large energy).
- */
+
+    /**
+     * @return a small Energy value (compared to the large energy).
+     */
     public static Energy getSmallEnergy() {
         return SMALL_ENERGY;
     }
-/**
- * @return a large Energy value (compared to the small energy).
- */
+
+    /**
+     * @return a large Energy value (compared to the small energy).
+     */
     public static Energy getLargeEnergy() {
         return LARGE_ENERGY;
     }

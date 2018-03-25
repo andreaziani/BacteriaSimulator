@@ -15,7 +15,7 @@ import view.View;
  */
 public class BacteriaAndFoodPanel extends JPanel {
     private final JButton createFood = new JButton("Create Food");
-    private final JButton createBacteria = new JButton("Create Bacteria");
+    private final JButton createBacteria = new JButton("Create Species");
     private final JLabel selectFood = new JLabel("Select Food: ");
     private final JComboBox<String> foods = new JComboBox<>();
     /**
@@ -43,10 +43,10 @@ public class BacteriaAndFoodPanel extends JPanel {
     }
     /**
      * 
-     * @return the selected food.
+     * @return the index of selected food.
      */
-    public String getSelectedFood() {
-        return (String) this.foods.getSelectedItem();
+    public int getSelectedFood() {
+        return this.foods.getSelectedIndex();
     }
     /**
      * Update food's type.

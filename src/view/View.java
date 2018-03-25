@@ -3,11 +3,9 @@ package view;
 import java.awt.Color;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import model.Analisys;
 import model.action.ActionType;
-import utils.exceptions.AlreadyExistingSpeciesExeption;
 import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.food.ViewFood;
@@ -49,7 +47,7 @@ public interface View {
      * 
      * @return all the type of foods created.
      */
-    Set<ViewFood> getFoodsType();
+    List<ViewFood> getFoodsType();
 
     /**
      * 
