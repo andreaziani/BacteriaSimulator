@@ -7,9 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import model.Direction;
+import model.Energy;
 import model.EnergyImpl;
 import model.action.Action;
 import model.action.ActionType;
@@ -20,6 +22,8 @@ import model.bacteria.BacteriaImpl;
 import model.bacteria.Species;
 import model.bacteria.SpeciesBuilder;
 import model.bacteria.behavior.Behavior;
+import model.food.FoodFactoryImpl;
+import model.food.Nutrient;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCode;
 import model.geneticcode.GeneticCodeImpl;
@@ -61,14 +65,13 @@ public class TestBacteria {
         assertEquals(new SpeciesBuilder("").build(), bacteria.getSpecies());
     }
 
-    /**
-     * Test correct functionality of bacteria perception and action selection.
-     */
-    @Test
-    public void testPerceptionAndActionSelection() {
-        final GeneticCode code = new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(),
+    private GeneticCode getRandomCode() {
+        return new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(),
                 TestUtils.getLargeDouble());
-        final Bacteria bacteria = new BacteriaImpl(new Species() {
+    }
+    
+    private Bacteria getTestBacteria(GeneticCode code, Energy startingEnergy) {
+        return new BacteriaImpl(new Species() {
 
             @Override
             public String getName() {
@@ -79,7 +82,15 @@ public class TestBacteria {
             public Behavior getBehavior() {
                 return (b) -> new SimpleAction(ActionType.EAT);
             }
-        }, code, TestUtils.getLargeEnergy());
+        }, code, startingEnergy);
+    }
+    
+    /**
+     * Test correct functionality of bacteria perception and action selection.
+     */
+    @Test
+    public void testPerceptionAndActionSelection() {
+        final Bacteria bacteria = getTestBacteria(getRandomCode(), TestUtils.getLargeEnergy());
         assertFalse(bacteria.isDead());
 
         assertThrows(MissingPerceptionExeption.class, bacteria::getAction);
@@ -90,5 +101,34 @@ public class TestBacteria {
         assertEquals(TestUtils.getAFood(), bacteria.getPerception().getFood().get());
 
         assertEquals(new SimpleAction(ActionType.EAT), bacteria.getAction());
+    }
+
+    /**
+     * Test dynamics of energy consumption and accumulation for the bacteria.
+     */
+    @Test
+    public void testEnergyUsage() {
+        final GeneticCode code = getRandomCode();
+        Energy correctEnergy = TestUtils.getLargeEnergy();
+        Bacteria bacteria = getTestBacteria(code, correctEnergy);
+
+        bacteria.spendEnergy(TestUtils.getSmallEnergy());
+        correctEnergy = correctEnergy.subtract(TestUtils.getSmallEnergy());
+        assertEquals(correctEnergy, bacteria.getEnergy());
+
+        bacteria.addFood(TestUtils.getAFood());
+        Energy gain = EnergyImpl.ZERO;
+        for (final Nutrient n : TestUtils.getAFood().getNutrients()) {
+            if (code.getEnergyFromNutrient(n).getAmount() > 0) {
+                gain = gain.add(code.getEnergyFromNutrient(n).multiply(TestUtils.getAFood().getQuantityFromNutrient(n)));
+            }
+        }
+        correctEnergy = correctEnergy.add(gain);
+        assertEquals(correctEnergy.getAmount(), bacteria.getEnergy().getAmount(), TestUtils.getDoubleCompareDelta());
+
+        bacteria = getTestBacteria(getRandomCode(), TestUtils.getLargeEnergy());
+
+        bacteria.addFood(TestUtils.getAFood());
+        assertEquals(TestUtils.getAFood(), bacteria.getInternalFood(new FoodFactoryImpl()));
     }
 }
