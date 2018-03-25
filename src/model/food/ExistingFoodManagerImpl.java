@@ -11,9 +11,11 @@ import utils.exceptions.AlreadyExistingFoodException;
  */
 public class ExistingFoodManagerImpl implements ExistingFoodManager {
     private final  Set<Food> existingFoods = new HashSet<>();
+    private final Set<String> foodsNames = new HashSet<>();
     @Override
     public void addFood(final Food food) {
-        if (!this.existingFoods.contains(food)) {
+        if (!this.existingFoods.contains(food) && !this.foodsNames.contains(food.getName())) {
+            this.foodsNames.add(food.getName());
             this.existingFoods.add(food); // if someone add 2 foods with same name, the first only will be saved.
         } else {
             throw new AlreadyExistingFoodException();

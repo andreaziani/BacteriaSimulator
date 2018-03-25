@@ -1,7 +1,10 @@
 package view.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,7 +39,7 @@ public class FoodCreation extends JFrame {
     private final JLabel setQuantity = new JLabel("Set quantity: ");
     private final JTextField quantity = new JTextField(10);
     private final JButton addName = new JButton("Add name");
-    private final JButton addNutrient = new JButton("Add Nutrient");
+    private final JButton addNutrient = new JButton("Set Nutrient quantity");
     private final JButton createFood = new JButton("Create food");
 
     /**
@@ -53,6 +56,7 @@ public class FoodCreation extends JFrame {
             try {
                 this.builder = new ViewFoodBuilder(this.name.getText());
                 this.addNutrient.setEnabled(true);
+                this.name.setEditable(false);
                 this.addName.setEnabled(false);
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(this, "Food should have a name!");
@@ -72,9 +76,10 @@ public class FoodCreation extends JFrame {
 
         this.createFood.addActionListener(e -> {
             try {
+                this.builder.addColor(JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK));
                 view.addNewTypeOfFood(this.builder.build());
                 this.dispose();
-                superPanel.updateFoods(view); //TODO PERCHE' NON WORKA?
+                superPanel.updateFoods(view);
             } catch (AlreadyExistingFoodException exception2) {
                 JOptionPane.showMessageDialog(this, "This food already exist!");
                 this.dispose();
@@ -92,7 +97,7 @@ public class FoodCreation extends JFrame {
         this.add(this.top, BorderLayout.NORTH);
         this.add(this.center, BorderLayout.CENTER);
         this.add(this.bot, BorderLayout.SOUTH);
-        
+
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.pack();
         this.setVisible(true);

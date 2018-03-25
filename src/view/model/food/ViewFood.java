@@ -1,5 +1,6 @@
 package view.model.food;
 
+import java.awt.Color;
 import java.util.Set;
 
 import model.food.Nutrient;
@@ -26,4 +27,9 @@ public interface ViewFood {
      * @return the quantity of the nutrient in the food.
      */
     double getQuantityFromNutrient(Nutrient nutrient);
+    /**
+     * 
+     * @return the color of the food.
+     */
+    Color getColor();
 }

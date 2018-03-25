@@ -1,5 +1,6 @@
 package view.model.food;
 
+import java.awt.Color;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ import model.food.Nutrient;
  */
 public final class ViewFoodImpl implements ViewFood {
     private final String name;
+    private final Color color;
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
 
     /**
@@ -27,6 +29,7 @@ public final class ViewFoodImpl implements ViewFood {
      */
     private ViewFoodImpl(final ViewFoodBuilder builder) {
         this.name = builder.name;
+        this.color = builder.color;
         builder.nutrients.keySet().stream().forEach(k -> this.nutrients.put(k, builder.nutrients.get(k)));
     }
 
@@ -63,6 +66,11 @@ public final class ViewFoodImpl implements ViewFood {
     }
 
     @Override
+    public Color getColor() {
+        return this.color;
+    }
+
+    @Override
     public String toString() {
         return "{FOOD name:" + name + ", nutrients:" + nutrients + "}";
     }
@@ -76,6 +84,7 @@ public final class ViewFoodImpl implements ViewFood {
     public static class ViewFoodBuilder {
         // required
         private final String name;
+        private Color color;
         // optional
         private final Map<Nutrient, Double> nutrients = new HashMap<>();
         private boolean built;
@@ -109,7 +118,16 @@ public final class ViewFoodImpl implements ViewFood {
             this.nutrients.put(nutrients.getLeft(), nutrients.getRight());
             return this;
         }
-
+        /**
+         * Set the color of the food.
+         * @param color the color chosen for food.
+         * @return this Builder.
+         */
+        public ViewFoodBuilder addColor(final Color color) {
+            checkBuilt();
+            this.color = color;
+            return this;
+        }
         /**
          * Build a food.
          * 
@@ -129,4 +147,5 @@ public final class ViewFoodImpl implements ViewFood {
             }
         }
     }
+
 }
