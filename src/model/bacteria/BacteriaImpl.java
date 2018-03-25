@@ -9,6 +9,7 @@ import model.food.Food;
 import model.food.FoodFactory;
 import model.geneticcode.GeneticCode;
 import model.perception.Perception;
+import utils.exceptions.MissingPerceptionExeption;
 
 /**
  * Implementation of interface Bacteria.
@@ -66,6 +67,9 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public Action getAction() {
+        if (this.currPerception == null) {
+            throw new MissingPerceptionExeption();
+        }
         return this.behavior.chooseAction(new BacteriaKnowledge(this.currPerception,
                 this.geneticCode::getEnergyFromNutrient, this::getActionCost, this.getEnergy()));
     }
