@@ -8,14 +8,16 @@ import model.bacteria.BacteriaKnowledge;
 
 /**
  * A behavior that set a preference for a particular ActionType if it is
- * available.
+ * available. A preference corresponds to an increment of 1 of the score, which
+ * means that only other preferred actions can compete compete with an action
+ * incremented by this class.
  */
 public class PreferentialDecisionBehavior extends DecisionBehaviorDecorator {
 
     private final ActionType preferred;
 
     /**
-     * Construct a new NearFoodMovementDecisionBehavior by taking a delegate. It
+     * Construct a new PreferentialDecisionBehavior by taking a delegate. It
      * implements the decorator pattern.
      * 
      * @param delegate
@@ -33,8 +35,7 @@ public class PreferentialDecisionBehavior extends DecisionBehaviorDecorator {
     @Override
     protected void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
         super.updateDecisions(decisions, knowledge);
-        if (decisions.keySet().stream().anyMatch(a -> a.getType().equals(preferred))) {
-            this.cleanActionDecisions(a -> !a.getType().equals(preferred), decisions);
-        }
+        decisions.keySet().stream().filter(a -> a.getType().equals(preferred))
+                .forEach(k -> decisions.put(k, decisions.get(k) + 1));
     }
 }
