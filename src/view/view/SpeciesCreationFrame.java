@@ -37,7 +37,6 @@ public class SpeciesCreationFrame extends JFrame {
      */
     private static final long serialVersionUID = -3946173214672360528L;
     private final JTextField txtName;
-    // private final JColorChooser colorChooser;
     private final Map<ActionType, JComboBox<String>> comboBoxes;
     private final List<JCheckBox> checkBoxList;
     private final View view;
@@ -56,7 +55,6 @@ public class SpeciesCreationFrame extends JFrame {
         final JLabel txtLabel = new JLabel("Set the name of the Species");
         txtName = new JTextField(INITIAL_TXT_SIZE);
 
-        // colorChooser = new JColorChooser();
         comboBoxes = new EnumMap<>(ActionType.class);
         Arrays.asList(ActionType.values()).stream().forEach(a -> {
             if (a != ActionType.NOTHING) {
@@ -70,7 +68,6 @@ public class SpeciesCreationFrame extends JFrame {
         final JButton btnCreate = new JButton("create Species");
         btnCreate.addActionListener(e -> createSpecies());
 
-        // this.add(colorChooser, BorderLayout.WEST);
         final JPanel comboPanel = new JPanel(new GridLayout(comboBoxes.size() * 2, 1));
         for (final ActionType type : ActionType.values()) {
             if (type != ActionType.NOTHING) {
