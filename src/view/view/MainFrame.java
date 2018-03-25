@@ -31,12 +31,12 @@ public class MainFrame extends JFrame {
      */
     public MainFrame(final View view) {
         super("Bacteria Simulator");
-        final TopPanel topPanel = new TopPanel(view);
+        final TopPanel topPanel = new TopPanel(view, this);
         this.setSize(width, height);
         this.centerPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
-                centerPanel.addFood(e.getX(), e.getY(), view.getFoodsType().get(topPanel.getSelectedFood()));
-                centerPanel.repaint();
+//                centerPanel.addFood(e.getX(), e.getY(), view.getFoodsType().get(topPanel.getSelectedFood()));
+//                centerPanel.repaint();
             }
         });
         this.add(topPanel, BorderLayout.NORTH);

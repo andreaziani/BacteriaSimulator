@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -25,16 +26,17 @@ public class BacteriaAndFoodPanel extends JPanel {
     /**
      * Construct the panel by passing the view on which to handle the interactions.
      * @param view the view on which to handle the interactions.
+     * @param main frame that's call this panel.
      */
-    public BacteriaAndFoodPanel(final View view) {
+    public BacteriaAndFoodPanel(final View view, final JFrame main) {
         super();
         this.setLayout(new FlowLayout());
         this.foods.addItem("No Food");
         this.createBacteria.addActionListener(e -> {
-            new SpeciesCreationFrame(view);
+            new SpeciesCreationDialog(view, main);
         });
         this.createFood.addActionListener(e -> {
-            new FoodCreation(view, this);
+            new FoodCreation(view, this, main);
         });
         this.add(this.selectFood);
         this.add(this.foods);

@@ -23,11 +23,11 @@ public class SimulationPanel extends JPanel {
 
     @Override
     protected final void paintComponent(final Graphics g) {
-        super.paintComponent(g);
-        for (final Map.Entry<Point, Color> e : this.foods.entrySet()) {
-            g.setColor(e.getValue());
-            g.fillOval(e.getKey().x, e.getKey().y, RADIUS * 2, RADIUS * 2);
-        }
+//        super.paintComponent(g);
+//        for (final Map.Entry<Point, Color> e : this.foods.entrySet()) {
+//            g.setColor(e.getValue());
+//            g.fillOval(e.getKey().x, e.getKey().y, RADIUS * 2, RADIUS * 2);
+//        }
     }
 
     /**
@@ -40,6 +40,6 @@ public class SimulationPanel extends JPanel {
      *            to add.
      */
     public void addFood(final int x, final int y, final ViewFood food) {
-        this.foods.put(new Point(x - RADIUS, y - RADIUS), food.getColor());
+//        this.foods.put(new Point(x - RADIUS, y - RADIUS), food.getColor());
     }
 }

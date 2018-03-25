@@ -6,6 +6,7 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ import view.model.food.ViewFoodImpl.ViewFoodBuilder;
  * Frame for creation of new type of food.
  *
  */
-public class FoodCreation extends JFrame {
+public class FoodCreation extends JDialog {
     /**
      * Automatically generated.
      */
@@ -47,9 +48,11 @@ public class FoodCreation extends JFrame {
      * 
      * @param view the View with which to interact.
      * @param superPanel that's called the frame.
+     * @param main the JFrame that will be blocked by this dialog.
      */
-    public FoodCreation(final View view, final BacteriaAndFoodPanel superPanel) {
-        super("Food Creation");
+    public FoodCreation(final View view, final BacteriaAndFoodPanel superPanel, final JFrame main) {
+        super(main, true);
+        this.setTitle("Create new Food");
         this.setLayout(new BorderLayout());
         start(view);
         this.addName.addActionListener(e -> {
