@@ -1,6 +1,7 @@
 package model;
 
 import model.geneticcode.Gene;
+import model.geneticcode.NucleicAcid;
 
 /**
  * Interface of a classical mutation of a bacteria. It alters many
@@ -9,8 +10,6 @@ import model.geneticcode.Gene;
 public interface Mutation {
     /**
      * Alter the code of Genetic Code.
-     * @param code
-     *           alteration of fisic's genetic code.
      */
-    void alteratedCode(Gene code);
+    void alteratedCode();
 }
