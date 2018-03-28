@@ -1,8 +1,12 @@
 package view.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,7 +24,7 @@ import view.model.food.ViewFoodImpl.ViewFoodBuilder;
  * Frame for creation of new type of food.
  *
  */
-public class FoodCreation extends JFrame {
+public class FoodCreation extends JDialog {
     /**
      * Automatically generated.
      */
@@ -36,7 +40,7 @@ public class FoodCreation extends JFrame {
     private final JLabel setQuantity = new JLabel("Set quantity: ");
     private final JTextField quantity = new JTextField(10);
     private final JButton addName = new JButton("Add name");
-    private final JButton addNutrient = new JButton("Add Nutrient");
+    private final JButton addNutrient = new JButton("Set Nutrient quantity");
     private final JButton createFood = new JButton("Create food");
 
     /**
@@ -44,15 +48,18 @@ public class FoodCreation extends JFrame {
      * 
      * @param view the View with which to interact.
      * @param superPanel that's called the frame.
+     * @param main the JFrame that will be blocked by this dialog.
      */
-    public FoodCreation(final View view, final BacteriaAndFoodPanel superPanel) {
-        super("Food Creation");
+    public FoodCreation(final View view, final BacteriaAndFoodPanel superPanel, final JFrame main) {
+        super(main, true);
+        this.setTitle("Create new Food");
         this.setLayout(new BorderLayout());
         start(view);
         this.addName.addActionListener(e -> {
             try {
                 this.builder = new ViewFoodBuilder(this.name.getText());
                 this.addNutrient.setEnabled(true);
+                this.name.setEditable(false);
                 this.addName.setEnabled(false);
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(this, "Food should have a name!");
@@ -72,9 +79,10 @@ public class FoodCreation extends JFrame {
 
         this.createFood.addActionListener(e -> {
             try {
+                this.builder.addColor(JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK));
                 view.addNewTypeOfFood(this.builder.build());
                 this.dispose();
-                superPanel.updateFoods(view); //TODO PERCHE' NON WORKA?
+                superPanel.updateFoods(view);
             } catch (AlreadyExistingFoodException exception2) {
                 JOptionPane.showMessageDialog(this, "This food already exist!");
                 this.dispose();
@@ -92,7 +100,7 @@ public class FoodCreation extends JFrame {
         this.add(this.top, BorderLayout.NORTH);
         this.add(this.center, BorderLayout.CENTER);
         this.add(this.bot, BorderLayout.SOUTH);
-        
+
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.pack();
         this.setVisible(true);

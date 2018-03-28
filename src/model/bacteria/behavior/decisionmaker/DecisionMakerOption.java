@@ -10,32 +10,34 @@ public enum DecisionMakerOption {
     /**
      * Represents an AlwaysEatDecisionMaker.
      */
-    ALWAYS_EAT(ActionType.EAT),
+    ALWAYS_EAT(ActionType.EAT, "Eats all food"),
     /**
      * Represents a PreferentialEatingDecisionMaker.
      */
-    PREFERENTIAL_EATING(ActionType.EAT),
+    PREFERENTIAL_EATING(ActionType.EAT, "Eats only foods he can use at that moment"),
     /**
      * Represents a RandomMovementDecisionMaker.
      */
-    RANDOM_MOVEMENT(ActionType.MOVE),
+    RANDOM_MOVEMENT(ActionType.MOVE, "Moves randomly"),
     /**
      * Represents a PreferentialMovementDecisionMaker.
      */
-    NEAR_FOOD_MOVEMENT(ActionType.MOVE),
+    NEAR_FOOD_MOVEMENT(ActionType.MOVE, "Moves in the direction of the nearest food"),
     /**
      * Represents an AlwaysReproduceDecisionMaker.
      */
-    ALWAYS_REPLICATE(ActionType.REPLICATE),
+    ALWAYS_REPLICATE(ActionType.REPLICATE, "Always tries to replicate"),
     /**
      * Represents a RandomReproductionDecisionMaker.
      */
-    RANDOM_REPLICATION(ActionType.REPLICATE);
+    RANDOM_REPLICATION(ActionType.REPLICATE, "Replicate at random moments");
 
     private final ActionType type;
+    private final String description;
 
-    DecisionMakerOption(final ActionType type) {
+    DecisionMakerOption(final ActionType type, final String description) {
         this.type = type;
+        this.description = description;
     }
 
     /**
@@ -45,4 +47,8 @@ public enum DecisionMakerOption {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return description;
+    }
 }

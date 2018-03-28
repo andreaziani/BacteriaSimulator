@@ -2,7 +2,6 @@ package model.geneticcode;
 
 import java.util.List;
 
-import model.Energy;
 
 /**
  * Interface of a GeneticCode type. It represent individual specific

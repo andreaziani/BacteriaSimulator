@@ -8,7 +8,6 @@ import model.simulator.Collidable;
  */
 public class CollidableTest implements Collidable {
     private final double radius;
-    
     /**
      * Construct a Collidable object form just its radius.
      * @param r The radius value

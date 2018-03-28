@@ -170,7 +170,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                     .findAny();
 
             if (freePosition.isPresent()) {
-                final GeneticCode clonedGenCode = this.bacteria.getGeneticCode().clone();
+                final GeneticCode clonedGenCode = this.bacteria.getGeneticCode();//TODO correct clone
                 final Energy bactEnergy = this.bacteria.getEnergy();
                 final Energy halfEnergy = bactEnergy.multiply(0.5);
                 this.bacteria.spendEnergy(halfEnergy);

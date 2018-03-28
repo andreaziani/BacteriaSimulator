@@ -50,7 +50,7 @@ public class TestInteractions {
         this.view.addFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 2.0)), new ViewPositionImpl(3.0, 2.0));
         assertThrows(PositionAlreadyOccupiedException.class, () -> this.view.addFood(creationOfFood("Pera", Pair.of(Nutrient.CARBOHYDRATES, 1.0)),
                                                                                      new ViewPositionImpl(1.0, 2.0)));
-        System.out.println(this.controller.getState().toString());
+//        System.out.println(this.controller.getState().toString());
         //TODO aggiungere un controllo che verifichi se inserendo dalla view viene modificato correttamente l'environment
     }
 }

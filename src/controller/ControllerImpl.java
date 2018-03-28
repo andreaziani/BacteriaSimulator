@@ -4,6 +4,7 @@ import java.util.Set;
 
 import model.Analisys;
 import model.Environment;
+import model.State;
 import model.simulator.SimulatorEnvironmentImpl;
 import view.model.ViewPosition;
 import view.model.ViewState;
@@ -29,6 +30,15 @@ public class ControllerImpl implements Controller {
         this.envController.start();
     }
 
+    @Override
+    public void loadInitialState(final String path) {
+        this.fileController.loadInitialState(path);
+    }
+
+    @Override
+    public void saveInitialState(final String path, final State initialState) {
+        this.fileController.saveInitialState(path, initialState);
+    }
     @Override
     public void loadReplay(final String path) {
         this.fileController.loadReplay(path);

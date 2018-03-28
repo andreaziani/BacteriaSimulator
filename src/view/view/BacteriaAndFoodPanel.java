@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -15,7 +16,7 @@ import view.View;
  */
 public class BacteriaAndFoodPanel extends JPanel {
     private final JButton createFood = new JButton("Create Food");
-    private final JButton createBacteria = new JButton("Create Bacteria");
+    private final JButton createBacteria = new JButton("Create Species");
     private final JLabel selectFood = new JLabel("Select Food: ");
     private final JComboBox<String> foods = new JComboBox<>();
     /**
@@ -25,16 +26,17 @@ public class BacteriaAndFoodPanel extends JPanel {
     /**
      * Construct the panel by passing the view on which to handle the interactions.
      * @param view the view on which to handle the interactions.
+     * @param main frame that's call this panel.
      */
-    public BacteriaAndFoodPanel(final View view) {
+    public BacteriaAndFoodPanel(final View view, final JFrame main) {
         super();
         this.setLayout(new FlowLayout());
         this.foods.addItem("No Food");
         this.createBacteria.addActionListener(e -> {
-            new SpeciesCreationFrame(view);
+            new SpeciesCreationDialog(view, main);
         });
         this.createFood.addActionListener(e -> {
-            new FoodCreation(view, this);
+            new FoodCreation(view, this, main);
         });
         this.add(this.selectFood);
         this.add(this.foods);
@@ -43,10 +45,10 @@ public class BacteriaAndFoodPanel extends JPanel {
     }
     /**
      * 
-     * @return the selected food.
+     * @return the index of selected food.
      */
-    public String getSelectedFood() {
-        return (String) this.foods.getSelectedItem();
+    public int getSelectedFood() {
+        return this.foods.getSelectedIndex();
     }
     /**
      * Update food's type.
