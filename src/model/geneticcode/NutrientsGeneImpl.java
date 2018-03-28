@@ -20,6 +20,8 @@ public class NutrientsGeneImpl implements NutrientsGene {
     private static final int VAR_PEPTONES = 8;
     private static final int VAR_HYDROLYSATES = 5;
     private static final int VAR_INORGANIC_SALT = 1;
+    private static final int MIN_ZONE = 7;
+    private static final int MAX_ZONE = 10;
     private double en;
 
     /**
@@ -31,7 +33,7 @@ public class NutrientsGeneImpl implements NutrientsGene {
     public NutrientsGeneImpl(final Gene code) {
         this.code = code;
         this.list = new ArrayList<>();
-        for (int i = 7; i < 10; i++) {
+        for (int i = MIN_ZONE; i < MAX_ZONE; i++) {
             this.list.add(i);
         }
     }

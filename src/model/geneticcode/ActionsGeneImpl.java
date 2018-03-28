@@ -21,6 +21,8 @@ public class ActionsGeneImpl implements ActionsGene {
     private static final int VAR_REPLICATE = 5;
     private static final int VAR_MOVE = 8;
     private static final int VAR_NOTHING = 1;
+    private static final int MIN_ZONE = 1;
+    private static final int MAX_ZONE = 4;
     private double en;
     /**
      * Construct a SpeedGene of GeneticCode.
@@ -31,7 +33,7 @@ public class ActionsGeneImpl implements ActionsGene {
     public ActionsGeneImpl(final Gene code) {
         this.code = code;
         this.list = new ArrayList<>();
-        for (int i = 1; i < 4; i++) {
+        for (int i = MIN_ZONE; i < MAX_ZONE; i++) {
             list.add(i);
         }
     }

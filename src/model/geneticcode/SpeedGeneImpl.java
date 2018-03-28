@@ -15,6 +15,8 @@ public class SpeedGeneImpl implements SpeedGene {
     private static final int VAR = 10;
     private List<Integer> list;
     private double speed;
+    private static final int MIN_ZONE = 4;
+    private static final int MAX_ZONE = 7;
     /**
      * Construct a SpeedGene of GeneticCode.
      * 
@@ -24,7 +26,7 @@ public class SpeedGeneImpl implements SpeedGene {
     public SpeedGeneImpl(final Gene code) {
         this.code = code;
         this.list = new ArrayList<>();
-        for (int i = 4; i < 7; i++) {
+        for (int i = MIN_ZONE; i < MAX_ZONE; i++) {
             this.list.add(i);
         }
     }
