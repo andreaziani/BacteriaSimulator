@@ -24,7 +24,7 @@ import view.model.food.ViewFoodImpl.ViewFoodBuilder;
  * Frame for creation of new type of food.
  *
  */
-public class FoodCreation extends JDialog {
+public class FoodCreationDialog extends JDialog {
     /**
      * Automatically generated.
      */
@@ -50,7 +50,7 @@ public class FoodCreation extends JDialog {
      * @param superPanel that's called the frame.
      * @param main the JFrame that will be blocked by this dialog.
      */
-    public FoodCreation(final View view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
+    public FoodCreationDialog(final View view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
         super(main, true);
         this.setTitle("Create new Food");
         this.setLayout(new BorderLayout());

@@ -36,7 +36,7 @@ public class SpeciesAndFoodPanel extends JPanel {
             new SpeciesCreationDialog(view, main);
         });
         this.createFood.addActionListener(e -> {
-            new FoodCreation(view, this, main);
+            new FoodCreationDialog(view, this, main);
         });
         this.add(this.selectFood);
         this.add(this.foods);
