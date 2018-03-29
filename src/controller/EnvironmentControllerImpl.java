@@ -23,8 +23,10 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     private final FoodController foodController;
 
     /**
+     * Constructor that builds the EnvironmentController by passing the
+     * Environment as an argument.
      * @param env
-     *            the environment that controller will interact.
+     *            the environment that the Controller must manage.
      */
     public EnvironmentControllerImpl(final Environment env) {
         this.env = env;

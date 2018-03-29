@@ -6,8 +6,8 @@ import model.Position;
 import model.PositionImpl;
 
 /**
- * Implementation of the random adding strategies. 
- *
+ * Implementation of the strategy that uses a geometric distribution for the
+ * random choice.
  */
 public class GeometricDistribuitionStrategyImpl implements RandomPositionStrategy {
     @Override

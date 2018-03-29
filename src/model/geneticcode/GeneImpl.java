@@ -1,4 +1,4 @@
-    package model.geneticcode;
+package model.geneticcode;
 
 import java.util.ArrayList;
 import java.util.List;

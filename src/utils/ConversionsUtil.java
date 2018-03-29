@@ -22,43 +22,52 @@ import view.model.food.ViewFoodImpl.ViewFoodBuilder;
  *
  */
 public final class ConversionsUtil {
-    private ConversionsUtil() { }
+    private ConversionsUtil() {
+    }
+
     /**
      * Convert a Food in ViewFood.
-     * @param food Food to convert in ViewFood;
+     * 
+     * @param food
+     *            the Food to convert in ViewFood;
      * @return the converted ViewFood.
      */
     public static ViewFood conversionFromModelToView(final Food food) {
         final ViewFoodBuilder builder = new ViewFoodBuilder(food.getName());
-        food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n)))
-                                    .entrySet().forEach(e -> builder.addNutrient(Pair.of(e.getKey(), e.getValue())));
+        food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n))).entrySet()
+                .forEach(e -> builder.addNutrient(Pair.of(e.getKey(), e.getValue())));
         return builder.build();
     }
+
     /**
      * Convert a ViewFood in Food.
-     * @param food ViewFood to convert.
-     * @return the converted food.
+     * 
+     * @param food
+     *            the ViewFood to convert in Food.
+     * @return the converted Food.
      */
     public static Food conversionFromViewToModel(final ViewFood food) {
         final FoodFactory factory = new FoodFactoryImpl();
-        return factory.createFoodFromNameAndNutrients(food.getName(), 
+        return factory.createFoodFromNameAndNutrients(food.getName(),
                 food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n))));
     }
+
     /**
      * Convert a State in ViewState.
-     * @param state The state to convert.
+     * 
+     * @param state
+     *            the state to convert.
      * @return the converted state.
      */
     public static ViewState conversionFromStateToViewState(final State state) {
-        final Map<ViewPosition, ViewFood> foodState = state.getFoodsState()
-                                                     .keySet()
-                                                     .stream()
-                                                     .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p), 
-                                                                               p -> conversionFromModelToView(state.getFoodsState().get(p))));
+        final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
+                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p),
+                        p -> conversionFromModelToView(state.getFoodsState().get(p))));
         return new ViewStateImpl(foodState); // TODO Aggiungere la mappa di bacteria state.
     }
+
     private static ViewPosition conversionFromPositionToViewPosition(final Position k) {
-       return new ViewPositionImpl(k.getX(), k.getY());
+        return new ViewPositionImpl(k.getX(), k.getY());
     }
 
 }

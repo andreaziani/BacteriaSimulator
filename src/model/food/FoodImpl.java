@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Implementation of Food. A "Food" contains the nutrients that compose the food
- * and their quantity.
+ * Implementation of Food. A "Food" is composed by a name and contains the
+ * nutrients in their quantity.
  *
  *
  */
@@ -19,16 +19,22 @@ public final class FoodImpl implements Food {
 
     /**
      * Constructor of food from name and nutrients.
-     * @param name the name of the food.
-     * @param nutrients the nutrients of the food.
+     * 
+     * @param name
+     *            the name of the food.
+     * @param nutrients
+     *            the nutrients of the food.
      */
     public FoodImpl(final String name, final Map<Nutrient, Double> nutrients) {
         this.name = Optional.of(name);
         this.nutrients = nutrients;
     }
+
     /**
      * Constructor of food from nutrients.
-     * @param nutrients the nutrients of the food.
+     * 
+     * @param nutrients
+     *            the nutrients of the food.
      */
     public FoodImpl(final Map<Nutrient, Double> nutrients) {
         this.name = Optional.empty();

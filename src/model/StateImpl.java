@@ -5,6 +5,7 @@ import java.util.Map;
 
 import model.food.Food;
 import model.food.FoodEnvironment;
+
 /**
  * State implementation.
  * 
@@ -12,16 +13,19 @@ import model.food.FoodEnvironment;
  */
 public class StateImpl implements State {
     private final FoodEnvironment foodEnv;
+
     /**
      * 
-     * @param foodEnv environment that contains the information of foods.
+     * @param foodEnv
+     *            environment that contains the information of foods.
      */
     public StateImpl(final FoodEnvironment foodEnv) { // TODO aggiungere lo stato dei batteri.
         this.foodEnv = foodEnv;
     }
+
     @Override
     public Map<Position, Food> getFoodsState() {
-        return  Collections.unmodifiableMap(this.foodEnv.getFoodsState());
+        return Collections.unmodifiableMap(this.foodEnv.getFoodsState());
     }
 
 }

@@ -4,24 +4,20 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import controller.Controller;
 import model.Analisys;
 import model.action.ActionType;
-import model.bacteria.behavior.BehaviorDecoratorOption;
-import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import model.food.Nutrient;
 import view.model.ViewPosition;
 import view.model.ViewState;
-import view.model.bacteria.ViewSpecies;
 import view.model.bacteria.ViewSpeciesManager;
 import view.model.food.ViewFood;
 
 /**
- * Implementation of View.
+ * Class that represents the "Controller" of the view package and the access
+ * point for the Simulation's Controller.
  *
  */
 public class ViewImpl implements View {
@@ -30,10 +26,11 @@ public class ViewImpl implements View {
     private final ViewSpeciesManager speciesManager;
 
     /**
-     * Constructor that build a View and initializing her observers.
+     * Constructor that build a View passing the Controller that allows interactions
+     * with the model.
      * 
      * @param controller
-     *            controller that allows interactions with the model.
+     *            the controller that allows interactions with the model.
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
