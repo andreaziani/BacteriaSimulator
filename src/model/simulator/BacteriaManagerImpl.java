@@ -145,7 +145,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
         }
 
         private void move() {
-            //
+            final double movement = this.bacteria.getSpeed() * EnvUtil.UNIT_OF_SPACE;
+            // TODO stream of Position in given Direction and movement
         }
 
         private void eat() {
