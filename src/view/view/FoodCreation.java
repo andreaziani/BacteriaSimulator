@@ -50,7 +50,7 @@ public class FoodCreation extends JDialog {
      * @param superPanel that's called the frame.
      * @param main the JFrame that will be blocked by this dialog.
      */
-    public FoodCreation(final View view, final BacteriaAndFoodPanel superPanel, final JFrame main) {
+    public FoodCreation(final View view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
         super(main, true);
         this.setTitle("Create new Food");
         this.setLayout(new BorderLayout());

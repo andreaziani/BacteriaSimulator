@@ -19,7 +19,7 @@ public class TopPanel extends JPanel {
     private final JMenu helpMenu = new JMenu("Help");
     private final JMenuItem loadSimulation = new JMenuItem("Load Simulation");
     private final JMenuItem help = new JMenuItem("Help");
-    private final BacteriaAndFoodPanel speciesAndFood;
+    private final SpeciesAndFoodPanel speciesAndFood;
     private final ChoicesPanel choicesPanel;
     /**
      * Automatically generated.
@@ -32,7 +32,7 @@ public class TopPanel extends JPanel {
      */
     public TopPanel(final View view, final JFrame main) {
         super(new BorderLayout());
-        this.speciesAndFood = new BacteriaAndFoodPanel(view, main);
+        this.speciesAndFood = new SpeciesAndFoodPanel(view, main);
         this.choicesPanel = new ChoicesPanel(view);
         this.componentsSettings();
         this.add(menuBar, BorderLayout.NORTH);

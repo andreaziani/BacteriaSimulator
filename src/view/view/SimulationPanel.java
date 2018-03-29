@@ -1,10 +1,10 @@
 package view.view;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
+//import java.awt.Point;
+//import java.util.HashMap;
+//import java.util.Map;
 
 import javax.swing.JPanel;
 import view.model.food.ViewFood;
@@ -14,8 +14,8 @@ import view.model.food.ViewFood;
  *
  */
 public class SimulationPanel extends JPanel {
-    private static final int RADIUS = 30;
-    private final Map<Point, Color> foods = new HashMap<>();
+//    private static final int RADIUS = 30;
+//    private final Map<Point, Color> foods = new HashMap<>();
     /**
      * Automatically generated.
      */

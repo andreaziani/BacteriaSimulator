@@ -14,9 +14,9 @@ import view.View;
  * Panel that contains all the functions on Bacterias and Foods.
  *
  */
-public class BacteriaAndFoodPanel extends JPanel {
+public class SpeciesAndFoodPanel extends JPanel {
     private final JButton createFood = new JButton("Create Food");
-    private final JButton createBacteria = new JButton("Create Species");
+    private final JButton createSpecies = new JButton("Create Species");
     private final JLabel selectFood = new JLabel("Select Food: ");
     private final JComboBox<String> foods = new JComboBox<>();
     /**
@@ -28,11 +28,11 @@ public class BacteriaAndFoodPanel extends JPanel {
      * @param view the view on which to handle the interactions.
      * @param main frame that's call this panel.
      */
-    public BacteriaAndFoodPanel(final View view, final JFrame main) {
+    public SpeciesAndFoodPanel(final View view, final JFrame main) {
         super();
         this.setLayout(new FlowLayout());
         this.foods.addItem("No Food");
-        this.createBacteria.addActionListener(e -> {
+        this.createSpecies.addActionListener(e -> {
             new SpeciesCreationDialog(view, main);
         });
         this.createFood.addActionListener(e -> {
@@ -40,7 +40,7 @@ public class BacteriaAndFoodPanel extends JPanel {
         });
         this.add(this.selectFood);
         this.add(this.foods);
-        this.add(this.createBacteria);
+        this.add(this.createSpecies);
         this.add(this.createFood);
     }
     /**
