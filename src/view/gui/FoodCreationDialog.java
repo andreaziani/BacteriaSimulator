@@ -44,15 +44,17 @@ public class FoodCreationDialog extends JDialog {
     private final JButton createFood = new JButton("Create food");
 
     /**
-     * Constructor the frame by passing a View.
+     * Constructor the dialog by passing a View, his superPanel and the main frame.
      * 
-     * @param view the View with which to interact.
-     * @param superPanel that's called the frame.
-     * @param main the JFrame that will be blocked by this dialog.
+     * @param view
+     *            the View with which to interact.
+     * @param superPanel
+     *            the superPanel that's called the dialog.
+     * @param main
+     *            the JFrame that will be blocked by this dialog.
      */
     public FoodCreationDialog(final View view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
-        super(main, true);
-        this.setTitle("Create new Food");
+        super(main, "Create new Food", true);
         this.setLayout(new BorderLayout());
         start(view);
         this.addName.addActionListener(e -> {
@@ -79,7 +81,8 @@ public class FoodCreationDialog extends JDialog {
 
         this.createFood.addActionListener(e -> {
             try {
-                this.builder.addColor(JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK));
+                this.builder
+                        .addColor(JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK));
                 view.addNewTypeOfFood(this.builder.build());
                 this.dispose();
                 superPanel.updateFoods(view);

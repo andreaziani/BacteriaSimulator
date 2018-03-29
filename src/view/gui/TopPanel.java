@@ -32,6 +32,9 @@ public class TopPanel extends JPanel {
      */
     public TopPanel(final View view, final JFrame main) {
         super(new BorderLayout());
+        this.help.addActionListener(e -> {
+            new HelpDialog(main);
+        });
         this.speciesAndFood = new SpeciesAndFoodPanel(view, main);
         this.choicesPanel = new ChoicesPanel(view);
         this.componentsSettings();

@@ -1,0 +1,23 @@
+Welcome to Bacteria Simulator!
+
+Before starting:
+- create at least one new species of bacteria by pressing the "Create Species" button.
+- create at least one new type of food by pressing the "Create food" button.
+
+Creation of species:
+during the creation of the species you will have to choose between different behaviors that the species can assume, set the name of the species and choose the color.
+
+Creation of food:
+during the creation of food you will have to set the name of the type of food, add the nutrients of the food by setting their quantity and choose the color.
+
+Once you have created at least one species and a food, you can start the simulation by pressing the "Start" button.
+During the simulation you can add food manually by choosing it from the list of existing foods and clicking on the simulation area where you want to add food. Food will also be added randomly at each turn.
+
+After the simulation you can view the analysis of the species and understand the behavior of the species in the environment.
+
+
+Authors: 
+Barbaro Simone
+Mengozzi Federico
+Semprini Gloria
+Ziani Andrea
