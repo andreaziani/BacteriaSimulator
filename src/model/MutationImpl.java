@@ -63,23 +63,23 @@ public class MutationImpl implements Mutation {
         while (this.code.getCode().get(0).equals(NucleicAcid.values()[naMutate])) {
             this.naMutate = randomNucleicAcid();
         }
-        this.code.getCode().add(0, NucleicAcid.values()[naMutate]);
+        this.code.getCode().set(0, NucleicAcid.values()[naMutate]);
         switch (zone) {
             case 1:
                 pos += ZONE_ACTIONS;
-                this.code.getCode().add(pos, NucleicAcid.values()[na]);
+                this.code.getCode().set(pos, NucleicAcid.values()[na]);
                 break;
             case 2:
                 pos += ZONE_SPEED;
-                this.code.getCode().add(pos, NucleicAcid.values()[na]);
+                this.code.getCode().set(pos, NucleicAcid.values()[na]);
                 break;
             case 3:
                 pos += ZONE_NUTRIENTS;
-                this.code.getCode().add(pos, NucleicAcid.values()[na]);
+                this.code.getCode().set(pos, NucleicAcid.values()[na]);
                 break;
             case 4:
                 pos += ZONE_51;
-                this.code.getCode().add(pos, NucleicAcid.values()[na]);
+                this.code.getCode().set(pos, NucleicAcid.values()[na]);
                 break;
             default:
                 this.code.getCode();

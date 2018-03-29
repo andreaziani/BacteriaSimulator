@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import model.Energy;
-import model.EnergyImpl;
-
 /**
  * Implementation of interface Gene.
  */
