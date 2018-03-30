@@ -18,9 +18,9 @@ public class TopPanel extends JPanel {
     private final JMenu fileMenu = new JMenu("File");
     private final JMenu helpMenu = new JMenu("Help");
     private final JMenuItem loadSimulation = new JMenuItem("Load Simulation");
-    private final JMenuItem help = new JMenuItem("Help");
+    private final JMenuItem saveSimulation = new JMenuItem("Save Simulation");
+    private final JMenuItem help = new JMenuItem("How to use");
     private final SpeciesAndFoodPanel speciesAndFood;
-    private final ChoicesPanel choicesPanel;
     /**
      * Automatically generated.
      */
@@ -36,10 +36,9 @@ public class TopPanel extends JPanel {
             new HelpDialog(main);
         });
         this.speciesAndFood = new SpeciesAndFoodPanel(view, main);
-        this.choicesPanel = new ChoicesPanel(view);
         this.componentsSettings();
         this.add(menuBar, BorderLayout.NORTH);
-        this.add(this.choicesPanel, BorderLayout.SOUTH);
+        this.add(new ChoicesPanel(view), BorderLayout.SOUTH);
         this.add(this.speciesAndFood, BorderLayout.CENTER);
     }
     /**
@@ -53,6 +52,7 @@ public class TopPanel extends JPanel {
     private void componentsSettings() {
         this.fileMenu.setActionCommand("File");
         this.fileMenu.add(loadSimulation);
+        this.fileMenu.add(this.saveSimulation);
         this.helpMenu.add(help);
         this.menuBar.add(this.fileMenu);
         this.menuBar.add(helpMenu);

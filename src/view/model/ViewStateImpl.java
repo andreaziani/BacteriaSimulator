@@ -23,10 +23,4 @@ public class ViewStateImpl implements ViewState {
     public Map<ViewPosition, ViewFood> getFoodsState() {
         return Collections.unmodifiableMap(this.foodsState);
     }
-
-    @Override
-    public String toString() {
-        return "foodsState=" + foodsState + "]";
-    }
-    
 }

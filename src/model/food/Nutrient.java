@@ -26,6 +26,14 @@ public enum Nutrient {
      */
     INORGANIC_SALT,
     /**
+     * Vitamines.
+     */
+    VITAMINES,
+    /**
+     * Minerals.
+     */
+    MINERALS,
+    /**
      * Proteins.
      */
     PROTEINS;
