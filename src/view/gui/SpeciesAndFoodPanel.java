@@ -31,7 +31,7 @@ public class SpeciesAndFoodPanel extends JPanel {
     public SpeciesAndFoodPanel(final View view, final JFrame main) {
         super();
         this.setLayout(new FlowLayout());
-        this.foods.addItem("No Food");
+        this.foods.addItem("Select a food");
         this.createSpecies.addActionListener(e -> {
             new SpeciesCreationDialog(view, main);
         });

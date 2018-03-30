@@ -55,7 +55,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public ViewState getState() {
-        return ConversionsUtil.conversionFromStateToViewState(this.env.getState());
+        return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController);
     }
 
     @Override
