@@ -84,6 +84,7 @@ public class FoodCreationDialog extends JDialog {
                 this.builder
                         .addColor(JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK));
                 view.addNewTypeOfFood(this.builder.build());
+                JOptionPane.showMessageDialog(this, "Successful creation");
                 this.dispose();
                 superPanel.updateFoods(view);
             } catch (AlreadyExistingFoodException exception2) {

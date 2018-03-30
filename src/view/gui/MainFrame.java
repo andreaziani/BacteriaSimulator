@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import controller.ControllerImpl;
 import view.View;
 import view.ViewImpl;
+import view.model.ViewPositionImpl;
 
 /**
  * 
@@ -35,8 +36,12 @@ public class MainFrame extends JFrame {
         this.setSize(width, height);
         this.centerPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
-//                centerPanel.addFood(e.getX(), e.getY(), view.getFoodsType().get(topPanel.getSelectedFood()));
-//                centerPanel.repaint();
+                if (!view.getFoodsType().isEmpty()) {
+                    view.addFood(view.getFoodsType().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
+//                    centerPanel.addFood(e.getX(), e.getY(), view.getFoodsType().get(topPanel.getSelectedFood()));
+//                    centerPanel.repaint();
+                }
+
             }
         });
         this.add(topPanel, BorderLayout.NORTH);

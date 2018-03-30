@@ -1,7 +1,9 @@
 package controller.food;
 
+import java.awt.Color;
 import java.util.Set;
 
+import model.food.Food;
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 
@@ -40,4 +42,13 @@ public interface FoodController {
      *             if the food is already existing.
      */
     void addNewTypeOfFood(ViewFood food);
+
+    /**
+     * Get the color of a food.
+     * 
+     * @param food
+     *            the food of which want the color.
+     * @return the color of the food.
+     */
+    Color getColorFromFood(Food food);
 }

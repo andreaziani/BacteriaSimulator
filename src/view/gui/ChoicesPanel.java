@@ -25,6 +25,9 @@ public class ChoicesPanel extends JPanel {
     public ChoicesPanel(final View view) {
         super();
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        this.startSimulation.addActionListener(e -> {
+            // TODO 
+        });
         this.add(this.startSimulation);
         this.add(this.pauseSimulation);
         this.add(this.stopSimulation);

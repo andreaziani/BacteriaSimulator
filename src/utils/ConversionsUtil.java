@@ -1,10 +1,12 @@
 package utils;
 
+import java.awt.Color;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import controller.food.FoodController;
 import model.Position;
 import model.State;
 import model.food.Food;
@@ -30,10 +32,13 @@ public final class ConversionsUtil {
      * 
      * @param food
      *            the Food to convert in ViewFood;
+     * @param color
+     *            the color of the food.
      * @return the converted ViewFood.
      */
-    public static ViewFood conversionFromModelToView(final Food food) {
+    public static ViewFood conversionFromModelToView(final Food food, final Color color) {
         final ViewFoodBuilder builder = new ViewFoodBuilder(food.getName());
+        builder.addColor(color);
         food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n))).entrySet()
                 .forEach(e -> builder.addNutrient(Pair.of(e.getKey(), e.getValue())));
         return builder.build();
@@ -57,12 +62,15 @@ public final class ConversionsUtil {
      * 
      * @param state
      *            the state to convert.
+     * @param fcontroller
+     *            FoodController that contains color for each food.
      * @return the converted state.
      */
-    public static ViewState conversionFromStateToViewState(final State state) {
+    public static ViewState conversionFromStateToViewState(final State state, final FoodController fcontroller) {
         final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
                 .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p),
-                        p -> conversionFromModelToView(state.getFoodsState().get(p))));
+                        p -> conversionFromModelToView(state.getFoodsState().get(p),
+                                fcontroller.getColorFromFood(state.getFoodsState().get(p)))));
         return new ViewStateImpl(foodState); // TODO Aggiungere la mappa di bacteria state.
     }
 
