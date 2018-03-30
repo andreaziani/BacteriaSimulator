@@ -48,4 +48,10 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
         // TODO Auto-generated method stub
     }
 
+    @Override
+    public Position getMaxPosition() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

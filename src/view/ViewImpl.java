@@ -12,6 +12,7 @@ import model.Analisys;
 import model.action.ActionType;
 import model.food.Nutrient;
 import view.model.ViewPosition;
+import view.model.ViewPositionImpl;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpeciesManager;
 import view.model.food.ViewFood;
@@ -101,6 +102,7 @@ public class ViewImpl implements View {
     @Override
     public void setDimension(final Dimension dimension) {
         this.dimension = dimension;
+        this.controller.setMaxViewDimension(new ViewPositionImpl(dimension.width, dimension.height));
     }
 
 }

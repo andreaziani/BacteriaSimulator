@@ -1,10 +1,12 @@
 package controller;
 
+import java.util.Optional;
 import java.util.Set;
 
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Environment;
+import model.Position;
 import model.bacteria.SpeciesBuilder;
 import utils.ConversionsUtil;
 import utils.exceptions.InvalidSpeciesExeption;
@@ -21,6 +23,8 @@ import view.model.food.ViewFood;
 public class EnvironmentControllerImpl implements EnvironmentController {
     private final Environment env;
     private final FoodController foodController;
+    private final Position maxPosition;
+    private Optional<ViewPosition> maxViewPosition = Optional.empty();
 
     /**
      * Constructor that builds the EnvironmentController by passing the
@@ -30,6 +34,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      */
     public EnvironmentControllerImpl(final Environment env) {
         this.env = env;
+        this.maxPosition = env.getMaxPosition();
         this.foodController = new FoodControllerImpl(this.env);
     }
 
@@ -55,7 +60,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public ViewState getState() {
-        return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController);
+        return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController, this.maxPosition, this.maxViewPosition.get());
     }
 
     @Override
@@ -76,5 +81,10 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     private boolean isSimulationStarted() {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public void setMaxViewDimension(final ViewPosition position) {
+        this.maxViewPosition = Optional.of(position);
     }
 }

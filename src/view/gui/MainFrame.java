@@ -36,6 +36,7 @@ public class MainFrame extends JFrame {
         super("Bacteria Simulator");
         final TopPanel topPanel = new TopPanel(view, this);
         this.setSize(width, height);
+        view.setDimension(this.centerPanel.getSize());
         this.centerPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
                 if (!view.getFoodsType().isEmpty()) {
