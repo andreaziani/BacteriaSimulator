@@ -27,7 +27,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     private final BacteriaManager bactManager = new BacteriaManagerImpl(foodEnv, COST_OF_LIVING);
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
-    private final State state = new StateImpl(this.foodEnv);
+    private State state;
 
     @Override
     public void addFood(final Food food, final Position position) {
@@ -56,6 +56,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     public void update() {
         this.updateBacteria();
         this.updateFood();
+        this.state = new StateImpl(this.foodEnv.getFoodsState()); //TODO aggiungere gli state di bacteria
     }
 
     @Override
