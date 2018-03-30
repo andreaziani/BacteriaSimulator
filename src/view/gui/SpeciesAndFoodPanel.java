@@ -1,4 +1,4 @@
-package view.view;
+package view.gui;
 
 import java.awt.FlowLayout;
 
@@ -14,9 +14,9 @@ import view.View;
  * Panel that contains all the functions on Bacterias and Foods.
  *
  */
-public class BacteriaAndFoodPanel extends JPanel {
+public class SpeciesAndFoodPanel extends JPanel {
     private final JButton createFood = new JButton("Create Food");
-    private final JButton createBacteria = new JButton("Create Bacteria");
+    private final JButton createSpecies = new JButton("Create Species");
     private final JLabel selectFood = new JLabel("Select Food: ");
     private final JComboBox<String> foods = new JComboBox<>();
     /**
@@ -26,29 +26,36 @@ public class BacteriaAndFoodPanel extends JPanel {
     /**
      * Construct the panel by passing the view on which to handle the interactions.
      * @param view the view on which to handle the interactions.
+     * @param main frame that's call this panel.
      */
-    public BacteriaAndFoodPanel(final View view) {
+    public SpeciesAndFoodPanel(final View view, final JFrame main) {
         super();
         this.setLayout(new FlowLayout());
         this.foods.addItem("No Food");
-        this.createBacteria.addActionListener(e -> {
-            //TODO complete integration of this frame into the view.
-            JFrame f = new SpeciesCreationFrame(view);
+        this.createSpecies.addActionListener(e -> {
+            new SpeciesCreationDialog(view, main);
         });
         this.createFood.addActionListener(e -> {
-            JFrame foodFrame = new FoodCreation(view);
-            //this.foods.addItem(food.name);
+            new FoodCreationDialog(view, this, main);
         });
         this.add(this.selectFood);
         this.add(this.foods);
-        this.add(this.createBacteria);
+        this.add(this.createSpecies);
         this.add(this.createFood);
     }
     /**
      * 
-     * @return the selected food.
+     * @return the index of selected food.
      */
-    public String getSelectedFood() {
-        return (String) this.foods.getSelectedItem();
+    public int getSelectedFood() {
+        return this.foods.getSelectedIndex();
+    }
+    /**
+     * Update food's type.
+     * @param view from which to take existing food's name.
+     */
+    public void updateFoods(final View view) {
+        this.foods.removeAllItems();
+        view.getFoodsType().forEach(f -> this.foods.addItem(f.getName()));
     }
 }

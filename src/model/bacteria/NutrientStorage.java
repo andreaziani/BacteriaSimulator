@@ -49,7 +49,6 @@ public class NutrientStorage implements EnergyStorage {
         this.reserve = startingEnergy;
         this.store = new EnumMap<>(Nutrient.class);
         this.nutrientToEnergyConverter = nutrientToEnergyConverter;
-        this.reserve = EnergyImpl.ZERO;
     }
 
     /**
@@ -68,7 +67,7 @@ public class NutrientStorage implements EnergyStorage {
     }
 
     @Override
-    public void takeEnergy(final Energy energy) { // TODO very bad implementation
+    public void takeEnergy(final Energy energy) {
         if (this.getEnergyStored().getAmount() < energy.getAmount()) {
             throw new NotEnounghEnergyException();
         }
@@ -97,11 +96,11 @@ public class NutrientStorage implements EnergyStorage {
 
     @Override
     public Energy getEnergyStored() {
-        return new EnergyImpl(
+        return this.reserve.add(new EnergyImpl(
                 this.store.keySet().stream()
                                    .mapToDouble(this::totalEnergyStoredPerNutrient)
                                    .filter(x -> x > 0)
-                                   .sum());
+                                   .sum()));
     }
 
     /**

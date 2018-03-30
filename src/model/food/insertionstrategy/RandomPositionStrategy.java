@@ -3,13 +3,14 @@ package model.food.insertionstrategy;
 import model.Position;
 
 /**
- * Interface for strategies of adding in a random position the food.
+ * Interface to take a position randomly.
  *
  */
 public interface RandomPositionStrategy {
     /**
+     * Get a random position.
      * 
-     * @return position of foods.
+     * @return the position chosen randomly.
      */
-     Position getPosition();
+    Position getPosition();
 }

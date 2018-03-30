@@ -1,13 +1,14 @@
 package model.food;
-/** 
- * All possible type of nutrients present in food.
+
+/**
+ * All possible type of nutrients.
  * 
  */
 public enum Nutrient {
     /**
      * Water.
      */
-    WATER, 
+    WATER,
     /**
      * Carbohydrates.
      */
@@ -23,5 +24,9 @@ public enum Nutrient {
     /**
      * Inorganic salt.
      */
-    INORGANIC_SALT;
+    INORGANIC_SALT,
+    /**
+     * Proteins.
+     */
+    PROTEINS;
 }

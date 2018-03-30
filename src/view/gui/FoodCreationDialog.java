@@ -1,12 +1,12 @@
-package view.view;
+package view.gui;
 
 import java.awt.BorderLayout;
-//import java.awt.Dimension;
-//import java.awt.Toolkit;
-import java.util.Arrays;
+import java.awt.Color;
 
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,16 +24,11 @@ import view.model.food.ViewFoodImpl.ViewFoodBuilder;
  * Frame for creation of new type of food.
  *
  */
-public class FoodCreation extends JFrame {
+public class FoodCreationDialog extends JDialog {
     /**
      * Automatically generated.
      */
     private static final long serialVersionUID = 82976646298898908L;
-    // private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-    // private final int height = dim.height * 2 / 5; // get 2/5 of the screen
-    // dimension.
-    // private final int width = dim.width * 2 / 5; // get 2/5 of the screen
-    // dimension.
     private ViewFoodBuilder builder;
     private final JPanel top = new JPanel();
     private final JPanel center = new JPanel();
@@ -45,23 +40,29 @@ public class FoodCreation extends JFrame {
     private final JLabel setQuantity = new JLabel("Set quantity: ");
     private final JTextField quantity = new JTextField(10);
     private final JButton addName = new JButton("Add name");
-    private final JButton addNutrient = new JButton("Add Nutrient");
+    private final JButton addNutrient = new JButton("Set Nutrient quantity");
     private final JButton createFood = new JButton("Create food");
 
     /**
-     * Constructor the frame by passing a View.
+     * Constructor the dialog by passing a View, his superPanel and the main frame.
      * 
      * @param view
      *            the View with which to interact.
+     * @param superPanel
+     *            the superPanel that's called the dialog.
+     * @param main
+     *            the JFrame that will be blocked by this dialog.
      */
-    public FoodCreation(final View view) {
-        super("Food Creation");
+    public FoodCreationDialog(final View view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
+        super(main, "Create new Food", true);
         this.setLayout(new BorderLayout());
-        // this.setSize(width, height);
-        view.getNutrients().forEach(n -> nutrients.addItem(n));
+        start(view);
         this.addName.addActionListener(e -> {
             try {
                 this.builder = new ViewFoodBuilder(this.name.getText());
+                this.addNutrient.setEnabled(true);
+                this.name.setEditable(false);
+                this.addName.setEnabled(false);
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(this, "Food should have a name!");
             }
@@ -69,20 +70,25 @@ public class FoodCreation extends JFrame {
 
         this.addNutrient.addActionListener(e -> {
             try {
-                this.builder.addNutrient(Pair.of(getSelectedNutrient(),  Double.parseDouble(this.quantity.getText())));
+                this.builder.addNutrient(Pair.of(getSelectedNutrient(), Double.parseDouble(this.quantity.getText())));
+                this.createFood.setEnabled(true);
             } catch (Exception exception1) {
-                JOptionPane.showMessageDialog(this, "ATTENTION SOMETHING WRONG!" + "\n" + "-Check that you have set the name before adding" 
-                                                    + "\n" + "-Check that you have entered numbers in quantity");
+                exception1.printStackTrace();
+                JOptionPane.showMessageDialog(this, "ATTENTION SOMETHING'S WRONG!" + "\n"
+                        + "-Check that you have entered numbers in quantity like 10.00");
             }
         });
 
         this.createFood.addActionListener(e -> {
             try {
+                this.builder
+                        .addColor(JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK));
                 view.addNewTypeOfFood(this.builder.build());
-            } catch (NullPointerException exception) {
-                JOptionPane.showMessageDialog(this, "You have to add Name and Nutrients before!");
+                this.dispose();
+                superPanel.updateFoods(view);
             } catch (AlreadyExistingFoodException exception2) {
-                JOptionPane.showMessageDialog(this, "THIS FOOD ALREADY EXIST! CHANGE THE NAME");
+                JOptionPane.showMessageDialog(this, "This food already exist!");
+                this.dispose();
             }
         });
         top.add(this.setName);
@@ -97,13 +103,21 @@ public class FoodCreation extends JFrame {
         this.add(this.top, BorderLayout.NORTH);
         this.add(this.center, BorderLayout.CENTER);
         this.add(this.bot, BorderLayout.SOUTH);
+
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.pack();
         this.setVisible(true);
     }
 
+    private void start(final View view) {
+        this.addNutrient.setEnabled(false);
+        this.createFood.setEnabled(false);
+        this.name.setText("Food1");
+        this.quantity.setText("10.00");
+        view.getNutrients().forEach(n -> nutrients.addItem(n));
+    }
+
     private Nutrient getSelectedNutrient() {
-        return Arrays.asList(Nutrient.values())
-                .get(Arrays.asList(Nutrient.values()).indexOf(this.nutrients.getSelectedItem()));
+        return Nutrient.valueOf((String) this.nutrients.getSelectedItem());
     }
 }

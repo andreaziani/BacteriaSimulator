@@ -1,7 +1,8 @@
-package view.view;
+package view.gui;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,6 +19,8 @@ public class TopPanel extends JPanel {
     private final JMenu helpMenu = new JMenu("Help");
     private final JMenuItem loadSimulation = new JMenuItem("Load Simulation");
     private final JMenuItem help = new JMenuItem("Help");
+    private final SpeciesAndFoodPanel speciesAndFood;
+    private final ChoicesPanel choicesPanel;
     /**
      * Automatically generated.
      */
@@ -25,15 +28,26 @@ public class TopPanel extends JPanel {
     /**
      * Constructor.
      * @param view the View with which to interact.
+     * @param main frame that's call this panel.
      */
-    public TopPanel(final View view) {
+    public TopPanel(final View view, final JFrame main) {
         super(new BorderLayout());
-        final JPanel bacteriaAndFood = new BacteriaAndFoodPanel(view);
-        final JPanel choicesPanel = new ChoicesPanel(view);
+        this.help.addActionListener(e -> {
+            new HelpDialog(main);
+        });
+        this.speciesAndFood = new SpeciesAndFoodPanel(view, main);
+        this.choicesPanel = new ChoicesPanel(view);
         this.componentsSettings();
         this.add(menuBar, BorderLayout.NORTH);
-        this.add(choicesPanel, BorderLayout.SOUTH);
-        this.add(bacteriaAndFood, BorderLayout.CENTER);
+        this.add(this.choicesPanel, BorderLayout.SOUTH);
+        this.add(this.speciesAndFood, BorderLayout.CENTER);
+    }
+    /**
+     * 
+     * @return the name of the selected food.
+     */
+    public int getSelectedFood() {
+        return this.speciesAndFood.getSelectedFood();
     }
 
     private void componentsSettings() {

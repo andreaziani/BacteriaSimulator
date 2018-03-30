@@ -1,10 +1,10 @@
 package model.bacteria;
 
 import model.Energy;
-import model.GeneticCode;
 import model.action.Action;
 import model.food.Food;
 import model.food.FoodFactory;
+import model.geneticcode.GeneticCode;
 import model.perception.Perception;
 import model.simulator.Collidable;
 
@@ -27,6 +27,9 @@ public interface Bacteria extends Collidable {
     /**
      * @return an action the bacteria will choose given the current perception it
      *         has.
+     * @throws MissingPerceptionExeption
+     *             if no perception is currently available to the Bacteria to choose
+     *             an Action.
      */
     Action getAction();
 
@@ -82,8 +85,7 @@ public interface Bacteria extends Collidable {
      * @param factory
      *            a FoodFactory from to create a food from the bacteria.
      * @return a new food, representing the nutrients not consumed by the bacteria.
-     * @throws IllegalStateExeption
-     *             if this bacteria does not contain nutrients.
+     *         A void food if no nutrients are remained.
      */
     Food getInternalFood(FoodFactory factory);
 

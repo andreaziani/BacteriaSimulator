@@ -135,8 +135,8 @@ public class TestFood {
         for (int i = 0; i < 100; i++) {
             env.addRandomFood();
         }
-        System.out.println(env.getFoodsState().size());
-        env.getFoodsState().forEach((k, v) -> System.out.println(k.getX() + " " + k.getY()));
+//        System.out.println(env.getFoodsState().size());
+//        env.getFoodsState().forEach((k, v) -> System.out.println(k.getX() + " " + k.getY()));
     }
 
 }

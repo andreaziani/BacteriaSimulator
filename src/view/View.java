@@ -3,7 +3,6 @@ package view;
 import java.awt.Color;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import model.Analisys;
 import model.action.ActionType;
@@ -12,7 +11,8 @@ import view.model.ViewState;
 import view.model.food.ViewFood;
 
 /**
- * View.
+ * Interface that represents the "Controller" of the view package and the access
+ * point for the Simulation's Controller.
  * 
  *
  *
@@ -27,38 +27,44 @@ public interface View {
     void update(ViewState state);
 
     /**
-     * Insert a new food.
+     * Insert a type of food to a specific location.
      * 
      * @param food
-     *            info.
+     *            the food to insert.
      * @param position
-     *            of the food.
+     *            the position of the food.
      */
     void addFood(ViewFood food, ViewPosition position);
 
     /**
-     * Add a new Food type.
+     * Add a new type of food to the types of foods that already exist.
      * 
      * @param food
-     *            type of food to add.
+     *            the new type of food to add.
      */
     void addNewTypeOfFood(ViewFood food);
 
     /**
+     * Get all types of already existing food.
      * 
      * @return all the type of foods created.
      */
-    Set<ViewFood> getFoodsType();
+    List<ViewFood> getFoodsType();
+
     /**
+     * Get all names of all types of already existing food.
      * 
      * @return the list of names of all the type of foods created.
      */
     List<String> getFoodsName();
+
     /**
+     * Get all types of existing nutrients.
      * 
      * @return the existing nutrients.
      */
     List<String> getNutrients();
+
     /**
      * Load a replay.
      * 
@@ -98,6 +104,12 @@ public interface View {
      *            the decision makers associated with each ActionType.
      * @param decorators
      *            the behavior decorators independent from the action types.
+     * @throws SimulationAlreadyStartedExeption
+     *             - if the simulation is already started.
+     * @throws InvalidSpeciesExeption
+     *             - if the given Species cannot be added correctly.
+     * @throws AlreadyExistingSpeciesExeption
+     *             if a species with that name already exists.
      */
     void createSpecies(String name, Color color, Map<ActionType, Integer> decisionOptions, List<Boolean> decorators);
 }

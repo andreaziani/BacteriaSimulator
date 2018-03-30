@@ -2,22 +2,28 @@ package model.food;
 
 import java.util.Map;
 
-/** 
- * A factory to create some different type of food.
+/**
+ * Factory to create some different type of food.
  * 
  *
  */
 public interface FoodFactory {
     /**
+     * Create a food from name and nutrients.
      * 
-     * @param name of the food.
-     * @param nutrients type and quantity of nutrients that compose a new food.
+     * @param name
+     *            the name of the food.
+     * @param nutrients
+     *            all the types and quantity of nutrients that compose a new food.
      * @return the food created.
      */
     Food createFoodFromNameAndNutrients(String name, Map<Nutrient, Double> nutrients);
+
     /**
-     * Return a new Food with empty name.
-     * @param nutrients type and quantity of nutrients that compose a new food.
+     * Create a food from his nutrients.
+     * 
+     * @param nutrients
+     *            all the types and quantity of nutrients that compose a new food.
      * @return the food created.
      */
     Food createFoodFromNutrients(Map<Nutrient, Double> nutrients);

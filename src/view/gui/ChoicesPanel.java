@@ -1,4 +1,4 @@
-package view.view;
+package view.gui;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;

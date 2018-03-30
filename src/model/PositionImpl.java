@@ -4,8 +4,6 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-
-
 /**
  * Position of objects in the environment.
  * 
@@ -13,27 +11,34 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public class PositionImpl implements Position {
     private final Pair<Double, Double> coordinates;
+
     /**
      * Constructor of position from two double coordinates.
-     * @param x the first coordinate.
-     * @param y the second coordinate.
+     * 
+     * @param x
+     *            the first coordinate.
+     * @param y
+     *            the second coordinate.
      */
     public PositionImpl(final double x, final double y) {
         this.coordinates = Pair.of(x, y);
     }
+
     @Override
     public double getX() {
-       return this.coordinates.getLeft();
+        return this.coordinates.getLeft();
     }
 
     @Override
     public double getY() {
         return this.coordinates.getRight();
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(coordinates);
     }
+
     @Override
     public boolean equals(final Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
@@ -45,6 +50,7 @@ public class PositionImpl implements Position {
         }
         return false;
     }
+
     @Override
     public String toString() {
         return "Position coordinates=" + coordinates.getLeft() + " " + coordinates.getRight() + "]";

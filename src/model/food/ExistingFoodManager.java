@@ -2,7 +2,7 @@ package model.food;
 
 import java.util.Set;
 
-/** 
+/**
  * Manager that contains all existing type of foods created.
  * 
  *
@@ -10,14 +10,18 @@ import java.util.Set;
 public interface ExistingFoodManager {
     /**
      * Allows to add a new type of food in the manager.
-     * @param food to add to the manager.
-     * @throws AlreadyExistingFoodException 
-     *          if someone tries to insert already existing food.
+     * 
+     * @param food
+     *            the new type of food to add to the manager.
+     * @throws AlreadyExistingFoodException
+     *             if the food already exist.
      */
     void addFood(Food food);
+
     /**
+     * Get all types of already existing food.
      * 
-     * @return an unmodifiable copy of the entire set of existent foods.
+     * @return an unmodifiable copy of the set of existing foods.
      */
     Set<Food> getExistingFoodsSet();
 }

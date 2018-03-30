@@ -8,7 +8,8 @@ import model.food.ExistingFoodManager;
 import model.food.Food;
 
 /**
- * Implementation of the strategies for adding foods randomly.
+ * Implementation of the strategy that uses a uniform distribution for the
+ * random choice.
  *
  */
 public class RandomFoodStrategyImpl implements RandomFoodStrategy {

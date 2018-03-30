@@ -33,6 +33,7 @@ public class TestInteractions {
     public void testCreation() {
         this.view.addNewTypeOfFood(creationOfFood("Banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0)));
         assertEquals("There is only one type of food", this.controller.getExistingViewFoods().size(), 1);
+        assertEquals("There is one type of food in each set", this.view.getFoodsType().size(), this.controller.getExistingViewFoods().size());
         this.view.addNewTypeOfFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 1.0)));
         assertEquals("There are two types of food", this.controller.getExistingViewFoods().size(), 2);
         assertThrows(AlreadyExistingFoodException.class, () -> this.view.addNewTypeOfFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 1.0))));
@@ -49,7 +50,7 @@ public class TestInteractions {
         this.view.addFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 2.0)), new ViewPositionImpl(3.0, 2.0));
         assertThrows(PositionAlreadyOccupiedException.class, () -> this.view.addFood(creationOfFood("Pera", Pair.of(Nutrient.CARBOHYDRATES, 1.0)),
                                                                                      new ViewPositionImpl(1.0, 2.0)));
-        System.out.println(this.controller.getState().toString());
+//        System.out.println(this.controller.getState().toString());
         //TODO aggiungere un controllo che verifichi se inserendo dalla view viene modificato correttamente l'environment
     }
 }

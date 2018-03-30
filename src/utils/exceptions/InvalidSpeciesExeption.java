@@ -3,7 +3,7 @@ package utils.exceptions;
 /**
  * An exception signaling the attempt to create an invalid Species.
  */
-public class InvalidSpeicesExeption extends RuntimeException {
+public class InvalidSpeciesExeption extends RuntimeException {
 
     /**
      * Automatically generated.

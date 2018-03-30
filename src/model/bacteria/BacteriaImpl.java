@@ -3,12 +3,14 @@ package model.bacteria;
 import java.util.Objects;
 
 import model.Energy;
-import model.GeneticCode;
+import model.EnergyImpl;
 import model.action.Action;
 import model.bacteria.behavior.Behavior;
 import model.food.Food;
 import model.food.FoodFactory;
+import model.geneticcode.GeneticCode;
 import model.perception.Perception;
+import utils.exceptions.MissingPerceptionExeption;
 
 /**
  * Implementation of interface Bacteria.
@@ -66,6 +68,9 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public Action getAction() {
+        if (this.currPerception == null) {
+            throw new MissingPerceptionExeption();
+        }
         return this.behavior.chooseAction(new BacteriaKnowledge(this.currPerception,
                 this.geneticCode::getEnergyFromNutrient, this::getActionCost, this.getEnergy()));
     }
@@ -92,7 +97,7 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public boolean isDead() {
-        return getEnergy().getAmount() > 0;
+        return getEnergy().compareTo(EnergyImpl.ZERO) <= 0;
     }
 
     @Override

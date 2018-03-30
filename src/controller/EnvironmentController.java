@@ -1,25 +1,28 @@
 package controller;
 
 import java.util.Set;
+
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
 
 /**
- * Env Controller.
- * 
+ * Interface of the EnvironmentController, it deals with the management of
+ * interactions and changes that user applies in the simulation.
  * 
  *
  */
 public interface EnvironmentController {
     /**
-     * Add any food from view.
+     * Add a type of food from the view to a specific location.
      * 
      * @param food
-     *            to add.
+     *            the type of Food to add.
      * @param position
-     *            of the food.
+     *            the location of the food.
+     * @throws PositionAlreadyOccupiedException
+     *             if the position is already occupied.
      */
     void addFoodFromView(ViewFood food, ViewPosition position);
 
@@ -29,16 +32,19 @@ public interface EnvironmentController {
     void start();
 
     /**
-     * Add a new type of food created by user.
+     * Add a new type of food to the types of foods that already exist.
      * 
      * @param food
-     *            to be added int the ExistingFoodManager.
+     *            the new type of food to be added.
+     * @throws AlreadyExistingFoodException
+     *             if the food is already existing.
      */
     void addNewTypeOfFood(ViewFood food);
 
     /**
+     * Get all types of already existing food.
      * 
-     * @return a set that contains all the existing types of food.
+     * @return the set with all types of food.
      */
     Set<ViewFood> getExistingViewFoods();
 
@@ -57,8 +63,10 @@ public interface EnvironmentController {
      *            the new Species.
      * @throws SimulationAlreadyStartedExeption
      *             if the simulation is already started.
-     * @throws InvalidSpeicesExeption
+     * @throws InvalidSpeciesExeption
      *             if the given Species cannot be added correctly.
+     * @throws AlreadyExistingSpeciesExeption
+     *             if a species with that name already exists.
      */
     void addSpecies(ViewSpecies species);
 }

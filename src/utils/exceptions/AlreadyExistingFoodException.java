@@ -1,8 +1,8 @@
 package utils.exceptions;
-/** An exception representing an inseriment of a food that already exist. 
+
+/**
+ * Exception representing an insertion of a food that already exist.
  *
- * 
- * @author Andrea PC
  *
  */
 public class AlreadyExistingFoodException extends RuntimeException {
