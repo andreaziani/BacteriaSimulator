@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import model.food.Food;
-import model.food.FoodEnvironment;
 
 /**
  * State implementation.
