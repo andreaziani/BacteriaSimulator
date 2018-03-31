@@ -2,6 +2,8 @@ package controller;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import model.PositionImpl;
 import view.model.bacteria.ViewBacteriaImpl;
@@ -9,10 +11,10 @@ import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFoodImpl;
 
 public class InitialState {
-    private HashMap<PositionImpl, ViewBacteriaImpl> bacteriaMap;
-    private HashMap<PositionImpl, ViewFoodImpl> foodMap;
-    private final HashSet<ViewFoodImpl> existingFood;
-    private final HashSet<ViewSpecies> species;
+    private Map<PositionImpl, ViewBacteriaImpl> bacteriaMap;
+    private Map<PositionImpl, ViewFoodImpl> foodMap;
+    private final Set<ViewFoodImpl> existingFood;
+    private final Set<ViewSpecies> species;
 
     public InitialState() {
         bacteriaMap = new HashMap<>();
@@ -35,19 +37,19 @@ public class InitialState {
         this.species.add(species);
     }
 
-    public HashMap<PositionImpl, ViewBacteriaImpl> getBacteriaMap() {
+    public Map<PositionImpl, ViewBacteriaImpl> getBacteriaMap() {
         return bacteriaMap;
     }
 
-    public HashMap<PositionImpl, ViewFoodImpl> getFoodMap() {
+    public Map<PositionImpl, ViewFoodImpl> getFoodMap() {
         return foodMap;
     }
 
-    public HashSet<ViewFoodImpl> getExistingFood() {
+    public Set<ViewFoodImpl> getExistingFood() {
         return existingFood;
     }
 
-    public HashSet<ViewSpecies> getSpecies() {
+    public Set<ViewSpecies> getSpecies() {
         return species;
     }
 }

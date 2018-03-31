@@ -13,6 +13,7 @@ import model.State;
  */
 public class FileControllerImpl implements FileController {
 
+    
     private <X> void saveData(final String path, final X data) {
         try (OutputStream file = new FileOutputStream(path)) {
             
