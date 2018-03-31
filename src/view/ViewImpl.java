@@ -12,7 +12,7 @@ import model.action.ActionType;
 import model.food.Nutrient;
 import view.model.ViewPosition;
 import view.model.ViewState;
-import view.model.bacteria.ViewSpeciesManager;
+import view.model.bacteria.ViewSpeciesFactory;
 import view.model.food.ViewFood;
 
 /**
@@ -23,7 +23,7 @@ import view.model.food.ViewFood;
 public class ViewImpl implements View {
     private final Controller controller;
     private ViewState state;
-    private final ViewSpeciesManager speciesManager;
+    private final ViewSpeciesFactory speciesManager;
 
     /**
      * Constructor that build a View passing the Controller that allows interactions
@@ -34,7 +34,7 @@ public class ViewImpl implements View {
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
-        speciesManager = new ViewSpeciesManager();
+        speciesManager = new ViewSpeciesFactory();
     }
 
     @Override
