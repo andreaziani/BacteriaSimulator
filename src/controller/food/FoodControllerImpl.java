@@ -54,6 +54,9 @@ public class FoodControllerImpl implements FoodController {
 
     @Override
     public Color getColorFromFood(final Food food) {
-        return this.colorForFood.get(food.getName());
+        if (this.colorForFood.containsKey(food.getName())) {
+            return this.colorForFood.get(food.getName());
+        } 
+        return Color.black; // bacteria with no name have black color.
     }
 }

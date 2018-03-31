@@ -25,7 +25,6 @@ import view.model.food.ViewFood;
 public class ViewImpl implements View {
     private final Controller controller;
     private ViewState state;
-    private Dimension dimension;
     private final ViewSpeciesManager speciesManager;
 
     /**
@@ -101,7 +100,6 @@ public class ViewImpl implements View {
 
     @Override
     public void setDimension(final Dimension dimension) {
-        this.dimension = dimension;
         this.controller.setMaxViewDimension(new ViewPositionImpl(dimension.width, dimension.height));
     }
 
