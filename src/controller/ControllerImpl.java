@@ -1,7 +1,5 @@
 package controller;
 
-import java.awt.Dimension;
-import java.util.Optional;
 import java.util.Set;
 
 import model.Analisys;
@@ -9,7 +7,6 @@ import model.Environment;
 import model.State;
 import model.simulator.SimulatorEnvironmentImpl;
 import view.model.ViewPosition;
-import view.model.ViewPositionImpl;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
@@ -31,7 +28,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void start() {
-        this.envController.setMaxViewDimension(new ViewPositionImpl(dimension.getX(), dimension.getY()));
+        this.envController.setMaxViewDimension(dimension);
         this.envController.start();
     }
 
@@ -82,5 +79,6 @@ public class ControllerImpl implements Controller {
     @Override
     public void setMaxViewDimension(final ViewPosition maxDimension) {
         this.dimension = maxDimension;
+        this.envController.setMaxViewDimension(dimension);
     }
 }

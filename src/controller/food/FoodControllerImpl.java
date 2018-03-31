@@ -8,11 +8,10 @@ import java.util.stream.Collectors;
 import java.util.Set;
 
 import model.Environment;
-import model.PositionImpl;
+import model.Position;
 import model.food.ExistingFoodManager;
 import model.food.Food;
 import utils.ConversionsUtil;
-import view.model.ViewPosition;
 import view.model.food.ViewFood;
 
 /**
@@ -37,10 +36,9 @@ public class FoodControllerImpl implements FoodController {
     }
 
     @Override
-    public void addFoodFromViewToModel(final ViewFood food, final ViewPosition position) {
+    public void addFoodFromViewToModel(final ViewFood food, final Position position) {
         this.colorForFood.put(ConversionsUtil.conversionFromViewToModel(food), food.getColor());
-        this.env.addFood(ConversionsUtil.conversionFromViewToModel(food),
-                new PositionImpl(position.getX(), position.getY()));
+        this.env.addFood(ConversionsUtil.conversionFromViewToModel(food), position);
     }
 
     @Override
@@ -52,6 +50,7 @@ public class FoodControllerImpl implements FoodController {
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
         this.manager.addFood(ConversionsUtil.conversionFromViewToModel(food));
+        this.colorForFood.put(ConversionsUtil.conversionFromViewToModel(food), food.getColor());
     }
 
     @Override

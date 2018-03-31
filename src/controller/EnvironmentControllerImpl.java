@@ -2,7 +2,6 @@ package controller;
 
 import java.util.Optional;
 import java.util.Set;
-
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Environment;
@@ -27,8 +26,9 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
 
     /**
-     * Constructor that builds the EnvironmentController by passing the
-     * Environment as an argument.
+     * Constructor that builds the EnvironmentController by passing the Environment
+     * as an argument.
+     * 
      * @param env
      *            the environment that the Controller must manage.
      */
@@ -40,7 +40,12 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
-        this.foodController.addFoodFromViewToModel(food, position);
+        this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
+                env.getMaxPosition(), maxViewPosition.get()));
+        System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
+                env.getMaxPosition(), maxViewPosition.get()).getX() + " " + ConversionsUtil.conversionFromViewPositionToPosition(position,
+                        env.getMaxPosition(), maxViewPosition.get()).getY());
+
     }
 
     @Override
@@ -60,7 +65,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public ViewState getState() {
-        return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController, this.maxPosition, this.maxViewPosition.get());
+        return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController, this.maxPosition,
+                this.maxViewPosition.get());
     }
 
     @Override

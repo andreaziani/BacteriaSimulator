@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import controller.food.FoodController;
 import model.Position;
+import model.PositionImpl;
 import model.State;
 import model.food.Food;
 import model.food.FoodFactory;
@@ -79,10 +80,38 @@ public final class ConversionsUtil {
         return new ViewStateImpl(foodState); // TODO Aggiungere la mappa di bacteria state.
     }
 
-    private static ViewPosition conversionFromPositionToViewPosition(final Position k, final Position maxPosition,
+    /**
+     * Convert a Position in ViewPosition.
+     * 
+     * @param pos
+     *            the position to convert.
+     * @param maxPosition
+     *            the maximum position in environment.
+     * @param maxViewPosition
+     *            the maximum position in view.
+     * @return the position converted in ViewPosition.
+     */
+    public static ViewPosition conversionFromPositionToViewPosition(final Position pos, final Position maxPosition,
             final ViewPosition maxViewPosition) {
-        return new ViewPositionImpl(k.getX() * maxPosition.getX() / maxViewPosition.getX(),
-                k.getY() * maxPosition.getY() / maxViewPosition.getY());
+        return new ViewPositionImpl(pos.getX() * maxViewPosition.getX() / maxPosition.getX(),
+                pos.getY() * maxViewPosition.getY() / maxPosition.getY());
+    }
+
+    /**
+     * Convert a ViewPosition in Position.
+     * 
+     * @param pos
+     *            the ViewPosition to convert.
+     * @param maxPosition
+     *            the maximum position in the environment.
+     * @param maxViewPosition
+     *            the maximum position in the view.
+     * @return the converted position.
+     */
+    public static Position conversionFromViewPositionToPosition(final ViewPosition pos, final Position maxPosition,
+            final ViewPosition maxViewPosition) {
+        return new PositionImpl(pos.getX() * maxPosition.getX() / maxViewPosition.getX(),
+                pos.getY() * maxPosition.getY() / maxViewPosition.getY());
     }
 
 }

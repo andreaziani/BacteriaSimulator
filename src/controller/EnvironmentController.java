@@ -20,7 +20,7 @@ public interface EnvironmentController {
      * @param food
      *            the type of Food to add.
      * @param position
-     *            the location of the food.
+     *            the location of the food in the view.
      * @throws PositionAlreadyOccupiedException
      *             if the position is already occupied.
      */
