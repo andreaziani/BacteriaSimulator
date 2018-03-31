@@ -20,7 +20,7 @@ public interface EnvironmentController {
      * @param food
      *            the type of Food to add.
      * @param position
-     *            the location of the food.
+     *            the location of the food in the view.
      * @throws PositionAlreadyOccupiedException
      *             if the position is already occupied.
      */
@@ -69,4 +69,9 @@ public interface EnvironmentController {
      *             if a species with that name already exists.
      */
     void addSpecies(ViewSpecies species);
+    /**
+     * Set the maximum view position.
+     * @param maxDimension the maximum dimension of the view.
+     */
+    void setMaxViewDimension(ViewPosition maxDimension);
 }

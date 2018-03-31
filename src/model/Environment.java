@@ -53,4 +53,9 @@ public interface Environment {
      *            add a Species to the simulation.
      */
     void addSpecies(Species species);
+    /**
+     * Get the maximum position of environment.
+     * @return the maximum position.
+     */
+    Position getMaxPosition();
 }

@@ -17,8 +17,9 @@ import view.model.food.ViewFood;
 public class ControllerImpl implements Controller {
     // probabilmente meglio creare un nuovo env ad ogni "start"
     private final Environment env = new SimulatorEnvironmentImpl();
-    private final EnvironmentController envController = new EnvironmentControllerImpl(env);
     private final FileController fileController = new FileControllerImpl();
+    private ViewPosition dimension;
+    private final EnvironmentController envController = new EnvironmentControllerImpl(env);
 
     @Override
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
@@ -27,6 +28,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void start() {
+        this.envController.setMaxViewDimension(dimension);
         this.envController.start();
     }
 
@@ -72,5 +74,11 @@ public class ControllerImpl implements Controller {
     @Override
     public void addSpecies(final ViewSpecies species) {
         this.envController.addSpecies(species);
+    }
+
+    @Override
+    public void setMaxViewDimension(final ViewPosition maxDimension) {
+        this.dimension = maxDimension;
+        this.envController.setMaxViewDimension(dimension);
     }
 }

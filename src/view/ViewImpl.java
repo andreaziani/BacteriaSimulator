@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import model.Analisys;
 import model.action.ActionType;
 import model.food.Nutrient;
 import view.model.ViewPosition;
+import view.model.ViewPositionImpl;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpeciesFactory;
 import view.model.food.ViewFood;
@@ -94,6 +96,11 @@ public class ViewImpl implements View {
     @Override
     public List<String> getNutrients() {
         return Arrays.asList(Nutrient.values()).stream().map(n -> n.toString()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void setDimension(final Dimension dimension) {
+        this.controller.setMaxViewDimension(new ViewPositionImpl(dimension.width, dimension.height));
     }
 
 }

@@ -29,7 +29,7 @@ import utils.exceptions.PositionAlreadyOccupiedException;
  *
  */
 public class TestFood {
-    private static final double V1 = 10.2;
+    private static final double V1 = 100.2;
     private static final double V2 = 0.2;
     private static final double V3 = 13.1;
     private final Map<Nutrient, Double> nutrients1 = new HashMap<>();
