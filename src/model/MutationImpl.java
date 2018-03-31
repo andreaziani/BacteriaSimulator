@@ -22,6 +22,9 @@ public class MutationImpl implements Mutation {
     private int na;
     private int zone;
     private int naMutate;
+    private boolean check;
+    private int mt;
+    private int randomMutation;
 
     /**
      * Construct a Bacteria's Genetic Code.
@@ -33,57 +36,74 @@ public class MutationImpl implements Mutation {
         this.code = code;
     }
 
+    private int checkMutation() {
+        final Random rndMt = new Random();
+        this.mt = rndMt.nextInt(10);
+        this.randomMutation += mt;
+        return this.randomMutation;
+    }
+    private boolean possibilityOfMutation() {
+        return checkMutation() >= 100;
+    }
+
     private int randomPos() {
-        int pos;
-        Random rndPos = new Random();
-        pos = rndPos.nextInt(3);
-        return pos;
+        final Random rndPos = new Random();
+        this.pos = rndPos.nextInt(3);
+        return this.pos;
     }
 
     private int randomNucleicAcid() {
-        int na;
-        Random randNa = new Random();
-        na = randNa.nextInt(NucleicAcid.values().length);
-        return na;
+        final Random randNa = new Random();
+        this.na = randNa.nextInt(NucleicAcid.values().length);
+        return this.na;
     }
 
     private int randomZone() {
-        int zone;
-        Random randomZone = new Random();
-        zone = randomZone.nextInt(4);
+        final Random randomZone = new Random();
+        this.zone = randomZone.nextInt(4);
         return zone;
     }
 
     @Override
-    public void alteratedCode() {
-        this.pos = randomPos();
-        this.na = randomNucleicAcid();
-        this.naMutate = randomNucleicAcid();
-        this.zone = randomZone();
-        while (this.code.getCode().get(0).equals(NucleicAcid.values()[naMutate])) {
-            this.naMutate = randomNucleicAcid();
-        }
-        this.code.getCode().set(0, NucleicAcid.values()[naMutate]);
-        switch (zone) {
-            case 1:
-                pos += ZONE_ACTIONS;
-                this.code.getCode().set(pos, NucleicAcid.values()[na]);
-                break;
-            case 2:
-                pos += ZONE_SPEED;
-                this.code.getCode().set(pos, NucleicAcid.values()[na]);
-                break;
-            case 3:
-                pos += ZONE_NUTRIENTS;
-                this.code.getCode().set(pos, NucleicAcid.values()[na]);
-                break;
-            case 4:
-                pos += ZONE_51;
-                this.code.getCode().set(pos, NucleicAcid.values()[na]);
-                break;
-            default:
-                this.code.getCode();
-        }
+    public boolean isMutated() {
+        return this.check;
+    }
 
+    @Override
+    public void alteratedCode() {
+        if (possibilityOfMutation()) {
+            this.pos = randomPos();
+            this.na = randomNucleicAcid();
+            this.naMutate = randomNucleicAcid();
+            this.zone = randomZone();
+            this.randomMutation = 0;
+            this.check = true;
+            while (this.code.getCode().get(0).equals(NucleicAcid.values()[this.naMutate])) {
+                this.naMutate = randomNucleicAcid();
+            }
+            this.code.getCode().set(0, NucleicAcid.values()[this.naMutate]);
+            switch (this.zone) {
+                case 1:
+                    this.pos += ZONE_ACTIONS;
+                    this.code.getCode().set(this.pos, NucleicAcid.values()[this.na]);
+                    break;
+                case 2:
+                    this.pos += ZONE_SPEED;
+                    this.code.getCode().set(this.pos, NucleicAcid.values()[this.na]);
+                    break;
+                case 3:
+                    this.pos += ZONE_NUTRIENTS;
+                    this.code.getCode().set(this.pos, NucleicAcid.values()[this.na]);
+                    break;
+                case 4:
+                    this.pos += ZONE_51;
+                    this.code.getCode().set(this.pos, NucleicAcid.values()[this.na]);
+                    break;
+                default:
+                    this.code.getCode();
+            }
+        } else {
+            this.check = false;
+        }
     }
 }
