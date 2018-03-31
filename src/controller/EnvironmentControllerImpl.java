@@ -42,9 +42,9 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
         this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
                 env.getMaxPosition(), maxViewPosition.get()));
-        System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
-                env.getMaxPosition(), maxViewPosition.get()).getX() + " " + ConversionsUtil.conversionFromViewPositionToPosition(position,
-                        env.getMaxPosition(), maxViewPosition.get()).getY());
+//        System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
+//                env.getMaxPosition(), maxViewPosition.get()).getX() + " " + ConversionsUtil.conversionFromViewPositionToPosition(position,
+//                        env.getMaxPosition(), maxViewPosition.get()).getY());
 
     }
 
