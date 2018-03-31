@@ -69,4 +69,9 @@ public interface EnvironmentController {
      *             if a species with that name already exists.
      */
     void addSpecies(ViewSpecies species);
+    /**
+     * Set the maximum view position.
+     * @param maxDimension the maximum dimension of the view.
+     */
+    void setMaxViewDimension(ViewPosition maxDimension);
 }

@@ -4,6 +4,7 @@ import java.util.stream.IntStream;
 
 import model.Analisys;
 import model.Position;
+import model.PositionImpl;
 import model.State;
 import model.StateImpl;
 import model.bacteria.Species;
@@ -20,6 +21,7 @@ import model.food.FoodEnvironmentImpl;
  *
  */
 public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
+    private final Position maxPosition = new PositionImpl(1000, 1000);
     private static final int FOOD_PER_ROUND = 15;
     // TODO this should probably not be static OR (?)
     private static final double COST_OF_LIVING = 2.0;
@@ -68,5 +70,10 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     @Override
     public void addSpecies(final Species species) {
         speciesManager.addSpecies(species);
+    }
+
+    @Override
+    public Position getMaxPosition() {
+        return this.maxPosition;
     }
 }

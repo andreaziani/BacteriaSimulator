@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
 
@@ -112,4 +113,9 @@ public interface View {
      *             if a species with that name already exists.
      */
     void createSpecies(String name, Color color, Map<ActionType, Integer> decisionOptions, List<Boolean> decorators);
+    /**
+     * Set the view dimension.
+     * @param dimension the dimension to set in the view.
+     */
+    void setDimension(Dimension dimension);
 }

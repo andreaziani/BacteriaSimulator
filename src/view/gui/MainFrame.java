@@ -3,6 +3,8 @@ package view.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -34,6 +36,7 @@ public class MainFrame extends JFrame {
         super("Bacteria Simulator");
         final TopPanel topPanel = new TopPanel(view, this);
         this.setSize(width, height);
+        view.setDimension(this.centerPanel.getSize());
         this.centerPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
                 if (!view.getFoodsType().isEmpty()) {
@@ -42,6 +45,12 @@ public class MainFrame extends JFrame {
 //                    centerPanel.repaint();
                 }
 
+            }
+        });
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(final ComponentEvent arg0) {
+                view.setDimension(centerPanel.getSize());
             }
         });
         this.add(topPanel, BorderLayout.NORTH);

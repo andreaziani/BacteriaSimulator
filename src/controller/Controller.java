@@ -1,9 +1,9 @@
 package controller;
-/** Controller.
- * 
+
+/** 
+ * Controller.
  * 
  *
  */
 public interface Controller extends EnvironmentController, FileController {
-
 }

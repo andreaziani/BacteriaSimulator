@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.Dimension;
+import java.util.Optional;
 import java.util.Set;
 
 import model.Analisys;
@@ -7,6 +9,7 @@ import model.Environment;
 import model.State;
 import model.simulator.SimulatorEnvironmentImpl;
 import view.model.ViewPosition;
+import view.model.ViewPositionImpl;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
@@ -17,8 +20,9 @@ import view.model.food.ViewFood;
 public class ControllerImpl implements Controller {
     // probabilmente meglio creare un nuovo env ad ogni "start"
     private final Environment env = new SimulatorEnvironmentImpl();
-    private final EnvironmentController envController = new EnvironmentControllerImpl(env);
     private final FileController fileController = new FileControllerImpl();
+    private ViewPosition dimension;
+    private final EnvironmentController envController = new EnvironmentControllerImpl(env);
 
     @Override
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
@@ -27,6 +31,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void start() {
+        this.envController.setMaxViewDimension(new ViewPositionImpl(dimension.getX(), dimension.getY()));
         this.envController.start();
     }
 
@@ -72,5 +77,10 @@ public class ControllerImpl implements Controller {
     @Override
     public void addSpecies(final ViewSpecies species) {
         this.envController.addSpecies(species);
+    }
+
+    @Override
+    public void setMaxViewDimension(final ViewPosition maxDimension) {
+        this.dimension = maxDimension;
     }
 }

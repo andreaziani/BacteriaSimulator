@@ -64,18 +64,25 @@ public final class ConversionsUtil {
      *            the state to convert.
      * @param fcontroller
      *            FoodController that contains color for each food.
+     * @param maxPosition
+     *            the maximum position in the environment.
+     * @param maxViewPosition
+     *            the maximum position in the view.
      * @return the converted state.
      */
-    public static ViewState conversionFromStateToViewState(final State state, final FoodController fcontroller) {
+    public static ViewState conversionFromStateToViewState(final State state, final FoodController fcontroller,
+            final Position maxPosition, final ViewPosition maxViewPosition) {
         final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
-                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p),
+                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
                         p -> conversionFromModelToView(state.getFoodsState().get(p),
                                 fcontroller.getColorFromFood(state.getFoodsState().get(p)))));
         return new ViewStateImpl(foodState); // TODO Aggiungere la mappa di bacteria state.
     }
 
-    private static ViewPosition conversionFromPositionToViewPosition(final Position k) {
-        return new ViewPositionImpl(k.getX(), k.getY());
+    private static ViewPosition conversionFromPositionToViewPosition(final Position k, final Position maxPosition,
+            final ViewPosition maxViewPosition) {
+        return new ViewPositionImpl(k.getX() * maxPosition.getX() / maxViewPosition.getX(),
+                k.getY() * maxPosition.getY() / maxViewPosition.getY());
     }
 
 }
