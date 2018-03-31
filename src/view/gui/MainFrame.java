@@ -9,8 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import controller.ControllerImpl;
+import utils.exceptions.PositionAlreadyOccupiedException;
 import view.View;
 import view.ViewImpl;
 import view.model.ViewPositionImpl;
@@ -40,7 +42,11 @@ public class MainFrame extends JFrame {
         this.centerPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
                 if (!view.getFoodsType().isEmpty()) {
-                    view.addFood(view.getFoodsType().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
+                    try {
+                        view.addFood(view.getFoodsType().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
+                    } catch (PositionAlreadyOccupiedException positionOccupied) {
+                        JOptionPane.showMessageDialog(centerPanel, "You have just inserted a food in this position.");
+                    }
 //                    centerPanel.addFood(e.getX(), e.getY(), view.getFoodsType().get(topPanel.getSelectedFood()));
 //                    centerPanel.repaint();
                 }
