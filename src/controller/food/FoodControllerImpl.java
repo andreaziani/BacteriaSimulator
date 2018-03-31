@@ -21,7 +21,7 @@ import view.model.food.ViewFood;
 public class FoodControllerImpl implements FoodController {
     private final Environment env;
     private final ExistingFoodManager manager;
-    private final Map<Food, Color> colorForFood = new HashMap<>();
+    private final Map<String, Color> colorForFood = new HashMap<>();
 
     /**
      * Constructor that build the controller by passing the Environment on which it
@@ -37,7 +37,6 @@ public class FoodControllerImpl implements FoodController {
 
     @Override
     public void addFoodFromViewToModel(final ViewFood food, final Position position) {
-        this.colorForFood.put(ConversionsUtil.conversionFromViewToModel(food), food.getColor());
         this.env.addFood(ConversionsUtil.conversionFromViewToModel(food), position);
     }
 
@@ -50,11 +49,11 @@ public class FoodControllerImpl implements FoodController {
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
         this.manager.addFood(ConversionsUtil.conversionFromViewToModel(food));
-        this.colorForFood.put(ConversionsUtil.conversionFromViewToModel(food), food.getColor());
+        this.colorForFood.put(food.getName(), food.getColor());
     }
 
     @Override
     public Color getColorFromFood(final Food food) {
-        return this.colorForFood.get(food);
+        return this.colorForFood.get(food.getName());
     }
 }
