@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import model.bacteria.behavior.BehaviorDecoratorOption;
@@ -16,8 +17,8 @@ import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 public class ViewSpecies {
     private final String name;
     private final Color color;
-    private Set<DecisionMakerOption> decisionOptions  = Collections.emptySet();
-    private List<BehaviorDecoratorOption> decoratorOptions  = Collections.emptyList();
+    private Set<DecisionMakerOption> decisionOptions = Collections.emptySet();
+    private List<BehaviorDecoratorOption> decoratorOptions = Collections.emptyList();
 
     /**
      * Create a new ViewSpecies, assigning a name and a color.
@@ -78,5 +79,23 @@ public class ViewSpecies {
      */
     public List<BehaviorDecoratorOption> getDecoratorOptions() {
         return Collections.unmodifiableList(decoratorOptions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, color, decisionOptions, decoratorOptions);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final ViewSpecies other = (ViewSpecies) obj;
+        return Objects.equals(this.name, other.name) && Objects.equals(this.color, other.color)
+                && this.decisionOptions.containsAll(other.decisionOptions)
+                && other.decisionOptions.containsAll(this.decisionOptions)
+                && this.decoratorOptions.containsAll(other.decoratorOptions)
+                && other.decoratorOptions.containsAll(this.decoratorOptions);
     }
 }

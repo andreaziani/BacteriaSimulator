@@ -16,4 +16,9 @@ public interface ViewBacteria {
      * @return a color representing the Species of the bacteria.
      */
     Color getColor();
+
+    /**
+     * @return the Species of the Bacteria.
+     */
+    ViewSpecies getSpecies();
 }

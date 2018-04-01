@@ -1,6 +1,7 @@
 package view.model.bacteria;
 
 import java.awt.Color;
+import java.util.Objects;
 
 /**
  * Implementation of ViewBacteria that uses a ViewSpecies.
@@ -30,5 +31,24 @@ public class ViewBacteriaImpl implements ViewBacteria {
     @Override
     public Color getColor() {
         return this.species.getColor();
+    }
+
+    @Override
+    public ViewSpecies getSpecies() {
+        return this.species;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(radius, species);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final ViewBacteria other = (ViewBacteria) obj;
+        return Objects.equals(this.radius, other.getRadius()) && Objects.equals(this.species, other.getSpecies());
     }
 }
