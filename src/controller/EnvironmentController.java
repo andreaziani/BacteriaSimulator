@@ -32,6 +32,11 @@ public interface EnvironmentController {
     void start();
 
     /**
+     * Start the simulation from the initialState saved in this controller.
+     */
+    void startFromInitialState();
+
+    /**
      * Add a new type of food to the types of foods that already exist.
      * 
      * @param food
@@ -69,9 +74,12 @@ public interface EnvironmentController {
      *             if a species with that name already exists.
      */
     void addSpecies(ViewSpecies species);
+
     /**
      * Set the maximum view position.
-     * @param maxDimension the maximum dimension of the view.
+     * 
+     * @param maxDimension
+     *            the maximum dimension of the view.
      */
     void setMaxViewDimension(ViewPosition maxDimension);
 }

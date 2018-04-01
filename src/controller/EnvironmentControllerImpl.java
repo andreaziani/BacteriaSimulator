@@ -14,6 +14,7 @@ import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
+import view.model.food.ViewFoodImpl;
 
 /**
  * Implementation of EnvironmentController.
@@ -24,6 +25,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     private final FoodController foodController;
     private final Position maxPosition;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
+    private final InitialState initialState;
 
     /**
      * Constructor that builds the EnvironmentController by passing the Environment
@@ -36,6 +38,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         this.env = env;
         this.maxPosition = env.getMaxPosition();
         this.foodController = new FoodControllerImpl(this.env);
+        initialState = new InitialState();
     }
 
     @Override
@@ -51,11 +54,18 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public void start() {
         // TODO start
+        //TODO complete InitialState
+    }
+
+    @Override
+    public void startFromInitialState() {
+        //TODO resettare env, reinserire tutto da InitialState e fare start
     }
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
         this.foodController.addNewTypeOfFood(food);
+        initialState.addFood((ViewFoodImpl) food);
     }
 
     @Override
@@ -79,6 +89,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             species.getDecisionOptions().forEach(builder::addDecisionMaker);
             species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
             env.addSpecies(builder.build());
+            initialState.addSpecies(species);
         } catch (IllegalStateException e) {
             throw new InvalidSpeciesExeption();
         }
@@ -92,5 +103,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public void setMaxViewDimension(final ViewPosition position) {
         this.maxViewPosition = Optional.of(position);
+        initialState.setMaxX(position.getX());
+        initialState.setMaxY(position.getY());
     }
 }

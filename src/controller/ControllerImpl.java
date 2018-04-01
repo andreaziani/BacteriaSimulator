@@ -81,4 +81,9 @@ public class ControllerImpl implements Controller {
         this.dimension = maxDimension;
         this.envController.setMaxViewDimension(dimension);
     }
+
+    @Override
+    public void startFromInitialState() {
+        envController.startFromInitialState();
+    }
 }
