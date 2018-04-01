@@ -40,7 +40,7 @@ public class FileControllerImpl implements FileController {
     }
 
     @Override
-    public void loadReplay(final String path) {
+    public Replay loadReplay(final String path) {
         throw new UnsupportedOperationException();
     }
 

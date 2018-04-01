@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import model.Position;
 import model.PositionImpl;
 import view.model.bacteria.ViewBacteriaImpl;
 import view.model.bacteria.ViewSpecies;
@@ -15,12 +16,16 @@ public class InitialState {
     private Map<PositionImpl, ViewFoodImpl> foodMap;
     private final Set<ViewFoodImpl> existingFood;
     private final Set<ViewSpecies> species;
+    private final double maxX;
+    private final double maxY;
 
-    public InitialState() {
+    public InitialState(double maxX, double maxY) {
         bacteriaMap = new HashMap<>();
         foodMap = new HashMap<>();
         existingFood = new HashSet<>();
         species = new HashSet<>();
+        this.maxX = maxX;
+        this.maxY = maxY;
     }
 
     public void setState(HashMap<PositionImpl, ViewBacteriaImpl> bacteriaMap,
@@ -51,5 +56,9 @@ public class InitialState {
 
     public Set<ViewSpecies> getSpecies() {
         return species;
+    }
+
+    public Position getMaxPosition() {
+        return new PositionImpl(maxX, maxY);
     }
 }

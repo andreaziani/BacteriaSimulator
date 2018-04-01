@@ -1,10 +1,8 @@
 package controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import model.Analisys;
-import model.State;
 
 /**
  * FileController.
@@ -41,8 +39,9 @@ public interface FileController {
      * 
      * @param path
      *            the location of the file.
+     * @return the replay loaded.
      */
-    void loadReplay(String path);
+    Replay loadReplay(String path);
 
     /**
      * Save a replay.
@@ -61,7 +60,8 @@ public interface FileController {
      *            the location of the file.
      * @param analisys
      *            a textual analisys of the simulation.
-     * @throws IOException 
+     * @throws IOException
+     *             if any problem writing in the file occurred.
      */
     void saveAnalisys(String path, Analisys analisys) throws IOException;
 }
