@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import model.Analisys;
 import model.State;
 
@@ -15,8 +18,11 @@ public interface FileController {
      * 
      * @param path
      *            the location of the file.
+     * @return the initial state loaded.
+     * @throws IOException
+     *             if any problem reading the file occurred.
      */
-    void loadInitialState(String path);
+    InitialState loadInitialState(String path) throws IOException;
 
     /**
      * Save the initial state of a simulation for rerunning.
@@ -25,8 +31,10 @@ public interface FileController {
      *            the location of the file.
      * @param initialState
      *            the description of the initial state of the simulation.
+     * @throws IOException
+     *             if any problem writing in the file occurred.
      */
-    void saveInitialState(String path, State initialState);
+    void saveInitialState(String path, InitialState initialState) throws IOException;
 
     /**
      * Load a replay of a simulation.
@@ -53,6 +61,7 @@ public interface FileController {
      *            the location of the file.
      * @param analisys
      *            a textual analisys of the simulation.
+     * @throws IOException 
      */
-    void saveAnalisys(String path, Analisys analisys);
+    void saveAnalisys(String path, Analisys analisys) throws IOException;
 }

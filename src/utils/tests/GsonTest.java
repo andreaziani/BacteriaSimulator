@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,12 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import controller.InitialState;
 import model.bacteria.behavior.BehaviorDecoratorOption;
@@ -106,13 +113,13 @@ class CImpl implements B {
         System.out.println(json);
 
         //GeneticCode code = new GeneticCodeImpl();
-        
+
         A a = new AImpl(); 
         json = gson.toJson(a);
         A a2 = gson.fromJson(json, AImpl.class);
         assertEquals(a.geta(), a2.geta());
         assertEquals(a.getb(), a2.getb());
-        
+
         B b = new BImpl();
         json = gson.toJson(b);
         B b2 = gson.fromJson(json, BImpl.class);
@@ -123,5 +130,29 @@ class CImpl implements B {
         b2 = gson.fromJson(json, CImpl.class);
         assertEquals(b.getA().geta(), b2.getA().geta());
         assertEquals(b.getA().getb(), b2.getA().getb());
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.registerTypeAdapter(A.class, new TypeAdapter<A>() {
+
+            @Override
+            public A read(JsonReader in) throws IOException {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
+            public void write(JsonWriter out, A value) throws IOException {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        gs.registerTypeAdapterFactory(new TypeAdapterFactory() {
+
+            @Override
+            public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+        });
     }
 }

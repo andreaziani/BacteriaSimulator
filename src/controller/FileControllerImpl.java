@@ -1,11 +1,17 @@
 package controller;
 
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
 
 import model.Analisys;
-import model.State;
 
 /**
  * Implementation of FileController.
@@ -13,38 +19,40 @@ import model.State;
  */
 public class FileControllerImpl implements FileController {
 
-    
-    private <X> void saveData(final String path, final X data) {
-        try (OutputStream file = new FileOutputStream(path)) {
-            
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    
+    private final Gson gson = new Gson();
+
     @Override
-    public void loadInitialState(final String path) {
-        
+    public InitialState loadInitialState(final String path) throws IOException {
+        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
+            return gson.fromJson(reader, InitialState.class);
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new IOException();
+        }
     }
 
     @Override
-    public void saveInitialState(final String path, final State initialState) {
-        
+    public void saveInitialState(final String path, final InitialState initialState) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            writer.write(gson.toJson(initialState));
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new IOException();
+        }
     }
 
     @Override
     public void loadReplay(final String path) {
-        
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void saveReplay(final String path, final Replay replay) {
-        
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void saveAnalisys(final String path, final Analisys analisys) {
-
+    public void saveAnalisys(final String path, final Analisys analisys) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            writer.write(analisys.toString());
+        }
     }
 }
