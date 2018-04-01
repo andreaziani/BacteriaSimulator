@@ -5,7 +5,6 @@ import java.util.Objects;
 import model.Energy;
 import model.EnergyImpl;
 import model.action.Action;
-import model.bacteria.behavior.Behavior;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.geneticcode.GeneticCode;
@@ -20,7 +19,6 @@ public class BacteriaImpl implements Bacteria {
     private Perception currPerception;
     private final GeneticCode geneticCode;
     private final Species species;
-    private final Behavior behavior;
     private final EnergyStorage energyStorage;
 
     /**
@@ -36,7 +34,6 @@ public class BacteriaImpl implements Bacteria {
      */
     public BacteriaImpl(final Species species, final GeneticCode initialGeneticCode, final Energy startingEnergy) {
         this.species = species;
-        this.behavior = species.getBehavior();
         this.geneticCode = initialGeneticCode;
         this.energyStorage = new NutrientStorage(startingEnergy, this.geneticCode::getEnergyFromNutrient);
     }
@@ -71,7 +68,7 @@ public class BacteriaImpl implements Bacteria {
         if (this.currPerception == null) {
             throw new MissingPerceptionExeption();
         }
-        return this.behavior.chooseAction(new BacteriaKnowledge(this.currPerception,
+        return this.species.getBehavior().chooseAction(new BacteriaKnowledge(this.currPerception,
                 this.geneticCode::getEnergyFromNutrient, this::getActionCost, this.getEnergy()));
     }
 
