@@ -63,6 +63,8 @@ public class FoodCreationDialog extends JDialog {
                 this.addNutrient.setEnabled(true);
                 this.name.setEditable(false);
                 this.addName.setEnabled(false);
+                this.quantity.setEnabled(true);
+                this.nutrients.setEnabled(true);
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(this, "Food should have a name!");
             }
@@ -113,6 +115,8 @@ public class FoodCreationDialog extends JDialog {
     private void start(final View view) {
         this.addNutrient.setEnabled(false);
         this.createFood.setEnabled(false);
+        this.nutrients.setEnabled(false);
+        this.quantity.setEnabled(false);
         this.name.setText("Food1");
         this.quantity.setText("10.00");
         view.getNutrients().forEach(n -> nutrients.addItem(n));
