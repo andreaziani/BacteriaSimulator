@@ -12,7 +12,7 @@ import controller.ControllerImpl;
 import model.food.Nutrient;
 import utils.exceptions.AlreadyExistingFoodException;
 import utils.exceptions.PositionAlreadyOccupiedException;
-import view.View;
+import view.ViewController;
 import view.ViewImpl;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
@@ -26,7 +26,7 @@ public class TestInteractions {
     private static final int WITDH = 1920;
     private static final int HEIGHT = 1080; 
     private final Controller controller = new ControllerImpl();
-    private final View view = new ViewImpl(this.controller);
+    private final ViewController view = new ViewImpl(this.controller);
     private final ViewPosition p1 = new ViewPositionImpl(1.0, 2.0); // chose two position that don't collide.
     private final ViewPosition p2 = new ViewPositionImpl(10.0, 20.0);
     private ViewFood creationOfFood(final String name, final Pair<Nutrient, Double> pair) {
