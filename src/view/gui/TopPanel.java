@@ -8,7 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import view.View;
+import view.ViewController;
 /**
  * Top Panel of MainFrame.
  *
@@ -30,7 +30,7 @@ public class TopPanel extends JPanel {
      * @param view the View with which to interact.
      * @param main frame that's call this panel.
      */
-    public TopPanel(final View view, final JFrame main) {
+    public TopPanel(final ViewController view, final JFrame main) {
         super(new BorderLayout());
         this.help.addActionListener(e -> {
             new HelpDialog(main);

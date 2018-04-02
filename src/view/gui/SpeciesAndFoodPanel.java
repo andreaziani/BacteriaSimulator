@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import view.View;
+import view.ViewController;
 /**
  * 
  * Panel that contains all the functions on Bacterias and Foods.
@@ -28,7 +28,7 @@ public class SpeciesAndFoodPanel extends JPanel {
      * @param view the view on which to handle the interactions.
      * @param main frame that's call this panel.
      */
-    public SpeciesAndFoodPanel(final View view, final JFrame main) {
+    public SpeciesAndFoodPanel(final ViewController view, final JFrame main) {
         super();
         this.setLayout(new FlowLayout());
         this.foods.addItem("Select a food");
@@ -54,7 +54,7 @@ public class SpeciesAndFoodPanel extends JPanel {
      * Update food's type.
      * @param view from which to take existing food's name.
      */
-    public void updateFoods(final View view) {
+    public void updateFoods(final ViewController view) {
         this.foods.removeAllItems();
         view.getFoodsType().forEach(f -> this.foods.addItem(f.getName()));
     }

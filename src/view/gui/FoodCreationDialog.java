@@ -17,7 +17,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import model.food.Nutrient;
 import utils.exceptions.AlreadyExistingFoodException;
-import view.View;
+import view.ViewController;
 import view.model.food.ViewFoodImpl.ViewFoodBuilder;
 
 /**
@@ -53,7 +53,7 @@ public class FoodCreationDialog extends JDialog {
      * @param main
      *            the JFrame that will be blocked by this dialog.
      */
-    public FoodCreationDialog(final View view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
+    public FoodCreationDialog(final ViewController view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
         super(main, "Create new Food", true);
         this.setLayout(new BorderLayout());
         start(view);
@@ -110,7 +110,7 @@ public class FoodCreationDialog extends JDialog {
         this.setVisible(true);
     }
 
-    private void start(final View view) {
+    private void start(final ViewController view) {
         this.addNutrient.setEnabled(false);
         this.createFood.setEnabled(false);
         this.name.setText("Food1");

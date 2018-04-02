@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 import controller.ControllerImpl;
 import utils.exceptions.PositionAlreadyOccupiedException;
-import view.View;
+import view.ViewController;
 import view.ViewImpl;
 import view.model.ViewPositionImpl;
 
@@ -34,7 +34,7 @@ public class MainFrame extends JFrame {
      * Constructor the MainFrame by passing a View.
      * @param view the View with which to interact.
      */
-    public MainFrame(final View view) {
+    public MainFrame(final ViewController view) {
         super("Bacteria Simulator");
         final TopPanel topPanel = new TopPanel(view, this);
         this.setSize(width, height);
