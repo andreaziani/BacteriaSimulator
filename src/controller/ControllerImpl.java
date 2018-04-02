@@ -1,7 +1,7 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
-
 
 /**
  * Controller implementation.
@@ -20,28 +20,28 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     }
 
     @Override
-    public void loadInitialState(final String path) throws IOException {
-        this.fileController.loadInitialState(path);
+    public void loadInitialState(final File file) throws IOException {
+        this.setInitialState(this.fileController.loadInitialState(file));
     }
 
     @Override
-    public void saveInitialState(final String path) throws IOException {
-        this.fileController.saveInitialState(path, this.getInitialState());
+    public void saveInitialState(final File file) throws IOException {
+        this.fileController.saveInitialState(file, this.getInitialState());
     }
 
     @Override
-    public void loadReplay(final String path) {
-        this.fileController.loadReplay(path);
+    public void loadReplay(final File file) {
+        this.fileController.loadReplay(file);
     }
 
     @Override
-    public void saveReplay(final String path) {
-        this.fileController.saveReplay(path, this.getReplay());
+    public void saveReplay(final File file) {
+        this.fileController.saveReplay(file, this.getReplay());
     }
 
     @Override
-    public void saveAnalisys(final String path) throws IOException {
-        this.fileController.saveAnalisys(path, this.getAnalysis());
+    public void saveAnalisys(final File file) throws IOException {
+        this.fileController.saveAnalisys(file, this.getAnalysis());
     }
 
 }

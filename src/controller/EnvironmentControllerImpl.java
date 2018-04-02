@@ -62,6 +62,17 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     /**
+     * Restore the simulation to a state defined by an InitialState object.
+     * 
+     * @param initialState
+     *            the representation of the initial state.
+     */
+    protected void setInitialState(final InitialState initialState) {
+        resetSimulation();
+        this.initialState = initialState;
+    }
+
+    /**
      * Start the simulation from the initialState saved in this controller.
      */
     protected void startFromInitialState() {

@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +103,21 @@ public class ViewImpl implements View, ViewController {
     @Override
     public void setDimension(final Dimension dimension) {
         this.controller.setMaxViewDimension(new ViewPositionImpl(dimension.width, dimension.height));
+    }
+
+    @Override
+    public void loadSimulation(final File file) throws IOException {
+        controller.loadInitialState(file);
+    }
+
+    @Override
+    public void saveSimulation(final File file) throws IOException {
+        controller.saveInitialState(file);
+    }
+
+    @Override
+    public void saveAnalysis(final File file) throws IOException {
+        controller.saveAnalisys(file);
     }
 
 }

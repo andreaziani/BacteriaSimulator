@@ -2,6 +2,7 @@ package controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,8 +23,8 @@ public class FileControllerImpl implements FileController {
     private final Gson gson = new Gson();
 
     @Override
-    public InitialState loadInitialState(final String path) throws IOException {
-        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
+    public InitialState loadInitialState(final File file) throws IOException {
+        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(file)))) {
             return gson.fromJson(reader, InitialState.class);
         } catch (JsonIOException | JsonSyntaxException e) {
             throw new IOException();
@@ -31,8 +32,8 @@ public class FileControllerImpl implements FileController {
     }
 
     @Override
-    public void saveInitialState(final String path, final InitialState initialState) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+    public void saveInitialState(final File file, final InitialState initialState) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(gson.toJson(initialState));
         } catch (JsonIOException | JsonSyntaxException e) {
             throw new IOException();
@@ -40,18 +41,18 @@ public class FileControllerImpl implements FileController {
     }
 
     @Override
-    public Replay loadReplay(final String path) {
+    public Replay loadReplay(final File file) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void saveReplay(final String path, final Replay replay) {
+    public void saveReplay(final File file, final Replay replay) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void saveAnalisys(final String path, final Analysis analysis) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+    public void saveAnalisys(final File file, final Analysis analysis) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(analysis.toString());
         }
     }

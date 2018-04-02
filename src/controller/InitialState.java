@@ -30,7 +30,7 @@ public class InitialState {
      * @param maxY
      *            the maximum size of the y coordinate.
      */
-    public InitialState(double maxX, double maxY) {
+    public InitialState(final double maxX, final double maxY) {
         bacteriaMap = new HashMap<>();
         foodMap = new HashMap<>();
         existingFood = new HashSet<>();

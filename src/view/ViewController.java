@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -109,4 +111,31 @@ public interface ViewController {
      *            the dimension to set in the view.
      */
     void setDimension(Dimension dimension);
+
+    /**
+     * Try loading a simulation.
+     * 
+     * @param file
+     *            the file to load from.
+     * @throws IOException in case of a problem.
+     */
+    void loadSimulation(File file) throws IOException;
+
+    /**
+     * Save a simulation.
+     * 
+     * @param file
+     *            the file to save into.
+     * @throws IOException in case of a problem.
+     */
+    void saveSimulation(File file) throws IOException;
+
+    /**
+     * Save an Analysis.
+     * 
+     * @param file
+     *            the file to save into.
+     * @throws IOException in case of a problem.
+     */
+    void saveAnalysis(File file) throws IOException;
 }
