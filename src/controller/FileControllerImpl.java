@@ -11,7 +11,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
-import model.Analisys;
+import model.Analysis;
 
 /**
  * Implementation of FileController.
@@ -50,9 +50,9 @@ public class FileControllerImpl implements FileController {
     }
 
     @Override
-    public void saveAnalisys(final String path, final Analisys analisys) throws IOException {
+    public void saveAnalisys(final String path, final Analysis analysis) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-            writer.write(analisys.toString());
+            writer.write(analysis.toString());
         }
     }
 }

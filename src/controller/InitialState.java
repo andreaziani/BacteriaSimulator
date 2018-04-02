@@ -19,32 +19,23 @@ public class InitialState {
     private Map<PositionImpl, ViewFoodImpl> foodMap;
     private final Set<ViewFoodImpl> existingFood;
     private final Set<ViewSpecies> species;
-    private double maxX;
-    private double maxY;
+    private final double maxX;
+    private final double maxY;
 
     /**
      * Create an InitialState from the size of the simulation.
+     * 
+     * @param maxX
+     *            the maximum size of the x coordinate.
+     * @param maxY
+     *            the maximum size of the y coordinate.
      */
-    public InitialState() {
+    public InitialState(double maxX, double maxY) {
         bacteriaMap = new HashMap<>();
         foodMap = new HashMap<>();
         existingFood = new HashSet<>();
         species = new HashSet<>();
-    }
-
-    /**
-     * @param maxX
-     *            the maximum size of the x coordinate.
-     */
-    public void setMaxX(final double maxX) {
         this.maxX = maxX;
-    }
-
-    /**
-     * @param maxY
-     *            the maximum size of the y coordinate.
-     */
-    public void setMaxY(final double maxY) {
         this.maxY = maxY;
     }
 

@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
 
-import model.Analisys;
+import model.Analysis;
 import model.action.ActionType;
 import view.model.ViewPosition;
 import view.model.ViewState;
@@ -77,10 +77,10 @@ public interface View {
     /**
      * Show analisys.
      * 
-     * @param analisys
+     * @param analysis
      *            to show.
      */
-    void showAnalisys(Analisys analisys);
+    void showAnalisys(Analysis analysis);
 
     /**
      * @return a map associating each ActionType to a list of options for the

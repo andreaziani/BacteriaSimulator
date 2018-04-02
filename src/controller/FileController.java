@@ -2,7 +2,7 @@ package controller;
 
 import java.io.IOException;
 
-import model.Analisys;
+import model.Analysis;
 
 /**
  * FileController.
@@ -58,10 +58,10 @@ public interface FileController {
      * 
      * @param path
      *            the location of the file.
-     * @param analisys
+     * @param analysis
      *            a textual analisys of the simulation.
      * @throws IOException
      *             if any problem writing in the file occurred.
      */
-    void saveAnalisys(String path, Analisys analisys) throws IOException;
+    void saveAnalisys(String path, Analysis analysis) throws IOException;
 }

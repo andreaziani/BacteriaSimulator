@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import controller.Controller;
-import model.Analisys;
+import model.Analysis;
 import model.action.ActionType;
 import model.food.Nutrient;
 import view.model.ViewPosition;
@@ -57,7 +57,7 @@ public class ViewImpl implements View {
     }
 
     @Override
-    public void showAnalisys(final Analisys analisys) {
+    public void showAnalisys(final Analysis analysis) {
         // TODO Auto-generated method stub
 
     }

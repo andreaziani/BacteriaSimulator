@@ -2,7 +2,7 @@ package model.simulator;
 
 import java.util.stream.IntStream;
 
-import model.Analisys;
+import model.Analysis;
 import model.Position;
 import model.PositionImpl;
 import model.State;
@@ -62,7 +62,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     }
 
     @Override
-    public Analisys getAnalisys() {
+    public Analysis getAnalisys() {
         // TODO Auto-generated method stub
         return null;
     }
