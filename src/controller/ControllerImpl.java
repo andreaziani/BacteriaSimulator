@@ -1,10 +1,10 @@
 package controller;
 
+import java.io.IOException;
 import java.util.Set;
 
 import model.Analisys;
 import model.Environment;
-import model.State;
 import model.simulator.SimulatorEnvironmentImpl;
 import view.model.ViewPosition;
 import view.model.ViewState;
@@ -33,12 +33,12 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void loadInitialState(final String path) {
+    public void loadInitialState(final String path) throws IOException {
         this.fileController.loadInitialState(path);
     }
 
     @Override
-    public void saveInitialState(final String path, final State initialState) {
+    public void saveInitialState(final String path, final InitialState initialState) throws IOException {
         this.fileController.saveInitialState(path, initialState);
     }
     @Override
@@ -47,12 +47,12 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void saveReplay(final String path, final Replay rep) {
-        this.fileController.saveReplay(path, rep);
+    public void saveReplay(final String path, final Replay replay) {
+        this.fileController.saveReplay(path, replay);
     }
 
     @Override
-    public void saveAnalisys(final String path, final Analisys analisys) {
+    public void saveAnalisys(final String path, final Analisys analisys) throws IOException {
         this.fileController.saveAnalisys(path, analisys);
     }
 
@@ -80,5 +80,10 @@ public class ControllerImpl implements Controller {
     public void setMaxViewDimension(final ViewPosition maxDimension) {
         this.dimension = maxDimension;
         this.envController.setMaxViewDimension(dimension);
+    }
+
+    @Override
+    public void startFromInitialState() {
+        envController.startFromInitialState();
     }
 }
