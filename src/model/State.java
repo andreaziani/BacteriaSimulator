@@ -2,6 +2,7 @@ package model;
 
 import java.util.Map;
 
+import model.bacteria.Bacteria;
 import model.food.Food;
 
 /**
@@ -15,5 +16,9 @@ public interface State {
      * @return an unmodifiable copy of the state of Foods present in the simulation.
      */
     Map<Position, Food> getFoodsState();
-    // TODO fare metodo per prendere lo stato dei batteri.
+
+    /**
+     * @return an unmodifiable copy of the state of Bacteria present in the simulation.
+     */
+    Map<Position, Bacteria> getBacteriaState();
 }
