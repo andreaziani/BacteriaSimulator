@@ -1,7 +1,9 @@
 package controller;
 
-import model.Analisys;
-import model.State;
+import java.io.File;
+import java.io.IOException;
+
+import model.Analysis;
 
 /**
  * FileController.
@@ -13,46 +15,54 @@ public interface FileController {
     /**
      * Load an initial state of a simulation.
      * 
-     * @param path
-     *            the location of the file.
+     * @param file
+     *            the file to save into.
+     * @return the initial state loaded.
+     * @throws IOException
+     *             if any problem reading the file occurred.
      */
-    void loadInitialState(String path);
+    InitialState loadInitialState(File file) throws IOException;
 
     /**
      * Save the initial state of a simulation for rerunning.
      * 
-     * @param path
-     *            the location of the file.
+     * @param file
+     *            the file to save into.
      * @param initialState
      *            the description of the initial state of the simulation.
+     * @throws IOException
+     *             if any problem writing in the file occurred.
      */
-    void saveInitialState(String path, State initialState);
+    void saveInitialState(File file, InitialState initialState) throws IOException;
 
     /**
      * Load a replay of a simulation.
      * 
-     * @param path
-     *            the location of the file.
+     * @param file
+     *            the file to save into.
+     * @return the replay loaded.
      */
-    void loadReplay(String path);
+    Replay loadReplay(File file);
 
     /**
      * Save a replay.
      * 
-     * @param path
-     *            the location of the file.
+     * @param file
+     *            the file to save into.
      * @param replay
      *            a replay of a simulation.
      */
-    void saveReplay(String path, Replay replay);
+    void saveReplay(File file, Replay replay);
 
     /**
      * Save the final analisys.
      * 
-     * @param path
-     *            the location of the file.
-     * @param analisys
+     * @param file
+     *            the file to save into.
+     * @param analysis
      *            a textual analisys of the simulation.
+     * @throws IOException
+     *             if any problem writing in the file occurred.
      */
-    void saveAnalisys(String path, Analisys analisys);
+    void saveAnalisys(File file, Analysis analysis) throws IOException;
 }

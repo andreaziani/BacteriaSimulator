@@ -1,9 +1,57 @@
 package controller;
-/** Controller.
- * 
+
+import java.io.File;
+import java.io.IOException;
+
+/**
+ * Controller.
  * 
  *
  */
-public interface Controller extends EnvironmentController, FileController {
+public interface Controller extends EnvironmentController {
+    /**
+     * Load an initial state of a simulation.
+     * 
+     * @param file
+     *            the file to save into.
+     * @throws IOException
+     *             if any problem reading the file occurred.
+     */
+    void loadInitialState(File file) throws IOException;
 
+    /**
+     * Save the initial state of the current simulation for rerunning.
+     * 
+     * @param file
+     *            the file to save into.
+     * @throws IOException
+     *             if any problem writing in the file occurred.
+     */
+    void saveInitialState(File file) throws IOException;
+
+    /**
+     * Load a replay of a simulation.
+     * 
+     * @param file
+     *            the file to save into.
+     */
+    void loadReplay(File file);
+
+    /**
+     * Save the replay of the last runned simulation.
+     * 
+     * @param file
+     *            the file to save into.
+     */
+    void saveReplay(File file);
+
+    /**
+     * Save the final analysis of the last simulation runned.
+     * 
+     * @param file
+     *            the file to save into.
+     * @throws IOException
+     *             if any problem writing in the file occurred.
+     */
+    void saveAnalisys(File file) throws IOException;
 }

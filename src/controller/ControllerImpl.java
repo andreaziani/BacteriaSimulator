@@ -1,76 +1,47 @@
 package controller;
 
-import java.util.Set;
+import java.io.File;
+import java.io.IOException;
 
-import model.Analisys;
-import model.Environment;
-import model.State;
-import model.simulator.SimulatorEnvironmentImpl;
-import view.model.ViewPosition;
-import view.model.ViewState;
-import view.model.bacteria.ViewSpecies;
-import view.model.food.ViewFood;
 /**
- * Controller implementation. 
+ * Controller implementation.
  *
  */
-public class ControllerImpl implements Controller {
-    // probabilmente meglio creare un nuovo env ad ogni "start"
-    private final Environment env = new SimulatorEnvironmentImpl();
-    private final EnvironmentController envController = new EnvironmentControllerImpl(env);
-    private final FileController fileController = new FileControllerImpl();
+public class ControllerImpl extends EnvironmentControllerImpl implements Controller {
 
-    @Override
-    public void addFoodFromView(final ViewFood food, final ViewPosition position) {
-        this.envController.addFoodFromView(food, position);
-    } 
+    private final FileController fileController;
 
-    @Override
-    public void start() {
-        this.envController.start();
+    /**
+     * Create a controller implementation.
+     */
+    public ControllerImpl() {
+        super();
+        fileController = new FileControllerImpl();
     }
 
     @Override
-    public void loadInitialState(final String path) {
-        this.fileController.loadInitialState(path);
+    public void loadInitialState(final File file) throws IOException {
+        this.setInitialState(this.fileController.loadInitialState(file));
     }
 
     @Override
-    public void saveInitialState(final String path, final State initialState) {
-        this.fileController.saveInitialState(path, initialState);
-    }
-    @Override
-    public void loadReplay(final String path) {
-        this.fileController.loadReplay(path);
+    public void saveInitialState(final File file) throws IOException {
+        this.fileController.saveInitialState(file, this.getInitialState());
     }
 
     @Override
-    public void saveReplay(final String path, final Replay rep) {
-        this.fileController.saveReplay(path, rep);
+    public void loadReplay(final File file) {
+        this.fileController.loadReplay(file);
     }
 
     @Override
-    public void saveAnalisys(final String path, final Analisys analisys) {
-        this.fileController.saveAnalisys(path, analisys);
+    public void saveReplay(final File file) {
+        this.fileController.saveReplay(file, this.getReplay());
     }
 
     @Override
-    public void addNewTypeOfFood(final ViewFood food) {
-        this.envController.addNewTypeOfFood(food);
+    public void saveAnalisys(final File file) throws IOException {
+        this.fileController.saveAnalisys(file, this.getAnalysis());
     }
 
-    @Override
-    public Set<ViewFood> getExistingViewFoods() {
-        return this.envController.getExistingViewFoods();
-    }
-
-    @Override
-    public ViewState getState() {
-        return this.envController.getState();
-    }
-
-    @Override
-    public void addSpecies(final ViewSpecies species) {
-        this.envController.addSpecies(species);
-    }
 }

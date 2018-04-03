@@ -44,13 +44,18 @@ public interface Environment {
     /**
      * return the analisys of the species.
      * 
-     * @return Analisys of fitness.
+     * @return Analysis of fitness.
      */
-    Analisys getAnalisys();
+    Analysis getAnalisys();
 
     /**
      * @param species
      *            add a Species to the simulation.
      */
     void addSpecies(Species species);
+    /**
+     * Get the maximum position of environment.
+     * @return the maximum position.
+     */
+    Position getMaxPosition();
 }

@@ -4,11 +4,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import model.Position;
 import model.food.insertionstrategy.GeometricDistribuitionStrategyImpl;
 import model.food.insertionstrategy.RandomFoodStrategy;
 import model.food.insertionstrategy.RandomFoodStrategyImpl;
 import model.food.insertionstrategy.RandomPositionStrategy;
+import utils.EnvUtil;
 import utils.exceptions.PositionAlreadyOccupiedException;
 
 /**
@@ -34,7 +37,8 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
 
     @Override
     public void addFood(final Food food, final Position position) {
-        if (!this.foods.containsKey(position)) {
+        // il cibo può essere aggiunto solo se la non collide con altre posizioni di cibi precedentemente inseriti.
+        if (!this.foods.entrySet().stream().anyMatch(e -> EnvUtil.isCollision(Pair.of(position, food), Pair.of(e.getKey(), e.getValue())))) { 
             this.foods.put(position, food);
         } else {
             throw new PositionAlreadyOccupiedException();
@@ -61,13 +65,12 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
         addFood(food, newPosition);
     }
 
-    // TODO impostare la dimensione massima dell'env.
     @Override
     public void addRandomFood() {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
         final RandomPositionStrategy positionStrategy = new GeometricDistribuitionStrategyImpl();
-        for (int i = MAXATTEMPS; (i > 0 && check); i--) {
+        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // provo a reinserire se la posizione era già occupata.
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
                 check = false;

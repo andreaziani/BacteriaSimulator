@@ -31,11 +31,8 @@ public class HelpDialog extends JDialog {
      */
     public HelpDialog(final JFrame main) {
         super(main, "Help", true);
-        try {
-            final FileReader reader = new FileReader(this.file);
-            final BufferedReader br = new BufferedReader(reader);
+        try (BufferedReader br = new BufferedReader(new FileReader(this.file))) {
             this.text.read(br, "jTextArea1");
-            br.close();
             this.text.requestFocus();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Help file not found");

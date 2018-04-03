@@ -2,15 +2,19 @@ package utils.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.awt.Dimension;
+
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.Before;
 import org.junit.Test;
 import controller.Controller;
 import controller.ControllerImpl;
 import model.food.Nutrient;
 import utils.exceptions.AlreadyExistingFoodException;
 import utils.exceptions.PositionAlreadyOccupiedException;
-import view.View;
+import view.ViewController;
 import view.ViewImpl;
+import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.food.ViewFood;
 import view.model.food.ViewFoodImpl.ViewFoodBuilder;
@@ -19,9 +23,12 @@ import view.model.food.ViewFoodImpl.ViewFoodBuilder;
  *
  */
 public class TestInteractions {
+    private static final int WITDH = 1920;
+    private static final int HEIGHT = 1080; 
     private final Controller controller = new ControllerImpl();
-    private final View view = new ViewImpl(this.controller);
-
+    private final ViewController view = new ViewImpl(this.controller);
+    private final ViewPosition p1 = new ViewPositionImpl(1.0, 2.0); // chose two position that don't collide.
+    private final ViewPosition p2 = new ViewPositionImpl(10.0, 20.0);
     private ViewFood creationOfFood(final String name, final Pair<Nutrient, Double> pair) {
         return new ViewFoodBuilder(name).addNutrient(pair).build();
     }
@@ -46,11 +53,16 @@ public class TestInteractions {
     @Test
     public void testInsertion() {
         this.view.addNewTypeOfFood(creationOfFood("Banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0)));
-        this.view.addFood(creationOfFood("Banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0)), new ViewPositionImpl(1.0, 2.0));
-        this.view.addFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 2.0)), new ViewPositionImpl(3.0, 2.0));
+        this.view.addFood(creationOfFood("Banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0)), p1);
+        this.view.addFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 2.0)), p2);
         assertThrows(PositionAlreadyOccupiedException.class, () -> this.view.addFood(creationOfFood("Pera", Pair.of(Nutrient.CARBOHYDRATES, 1.0)),
                                                                                      new ViewPositionImpl(1.0, 2.0)));
-//        System.out.println(this.controller.getState().toString());
-        //TODO aggiungere un controllo che verifichi se inserendo dalla view viene modificato correttamente l'environment
+    }
+    /**
+     * Setting the dimension of the view.
+     */
+    @Before
+    public void setDimension() {
+        this.view.setDimension(new Dimension(WITDH, HEIGHT));
     }
 }
