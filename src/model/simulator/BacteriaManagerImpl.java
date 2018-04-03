@@ -26,6 +26,8 @@ import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
+import model.geneticcode.CopyFactory;
+import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;
 import utils.EnvUtil;
 
@@ -40,6 +42,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private final FoodEnvironment foodEnv;
     private final Map<Position, Bacteria> bacteria = new HashMap<>();
     private final ActionPerformer actionPerf = new ActionPerformer();
+    private final CopyFactory geneFactory = new CopyFactoryImpl();
 
     /**
      * Constructor.
@@ -191,7 +194,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                     .findAny();
 
             if (freePosition.isPresent()) {
-                final GeneticCode clonedGenCode = this.bacteria.getGeneticCode();
+                final GeneticCode clonedGenCode = BacteriaManagerImpl.this.geneFactory.copyGene(this.bacteria.getGeneticCode());
                 final Energy bactEnergy = this.bacteria.getEnergy();
                 final Energy halfEnergy = bactEnergy.multiply(0.5);
                 this.bacteria.spendEnergy(halfEnergy);
