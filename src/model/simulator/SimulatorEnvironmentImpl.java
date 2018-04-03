@@ -58,7 +58,7 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     public void update() {
         this.updateBacteria();
         this.updateFood();
-        this.state = new StateImpl(this.foodEnv.getFoodsState()); //TODO aggiungere gli state di bacteria
+        this.state = new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
     }
 
     @Override
