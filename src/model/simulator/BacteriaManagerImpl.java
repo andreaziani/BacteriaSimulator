@@ -1,5 +1,6 @@
 package model.simulator;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,10 +13,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import model.Direction;
 import model.Energy;
 import model.EnergyImpl;
-import model.GeneticCode;
 import model.Position;
 import model.action.Action;
 import model.action.ActionType;
+import model.action.DirectionalAction;
+import model.action.DirectionalActionImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.food.Food;
@@ -24,6 +26,7 @@ import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
+import model.geneticcode.GeneticCode;
 import utils.EnvUtil;
 
 
@@ -87,7 +90,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
         switch (actionType) {
         case MOVE:
-            actionPerf.move();
+            final DirectionalAction moveAction = (DirectionalActionImpl) action;
+            actionPerf.move(moveAction.getDirection());
             break;
         case EAT:
             actionPerf.eat();
@@ -130,6 +134,14 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     /**
+     * Implementation of getBacteriaState.
+     */
+    @Override
+    public Map<Position, Bacteria> getBacteriaState() {
+        return Collections.unmodifiableMap(this.bacteria);
+    }
+
+    /**
      * Inner class whose sole task is to perform Bacteria's actions.
      */
     private class ActionPerformer {
@@ -144,9 +156,17 @@ public class BacteriaManagerImpl implements BacteriaManager {
             this.bacteria = bacteria;
         }
 
-        private void move() {
-            final double movement = this.bacteria.getSpeed() * EnvUtil.UNIT_OF_SPACE;
-            // TODO stream of Position in given Direction and movement
+        private void move(final Direction moveDirection) {
+            final double movement = this.bacteria.getSpeed() * EnvUtil.UNIT_OF_TIME;
+            final int start = (int) -Math.ceil(movement);
+            final int end = (int) Math.ceil(movement);
+            final Optional<Position> newPosition = EnvUtil.positionStream(start, end, bacteriaPos)
+                                                          .filter(position -> EnvUtil.angleToDir(EnvUtil.angle(bacteriaPos, position)).equals(moveDirection))
+                                                          .findAny();
+            if (newPosition.isPresent()) {
+                BacteriaManagerImpl.this.bacteria.remove(this.bacteriaPos);
+                BacteriaManagerImpl.this.bacteria.put(newPosition.get(), this.bacteria);
+            }
         }
 
         private void eat() {
@@ -171,7 +191,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                     .findAny();
 
             if (freePosition.isPresent()) {
-                final GeneticCode clonedGenCode = this.bacteria.getGeneticCode().clone();
+                final GeneticCode clonedGenCode = this.bacteria.getGeneticCode();
                 final Energy bactEnergy = this.bacteria.getEnergy();
                 final Energy halfEnergy = bactEnergy.multiply(0.5);
                 this.bacteria.spendEnergy(halfEnergy);
