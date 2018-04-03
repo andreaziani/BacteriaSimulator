@@ -19,9 +19,9 @@ public final class EnvUtil {
     private static final double ZERO_DEGREE = 0.0;
     private static final double ANGLE_PERIOD = 360.0;
     /**
-     * The minimum amount of space in the enviroment.
+     * The minimum amount of space in the environment.
      */
-    public static final double UNIT_OF_SPACE = 1.0;
+    public static final double UNIT_OF_TIME = 1.0;
 
     private EnvUtil() {
     }
