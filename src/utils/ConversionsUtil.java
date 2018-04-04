@@ -15,6 +15,7 @@ import model.bacteria.Bacteria;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
+import view.Radius;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
@@ -145,5 +146,14 @@ public final class ConversionsUtil {
         return new PositionImpl(pos.getX() * maxPosition.getX() / maxViewPosition.getX(),
                 pos.getY() * maxPosition.getY() / maxViewPosition.getY());
     }
-
+    /**
+     * Convert the model radius in view radius.
+     * @param oldRadius the radius in the model.
+     * @param maxPosition the max position in the model environment.
+     * @param maxViewPosition the max position in the view.
+     * @return the new Radius for the view.
+     */
+    public static Radius conversionRadius(final double oldRadius, final Position maxPosition, final ViewPosition maxViewPosition) {
+        return new Radius((int) (oldRadius * maxViewPosition.getX() / maxPosition.getX()), (int) (oldRadius * maxViewPosition.getY() / maxPosition.getY()));
+    }
 }
