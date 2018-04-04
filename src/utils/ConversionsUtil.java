@@ -77,6 +77,7 @@ public final class ConversionsUtil {
                 .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
                         p -> conversionFromModelToView(state.getFoodsState().get(p),
                                 fcontroller.getColorFromFood(state.getFoodsState().get(p)))));
+        
         return new ViewStateImpl(foodState); // TODO Aggiungere la mappa di bacteria state.
     }
 

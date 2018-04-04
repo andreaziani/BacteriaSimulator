@@ -2,6 +2,7 @@ package view.model;
 
 import java.util.Map;
 
+import view.model.bacteria.ViewBacteria;
 import view.model.food.ViewFood;
 
 /**
@@ -16,4 +17,11 @@ public interface ViewState {
      *         position they are located ViewFoods inserted.
      */
     Map<ViewPosition, ViewFood> getFoodsState();
+    /**
+     * Get the state of bacteria.
+     * 
+     * @return The unmodifiable map of ViewPosition-ViewBacteria that specify in which
+     *         position they are located ViewFoods inserted.
+     */
+    Map<ViewPosition, ViewBacteria> getBacteriaState();
 }

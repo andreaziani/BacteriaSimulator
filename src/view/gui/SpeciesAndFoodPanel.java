@@ -1,5 +1,6 @@
 package view.gui;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -42,6 +43,8 @@ public class SpeciesAndFoodPanel extends JPanel {
         this.add(this.foods);
         this.add(this.createSpecies);
         this.add(this.createFood);
+        this.setOpaque(true);
+        this.setBackground(Color.WHITE);
     }
     /**
      * 
