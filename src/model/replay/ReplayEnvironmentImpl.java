@@ -1,6 +1,6 @@
 package model.replay;
 
-import model.Analisys;
+import model.Analysis;
 import model.Position;
 import model.State;
 import model.bacteria.Species;
@@ -38,7 +38,7 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public Analisys getAnalisys() {
+    public Analysis getAnalisys() {
         // TODO Auto-generated method stub
         return null;
     }

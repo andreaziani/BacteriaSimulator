@@ -2,13 +2,15 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import controller.Controller;
-import model.Analisys;
+import model.Analysis;
 import model.action.ActionType;
 import model.food.Nutrient;
 import view.model.ViewPosition;
@@ -22,7 +24,7 @@ import view.model.food.ViewFood;
  * point for the Simulation's Controller.
  *
  */
-public class ViewImpl implements View {
+public class ViewImpl implements View, ViewController {
     private final Controller controller;
     private ViewState state;
     private final ViewSpeciesFactory speciesManager;
@@ -57,7 +59,7 @@ public class ViewImpl implements View {
     }
 
     @Override
-    public void showAnalisys(final Analisys analisys) {
+    public void showAnalisys(final Analysis analysis) {
         // TODO Auto-generated method stub
 
     }
@@ -101,6 +103,21 @@ public class ViewImpl implements View {
     @Override
     public void setDimension(final Dimension dimension) {
         this.controller.setMaxViewDimension(new ViewPositionImpl(dimension.width, dimension.height));
+    }
+
+    @Override
+    public void loadSimulation(final File file) throws IOException {
+        controller.loadInitialState(file);
+    }
+
+    @Override
+    public void saveSimulation(final File file) throws IOException {
+        controller.saveInitialState(file);
+    }
+
+    @Override
+    public void saveAnalysis(final File file) throws IOException {
+        controller.saveAnalisys(file);
     }
 
 }

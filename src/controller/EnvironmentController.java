@@ -32,11 +32,6 @@ public interface EnvironmentController {
     void start();
 
     /**
-     * Start the simulation from the initialState saved in this controller.
-     */
-    void startFromInitialState();
-
-    /**
      * Add a new type of food to the types of foods that already exist.
      * 
      * @param food

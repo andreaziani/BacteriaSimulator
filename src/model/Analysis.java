@@ -1,9 +1,9 @@
 package model;
-/**Analisys.
+/**Analysis.
  * 
  * @author Andrea PC
  *
  */
-public interface Analisys {
+public interface Analysis {
 
 }

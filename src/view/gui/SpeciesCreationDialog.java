@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 import model.action.ActionType;
 import utils.exceptions.AlreadyExistingSpeciesExeption;
 import utils.exceptions.InvalidSpeciesExeption;
-import view.View;
+import view.ViewController;
 
 /**
  * Frame that enable creation of Species composing different attributes.
@@ -40,7 +40,7 @@ public class SpeciesCreationDialog extends JDialog {
     private final JTextField txtName;
     private final Map<ActionType, JComboBox<String>> comboBoxes;
     private final List<JCheckBox> checkBoxList;
-    private final View view;
+    private final ViewController view;
 
     /**
      * Create a new SpeciesCreationDialog.
@@ -50,7 +50,7 @@ public class SpeciesCreationDialog extends JDialog {
      * @param main
      *            the JFrame that will be blocked by this dialog.
      */
-    public SpeciesCreationDialog(final View view, final JFrame main) {
+    public SpeciesCreationDialog(final ViewController view, final JFrame main) {
         super(main, true);
         this.setTitle("Create a Species");
         this.view = view;

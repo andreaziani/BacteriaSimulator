@@ -4,7 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Possible direction in which an action can be executed and in which a food can
- * be detected.
+ * be detected. The angle represent the lower limit of the direction.
  */
 public enum Direction {
     /**

@@ -2,7 +2,7 @@ package model.simulator;
 
 import java.util.stream.IntStream;
 
-import model.Analisys;
+import model.Analysis;
 import model.Position;
 import model.PositionImpl;
 import model.State;
@@ -58,11 +58,11 @@ public class SimulatorEnvironmentImpl implements SimulatorEnvironment {
     public void update() {
         this.updateBacteria();
         this.updateFood();
-        this.state = new StateImpl(this.foodEnv.getFoodsState()); //TODO aggiungere gli state di bacteria
+        this.state = new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
     }
 
     @Override
-    public Analisys getAnalisys() {
+    public Analysis getAnalisys() {
         // TODO Auto-generated method stub
         return null;
     }
