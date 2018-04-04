@@ -32,4 +32,9 @@ public class ViewStateImpl implements ViewState {
     public Map<ViewPosition, ViewFood> getFoodsState() {
         return Collections.unmodifiableMap(this.foodsState);
     }
+
+    @Override
+    public Map<ViewPosition, ViewBacteria> getBacteriaState() {
+        return Collections.unmodifiableMap(this.bacteriaState);
+    }
 }

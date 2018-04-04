@@ -1,4 +1,5 @@
 package view.gui;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -33,6 +34,8 @@ public class ChoicesPanel extends JPanel {
         this.add(this.stopSimulation);
         this.stopSimulation.setEnabled(false);
         this.pauseSimulation.setEnabled(false);
+        this.setOpaque(true);
+        this.setBackground(Color.WHITE);
     }
 
 }

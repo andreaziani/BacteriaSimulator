@@ -1,8 +1,6 @@
 package model;
 
-import model.action.Action;
-import model.food.Nutrient;
-import model.bacteria.*;
+import model.bacteria.Bacteria;
 
 /**
  * Interface of a classical replicate of a bacteria.

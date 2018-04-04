@@ -18,7 +18,6 @@ public interface ViewFood {
      * @return the name of the food.
      */
     String getName();
-
     /**
      * Get all the nutrients present in the food.
      * 

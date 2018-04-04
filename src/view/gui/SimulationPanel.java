@@ -1,5 +1,7 @@
 package view.gui;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 //import java.awt.Color;
 //import java.awt.Point;
@@ -7,7 +9,8 @@ import java.awt.Graphics;
 //import java.util.Map;
 
 import javax.swing.JPanel;
-import view.model.food.ViewFood;
+
+import view.model.ViewState;
 
 /**
  * Panel that represent the running simulation.
@@ -20,9 +23,30 @@ public class SimulationPanel extends JPanel {
      * Automatically generated.
      */
     private static final long serialVersionUID = 2015198232069587535L;
-
+    private ViewState state;
+    /**
+     * 
+     * @param width the max width of the panel.
+     * @param height the max height of the panel.
+     */
+    public SimulationPanel(final int width, final int height) {
+        super();
+        this.setSize(width, height);
+        this.setLayout(new FlowLayout());
+        this.setOpaque(true);
+        this.setBackground(Color.WHITE);
+    }
     @Override
     protected final void paintComponent(final Graphics g) {
+        super.paintComponent(g);
+        state.getFoodsState().entrySet().stream().forEach(e -> { 
+            g.setColor(e.getValue().getColor());
+            g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), 20, 20);
+            });
+        state.getBacteriaState().entrySet().stream().forEach(e -> {
+            g.setColor(e.getValue().getColor());
+            g.fillOval((int) e.getKey().getX(), (int) e.getKey().getY(), (int) e.getValue().getRadius(), (int) e.getValue().getRadius());
+        });
 //        super.paintComponent(g);
 //        for (final Map.Entry<Point, Color> e : this.foods.entrySet()) {
 //            g.setColor(e.getValue());
@@ -31,15 +55,10 @@ public class SimulationPanel extends JPanel {
     }
 
     /**
-     * 
-     * @param x
-     *            coordinate.
-     * @param y
-     *            coordinate.
-     * @param food
-     *            to add.
+     * Set the state of the objects in simulation panel.
+     * @param state the state of the objects in the simulation.
      */
-    public void addFood(final int x, final int y, final ViewFood food) {
-//        this.foods.put(new Point(x - RADIUS, y - RADIUS), food.getColor());
+    public void setState(final ViewState state) {
+        this.state = state;
     }
 }
