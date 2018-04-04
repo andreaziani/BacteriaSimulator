@@ -7,6 +7,7 @@ import java.awt.Graphics;
 //import java.awt.Point;
 //import java.util.HashMap;
 //import java.util.Map;
+import java.util.Optional;
 
 import javax.swing.JPanel;
 
@@ -23,7 +24,7 @@ public class SimulationPanel extends JPanel {
      * Automatically generated.
      */
     private static final long serialVersionUID = 2015198232069587535L;
-    private ViewState state;
+    private Optional<ViewState> state = Optional.empty();
 
     /**
      * 
@@ -43,20 +44,19 @@ public class SimulationPanel extends JPanel {
     @Override
     protected final void paintComponent(final Graphics g) {
         super.paintComponent(g);
-//        if (!state.getFoodsState().isEmpty()) {
-//            state.getFoodsState().entrySet().stream().forEach(e -> {
-//                g.setColor(e.getValue().getColor());
-//                g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-//                        e.getValue().getRadius().getYRadius());
-//            });
-//        }
-//        if (!state.getBacteriaState().isEmpty()) {
-//            state.getBacteriaState().entrySet().stream().forEach(e -> {
-//                g.setColor(e.getValue().getColor());
-//                g.fillOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-//                        e.getValue().getRadius().getYRadius());
-//            });
-//        }
+        if (state.isPresent()) {
+            state.get().getFoodsState().entrySet().stream().forEach(e -> {
+                g.setColor(e.getValue().getColor());
+                g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
+                        e.getValue().getRadius().getYRadius());
+            });
+
+            state.get().getBacteriaState().entrySet().stream().forEach(e -> {
+                g.setColor(e.getValue().getColor());
+                g.fillOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
+                        e.getValue().getRadius().getYRadius());
+            });
+        }
         // super.paintComponent(g);
         // for (final Map.Entry<Point, Color> e : this.foods.entrySet()) {
         // g.setColor(e.getValue());
@@ -71,6 +71,6 @@ public class SimulationPanel extends JPanel {
      *            the state of the objects in the simulation.
      */
     public void setState(final ViewState state) {
-        this.state = state;
+        this.state = Optional.of(state);
     }
 }
