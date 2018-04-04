@@ -95,7 +95,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public ViewState getState() {
         return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController,
-                this.env.getMaxPosition(), this.maxViewPosition.get(), initialState, 0);
+                this.env.getMaxPosition(), this.maxViewPosition.get(), initialState);
     }
 
     @Override

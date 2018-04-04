@@ -69,15 +69,15 @@ public final class ConversionsUtil {
      *            the Bacteria to convert.
      * @param initialState
      *            the initial state of the environment.
-     * @param proportion
-     *            the proportion of the radius of the bacteria.
+     * @param radius
+     *            the view radius of the bacteria with the correct proportions.
      * @return the ViewBacteria corresponding to bacteria in the given initialState.
      * @throws NoSuchElementException
      *             if the Bacteria species is not present in the initialState.
      */
-    public static ViewBacteria bacteriaToViewBacteria(final Bacteria bacteria, final double proportion,
+    public static ViewBacteria bacteriaToViewBacteria(final Bacteria bacteria, final Radius radius,
             final InitialState initialState) {
-        return new ViewBacteriaImpl(bacteria.getRadius() * proportion, initialState.getSpecies().stream()
+        return new ViewBacteriaImpl(radius, initialState.getSpecies().stream()
                 .filter(x -> x.getName().equals(bacteria.getSpecies().getName())).findFirst().get());
     }
 
@@ -94,22 +94,19 @@ public final class ConversionsUtil {
      *            the maximum position in the view.
      * @param initialState
      *            the initial state of the environment.
-     * @param proportion
-     *            the proportion of the radius and positions.
      * @throws NoSuchElementException
      *             if the Bacteria species is not present in the initialState.
      * @return the converted state.
      */
     public static ViewState conversionFromStateToViewState(final State state, final FoodController fcontroller,
-            final Position maxPosition, final ViewPosition maxViewPosition, final InitialState initialState,
-            final double proportion) {
+            final Position maxPosition, final ViewPosition maxViewPosition, final InitialState initialState) {
         final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
                 .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
                         p -> conversionFromModelToView(state.getFoodsState().get(p),
                                 fcontroller.getColorFromFood(state.getFoodsState().get(p)))));
-        final Map<ViewPosition, ViewBacteria> bacteriaState = state.getBacteriaState().keySet().stream()
-                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
-                        p -> bacteriaToViewBacteria(state.getBacteriaState().get(p), proportion, initialState)));
+        final Map<ViewPosition, ViewBacteria> bacteriaState = state.getBacteriaState().entrySet().stream()
+                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
+                        p -> bacteriaToViewBacteria(p.getValue(), conversionRadius(p.getValue().getRadius(), maxPosition, maxViewPosition), initialState)));
         return new ViewStateImpl(foodState, bacteriaState);
     }
 

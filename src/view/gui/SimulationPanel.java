@@ -45,7 +45,7 @@ public class SimulationPanel extends JPanel {
             });
         state.getBacteriaState().entrySet().stream().forEach(e -> {
             g.setColor(e.getValue().getColor());
-            g.fillOval((int) e.getKey().getX(), (int) e.getKey().getY(), (int) e.getValue().getRadius(), (int) e.getValue().getRadius());
+            g.fillOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(), e.getValue().getRadius().getYRadius());
         });
 //        super.paintComponent(g);
 //        for (final Map.Entry<Point, Color> e : this.foods.entrySet()) {
