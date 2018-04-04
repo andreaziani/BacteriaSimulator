@@ -34,7 +34,7 @@ public enum DecisionMakerOption {
     /**
      * Represents a void decision maker about replicate action.
      */
-    NO_REPLICATION(ActionType.MOVE, "Never replicates"),
+    NO_REPLICATION(ActionType.REPLICATE, "Never replicates"),
     /**
      * Represents an AlwaysReproduceDecisionMaker.
      */
