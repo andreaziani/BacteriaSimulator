@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import controller.InitialState;
 import controller.food.FoodController;
 import model.Position;
 import model.PositionImpl;
 import model.State;
+import model.bacteria.Bacteria;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
@@ -17,6 +19,8 @@ import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
 import view.model.ViewStateImpl;
+import view.model.bacteria.ViewBacteria;
+import view.model.bacteria.ViewBacteriaImpl;
 import view.model.food.ViewFood;
 import view.model.food.ViewFoodImpl.ViewFoodBuilder;
 
@@ -59,6 +63,24 @@ public final class ConversionsUtil {
     }
 
     /**
+     * 
+     * @param bacteria
+     *            the Bacteria to convert.
+     * @param initialState
+     *            the initial state of the environment.
+     * @param proportion
+     *            the proportion of the radius of the bacteria.
+     * @return the ViewBacteria corresponding to bacteria in the given initialState.
+     * @throws NoSuchElementException
+     *             if the Bacteria species is not present in the initialState.
+     */
+    public static ViewBacteria bacteriaToViewBacteria(final Bacteria bacteria, final double proportion,
+            final InitialState initialState) {
+        return new ViewBacteriaImpl(bacteria.getRadius() * proportion, initialState.getSpecies().stream()
+                .filter(x -> x.getName().equals(bacteria.getSpecies().getName())).findFirst().get());
+    }
+
+    /**
      * Convert a State in ViewState.
      * 
      * @param state
@@ -69,15 +91,25 @@ public final class ConversionsUtil {
      *            the maximum position in the environment.
      * @param maxViewPosition
      *            the maximum position in the view.
+     * @param initialState
+     *            the initial state of the environment.
+     * @param proportion
+     *            the proportion of the radius and positions.
+     * @throws NoSuchElementException
+     *             if the Bacteria species is not present in the initialState.
      * @return the converted state.
      */
     public static ViewState conversionFromStateToViewState(final State state, final FoodController fcontroller,
-            final Position maxPosition, final ViewPosition maxViewPosition) {
+            final Position maxPosition, final ViewPosition maxViewPosition, final InitialState initialState,
+            final double proportion) {
         final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
                 .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
                         p -> conversionFromModelToView(state.getFoodsState().get(p),
                                 fcontroller.getColorFromFood(state.getFoodsState().get(p)))));
-        return new ViewStateImpl(foodState); // TODO Aggiungere la mappa di bacteria state.
+        final Map<ViewPosition, ViewBacteria> bacteriaState = state.getBacteriaState().keySet().stream()
+                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
+                        p -> bacteriaToViewBacteria(state.getBacteriaState().get(p), proportion, initialState)));
+        return new ViewStateImpl(foodState, bacteriaState);
     }
 
     /**
