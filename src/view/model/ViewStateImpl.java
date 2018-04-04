@@ -4,14 +4,14 @@ import java.util.Collections;
 import java.util.Map;
 
 import view.model.bacteria.ViewBacteria;
-import view.model.food.ViewFood;
+import view.model.food.ViewProvision;
 
 /**
  * Implementation of ViewState.
  *
  */
 public class ViewStateImpl implements ViewState {
-    private final Map<ViewPosition, ViewFood> foodsState;
+    private final Map<ViewPosition, ViewProvision> foodsState;
     private final Map<ViewPosition, ViewBacteria> bacteriaState;
 
     /**
@@ -22,14 +22,14 @@ public class ViewStateImpl implements ViewState {
      * @param bacteriaState
      *            state of bacteria present in simulation.
      */
-    public ViewStateImpl(final Map<ViewPosition, ViewFood> foodsState,
+    public ViewStateImpl(final Map<ViewPosition, ViewProvision> foodsState,
             final Map<ViewPosition, ViewBacteria> bacteriaState) {
         this.foodsState = foodsState;
         this.bacteriaState = bacteriaState;
     }
 
     @Override
-    public Map<ViewPosition, ViewFood> getFoodsState() {
+    public Map<ViewPosition, ViewProvision> getFoodsState() {
         return Collections.unmodifiableMap(this.foodsState);
     }
 

@@ -24,6 +24,8 @@ import view.model.bacteria.ViewBacteria;
 import view.model.bacteria.ViewBacteriaImpl;
 import view.model.food.ViewFood;
 import view.model.food.ViewFoodImpl.ViewFoodBuilder;
+import view.model.food.ViewProvision;
+import view.model.food.ViewProvisionImpl;
 
 /**
  * Utility Class for conversions of types.
@@ -100,13 +102,24 @@ public final class ConversionsUtil {
      */
     public static ViewState conversionFromStateToViewState(final State state, final FoodController fcontroller,
             final Position maxPosition, final ViewPosition maxViewPosition, final InitialState initialState) {
-        final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
-                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
-                        p -> conversionFromModelToView(state.getFoodsState().get(p),
-                                fcontroller.getColorFromFood(state.getFoodsState().get(p)))));
+        final Map<ViewPosition, ViewProvision> foodState = state.getFoodsState().entrySet().stream()
+                .collect(Collectors.toMap(
+                        p -> conversionFromPositionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
+                        p -> new ViewProvisionImpl(
+                                conversionRadius(p.getValue().getRadius(), maxPosition, maxViewPosition),
+                                conversionFromModelToView(state.getFoodsState().get(p.getKey()),
+                                        fcontroller.getColorFromFood(state.getFoodsState().get(p.getKey()))))));
+
+//        final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
+//                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
+//                        p -> conversionFromModelToView(state.getFoodsState().get(p),
+//                                fcontroller.getColorFromFood(state.getFoodsState().get(p)))));
         final Map<ViewPosition, ViewBacteria> bacteriaState = state.getBacteriaState().entrySet().stream()
-                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
-                        p -> bacteriaToViewBacteria(p.getValue(), conversionRadius(p.getValue().getRadius(), maxPosition, maxViewPosition), initialState)));
+                .collect(Collectors.toMap(
+                        p -> conversionFromPositionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
+                        p -> bacteriaToViewBacteria(p.getValue(),
+                                conversionRadius(p.getValue().getRadius(), maxPosition, maxViewPosition),
+                                initialState)));
         return new ViewStateImpl(foodState, bacteriaState);
     }
 
@@ -143,14 +156,21 @@ public final class ConversionsUtil {
         return new PositionImpl(pos.getX() * maxPosition.getX() / maxViewPosition.getX(),
                 pos.getY() * maxPosition.getY() / maxViewPosition.getY());
     }
+
     /**
      * Convert the model radius in view radius.
-     * @param oldRadius the radius in the model.
-     * @param maxPosition the max position in the model environment.
-     * @param maxViewPosition the max position in the view.
+     * 
+     * @param oldRadius
+     *            the radius in the model.
+     * @param maxPosition
+     *            the max position in the model environment.
+     * @param maxViewPosition
+     *            the max position in the view.
      * @return the new Radius for the view.
      */
-    public static Radius conversionRadius(final double oldRadius, final Position maxPosition, final ViewPosition maxViewPosition) {
-        return new Radius((int) (oldRadius * maxViewPosition.getX() / maxPosition.getX()), (int) (oldRadius * maxViewPosition.getY() / maxPosition.getY()));
+    public static Radius conversionRadius(final double oldRadius, final Position maxPosition,
+            final ViewPosition maxViewPosition) {
+        return new Radius((int) (oldRadius * maxViewPosition.getX() / maxPosition.getX()),
+                (int) (oldRadius * maxViewPosition.getY() / maxPosition.getY()));
     }
 }
