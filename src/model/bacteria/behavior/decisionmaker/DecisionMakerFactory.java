@@ -3,8 +3,6 @@ package model.bacteria.behavior.decisionmaker;
 import java.util.EnumMap;
 import java.util.Map;
 
-import utils.exceptions.IllegalDecisionMakerOptionExeption;
-
 /**
  * Static factory of decision makers that takes a DecisionMakerOption as an
  * input and gives a DecisionMaker as output.
@@ -23,8 +21,6 @@ public final class DecisionMakerFactory {
      * @param option
      *            the option corresponding to the type of DecisionMaker to create.
      * @return a new DecisionMaker of the type indicated by option.
-     * @throws IllegalDecisionMakerOptionExeption
-     *             if the given option does not correspond to a DecisionMaker
      */
     public static DecisionMaker createDecisionMaker(final DecisionMakerOption option) {
         if (!instances.containsKey(option)) {
@@ -55,7 +51,7 @@ public final class DecisionMakerFactory {
             result = new RandomReplicationDecisionMaker();
             break;
         default:
-            throw new IllegalDecisionMakerOptionExeption();
+            break;
         }
         return result;
     }
