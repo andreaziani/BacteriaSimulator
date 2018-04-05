@@ -1,7 +1,8 @@
 package model;
 
+import java.util.Set;
+
 import model.bacteria.Species;
-import model.food.ExistingFoodManager;
 import model.food.Food;
 
 /**
@@ -21,13 +22,19 @@ public interface Environment {
      *             if the position is already occupied by another food.
      */
     void addFood(Food food, Position position);
-
+    /**
+     * Add a new type of food in the ExistingFoodManager.
+     * @param food the new type of food.
+     * @throws AlreadyExistingFoodException
+     *             if the food already exist.
+     */
+    void addNewTypeOfFood(Food food);
     /**
      * Get all the existing foods.
      * 
-     * @return the manager that have all the existing foods.
+     * @return an unmodifiable copy of the set of existing foods.
      */
-    ExistingFoodManager getExistingFoods();
+    Set<Food> getExistingFoods();
 
     /**
      * return the EnvState.

@@ -1,5 +1,7 @@
 package model.simulator;
 
+import java.util.Collections;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import model.Analysis;
@@ -38,8 +40,8 @@ public class SimulatorEnvironment implements Environment {
     }
 
     @Override
-    public ExistingFoodManager getExistingFoods() {
-        return this.manager;
+    public Set<Food> getExistingFoods() {
+        return Collections.unmodifiableSet(this.manager.getExistingFoodsSet());
     }
 
     @Override
@@ -76,5 +78,10 @@ public class SimulatorEnvironment implements Environment {
     @Override
     public Position getMaxPosition() {
         return this.maxPosition;
+    }
+
+    @Override
+    public void addNewTypeOfFood(final Food food) {
+        this.manager.addFood(food);
     }
 }

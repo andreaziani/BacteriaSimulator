@@ -9,7 +9,6 @@ import java.util.Set;
 
 import model.Environment;
 import model.Position;
-import model.food.ExistingFoodManager;
 import model.food.Food;
 import utils.ConversionsUtil;
 import view.model.food.ViewFood;
@@ -20,7 +19,6 @@ import view.model.food.ViewFood;
  */
 public class FoodControllerImpl implements FoodController {
     private final Environment env;
-    private final ExistingFoodManager manager;
     private final Map<String, Color> colorForFood = new HashMap<>();
 
     /**
@@ -32,7 +30,6 @@ public class FoodControllerImpl implements FoodController {
      */
     public FoodControllerImpl(final Environment env) {
         this.env = env;
-        manager = env.getExistingFoods();
     }
 
     @Override
@@ -42,13 +39,13 @@ public class FoodControllerImpl implements FoodController {
 
     @Override
     public Set<ViewFood> getExistingViewFoods() {
-        return Collections.unmodifiableSet(manager.getExistingFoodsSet().stream()
+        return Collections.unmodifiableSet(env.getExistingFoods().stream()
                 .map(food -> ConversionsUtil.conversionFromModelToView(food, getColorFromFood(food))).collect(Collectors.toSet()));
     }
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
-        this.manager.addFood(ConversionsUtil.conversionFromViewToModel(food));
+        this.env.addNewTypeOfFood(ConversionsUtil.conversionFromViewToModel(food));
         this.colorForFood.put(food.getName(), food.getColor());
     }
 
