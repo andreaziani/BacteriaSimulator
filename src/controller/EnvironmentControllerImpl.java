@@ -7,7 +7,7 @@ import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.Environment;
 import model.bacteria.SpeciesBuilder;
-import model.simulator.SimulatorEnvironmentImpl;
+import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;
 import utils.exceptions.InvalidSpeciesExeption;
 import utils.exceptions.SimulationAlreadyStartedExeption;
@@ -38,7 +38,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     private void resetSimulation() {
         isStarted = false;
-        this.env = new SimulatorEnvironmentImpl();
+        this.env = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.env);
         initialState = new InitialState(env.getMaxPosition().getX(), env.getMaxPosition().getY());
     }
