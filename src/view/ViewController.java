@@ -138,4 +138,13 @@ public interface ViewController {
      * @throws IOException in case of a problem.
      */
     void saveAnalysis(File file) throws IOException;
+    /**
+     * Return if the simulation is started.
+     * @return true if the simulation is started, false in other case.
+     */
+    boolean isSimulationStarter();
+    /**
+     * Start the simulation.
+     */
+    void startSimulation();
 }

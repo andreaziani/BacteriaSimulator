@@ -120,4 +120,14 @@ public class ViewImpl implements View, ViewController {
         controller.saveAnalisys(file);
     }
 
+    @Override
+    public boolean isSimulationStarter() {
+        return this.controller.isSimulationStarted();
+    }
+
+    @Override
+    public void startSimulation() {
+        this.controller.start();
+    }
+
 }

@@ -27,6 +27,8 @@ public class ChoicesPanel extends JPanel {
         super();
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
+            this.startSimulation.setEnabled(false);
+            view.startSimulation();
             // TODO 
         });
         this.add(this.startSimulation);
@@ -37,5 +39,4 @@ public class ChoicesPanel extends JPanel {
         this.setOpaque(true);
         this.setBackground(Color.WHITE);
     }
-
 }

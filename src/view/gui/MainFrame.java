@@ -28,8 +28,8 @@ public class MainFrame extends JFrame {
      */
     private static final long serialVersionUID = -6602885048333089318L;
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-    private final int height = dim.height * 2 / 3;  // get 2/3 of the screen dimension.
-    private final int width = dim.width * 2 / 3;    // get 2/3 of the screen dimension.
+    private final int height = dim.height * 2 / 3;
+    private final int width = dim.width * 2 / 3;
     private final SimulationPanel simulationPanel = new SimulationPanel(width, height);
     /**
      * Constructor the MainFrame by passing a View.
@@ -42,14 +42,13 @@ public class MainFrame extends JFrame {
         view.setDimension(this.simulationPanel.getSize());
         this.simulationPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
-                if (!view.getFoodsType().isEmpty()) {
+                if (!view.getFoodsType().isEmpty() && view.isSimulationStarter()) {
                     try {
                         view.addFood(view.getFoodsType().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
                         JOptionPane.showMessageDialog(simulationPanel, "You have just inserted a food in this position.");
                     }
-//                    centerPanel.addFood(e.getX(), e.getY(), view.getFoodsType().get(topPanel.getSelectedFood()));
-//                    centerPanel.repaint();
+//                    simulationPanel.repaint();
                 }
 
             }
