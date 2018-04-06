@@ -137,7 +137,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private void costOfLiving(final Bacteria bacteria) {
-        bacteria.spendEnergy(this.energyForLiving);
+        if (bacteria.getEnergy().compareTo(this.energyForLiving) > 0) {
+            bacteria.spendEnergy(this.energyForLiving);
+        }
     }
 
     private void updateLivingBacteria() {
