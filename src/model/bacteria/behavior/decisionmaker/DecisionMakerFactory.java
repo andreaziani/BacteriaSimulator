@@ -51,6 +51,7 @@ public final class DecisionMakerFactory {
             result = new RandomReplicationDecisionMaker();
             break;
         default:
+            result = new VoidDecisionMaker();
             break;
         }
         return result;
