@@ -49,7 +49,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private final BacteriaEnvironment bacteriaEnv;
     private final ActionPerformer actionPerf;
     private final Random rand = new Random();
-
+    private int bacteriaCounter;
     /**
      * Constructor.
      * 
@@ -61,6 +61,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
      *            existing species used to create the Bacteria
      */
     public BacteriaManagerImpl(final FoodEnvironment foodEnv, final Position maxPosition, final Set<Species> species) {
+        this.bacteriaCounter = 0;
         this.simulationMaxPosition = maxPosition;
         this.foodEnv = foodEnv;
         this.bacteriaEnv = new BacteriaEnvironmentImpl();
@@ -71,7 +72,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
                 .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY())))
                 .forEach(position -> {
                     final GeneticCode genCode = new GeneticCodeImpl(new GeneImpl(), 2.0, 3.5);
-                    final Bacteria bacteria = new BacteriaImpl(specie, genCode, INITIAL_ENERGY);
+                    final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode, INITIAL_ENERGY);
+                    bacteriaCounter++;
                     this.bacteriaEnv.insertBacteria(position, bacteria);
                 }));
         this.bacteriaEnv.getBacteriaState().entrySet().stream().forEach(entry -> Log.getLog().info(entry.getValue().toString()));
@@ -119,7 +121,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
             actionPerf.eat();
             break;
         case REPLICATE:
-            actionPerf.replicate();
+            if (actionPerf.replicate(bacteriaCounter)) {
+                bacteriaCounter++;
+            }
             break;
         default:
             actionPerf.doNothing();

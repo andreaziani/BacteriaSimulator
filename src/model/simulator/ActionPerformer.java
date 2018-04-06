@@ -28,9 +28,12 @@ public interface ActionPerformer {
     void eat();
 
     /**
-     * Perform the action REPLICATE.
+     * 
+     * @param bacteriaCounter
+     *            the next id of the bacteria.
+     * @return if the bacteria has been added.
      */
-    void replicate();
+    boolean replicate(int bacteriaCounter);
 
     /**
      * Perform the action NOTHING.
