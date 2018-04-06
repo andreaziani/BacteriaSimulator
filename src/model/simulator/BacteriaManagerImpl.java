@@ -110,22 +110,26 @@ public class BacteriaManagerImpl implements BacteriaManager {
         final Action action = bacteria.getAction();
         final ActionType actionType = action.getType();
 
-        switch (actionType) {
-        case MOVE:
-            final DirectionalAction moveAction = (DirectionalActionImpl) action;
-            actionPerf.move(moveAction.getDirection());
-            break;
-        case EAT:
-            actionPerf.eat();
-            break;
-        case REPLICATE:
-            actionPerf.replicate();
-            break;
-        default:
-            actionPerf.doNothing();
-            break;
+        if (bacteria.getEnergy().compareTo(bacteria.getActionCost(action)) > 0) {
+            switch (actionType) {
+            case MOVE:
+                final DirectionalAction moveAction = (DirectionalActionImpl) action;
+                actionPerf.move(moveAction.getDirection());
+                break;
+            case EAT:
+                actionPerf.eat();
+                break;
+            case REPLICATE:
+                actionPerf.replicate();
+                break;
+            default:
+                actionPerf.doNothing();
+                break;
+            }
+            bacteria.spendEnergy(bacteria.getActionCost(action));
+        } else {
+            bacteria.spendEnergy(bacteria.getEnergy());
         }
-        bacteria.spendEnergy(bacteria.getActionCost(action));
     }
 
     private void costOfLiving(final Bacteria bacteria) {
@@ -140,8 +144,14 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private void updateDeadBacteria() {
-        final Set<Position> toBeRemoved = this.bacteriaEnv.entrySet().stream().filter(e -> e.getValue().isDead())
-                .peek(e -> this.foodEnv.addFood(e.getValue().getInternalFood(this.factory), e.getKey()))
+        final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
+        final Set<Position> toBeRemoved = this.bacteriaEnv.entrySet().stream()
+                .filter(e -> e.getValue().isDead())
+                .peek(e -> {
+                    if (!foodsState.containsKey(e.getKey())) {
+                        this.foodEnv.addFood(e.getValue().getInternalFood(this.factory), e.getKey());
+                    }
+                })
                 .map(e -> e.getKey()).collect(Collectors.toSet());
         this.bacteriaEnv.removeFromPositions(toBeRemoved);
     }
