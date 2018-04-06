@@ -22,6 +22,6 @@ public final class Log {
      * @param s the string containing the message
      */
     public void info(final String s) {
-        System.err.println(s);
+        System.out.println(s);
     }
 }
