@@ -1,12 +1,15 @@
 package view.model.bacteria;
 
 import java.awt.Color;
+import java.util.Objects;
+
+import view.Radius;
 
 /**
  * Implementation of ViewBacteria that uses a ViewSpecies.
  */
 public class ViewBacteriaImpl implements ViewBacteria {
-    private final double radius;
+    private final Radius radius;
     private final ViewSpecies species;
 
     /**
@@ -17,18 +20,37 @@ public class ViewBacteriaImpl implements ViewBacteria {
      * @param species
      *            the species of the bacteria.
      */
-    public ViewBacteriaImpl(final double radius, final ViewSpecies species) {
+    public ViewBacteriaImpl(final Radius radius, final ViewSpecies species) {
         this.radius = radius;
         this.species = species;
     }
 
     @Override
-    public double getRadius() {
+    public Radius getRadius() {
         return this.radius;
     }
 
     @Override
     public Color getColor() {
         return this.species.getColor();
+    }
+
+    @Override
+    public ViewSpecies getSpecies() {
+        return this.species;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(radius, species);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final ViewBacteria other = (ViewBacteria) obj;
+        return Objects.equals(this.radius, other.getRadius()) && Objects.equals(this.species, other.getSpecies());
     }
 }

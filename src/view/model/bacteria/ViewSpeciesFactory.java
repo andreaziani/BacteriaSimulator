@@ -15,15 +15,15 @@ import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
  * A class that encapsulate the process of creating a Species from the View
  * perspective.
  */
-public class ViewSpeciesManager {
+public class ViewSpeciesFactory {
     private final Map<ActionType, List<DecisionMakerOption>> decisionOptionsMap;
     private final List<BehaviorDecoratorOption> decoratorOptionsList;
 
     /**
-     * Create a new ViewSpeciesManager that take information for the View from the
+     * Create a new ViewSpeciesFactory that take information for the View from the
      * enums of the model.
      */
-    public ViewSpeciesManager() {
+    public ViewSpeciesFactory() {
         decisionOptionsMap = Arrays.asList(ActionType.values()).stream()
                 .collect(Collectors.toMap(Function.identity(), a -> Arrays.asList(DecisionMakerOption.values()).stream()
                         .filter(x -> x.getType().equals(a)).collect(Collectors.toList())));

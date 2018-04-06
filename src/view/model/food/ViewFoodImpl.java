@@ -92,9 +92,12 @@ public final class ViewFoodImpl implements ViewFood {
         /**
          * Constructor a FoodBuilder by passing the name of the food.
          * 
-         * @param name the name of the food.
-         * @throws NullPointerException if name is null.
-         * @throws IllegalArgumentException if name isn't correct.
+         * @param name
+         *            the name of the food.
+         * @throws NullPointerException
+         *             if name is null.
+         * @throws IllegalArgumentException
+         *             if name isn't correct.
          * 
          */
         public ViewFoodBuilder(final String name) {
@@ -118,9 +121,12 @@ public final class ViewFoodImpl implements ViewFood {
             this.nutrients.put(nutrients.getLeft(), nutrients.getRight());
             return this;
         }
+
         /**
          * Set the color of the food.
-         * @param color the color chosen for food.
+         * 
+         * @param color
+         *            the color chosen for food.
          * @return this Builder.
          */
         public ViewFoodBuilder addColor(final Color color) {
@@ -128,6 +134,7 @@ public final class ViewFoodImpl implements ViewFood {
             this.color = color;
             return this;
         }
+
         /**
          * Build a food.
          * 
@@ -147,5 +154,4 @@ public final class ViewFoodImpl implements ViewFood {
             }
         }
     }
-
 }

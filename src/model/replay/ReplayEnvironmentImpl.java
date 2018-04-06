@@ -1,10 +1,11 @@
 package model.replay;
 
-import model.Analisys;
+import java.util.Set;
+
+import model.Analysis;
 import model.Position;
 import model.State;
 import model.bacteria.Species;
-import model.food.ExistingFoodManager;
 import model.food.Food;
 
 /**
@@ -20,12 +21,6 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public ExistingFoodManager getExistingFoods() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public State getState() {
         // TODO Auto-generated method stub
         return null;
@@ -38,7 +33,7 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public Analisys getAnalisys() {
+    public Analysis getAnalisys() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -50,6 +45,17 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
 
     @Override
     public Position getMaxPosition() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void addNewTypeOfFood(final Food food) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public Set<Food> getExistingFoods() {
         // TODO Auto-generated method stub
         return null;
     }

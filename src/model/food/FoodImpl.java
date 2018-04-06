@@ -13,7 +13,7 @@ import java.util.Set;
  *
  */
 public final class FoodImpl implements Food {
-    private static final double RADIUS = 10.0;
+    private static final double RADIUS = 5.0;
     private final Optional<String> name;
     private final Map<Nutrient, Double> nutrients;
 

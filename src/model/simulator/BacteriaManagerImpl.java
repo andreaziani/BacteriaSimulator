@@ -1,5 +1,6 @@
 package model.simulator;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,16 +16,20 @@ import model.EnergyImpl;
 import model.Position;
 import model.action.Action;
 import model.action.ActionType;
+import model.action.DirectionalAction;
+import model.action.DirectionalActionImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
-import model.geneticcode.GeneticCode;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
-import utils.EnvUtil;
+import model.geneticcode.CopyFactory;
+import model.geneticcode.CopyFactoryImpl;
+import model.geneticcode.GeneticCode;
+import utils.EnvironmentUtil;
 
 
 /**
@@ -37,6 +42,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private final FoodEnvironment foodEnv;
     private final Map<Position, Bacteria> bacteria = new HashMap<>();
     private final ActionPerformer actionPerf = new ActionPerformer();
+    private final CopyFactory geneFactory = new CopyFactoryImpl();
 
     /**
      * Constructor.
@@ -58,12 +64,12 @@ public class BacteriaManagerImpl implements BacteriaManager {
         final int end = (int) Math.ceil(radius);
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
-        EnvUtil.positionStream(start, end, bacteriaPos)
-                .map(pos -> Pair.of(pos, EnvUtil.distance(pos, bacteriaPos)))
+        EnvironmentUtil.positionStream(start, end, bacteriaPos)
+                .map(pos -> Pair.of(pos, EnvironmentUtil.distance(pos, bacteriaPos)))
                 .filter(posDistPair -> posDistPair.getRight() <= radius)
                 .filter(posDistPair -> foodsState.containsKey(posDistPair.getLeft())).map(posDistPair -> {
-                    final double angle = EnvUtil.angle(bacteriaPos, posDistPair.getLeft());
-                    final Direction dir = EnvUtil.angleToDir(angle);
+                    final double angle = EnvironmentUtil.angle(bacteriaPos, posDistPair.getLeft());
+                    final Direction dir = EnvironmentUtil.angleToDir(angle);
                     return Pair.of(dir, posDistPair.getRight());
                 })
                 .filter(dirDistPair -> !distsToFood.containsKey(dirDistPair.getLeft())
@@ -87,7 +93,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
         switch (actionType) {
         case MOVE:
-            actionPerf.move();
+            final DirectionalAction moveAction = (DirectionalActionImpl) action;
+            actionPerf.move(moveAction.getDirection());
             break;
         case EAT:
             actionPerf.eat();
@@ -130,6 +137,14 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     /**
+     * Implementation of getBacteriaState.
+     */
+    @Override
+    public Map<Position, Bacteria> getBacteriaState() {
+        return Collections.unmodifiableMap(this.bacteria);
+    }
+
+    /**
      * Inner class whose sole task is to perform Bacteria's actions.
      */
     private class ActionPerformer {
@@ -144,8 +159,17 @@ public class BacteriaManagerImpl implements BacteriaManager {
             this.bacteria = bacteria;
         }
 
-        private void move() {
-            //
+        private void move(final Direction moveDirection) {
+            final double movement = this.bacteria.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
+            final int start = (int) -Math.ceil(movement);
+            final int end = (int) Math.ceil(movement);
+            final Optional<Position> newPosition = EnvironmentUtil.positionStream(start, end, bacteriaPos)
+                                                          .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(bacteriaPos, position)).equals(moveDirection))
+                                                          .findAny();
+            if (newPosition.isPresent()) {
+                BacteriaManagerImpl.this.bacteria.remove(this.bacteriaPos);
+                BacteriaManagerImpl.this.bacteria.put(newPosition.get(), this.bacteria);
+            }
         }
 
         private void eat() {
@@ -162,15 +186,15 @@ public class BacteriaManagerImpl implements BacteriaManager {
             final int start = (int) -Math.ceil(bacteriaRadius * 2);
             final int end = (int) Math.ceil(bacteriaRadius * 2);
 
-            final Optional<Position> freePosition = EnvUtil.positionStream(start, end, this.bacteriaPos)
+            final Optional<Position> freePosition = EnvironmentUtil.positionStream(start, end, this.bacteriaPos)
                     .filter(position -> !BacteriaManagerImpl.this.bacteria.containsKey(position))
-                    .filter(position -> !EnvUtil.isCollision(
+                    .filter(position -> !EnvironmentUtil.isCollision(
                             Pair.of(position, BacteriaManagerImpl.this.bacteria.get(position)),
                             Pair.of(this.bacteriaPos, this.bacteria)))
                     .findAny();
 
             if (freePosition.isPresent()) {
-                final GeneticCode clonedGenCode = this.bacteria.getGeneticCode();//TODO correct clone
+                final GeneticCode clonedGenCode = BacteriaManagerImpl.this.geneFactory.copyGene(this.bacteria.getGeneticCode());
                 final Energy bactEnergy = this.bacteria.getEnergy();
                 final Energy halfEnergy = bactEnergy.multiply(0.5);
                 this.bacteria.spendEnergy(halfEnergy);

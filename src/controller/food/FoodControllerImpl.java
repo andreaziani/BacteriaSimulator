@@ -8,11 +8,9 @@ import java.util.stream.Collectors;
 import java.util.Set;
 
 import model.Environment;
-import model.PositionImpl;
-import model.food.ExistingFoodManager;
+import model.Position;
 import model.food.Food;
 import utils.ConversionsUtil;
-import view.model.ViewPosition;
 import view.model.food.ViewFood;
 
 /**
@@ -21,8 +19,7 @@ import view.model.food.ViewFood;
  */
 public class FoodControllerImpl implements FoodController {
     private final Environment env;
-    private final ExistingFoodManager manager;
-    private final Map<Food, Color> colorForFood = new HashMap<>();
+    private final Map<String, Color> colorForFood = new HashMap<>();
 
     /**
      * Constructor that build the controller by passing the Environment on which it
@@ -33,29 +30,30 @@ public class FoodControllerImpl implements FoodController {
      */
     public FoodControllerImpl(final Environment env) {
         this.env = env;
-        manager = env.getExistingFoods();
     }
 
     @Override
-    public void addFoodFromViewToModel(final ViewFood food, final ViewPosition position) {
-        this.colorForFood.put(ConversionsUtil.conversionFromViewToModel(food), food.getColor());
-        this.env.addFood(ConversionsUtil.conversionFromViewToModel(food),
-                new PositionImpl(position.getX(), position.getY()));
+    public void addFoodFromViewToModel(final ViewFood food, final Position position) {
+        this.env.addFood(ConversionsUtil.conversionFromViewToModel(food), position);
     }
 
     @Override
     public Set<ViewFood> getExistingViewFoods() {
-        return Collections.unmodifiableSet(manager.getExistingFoodsSet().stream()
+        return Collections.unmodifiableSet(env.getExistingFoods().stream()
                 .map(food -> ConversionsUtil.conversionFromModelToView(food, getColorFromFood(food))).collect(Collectors.toSet()));
     }
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
-        this.manager.addFood(ConversionsUtil.conversionFromViewToModel(food));
+        this.env.addNewTypeOfFood(ConversionsUtil.conversionFromViewToModel(food));
+        this.colorForFood.put(food.getName(), food.getColor());
     }
 
     @Override
     public Color getColorFromFood(final Food food) {
-        return this.colorForFood.get(food);
+        if (this.colorForFood.containsKey(food.getName())) {
+            return this.colorForFood.get(food.getName());
+        } 
+        return Color.black; // bacteria with no name have black color.
     }
 }

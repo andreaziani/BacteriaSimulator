@@ -2,12 +2,12 @@ package controller;
 
 import java.util.Optional;
 import java.util.Set;
-
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
+import model.Analysis;
 import model.Environment;
-import model.Position;
 import model.bacteria.SpeciesBuilder;
+import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;
 import utils.exceptions.InvalidSpeciesExeption;
 import utils.exceptions.SimulationAlreadyStartedExeption;
@@ -15,42 +15,76 @@ import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
+import view.model.food.ViewFoodImpl;
 
 /**
  * Implementation of EnvironmentController.
  *
  */
 public class EnvironmentControllerImpl implements EnvironmentController {
-    private final Environment env;
-    private final FoodController foodController;
-    private final Position maxPosition;
+    private Environment env;
+    private FoodController foodController;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
+    private InitialState initialState;
+    private boolean isStarted;
 
     /**
-     * Constructor that builds the EnvironmentController by passing the
-     * Environment as an argument.
-     * @param env
-     *            the environment that the Controller must manage.
+     * Constructor that builds the EnvironmentController by passing the Environment
+     * as an argument.
      */
-    public EnvironmentControllerImpl(final Environment env) {
-        this.env = env;
-        this.maxPosition = env.getMaxPosition();
+    public EnvironmentControllerImpl() {
+        resetSimulation();
+    }
+
+    private void resetSimulation() {
+        isStarted = false;
+        this.env = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.env);
+        initialState = new InitialState(env.getMaxPosition().getX(), env.getMaxPosition().getY());
     }
 
     @Override
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
-        this.foodController.addFoodFromViewToModel(food, position);
+        this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
+                env.getMaxPosition(), maxViewPosition.get()));
+//         System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
+//         env.getMaxPosition(), maxViewPosition.get()).getX() + " " +
+//         ConversionsUtil.conversionFromViewPositionToPosition(position,
+//         env.getMaxPosition(), maxViewPosition.get()).getY());
+
     }
 
     @Override
     public void start() {
         // TODO start
+        // TODO complete InitialState
+        isStarted = true;
+    }
+
+    /**
+     * Restore the simulation to a state defined by an InitialState object.
+     * 
+     * @param initialState
+     *            the representation of the initial state.
+     */
+    protected void setInitialState(final InitialState initialState) {
+        resetSimulation();
+        this.initialState = initialState;
+    }
+
+    /**
+     * Start the simulation from the initialState saved in this controller.
+     */
+    protected void startFromInitialState() {
+        // TODO resettare env, reinserire tutto da InitialState e fare start
+        resetSimulation();
+        isStarted = true;
     }
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
         this.foodController.addNewTypeOfFood(food);
+        initialState.addFood((ViewFoodImpl) food);
     }
 
     @Override
@@ -60,7 +94,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public ViewState getState() {
-        return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController, this.maxPosition, this.maxViewPosition.get());
+        return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController,
+                this.env.getMaxPosition(), this.maxViewPosition.get(), initialState);
     }
 
     @Override
@@ -73,18 +108,43 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             species.getDecisionOptions().forEach(builder::addDecisionMaker);
             species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
             env.addSpecies(builder.build());
+            initialState.addSpecies(species);
         } catch (IllegalStateException e) {
             throw new InvalidSpeciesExeption();
         }
-    }
-
-    private boolean isSimulationStarted() {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     @Override
     public void setMaxViewDimension(final ViewPosition position) {
         this.maxViewPosition = Optional.of(position);
     }
+
+    /**
+     * @return a boolean indicating if the simulation is already started.
+     */
+    public boolean isSimulationStarted() {
+        return isStarted;
+    }
+
+    /**
+     * @return the initial state of the simulation.
+     */
+    protected InitialState getInitialState() {
+        return initialState;
+    }
+
+    /**
+     * @return a replay representing the simulation.
+     */
+    protected Replay getReplay() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @return the analysis of the simulation.
+     */
+    protected Analysis getAnalysis() {
+        return env.getAnalisys();
+    }
+
 }

@@ -17,7 +17,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import model.food.Nutrient;
 import utils.exceptions.AlreadyExistingFoodException;
-import view.View;
+import view.ViewController;
 import view.model.food.ViewFoodImpl.ViewFoodBuilder;
 
 /**
@@ -53,7 +53,7 @@ public class FoodCreationDialog extends JDialog {
      * @param main
      *            the JFrame that will be blocked by this dialog.
      */
-    public FoodCreationDialog(final View view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
+    public FoodCreationDialog(final ViewController view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
         super(main, "Create new Food", true);
         this.setLayout(new BorderLayout());
         start(view);
@@ -63,6 +63,8 @@ public class FoodCreationDialog extends JDialog {
                 this.addNutrient.setEnabled(true);
                 this.name.setEditable(false);
                 this.addName.setEnabled(false);
+                this.quantity.setEnabled(true);
+                this.nutrients.setEnabled(true);
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(this, "Food should have a name!");
             }
@@ -88,7 +90,7 @@ public class FoodCreationDialog extends JDialog {
                 this.dispose();
                 superPanel.updateFoods(view);
             } catch (AlreadyExistingFoodException exception2) {
-                JOptionPane.showMessageDialog(this, "This food already exist!");
+                JOptionPane.showMessageDialog(this, "INSERTION FAILED" + "\n" + "This food already exist!");
                 this.dispose();
             }
         });
@@ -110,9 +112,11 @@ public class FoodCreationDialog extends JDialog {
         this.setVisible(true);
     }
 
-    private void start(final View view) {
+    private void start(final ViewController view) {
         this.addNutrient.setEnabled(false);
         this.createFood.setEnabled(false);
+        this.nutrients.setEnabled(false);
+        this.quantity.setEnabled(false);
         this.name.setText("Food1");
         this.quantity.setText("10.00");
         view.getNutrients().forEach(n -> nutrients.addItem(n));

@@ -148,14 +148,14 @@ public final class TestUtils {
     }
 
     /**
-     * @return a fuction that assign a small value to all the nutrients.
+     * @return a function that assign a small value to all the nutrients.
      */
     public static Function<Nutrient, Energy> allNutrientGood() {
         return x -> SMALL_ENERGY;
     }
 
     /**
-     * @return a fuction that assign a negative small value to all the nutrients.
+     * @return a function that assign a negative small value to all the nutrients.
      */
     public static Function<Nutrient, Energy> allNutrientsBad() {
         return x -> SMALL_ENERGY.invert();

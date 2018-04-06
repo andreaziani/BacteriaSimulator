@@ -3,8 +3,8 @@ package controller.food;
 import java.awt.Color;
 import java.util.Set;
 
+import model.Position;
 import model.food.Food;
-import view.model.ViewPosition;
 import view.model.food.ViewFood;
 
 /**
@@ -24,7 +24,7 @@ public interface FoodController {
      * @throws PositionAlreadyOccupiedException
      *             if the position is already occupied.
      */
-    void addFoodFromViewToModel(ViewFood food, ViewPosition position);
+    void addFoodFromViewToModel(ViewFood food, Position position);
 
     /**
      * Get all types of already existing food.
