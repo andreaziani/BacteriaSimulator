@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import model.bacteria.Bacteria;
 import model.bacteria.Species;
 
 public class AnalysisImpl implements Analysis {
-    
+
     @Override
     public List<Bacteria> listOfBacteria(final Map<Position, Bacteria> bacteria) {
         final List<Bacteria> list = new ArrayList<>();
@@ -21,7 +23,7 @@ public class AnalysisImpl implements Analysis {
 
     @Override
     public Set<Species> speciesOfBacteria(final List<Bacteria> bacteria) {
-        Set<Species> species = new HashSet<>(); //TODO va bene?
+        Set<Species> species = new HashSet<>();
         for (final Bacteria bt : bacteria) {
             species.add(bt.getSpecies());
         }
@@ -44,27 +46,26 @@ public class AnalysisImpl implements Analysis {
     }
 
     @Override
-    public Map<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
-        final Map<Species, Integer> map = new HashMap<>();
+    public SortedMap<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
+        final SortedMap<Species, Integer> smap = new TreeMap<>();
         for (final Species sp : species) {
-            int count = 0;
             for (final Bacteria bt : bacteria) {
                 if (sp.equals(bt.getSpecies())) {
-                    count++;
+                    final int count = smap.containsKey(sp) ? smap.get(sp) : 0;
+                    smap.put(sp, count + 1);
                 }
             }
-            map.put(sp, count);
         }
-        return map;
+        return smap;
     }
 
     @Override
     public Set<Species> dead(final Set<Species> species, final List<Bacteria> bacteria) {
         final Map<Species, Integer> map = numberBySpecies(species, bacteria);
-        Set<Species> dead = new HashSet<>();
-        for (Species sp : species) {
-            int a = map.get(sp);
-            if (a == 0) {
+        final Set<Species> dead = new HashSet<>();
+        for (final Species sp : species) {
+            final int value = map.get(sp);
+            if (value == 0) {
                 dead.add(sp);
             }
         }
@@ -73,22 +74,35 @@ public class AnalysisImpl implements Analysis {
 
     @Override
     public Map<Species, Integer> win(final Set<Species> species, final List<Bacteria> bacteria) {
-        final Map<Species, Integer> map = numberBySpecies(species, bacteria);
+        final SortedMap<Species, Integer> smap = numberBySpecies(species, bacteria);
         final Map<Species, Integer> wins = new HashMap<>();
-        
-        return null;
+        final int value = smap.get(bacteria.get(0).getSpecies());
+        for (final Species sp : species) {
+            if (value == smap.get(sp)) {
+                wins.put(sp, smap.get(sp));
+            } else if (value < smap.get(sp)) {
+                wins.clear();
+                wins.put(sp, smap.get(sp));
+            }
+        }
+        return wins;
     }
 
     @Override
-    public Map<Species, Integer> mutated(final Set<Species> species, final List<Bacteria> bacteria) {
-        // TODO Auto-generated method stub
-        return null;
+    public Map<Species, Integer> mutated(final Set<Species> species, final List<Bacteria> bacteriaMutated) {
+        final Map<Species, Integer> map = numberBySpecies(species, bacteriaMutated);
+        return map;
     }
 
     @Override
-    public Map<Species, Integer> notMutated(final Set<Species> species, final List<Bacteria> bacteria) {
-        // TODO Auto-generated method stub
-        return null;
+    public Map<Species, Integer> notMutated(final Set<Species> species, final List<Bacteria> bacteriaMutated, final List<Bacteria> bacteria) {
+        final Map<Species, Integer> btM = mutated(species, bacteriaMutated);
+        final Map<Species, Integer> btNotM = new HashMap<>();
+        final Map<Species, Integer> allBt = numberBySpecies(species, bacteria);
+        for (final Species sp : species) {
+            btNotM.put(sp, (allBt.get(sp) - btM.get(sp)));
+        }
+        return btNotM;
     }
 
 }

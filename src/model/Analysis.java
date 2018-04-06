@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
 import model.bacteria.Bacteria;
 import model.bacteria.Species;
@@ -48,7 +49,7 @@ public interface Analysis {
          *          list of bacteria at the end game.
          * @return Map of number of bacteria alive per species.
          */
-        Map<Species, Integer> numberBySpecies(Set<Species> species, List<Bacteria> bacteria);
+        SortedMap<Species, Integer> numberBySpecies(Set<Species> species, List<Bacteria> bacteria);
 
         /**
          * Set of extinct species.
@@ -74,19 +75,21 @@ public interface Analysis {
          * Set of Species and her mutated bacteria.
          * @param species
          *          species at the game start.
-         * @param bacteria
-         *          list of bacteria at the end game.
+         * @param bacteriaMutated
+         *          list of bacteria mutated at the end game.
          * @return Map of Species and number of mutated bacteria.
          */
-        Map<Species, Integer> mutated(Set<Species> species, List<Bacteria> bacteria);
+        Map<Species, Integer> mutated(Set<Species> species, List<Bacteria> bacteriaMutated);
 
         /**
          * Set of Species and her bacteria bacteria that are not changed.
          * @param species
          *          species at the game start.
+         * @param bacteriaMutated
+         *          list of bacteria mutated at the end game.
          * @param bacteria
          *          list of bacteria at the end game.
          * @return Map of Species and number of bacteria that are not changed.
          */
-        Map<Species, Integer> notMutated(Set<Species> species, List<Bacteria> bacteria);
+        Map<Species, Integer> notMutated(Set<Species> species, List<Bacteria> bacteriaMutated, List<Bacteria> bacteria);
 }
