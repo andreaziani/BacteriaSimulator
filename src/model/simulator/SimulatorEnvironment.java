@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 import model.Analysis;
+import model.AnalysisImpl;
 import model.Environment;
 import model.MutationManager;
 import model.MutationManagerImpl;
@@ -35,6 +36,7 @@ public class SimulatorEnvironment implements Environment {
     private final BacteriaManager bactManager = new BacteriaManagerImpl(foodEnv, COST_OF_LIVING);
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private final MutationManager mutManager = new MutationManagerImpl();
+    private final Analysis analysis = new AnalysisImpl();
     private State state;
 
     @Override
@@ -60,17 +62,21 @@ public class SimulatorEnvironment implements Environment {
         this.bactManager.updateBacteria();
     }
 
+    private void updateMutation() {
+        this.mutManager.updateMutation(bactManager.getBacteriaState().values());
+    }
+
     @Override
     public void update() {
         this.updateBacteria();
         this.updateFood();
+        this.updateMutation();
         this.state = new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
     }
 
     @Override
-    public Analysis getAnalisys() {
-        // TODO Auto-generated method stub
-        return null;
+    public Analysis getAnalysis() {
+        return this.analysis;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class MutationManagerImpl implements MutationManager{
         mutations.remove(bacteria);
     }
 
-    public void updateMutation(final Set<Bacteria> bactManager) {
+    public void updateMutation(final Collection<Bacteria> bactManager) {
             for (Bacteria b: bactManager) {
                 if (!mutations.containsKey(b)) {
                     mutations.put(b, new MutationImpl(b.getGeneticCode().getCode()));

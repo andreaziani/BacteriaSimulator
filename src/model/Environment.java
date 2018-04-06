@@ -49,11 +49,11 @@ public interface Environment {
     void update();
 
     /**
-     * return the analisys of the species.
+     * return the analysis of the species.
      * 
      * @return Analysis of fitness.
      */
-    Analysis getAnalisys();
+    Analysis getAnalysis();
 
     /**
      * @param species
