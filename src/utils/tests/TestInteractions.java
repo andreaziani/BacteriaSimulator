@@ -29,6 +29,7 @@ public class TestInteractions {
     private final ViewController view = new ViewImpl(this.controller);
     private final ViewPosition p1 = new ViewPositionImpl(1.0, 2.0); // chose two position that don't collide.
     private final ViewPosition p2 = new ViewPositionImpl(10.0, 20.0);
+    private final ViewPosition p3 = new ViewPositionImpl(50.0, 50.0);
     private ViewFood creationOfFood(final String name, final Pair<Nutrient, Double> pair) {
         return new ViewFoodBuilder(name).addNutrient(pair).build();
     }
@@ -41,20 +42,21 @@ public class TestInteractions {
         this.view.addNewTypeOfFood(creationOfFood("Banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0)));
         assertEquals("There is only one type of food", this.controller.getExistingViewFoods().size(), 1);
         assertEquals("There is one type of food in each set", this.view.getFoodsType().size(), this.controller.getExistingViewFoods().size());
+        this.view.addNewTypeOfFood(creationOfFood("Fragola", Pair.of(Nutrient.CARBOHYDRATES, 1.0)));
         this.view.addNewTypeOfFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 1.0)));
-        assertEquals("There are two types of food", this.controller.getExistingViewFoods().size(), 2);
+        assertEquals("There are three types of food", this.controller.getExistingViewFoods().size(), 3);
         assertThrows(AlreadyExistingFoodException.class, () -> this.view.addNewTypeOfFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 1.0))));
-        this.view.addNewTypeOfFood(creationOfFood("banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0))); // "banana" � diverso da "Banana".
-        assertEquals("banana is different from Banana", this.controller.getExistingViewFoods().size(), 3);
+        this.view.addNewTypeOfFood(creationOfFood("banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0))); // "banana" diverso da "Banana".
+        assertEquals("banana is different from Banana", this.controller.getExistingViewFoods().size(), 4);
     }
     /**
      * Testing food insertion from view.
      */
     @Test
     public void testInsertion() {
-        this.view.addNewTypeOfFood(creationOfFood("Banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0)));
-        this.view.addFood(creationOfFood("Banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0)), p1);
+        this.view.addFood(creationOfFood("Fragola", Pair.of(Nutrient.CARBOHYDRATES, 1.0)), p1);
         this.view.addFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 2.0)), p2);
+        this.view.addFood(creationOfFood("Fragola", Pair.of(Nutrient.PEPTONES, 1.0)), p3);
         assertThrows(PositionAlreadyOccupiedException.class, () -> this.view.addFood(creationOfFood("Pera", Pair.of(Nutrient.CARBOHYDRATES, 1.0)),
                                                                                      new ViewPositionImpl(1.0, 2.0)));
     }
