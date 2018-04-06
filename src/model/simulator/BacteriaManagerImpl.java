@@ -29,7 +29,7 @@ import model.perception.PerceptionImpl;
 import model.geneticcode.CopyFactory;
 import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;
-import utils.EnvUtil;
+import utils.EnvironmentUtil;
 
 
 /**
@@ -64,12 +64,12 @@ public class BacteriaManagerImpl implements BacteriaManager {
         final int end = (int) Math.ceil(radius);
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
-        EnvUtil.positionStream(start, end, bacteriaPos)
-                .map(pos -> Pair.of(pos, EnvUtil.distance(pos, bacteriaPos)))
+        EnvironmentUtil.positionStream(start, end, bacteriaPos)
+                .map(pos -> Pair.of(pos, EnvironmentUtil.distance(pos, bacteriaPos)))
                 .filter(posDistPair -> posDistPair.getRight() <= radius)
                 .filter(posDistPair -> foodsState.containsKey(posDistPair.getLeft())).map(posDistPair -> {
-                    final double angle = EnvUtil.angle(bacteriaPos, posDistPair.getLeft());
-                    final Direction dir = EnvUtil.angleToDir(angle);
+                    final double angle = EnvironmentUtil.angle(bacteriaPos, posDistPair.getLeft());
+                    final Direction dir = EnvironmentUtil.angleToDir(angle);
                     return Pair.of(dir, posDistPair.getRight());
                 })
                 .filter(dirDistPair -> !distsToFood.containsKey(dirDistPair.getLeft())
@@ -160,11 +160,11 @@ public class BacteriaManagerImpl implements BacteriaManager {
         }
 
         private void move(final Direction moveDirection) {
-            final double movement = this.bacteria.getSpeed() * EnvUtil.UNIT_OF_TIME;
+            final double movement = this.bacteria.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
             final int start = (int) -Math.ceil(movement);
             final int end = (int) Math.ceil(movement);
-            final Optional<Position> newPosition = EnvUtil.positionStream(start, end, bacteriaPos)
-                                                          .filter(position -> EnvUtil.angleToDir(EnvUtil.angle(bacteriaPos, position)).equals(moveDirection))
+            final Optional<Position> newPosition = EnvironmentUtil.positionStream(start, end, bacteriaPos)
+                                                          .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(bacteriaPos, position)).equals(moveDirection))
                                                           .findAny();
             if (newPosition.isPresent()) {
                 BacteriaManagerImpl.this.bacteria.remove(this.bacteriaPos);
@@ -186,9 +186,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
             final int start = (int) -Math.ceil(bacteriaRadius * 2);
             final int end = (int) Math.ceil(bacteriaRadius * 2);
 
-            final Optional<Position> freePosition = EnvUtil.positionStream(start, end, this.bacteriaPos)
+            final Optional<Position> freePosition = EnvironmentUtil.positionStream(start, end, this.bacteriaPos)
                     .filter(position -> !BacteriaManagerImpl.this.bacteria.containsKey(position))
-                    .filter(position -> !EnvUtil.isCollision(
+                    .filter(position -> !EnvironmentUtil.isCollision(
                             Pair.of(position, BacteriaManagerImpl.this.bacteria.get(position)),
                             Pair.of(this.bacteriaPos, this.bacteria)))
                     .findAny();

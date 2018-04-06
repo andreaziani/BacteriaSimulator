@@ -15,7 +15,7 @@ import model.Direction;
 import model.Position;
 import model.PositionImpl;
 import model.simulator.Collidable;
-import utils.EnvUtil;
+import utils.EnvironmentUtil;
 
 /**
  * Test class for the EnvUtils class.
@@ -43,19 +43,19 @@ public class TestEnvUtils {
      */
     @Test
     public void testAngle() {
-        assertEquals(45.0, EnvUtil.angle(ORIGIN, p1), DELTA);
-        assertEquals(0.0, EnvUtil.angle(ORIGIN, p2), DELTA);
-        assertEquals(90.0, EnvUtil.angle(ORIGIN, p3), DELTA);
-        assertEquals(120.0, EnvUtil.angle(ORIGIN, p4), DELTA);
-        assertEquals(210.0, EnvUtil.angle(ORIGIN, p5), DELTA);
-        assertEquals(315.0, EnvUtil.angle(ORIGIN, p6), DELTA);
-        assertEquals(247.5, EnvUtil.angle(ORIGIN, p7), DELTA);
-        assertEquals(247.5, EnvUtil.angle(ORIGIN, p8), DELTA);
+        assertEquals(45.0, EnvironmentUtil.angle(ORIGIN, p1), DELTA);
+        assertEquals(0.0, EnvironmentUtil.angle(ORIGIN, p2), DELTA);
+        assertEquals(90.0, EnvironmentUtil.angle(ORIGIN, p3), DELTA);
+        assertEquals(120.0, EnvironmentUtil.angle(ORIGIN, p4), DELTA);
+        assertEquals(210.0, EnvironmentUtil.angle(ORIGIN, p5), DELTA);
+        assertEquals(315.0, EnvironmentUtil.angle(ORIGIN, p6), DELTA);
+        assertEquals(247.5, EnvironmentUtil.angle(ORIGIN, p7), DELTA);
+        assertEquals(247.5, EnvironmentUtil.angle(ORIGIN, p8), DELTA);
 
-        assertEquals(0, EnvUtil.angle(ORIGIN, left), DELTA);
-        assertEquals(90, EnvUtil.angle(ORIGIN, top), DELTA);
-        assertEquals(180, EnvUtil.angle(ORIGIN, right), DELTA);
-        assertEquals(270, EnvUtil.angle(ORIGIN, down), DELTA);
+        assertEquals(0, EnvironmentUtil.angle(ORIGIN, left), DELTA);
+        assertEquals(90, EnvironmentUtil.angle(ORIGIN, top), DELTA);
+        assertEquals(180, EnvironmentUtil.angle(ORIGIN, right), DELTA);
+        assertEquals(270, EnvironmentUtil.angle(ORIGIN, down), DELTA);
     }
 
     /**
@@ -63,19 +63,19 @@ public class TestEnvUtils {
      */
     @Test
     public void testDirection() {
-        assertEquals(Direction.NORTHEAST, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, p1)));
-        assertEquals(Direction.EAST, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, p2)));
-        assertEquals(Direction.NORTH, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, p3)));
-        assertEquals(Direction.NORTHWEST, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, p4)));
-        assertEquals(Direction.SOUTHWEST, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, p5)));
-        assertEquals(Direction.SOUTHEAST, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, p6)));
-        assertEquals(Direction.SOUTHWEST, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, p7)));
-        assertEquals(Direction.SOUTH, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, p8)));
+        assertEquals(Direction.NORTHEAST, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, p1)));
+        assertEquals(Direction.EAST, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, p2)));
+        assertEquals(Direction.NORTH, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, p3)));
+        assertEquals(Direction.NORTHWEST, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, p4)));
+        assertEquals(Direction.SOUTHWEST, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, p5)));
+        assertEquals(Direction.SOUTHEAST, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, p6)));
+        assertEquals(Direction.SOUTHWEST, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, p7)));
+        assertEquals(Direction.SOUTH, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, p8)));
 
-        assertEquals(Direction.EAST, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, left)));
-        assertEquals(Direction.NORTH, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, top)));
-        assertEquals(Direction.WEST, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, right)));
-        assertEquals(Direction.SOUTH, EnvUtil.angleToDir(EnvUtil.angle(ORIGIN, down)));
+        assertEquals(Direction.EAST, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, left)));
+        assertEquals(Direction.NORTH, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, top)));
+        assertEquals(Direction.WEST, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, right)));
+        assertEquals(Direction.SOUTH, EnvironmentUtil.angleToDir(EnvironmentUtil.angle(ORIGIN, down)));
     }
 
     /**
@@ -97,7 +97,7 @@ public class TestEnvUtils {
             }
         }
 
-        final Set<Position> streamPosition = EnvUtil.positionStream(start, end, start, end, new PositionImpl(bacteriaX, bacteriaY))
+        final Set<Position> streamPosition = EnvironmentUtil.positionStream(start, end, start, end, new PositionImpl(bacteriaX, bacteriaY))
                                                   .collect(Collectors.toSet());
 
         assertEquals(myPosition, streamPosition);
@@ -120,9 +120,9 @@ public class TestEnvUtils {
         final Position p4 = new PositionImpl(0.0, 5.0);
         final Position p5 = new PositionImpl(2.0, 2.0);
 
-        assertTrue(EnvUtil.isCollision(Pair.of(p1, c2), Pair.of(p5, c2)));
-        assertTrue(EnvUtil.isCollision(Pair.of(p1, c2), Pair.of(p3, c2)));
-        assertTrue(EnvUtil.isCollision(Pair.of(p1, c3), Pair.of(p4, c3)));
-        assertFalse(EnvUtil.isCollision(Pair.of(p1, c3), Pair.of(p2, c3)));
+        assertTrue(EnvironmentUtil.isCollision(Pair.of(p1, c2), Pair.of(p5, c2)));
+        assertTrue(EnvironmentUtil.isCollision(Pair.of(p1, c2), Pair.of(p3, c2)));
+        assertTrue(EnvironmentUtil.isCollision(Pair.of(p1, c3), Pair.of(p4, c3)));
+        assertFalse(EnvironmentUtil.isCollision(Pair.of(p1, c3), Pair.of(p2, c3)));
     }
 }

@@ -15,7 +15,7 @@ import model.simulator.Collidable;
  * Utility class for geometric operations.
  *
  */
-public final class EnvUtil {
+public final class EnvironmentUtil {
     private static final double ZERO_DEGREE = 0.0;
     private static final double ANGLE_PERIOD = 360.0;
     /**
@@ -23,7 +23,7 @@ public final class EnvUtil {
      */
     public static final double UNIT_OF_TIME = 1.0;
 
-    private EnvUtil() {
+    private EnvironmentUtil() {
     }
 
     /**
