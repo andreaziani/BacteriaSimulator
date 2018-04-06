@@ -41,7 +41,7 @@ public class TestBacteria {
     public void testCreation() {
         final GeneticCode code = new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(),
                 TestUtils.getLargeDouble());
-        final Bacteria bacteria = new BacteriaImpl(new SpeciesBuilder("").build(), code, EnergyImpl.ZERO);
+        final Bacteria bacteria = new BacteriaImpl(0, new SpeciesBuilder("").build(), code, EnergyImpl.ZERO);
 
         Action action = new SimpleAction(ActionType.EAT);
         assertEquals(code.getActionCost(action), bacteria.getActionCost(action));
@@ -70,7 +70,7 @@ public class TestBacteria {
     }
 
     private Bacteria getTestBacteria(final GeneticCode code, final Energy startingEnergy) {
-        return new BacteriaImpl(new Species() {
+        return new BacteriaImpl(0, new Species() {
 
             @Override
             public String getName() {
