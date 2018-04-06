@@ -11,27 +11,14 @@ import java.util.TreeMap;
 
 import model.bacteria.Bacteria;
 import model.bacteria.Species;
-
+/**
+ * 
+ * Implementation of Analysis.
+ *
+ */
 public class AnalysisImpl implements Analysis {
 
-    @Override
-    public List<Bacteria> listOfBacteria(final Map<Position, Bacteria> bacteria) {
-        final List<Bacteria> list = new ArrayList<>();
-        list.addAll(bacteria.values());
-        return list;
-    }
-
-    @Override
-    public Set<Species> speciesOfBacteria(final List<Bacteria> bacteria) {
-        Set<Species> species = new HashSet<>();
-        for (final Bacteria bt : bacteria) {
-            species.add(bt.getSpecies());
-        }
-        return species;
-    }
-
-    @Override
-    public Map<Species, List<Bacteria>> dividedBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
+    private Map<Species, List<Bacteria>> dividedBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
         final Map<Species, List<Bacteria>> map = new HashMap<>();
         for (final Species sp : species) {
             final List<Bacteria> list = new ArrayList<>();
@@ -45,8 +32,7 @@ public class AnalysisImpl implements Analysis {
         return map;
     }
 
-    @Override
-    public SortedMap<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
+    private SortedMap<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
         final SortedMap<Species, Integer> smap = new TreeMap<>();
         for (final Species sp : species) {
             for (final Bacteria bt : bacteria) {
@@ -59,8 +45,7 @@ public class AnalysisImpl implements Analysis {
         return smap;
     }
 
-    @Override
-    public Set<Species> dead(final Set<Species> species, final List<Bacteria> bacteria) {
+    private Set<Species> dead(final Set<Species> species, final List<Bacteria> bacteria) {
         final Map<Species, Integer> map = numberBySpecies(species, bacteria);
         final Set<Species> dead = new HashSet<>();
         for (final Species sp : species) {
@@ -72,8 +57,7 @@ public class AnalysisImpl implements Analysis {
         return dead;
     }
 
-    @Override
-    public Map<Species, Integer> win(final Set<Species> species, final List<Bacteria> bacteria) {
+    private Map<Species, Integer> win(final Set<Species> species, final List<Bacteria> bacteria) {
         final SortedMap<Species, Integer> smap = numberBySpecies(species, bacteria);
         final Map<Species, Integer> wins = new HashMap<>();
         final int value = smap.get(bacteria.get(0).getSpecies());
@@ -88,14 +72,12 @@ public class AnalysisImpl implements Analysis {
         return wins;
     }
 
-    @Override
-    public Map<Species, Integer> mutated(final Set<Species> species, final List<Bacteria> bacteriaMutated) {
+    private Map<Species, Integer> mutated(final Set<Species> species, final List<Bacteria> bacteriaMutated) {
         final Map<Species, Integer> map = numberBySpecies(species, bacteriaMutated);
         return map;
     }
 
-    @Override
-    public Map<Species, Integer> notMutated(final Set<Species> species, final List<Bacteria> bacteriaMutated, final List<Bacteria> bacteria) {
+    private Map<Species, Integer> notMutated(final Set<Species> species, final List<Bacteria> bacteriaMutated, final List<Bacteria> bacteria) {
         final Map<Species, Integer> btM = mutated(species, bacteriaMutated);
         final Map<Species, Integer> btNotM = new HashMap<>();
         final Map<Species, Integer> allBt = numberBySpecies(species, bacteria);
@@ -103,6 +85,17 @@ public class AnalysisImpl implements Analysis {
             btNotM.put(sp, (allBt.get(sp) - btM.get(sp)));
         }
         return btNotM;
+    }
+
+    @Override
+    public void addState(final State state) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public String getDescription() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

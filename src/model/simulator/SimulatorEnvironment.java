@@ -6,6 +6,8 @@ import java.util.stream.IntStream;
 
 import model.Analysis;
 import model.Environment;
+import model.MutationManager;
+import model.MutationManagerImpl;
 import model.Position;
 import model.PositionImpl;
 import model.State;
@@ -32,6 +34,7 @@ public class SimulatorEnvironment implements Environment {
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     private final BacteriaManager bactManager = new BacteriaManagerImpl(foodEnv, COST_OF_LIVING);
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
+    private final MutationManager mutManager = new MutationManagerImpl();
     private State state;
 
     @Override
