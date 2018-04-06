@@ -67,4 +67,8 @@ public class EnergyImpl implements Energy {
         return amount == other.amount;
     }
 
+    @Override
+    public String toString() {
+       return String.valueOf(this.amount);
+    }
 }

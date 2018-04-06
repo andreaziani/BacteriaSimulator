@@ -44,12 +44,17 @@ public interface Environment {
     State getState();
 
     /**
+     * Initialize environment.
+     */
+    void init();
+
+    /**
      * update environment.
      */
     void update();
 
     /**
-     * return the analisys of the species.
+     * return the analysis of the species.
      * 
      * @return Analysis of fitness.
      */

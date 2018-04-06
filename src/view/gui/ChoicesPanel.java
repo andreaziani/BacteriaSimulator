@@ -29,7 +29,6 @@ public class ChoicesPanel extends JPanel {
         this.startSimulation.addActionListener(e -> {
             this.startSimulation.setEnabled(false);
             view.startSimulation();
-            // TODO 
         });
         this.add(this.startSimulation);
         this.add(this.pauseSimulation);

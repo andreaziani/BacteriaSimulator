@@ -6,9 +6,11 @@ import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.Environment;
+import model.State;
 import model.bacteria.SpeciesBuilder;
 import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;
+import utils.Log;
 import utils.exceptions.InvalidSpeciesExeption;
 import utils.exceptions.SimulationAlreadyStartedExeption;
 import view.model.ViewPosition;
@@ -22,11 +24,13 @@ import view.model.food.ViewFoodImpl;
  *
  */
 public class EnvironmentControllerImpl implements EnvironmentController {
+    private static final long PERIOD = 500L;
     private Environment env;
     private FoodController foodController;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
     private InitialState initialState;
     private boolean isStarted;
+    private final SimulationLoop loop;
 
     /**
      * Constructor that builds the EnvironmentController by passing the Environment
@@ -34,6 +38,26 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      */
     public EnvironmentControllerImpl() {
         resetSimulation();
+
+        this.loop = new SimulationLoop() {
+            @Override
+            public void run() {
+                // TODO different condition
+                while (true) {
+                    env.update();
+
+                    final State state = env.getState();
+                    Log.getLog().info("Bacteria " + state.getBacteriaState().toString());
+                    Log.getLog().info("Food " + state.getFoodsState().toString());
+
+                    try {
+                        Thread.sleep(PERIOD);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
     }
 
     private void resetSimulation() {
@@ -58,7 +82,12 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     public void start() {
         // TODO start
         // TODO complete InitialState
+        Log.getLog().info("Application started");
+        this.env.init();
         isStarted = true;
+        // TODO reorganize logic
+        final Thread mainThread = new Thread(this.loop);
+        mainThread.start();
     }
 
     /**

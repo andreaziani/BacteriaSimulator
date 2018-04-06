@@ -8,15 +8,20 @@ import java.io.IOException;
  *
  */
 public class ControllerImpl extends EnvironmentControllerImpl implements Controller {
-
+    private static final Controller SINGLETON = new ControllerImpl();
     private final FileController fileController;
 
-    /**
-     * Create a controller implementation.
-     */
-    public ControllerImpl() {
+    private ControllerImpl() {
         super();
         fileController = new FileControllerImpl();
+    }
+
+    /**
+     * Get the reference to the Controller.
+     * @return the controller
+     */
+    public static Controller getController() {
+        return SINGLETON;
     }
 
     @Override
@@ -43,5 +48,4 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     public void saveAnalisys(final File file) throws IOException {
         this.fileController.saveAnalisys(file, this.getAnalysis());
     }
-
 }

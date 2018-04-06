@@ -132,4 +132,9 @@ public class BacteriaImpl implements Bacteria {
                 && Objects.equals(this.geneticCode, other.geneticCode) && Objects.equals(this.species, other.species);
     }
 
+    @Override
+    public String toString() {
+        return "Bacteria: [Specie = " + this.species.getName() + ", Energy = " + this.getEnergy().toString() + "]";
+    }
+
 }
