@@ -19,7 +19,7 @@ public final class BacteriaSimulator {
     }
 
     private void start() {
-        //this.controller.init();
+//        this.controller.init();
     }
 
     /**

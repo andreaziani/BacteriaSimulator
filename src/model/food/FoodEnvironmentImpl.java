@@ -70,7 +70,7 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
         final RandomPositionStrategy positionStrategy = new GeometricDistribuitionStrategyImpl();
-        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // provo a reinserire se la posizione era gi� occupata.
+        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // provo a reinserire se la posizione era gia' occupata.
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
                 check = false;
