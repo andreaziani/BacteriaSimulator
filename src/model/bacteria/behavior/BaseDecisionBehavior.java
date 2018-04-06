@@ -26,6 +26,9 @@ public class BaseDecisionBehavior extends AbstractDecisionBehavior {
      */
     public BaseDecisionBehavior(final Set<DecisionMaker> decisionStrategies) {
         super();
+        if (decisionStrategies == null) {
+            throw new IllegalArgumentException();
+        }
         this.decisionStrategies = decisionStrategies;
     }
 
