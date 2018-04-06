@@ -72,7 +72,7 @@ public class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void replicate() {
+    public boolean replicate(final int bacteriaCounter) {
         final double bacteriaRadius = this.bacterium.getRadius();
         final int start = (int) -Math.ceil(bacteriaRadius * 2);
         final int end = (int) Math.ceil(bacteriaRadius * 2);
@@ -88,9 +88,11 @@ public class ActionPerformerImpl implements ActionPerformer {
             final GeneticCode clonedGenCode = this.geneFactory.copyGene(this.bacterium.getGeneticCode());
             final Energy halfEnergy = this.bacterium.getEnergy().multiply(0.5);
             this.bacterium.spendEnergy(halfEnergy);
-            final Bacteria newBacteria = new BacteriaImpl(this.bacterium.getSpecies(), clonedGenCode, halfEnergy);
+            final Bacteria newBacteria = new BacteriaImpl(bacteriaCounter, this.bacterium.getSpecies(), clonedGenCode, halfEnergy);
             this.bactEnv.insertBacteria(freePosition.get(), newBacteria);
+            return true;
         }
+        return false;
     }
 
     @Override
