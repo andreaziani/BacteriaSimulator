@@ -14,7 +14,7 @@ public final class BacteriaSimulator {
     private final MainFrame mainFrame;
 
     private BacteriaSimulator() {
-        this.controller = ControllerImpl.getController();
+        this.controller = new ControllerImpl();
         this.mainFrame = new MainFrame(new ViewImpl(this.controller));
     }
 
