@@ -6,14 +6,20 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Optional;
+
 import org.junit.Test;
 
+import model.Direction;
+import model.action.ActionType;
+import model.bacteria.BacteriaKnowledge;
 import model.bacteria.Species;
 import model.bacteria.SpeciesBuilder;
 import model.bacteria.SpeciesManager;
 import model.bacteria.SpeciesManagerImpl;
 import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.perception.PerceptionImpl;
 import utils.exceptions.AlreadyExistingSpeciesExeption;
 
 /**
@@ -24,7 +30,8 @@ public class TestSpecies {
     private static final String NAME_2 = "new name";
 
     /**
-     * Tests corrected functioning of build and reset of SpeciesBuilder.
+     * Tests corrected functioning of build, reset of SpeciesBuilder and insertion
+     * of behavior.
      */
     @Test
     public void testBuildSpecies() {
@@ -36,6 +43,18 @@ public class TestSpecies {
         builder.reset(NAME_2);
         species = tryBuild(builder);
         assertEquals(NAME_2, species.getName());
+
+        builder.reset(NAME_1);
+        builder.addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER);
+        builder.addDecisionMaker(DecisionMakerOption.ALWAYS_EAT);
+        builder.addDecisionMaker(DecisionMakerOption.NO_MOVEMENT);
+        builder.addDecisionMaker(DecisionMakerOption.NO_REPLICATION);
+        species = builder.build();
+        final BacteriaKnowledge knowledge = new BacteriaKnowledge(
+                new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
+                TestUtils.allNutrientGood(), TestUtils.singleLowCostActionType(ActionType.EAT),
+                TestUtils.getSmallEnergy());
+        assertEquals(ActionType.EAT, species.getBehavior().chooseAction(knowledge).getType());
     }
 
     private Species tryBuild(final SpeciesBuilder builder) {
