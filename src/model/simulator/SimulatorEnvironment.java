@@ -18,6 +18,7 @@ import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodEnvironmentImpl;
+import utils.Log;
 
 /**
  * implementation of Environment.
@@ -26,13 +27,19 @@ import model.food.FoodEnvironmentImpl;
 public class SimulatorEnvironment implements Environment {
     private final Position maxPosition = new PositionImpl(1000, 1000);
     private static final int FOOD_PER_ROUND = 15;
-    // TODO this should probably not be static OR (?)
-    private static final double COST_OF_LIVING = 2.0;
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
-    private final BacteriaManager bactManager = new BacteriaManagerImpl(foodEnv, COST_OF_LIVING);
+    private BacteriaManager bactManager;
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private State state;
+
+    /**
+     * Initializer method, create the default number of Bacteria.
+     */
+    public void init() {
+        Log.getLog().info("Simulator initialized");
+        this.bactManager = new BacteriaManagerImpl(foodEnv, maxPosition, speciesManager.getSpecies());
+    }
 
     @Override
     public void addFood(final Food food, final Position position) {
