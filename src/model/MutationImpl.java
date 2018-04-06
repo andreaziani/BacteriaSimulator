@@ -22,9 +22,10 @@ public class MutationImpl implements Mutation {
     private int na;
     private int zone;
     private int naMutate;
-    private boolean check;
+    private boolean check = false;
     private int mt;
     private int randomMutation;
+    private int range;
 
     /**
      * Construct a Bacteria's Genetic Code.
@@ -38,7 +39,7 @@ public class MutationImpl implements Mutation {
 
     private int checkMutation() {
         final Random rndMt = new Random();
-        this.mt = rndMt.nextInt(10);
+        this.mt = rndMt.nextInt(range);
         this.randomMutation += mt;
         return this.randomMutation;
     }
@@ -102,8 +103,6 @@ public class MutationImpl implements Mutation {
                 default:
                     this.code.getCode();
             }
-        } else {
-            this.check = false;
         }
     }
 }
