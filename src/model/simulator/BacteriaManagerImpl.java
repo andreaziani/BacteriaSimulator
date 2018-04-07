@@ -1,10 +1,8 @@
 package model.simulator;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;

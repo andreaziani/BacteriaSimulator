@@ -6,7 +6,6 @@ import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.Environment;
-import model.State;
 import model.bacteria.SpeciesBuilder;
 import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;

@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import javafx.geometry.Pos;
 import model.Direction;
 import model.Energy;
 import model.Position;
