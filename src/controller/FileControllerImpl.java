@@ -51,9 +51,9 @@ public class FileControllerImpl implements FileController {
     }
 
     @Override
-    public void saveAnalisys(final File file, final Analysis analysis) throws IOException {
+    public void saveAnalysis(final File file, final Analysis analysis) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(analysis.toString());
+            writer.write(analysis.getDescription());
         }
     }
 }
