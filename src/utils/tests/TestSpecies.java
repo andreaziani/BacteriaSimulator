@@ -6,20 +6,17 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.Optional;
+import java.util.Arrays;
 
 import org.junit.Test;
 
-import model.Direction;
-import model.action.ActionType;
-import model.bacteria.BacteriaKnowledge;
 import model.bacteria.Species;
 import model.bacteria.SpeciesBuilder;
 import model.bacteria.SpeciesManager;
 import model.bacteria.SpeciesManagerImpl;
 import model.bacteria.behavior.BehaviorDecoratorOption;
+import model.bacteria.behavior.CostFilterDecisionBehavior;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
-import model.perception.PerceptionImpl;
 import utils.exceptions.AlreadyExistingSpeciesExeption;
 
 /**
@@ -50,11 +47,12 @@ public class TestSpecies {
         builder.addDecisionMaker(DecisionMakerOption.NO_MOVEMENT);
         builder.addDecisionMaker(DecisionMakerOption.NO_REPLICATION);
         species = builder.build();
-        final BacteriaKnowledge knowledge = new BacteriaKnowledge(
-                new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
-                TestUtils.allNutrientGood(), TestUtils.singleLowCostActionType(ActionType.EAT),
-                TestUtils.getSmallEnergy());
-        assertEquals(ActionType.EAT, species.getBehavior().chooseAction(knowledge).getType());
+
+        assertEquals(
+                new CostFilterDecisionBehavior(
+                        TestUtils.baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.ALWAYS_EAT,
+                                DecisionMakerOption.NO_MOVEMENT, DecisionMakerOption.NO_REPLICATION))),
+                species.getBehavior());
     }
 
     private Species tryBuild(final SpeciesBuilder builder) {

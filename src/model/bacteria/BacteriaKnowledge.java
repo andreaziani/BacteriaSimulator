@@ -1,6 +1,8 @@
 package model.bacteria;
 
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import model.Energy;
 import model.action.Action;
@@ -8,20 +10,44 @@ import model.food.Nutrient;
 import model.perception.Perception;
 
 /**
- * Represent all knowledge a bacteria needs to choose actions.
+ * Represent all knowledge a bacteria needs to choose actions. It maintains an
+ * action until a new perception is added.
  */
-public class BacteriaKnowledge {
-    private final Perception perception;
+public final class BacteriaKnowledge {
+    private Optional<Perception> perception;
     private final Function<Nutrient, Energy> nutrientToEnergyConverter;
     private final Function<Action, Energy> actionCostFunction;
-    private final Energy bacteriaEnergy;
+    private final Supplier<Energy> bacteriaEnergy;
+    private Optional<Action> action;
 
     /**
      * Create a new BacteriaKnowledge taking all the informations it stores from the
-     * parameters.
+     * parameters with an empty perception.
+     * 
+     * @param nutrientToEnergyConverter
+     *            a function that gives the gain of Energy for each Nutrient for the
+     *            Bacteria.
+     * @param actionCostFunction
+     *            a function that gives the cost of Energy for each Action for the
+     *            Bacteria.
+     * @param bacteriaEnergy
+     *            the current total Bacteria Energy.
+     */
+    public BacteriaKnowledge(final Function<Nutrient, Energy> nutrientToEnergyConverter,
+            final Function<Action, Energy> actionCostFunction, final Supplier<Energy> bacteriaEnergy) {
+        this.nutrientToEnergyConverter = nutrientToEnergyConverter;
+        this.actionCostFunction = actionCostFunction;
+        this.bacteriaEnergy = bacteriaEnergy;
+        action = Optional.empty();
+        perception = Optional.empty();
+    }
+
+    /**
+     * Create a new BacteriaKnowledge taking all the informations it stores from the
+     * parameters, included a starting perception.
      * 
      * @param perception
-     *            the current Bacteria Perception.
+     *            a perception.
      * @param nutrientToEnergyConverter
      *            a function that gives the gain of Energy for each Nutrient for the
      *            Bacteria.
@@ -32,25 +58,43 @@ public class BacteriaKnowledge {
      *            the current total Bacteria Energy.
      */
     public BacteriaKnowledge(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter,
-            final Function<Action, Energy> actionCostFunction, final Energy bacteriaEnergy) {
-        this.perception = perception;
-        this.nutrientToEnergyConverter = nutrientToEnergyConverter;
-        this.actionCostFunction = actionCostFunction;
-        this.bacteriaEnergy = bacteriaEnergy;
+            final Function<Action, Energy> actionCostFunction, final Supplier<Energy> bacteriaEnergy) {
+        this(nutrientToEnergyConverter, actionCostFunction, bacteriaEnergy);
+        this.perception = Optional.of(perception);
+    }
+
+    /**
+     * Set the current perception and reset the current action to empty.
+     * 
+     * @param perception
+     *            a new Perception for the bacteria.
+     */
+    public void setPerception(final Perception perception) {
+        this.perception = Optional.of(perception);
+        action = Optional.empty();
+    }
+
+    /**
+     * @return if the perception has been set for this perception.
+     */
+    public boolean hasPerception() {
+        return perception.isPresent();
     }
 
     /**
      * @return the current perception this behavior is analyzing.
+     * @throws NoSuchElementException
+     *             if there is no value present in the perception.
      */
-    public final Perception getCurrentPerception() {
-        return perception;
+    public Perception getCurrentPerception() {
+        return perception.get();
     }
 
     /**
      * @return the current maximal Energy the bacteria can spend.
      */
-    public final Energy getBacteriaEnergy() {
-        return bacteriaEnergy;
+    public Energy getBacteriaEnergy() {
+        return bacteriaEnergy.get();
     }
 
     /**
@@ -58,7 +102,7 @@ public class BacteriaKnowledge {
      *            a Nutrient.
      * @return the amount of Energy a Nutrient can give.
      */
-    public final Energy getNutrientEnergy(final Nutrient nutrient) {
+    public Energy getNutrientEnergy(final Nutrient nutrient) {
         return this.nutrientToEnergyConverter.apply(nutrient);
     }
 
@@ -68,7 +112,22 @@ public class BacteriaKnowledge {
      * @return the Energy cost of an action for the current bacteria with this
      *         behavior.
      */
-    public final Energy getActionCost(final Action action) {
+    public Energy getActionCost(final Action action) {
         return this.actionCostFunction.apply(action);
+    }
+
+    /**
+     * @return An optional containing an action that starts empty.
+     */
+    public Optional<Action> getAction() {
+        return action;
+    }
+
+    /**
+     * @param action
+     *            set the current chosen action.
+     */
+    public void setAction(final Action action) {
+        this.action = Optional.of(action);
     }
 }
