@@ -43,15 +43,20 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             @Override
             public void run() {
                 // TODO different condition
-                while (true) {
+                while (!env.getState().getBacteriaState().isEmpty()) {
+                    final long start = System.currentTimeMillis();
                     env.update();
-
-                    final State state = env.getState();
-                    Log.getLog().info("Bacteria " + state.getBacteriaState().toString());
-                    Log.getLog().info("Food " + state.getFoodsState().toString());
+                    final long elapsed = System.currentTimeMillis() - start;
+                    
+                    //final State state = env.getState();
+                    //Log.getLog().info("Bacteria " + state.getBacteriaState().toString());
+                    //Log.getLog().info("Food " + state.getFoodsState().toString());
 
                     try {
-                        Thread.sleep(PERIOD);
+                        if(elapsed < PERIOD) {
+                            System.out.println(elapsed);
+                            Thread.sleep(PERIOD - elapsed);
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
