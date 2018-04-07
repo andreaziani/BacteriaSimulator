@@ -120,11 +120,18 @@ public final class EnvironmentUtil {
      * @return a stream of Position in the given range excluding the same Position
      */
     public static Stream<Position> positionStream(final int startX, final int endX, final int startY, final int endY,
-            final Position bacteriaPos) {
+            final Position bacteriaPos, final Position maxPosition) {
         return IntStream.range(startX, endX)
-                .mapToObj(x -> IntStream.range(startY, endY).filter(y -> x != 0 && y != 0)
+                .filter(x -> x != 0)
+                .mapToObj(x -> IntStream.range(startY, endY)
+                        .filter(y -> y != 0)
                         .mapToObj(y -> new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y)))
-                .flatMap(position -> position);
+                .flatMap(position -> position)
+                .map(position -> (Position) position)
+                .filter(position -> position.getX() < maxPosition.getX()
+                                        && position.getX() > 0
+                                        && position.getY() < maxPosition.getY()
+                                        && position.getY() > 0);
     }
 
     /**
@@ -138,8 +145,8 @@ public final class EnvironmentUtil {
      *            the original Position of the Bacteria
      * @return a stream of Position
      */
-    public static Stream<Position> positionStream(final int start, final int end, final Position bacteriaPos) {
-        return positionStream(start, end, start, end, bacteriaPos);
+    public static Stream<Position> positionStream(final int start, final int end, final Position bacteriaPos, final Position maxPosition) {
+        return positionStream(start, end, start, end, bacteriaPos, maxPosition);
     }
 
     /**

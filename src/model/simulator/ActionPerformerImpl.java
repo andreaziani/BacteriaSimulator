@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import javafx.geometry.Pos;
 import model.Direction;
 import model.Energy;
 import model.Position;
@@ -24,6 +25,7 @@ public class ActionPerformerImpl implements ActionPerformer {
     private final CopyFactory geneFactory = new CopyFactoryImpl();
     private final BacteriaEnvironment bactEnv;
     private final FoodEnvironment foodEnv;
+    private final Position simulationMaxPosition;
     private Position currentPosition;
     private Bacteria bacterium;
 
@@ -32,10 +34,12 @@ public class ActionPerformerImpl implements ActionPerformer {
      * @param bactEnv the environment representing bacteria
      * @param foodEnv the environment representing foods
      */
-    public ActionPerformerImpl(final BacteriaEnvironment bactEnv, final FoodEnvironment foodEnv) {
+    public ActionPerformerImpl(final BacteriaEnvironment bactEnv, final FoodEnvironment foodEnv, final Position maxPosition) {
         this.bactEnv = bactEnv;
         this.foodEnv = foodEnv;
+        this.simulationMaxPosition = maxPosition;
     }
+
     @Override
     public void setStatus(final Position bacteriumPos, final Bacteria bacterium) {
         this.currentPosition = bacteriumPos;
@@ -47,7 +51,7 @@ public class ActionPerformerImpl implements ActionPerformer {
         final double movement = this.bacterium.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
         final int start = (int) -Math.ceil(movement);
         final int end = (int) Math.ceil(movement);
-        final Optional<Position> newPosition = EnvironmentUtil.positionStream(start, end, currentPosition)
+        final Optional<Position> newPosition = EnvironmentUtil.positionStream(start, end, currentPosition, this.simulationMaxPosition)
                 .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(currentPosition, position))
                         .equals(moveDirection))
                 .findAny();
@@ -58,6 +62,7 @@ public class ActionPerformerImpl implements ActionPerformer {
 
     @Override
     public void eat() {
+        System.err.println("Bacteria try to eat");
         final Optional<Food> foodInPosition;
         if (this.foodEnv.getFoodsState().containsKey(this.currentPosition)) {
             foodInPosition =  Optional.of(foodEnv.getFoodsState().get(this.currentPosition));
@@ -66,6 +71,7 @@ public class ActionPerformerImpl implements ActionPerformer {
         }
 
         if (foodInPosition.isPresent()) {
+            System.err.println("Bacteria eat");
             this.bacterium.addFood(foodInPosition.get());
             this.foodEnv.removeFood(foodInPosition.get(), this.currentPosition);
         }
@@ -77,7 +83,7 @@ public class ActionPerformerImpl implements ActionPerformer {
         final int start = (int) -Math.ceil(bacteriaRadius * 2);
         final int end = (int) Math.ceil(bacteriaRadius * 2);
 
-        final Optional<Position> freePosition = EnvironmentUtil.positionStream(start, end, this.currentPosition)
+        final Optional<Position> freePosition = EnvironmentUtil.positionStream(start, end, this.currentPosition, this.simulationMaxPosition)
                 .filter(position -> !this.bactEnv.containBacteriaInPosition(position))  // exclude position already occupied
                 .filter(position -> !EnvironmentUtil.isCollision(
                         Pair.of(position, this.bacterium),
