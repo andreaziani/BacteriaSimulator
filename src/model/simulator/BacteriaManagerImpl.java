@@ -1,7 +1,10 @@
 package model.simulator;
 
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -33,15 +36,17 @@ import model.perception.Perception;
 import model.perception.PerceptionImpl;
 import utils.EnvironmentUtil;
 import utils.Log;
+import utils.exceptions.NotEnounghEnergyException;
+import utils.exceptions.PositionAlreadyOccupiedException;
 
 /**
  * Implementation of BacteriaManager.
  *
  */
 public class BacteriaManagerImpl implements BacteriaManager {
-    private static final Energy INITIAL_ENERGY = new EnergyImpl(10.0);
-    private static final double COST_OF_LIVING = 2.0;
-    private static final int BACTERIA_PER_SPECIES = 15;
+    private static final Energy INITIAL_ENERGY = new EnergyImpl(100.0);
+    private static final double COST_OF_LIVING = 0.2;
+    private static final int BACTERIA_PER_SPECIES = 150;
     private final Position simulationMaxPosition;
     private final FoodEnvironment foodEnv;
     private final Energy energyForLiving = new EnergyImpl(COST_OF_LIVING);
@@ -65,9 +70,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
         this.simulationMaxPosition = maxPosition;
         this.foodEnv = foodEnv;
         this.bacteriaEnv = new BacteriaEnvironmentImpl();
-        this.actionPerf = new ActionPerformerImpl(bacteriaEnv, foodEnv);
+        this.actionPerf = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
 
-        Log.getLog().info("Start populating..");
+        Log.getLog().info("Start populating");
         species.stream().forEach(specie -> IntStream.range(0, BACTERIA_PER_SPECIES)
                 .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY())))
                 .forEach(position -> {
@@ -85,7 +90,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
         final int end = (int) Math.ceil(radius);
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
-        EnvironmentUtil.positionStream(start, end, bacteriaPos)
+        EnvironmentUtil.positionStream(start, end, bacteriaPos, simulationMaxPosition)
                 .map(pos -> Pair.of(pos, EnvironmentUtil.distance(pos, bacteriaPos)))
                 .filter(pairPosDist -> pairPosDist.getRight() <= radius)
                 .filter(pairPosDist -> foodsState.containsKey(pairPosDist.getLeft())).map(pairPosDist -> {
@@ -112,7 +117,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
         final Action action = bacteria.getAction();
         final ActionType actionType = action.getType();
 
-        if (bacteria.getEnergy().compareTo(bacteria.getActionCost(action)) > 0) {
+        try {
+            bacteria.spendEnergy(bacteria.getActionCost(action));
             switch (actionType) {
             case MOVE:
                 final DirectionalAction moveAction = (DirectionalActionImpl) action;
@@ -130,35 +136,39 @@ public class BacteriaManagerImpl implements BacteriaManager {
                 actionPerf.doNothing();
                 break;
             }
-            bacteria.spendEnergy(bacteria.getActionCost(action));
-        } else {
+        } catch (NotEnounghEnergyException e) {
             bacteria.spendEnergy(bacteria.getEnergy());
         }
     }
 
     private void costOfLiving(final Bacteria bacteria) {
-        if (bacteria.getEnergy().compareTo(this.energyForLiving) > 0) {
+        try {
             bacteria.spendEnergy(this.energyForLiving);
+        } catch (NotEnounghEnergyException e) {
+            bacteria.spendEnergy(bacteria.getEnergy());
         }
     }
 
     private void updateLivingBacteria() {
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
-        this.bacteriaEnv.entrySet().stream()
-                .peek(e -> e.getValue().setPerception(this.createPerception(e.getKey(), foodsState)))
-                .peek(e -> this.performAction(e.getKey(), e.getValue())).forEach(e -> this.costOfLiving(e.getValue()));
+        final Set<Position> positions = new HashSet<Position>(this.bacteriaEnv.activePosition());
+        positions.stream()
+                .peek(position -> this.bacteriaEnv.getBacteria(position).setPerception(this.createPerception(position, foodsState)))
+                .peek(position -> this.costOfLiving(this.bacteriaEnv.getBacteria(position)))
+                .forEach(position -> this.performAction(position, this.bacteriaEnv.getBacteria(position)));
     }
 
     private void updateDeadBacteria() {
-        final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
         final Set<Position> toBeRemoved = this.bacteriaEnv.entrySet().stream()
-                .filter(e -> e.getValue().isDead())
-                .peek(e -> {
-                    if (!foodsState.containsKey(e.getKey())) {
-                        this.foodEnv.addFood(e.getValue().getInternalFood(this.factory), e.getKey());
+                .filter(entry -> entry.getValue().isDead())
+                .peek(entry -> {
+                    try {
+                        this.foodEnv.addFood(entry.getValue().getInternalFood(this.factory), entry.getKey());
+                    } catch (PositionAlreadyOccupiedException e) {
+                        // Food collided with other food nearby
                     }
                 })
-                .map(e -> e.getKey()).collect(Collectors.toSet());
+                .map(entry -> entry.getKey()).collect(Collectors.toSet());
         this.bacteriaEnv.removeFromPositions(toBeRemoved);
     }
 
