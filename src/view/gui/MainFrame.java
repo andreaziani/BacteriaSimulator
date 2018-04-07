@@ -16,12 +16,13 @@ import utils.exceptions.PositionAlreadyOccupiedException;
 import view.UserInterface;
 import view.ViewController;
 import view.model.ViewPositionImpl;
+import view.model.ViewState;
 
 /**
  * 
  * Main Frame of GUI.
  */
-public class MainFrame extends JFrame implements UserInterface{
+public class MainFrame extends JFrame implements UserInterface {
     /**
      * Automatically generated.
      */
@@ -65,7 +66,8 @@ public class MainFrame extends JFrame implements UserInterface{
         this.setVisible(true);
     }
     @Override
-    public void updateView() {
+    public void updateView(final ViewState state) {
+        this.simulationPanel.setState(state);
         simulationPanel.repaint();
     }
 }
