@@ -53,7 +53,7 @@ public class PositionImpl implements Position {
 
     @Override
     public String toString() {
-        return "Position coordinates=" + coordinates.getLeft() + " " + coordinates.getRight() + "]";
+        return "Position:[" + coordinates.getLeft() + ", " + coordinates.getRight() + "]";
     }
 
 }

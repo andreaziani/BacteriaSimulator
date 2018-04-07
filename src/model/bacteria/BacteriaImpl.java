@@ -140,7 +140,7 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public String toString() {
-        return "Bacteria: [Specie = " + this.species.getName() + ", Energy = " + this.getEnergy().toString() + "]";
+        return "Bacteria:[ID = " + this.bacteriaId + ", Specie = " + this.species.getName() + ", Energy = " + this.getEnergy().toString() + "]";
     }
 
 }
