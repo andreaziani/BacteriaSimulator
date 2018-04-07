@@ -20,7 +20,7 @@ public class BacteriaImpl implements Bacteria {
     private final GeneticCode geneticCode;
     private final Species species;
     private final EnergyStorage energyStorage;
-    private Perception currPerception;
+    private final BacteriaKnowledge knowledge;
 
     /**
      * Construct a Bacteria from a Behavior strategy and a genetic code. This
@@ -42,16 +42,17 @@ public class BacteriaImpl implements Bacteria {
         this.species = species;
         this.geneticCode = initialGeneticCode;
         this.energyStorage = new NutrientStorage(startingEnergy, this.geneticCode::getEnergyFromNutrient);
+        knowledge = new BacteriaKnowledge(this.geneticCode::getEnergyFromNutrient, this::getActionCost, this::getEnergy);
     }
 
     @Override
     public Perception getPerception() {
-        return this.currPerception;
+        return this.knowledge.getCurrentPerception();
     }
 
     @Override
     public void setPerception(final Perception perception) {
-        this.currPerception = perception;
+        knowledge.setPerception(perception);
     }
 
     @Override
@@ -71,11 +72,12 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public Action getAction() {
-        if (this.currPerception == null) {
+        if (!this.knowledge.hasPerception()) {
             throw new MissingPerceptionExeption();
+        } else if (!knowledge.getAction().isPresent()) {
+            knowledge.setAction(this.species.getBehavior().chooseAction(knowledge));
         }
-        return this.species.getBehavior().chooseAction(new BacteriaKnowledge(this.currPerception,
-                this.geneticCode::getEnergyFromNutrient, this::getActionCost, this.getEnergy()));
+        return knowledge.getAction().get();
     }
 
     @Override
@@ -138,7 +140,7 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public String toString() {
-        return "Bacteria: [Specie = " + this.species.getName() + ", Energy = " + this.getEnergy().toString() + "]";
+        return "Bacteria:[ID = " + this.bacteriaId + ", Specie = " + this.species.getName() + ", Energy = " + this.getEnergy().toString() + "]";
     }
 
 }

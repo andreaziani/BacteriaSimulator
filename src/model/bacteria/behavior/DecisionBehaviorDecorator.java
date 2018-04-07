@@ -1,6 +1,7 @@
 package model.bacteria.behavior;
 
 import java.util.Map;
+import java.util.Objects;
 
 import model.action.Action;
 import model.bacteria.BacteriaKnowledge;
@@ -27,5 +28,19 @@ public abstract class DecisionBehaviorDecorator extends AbstractDecisionBehavior
     @Override
     protected void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
         this.delegate.updateDecisions(decisions, knowledge);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(delegate);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final DecisionBehaviorDecorator other = (DecisionBehaviorDecorator) obj;
+        return Objects.equals(this.delegate, other.delegate);
     }
 }

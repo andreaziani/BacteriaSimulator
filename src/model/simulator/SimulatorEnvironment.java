@@ -28,13 +28,12 @@ import utils.Log;
  */
 public class SimulatorEnvironment implements Environment {
     private final Position maxPosition = new PositionImpl(1000, 1000);
-    private static final int FOOD_PER_ROUND = 15;
+    private static final int FOOD_PER_ROUND = 150;
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     private BacteriaManager bactManager;
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private final MutationManager mutManager = new MutationManagerImpl();
-    private State state;
 
     /**
      * Initializer method, create the default number of Bacteria.
@@ -56,7 +55,7 @@ public class SimulatorEnvironment implements Environment {
 
     @Override
     public State getState() {
-        return this.state;
+        return new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
     }
 
     private void updateFood() {
@@ -71,7 +70,6 @@ public class SimulatorEnvironment implements Environment {
     public void update() {
         this.updateBacteria();
         this.updateFood();
-        this.state = new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
     }
 
     @Override

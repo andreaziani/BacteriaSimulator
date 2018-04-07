@@ -41,6 +41,11 @@ public interface BacteriaEnvironment {
      */
     Set<Entry<Position, Bacteria>> entrySet();
     /**
+     * Return the Set of occupied Position in the environment.
+     * @return such Set
+     */
+    Set<Position> activePosition();
+    /**
      * Remove a set of Position from the BacteriaEnvironment.
      * @param positions the set of Position to be removed
      */
