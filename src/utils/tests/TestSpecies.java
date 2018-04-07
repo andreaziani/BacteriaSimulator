@@ -53,7 +53,7 @@ public class TestSpecies {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
                 TestUtils.allNutrientGood(), TestUtils.singleLowCostActionType(ActionType.EAT),
-                TestUtils.getSmallEnergy());
+                () -> TestUtils.getSmallEnergy());
         assertEquals(ActionType.EAT, species.getBehavior().chooseAction(knowledge).getType());
     }
 
