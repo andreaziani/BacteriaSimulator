@@ -58,7 +58,7 @@ public interface Environment {
      * 
      * @return Analysis of fitness.
      */
-    Analysis getAnalisys();
+    Analysis getAnalysis();
 
     /**
      * @param species

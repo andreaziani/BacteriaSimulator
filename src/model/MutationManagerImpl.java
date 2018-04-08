@@ -1,18 +1,25 @@
 package model;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
 import model.bacteria.Bacteria;
-
-public class MutationManagerImpl implements MutationManager{
+/**
+ * 
+ * Implementation of MutationManagerImpl.
+ *
+ */
+public class MutationManagerImpl implements MutationManager {
     private Map<Bacteria, Mutation> mutations;
 
-    public void bacteriaDead(Bacteria bacteria) {
+    @Override
+    public void bacteriaDead(final Bacteria bacteria) {
         mutations.remove(bacteria);
     }
 
-    public void updateMutation(final Set<Bacteria> bactManager) {
+    @Override
+    public void updateMutation(final Collection<Bacteria> bactManager) {
             for (Bacteria b: bactManager) {
                 if (!mutations.containsKey(b)) {
                     mutations.put(b, new MutationImpl(b.getGeneticCode().getCode()));
@@ -20,4 +27,7 @@ public class MutationManagerImpl implements MutationManager{
                 mutations.get(b).alteratedCode();
             }
      }
+    public Map<Bacteria, Mutation> getMutation(){
+        return this.mutations;
+    }
 }
