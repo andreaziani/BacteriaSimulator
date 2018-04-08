@@ -15,6 +15,7 @@ import controller.Controller;
 import model.Analysis;
 import model.action.ActionType;
 import model.food.Nutrient;
+import view.gui.MainFrame;
 import view.gui.SimulationPanel;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
@@ -29,9 +30,9 @@ import view.model.food.ViewFood;
  */
 public class ViewImpl implements View, ViewController {
     private final Controller controller;
-    private ViewState state;
     private final ViewSpeciesFactory speciesManager;
-    private SimulationPanel simulationPanel;
+    private ViewState state;
+    private MainFrame mainFrame;
     
     /**
      * Constructor that build a View passing the Controller that allows interactions
@@ -47,8 +48,7 @@ public class ViewImpl implements View, ViewController {
 
     @Override
     public void update(final ViewState state) {
-        this.simulationPanel.setState(state);
-        this.simulationPanel.repaint();
+        this.mainFrame.updateView(state);
     }
 
     @Override
@@ -141,8 +141,8 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void linkPanel(SimulationPanel simulationPanel) {
-        this.simulationPanel = simulationPanel;
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
     }
 
 }

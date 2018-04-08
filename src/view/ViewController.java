@@ -9,7 +9,7 @@ import java.util.Map;
 
 import model.Analysis;
 import model.action.ActionType;
-import view.gui.SimulationPanel;
+import view.gui.MainFrame;
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 
@@ -153,5 +153,9 @@ public interface ViewController {
      * @return true if the user has not yet entered the species, false in other case.
      */
     boolean isSpeciesEmpty();
-    void linkPanel(SimulationPanel simulationPanel);
+    /**
+     * Set the MainFrame representing the actual GUI.
+     * @param simulationPanel
+     */
+    void setMainFrame(MainFrame mainFrame);
 }
