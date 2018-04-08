@@ -24,17 +24,17 @@ public enum Nutrient {
     /**
      * Inorganic salt.
      */
-    INORGANIC_SALT,
-    /**
-     * Vitamines.
-     */
-    VITAMINES,
-    /**
-     * Minerals.
-     */
-    MINERALS,
-    /**
-     * Proteins.
-     */
-    PROTEINS;
+    INORGANIC_SALT;
+//    /**
+//     * Vitamines.
+//     */
+//    VITAMINES,
+//    /**
+//     * Minerals.
+//     */
+//    MINERALS,
+//    /**
+//     * Proteins.
+//     */
+//    PROTEINS;
 }

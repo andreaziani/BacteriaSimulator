@@ -15,6 +15,7 @@ import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
 import model.bacteria.behavior.AbstractDecisionBehavior;
 import model.bacteria.behavior.CostFilterDecisionBehavior;
+import model.bacteria.behavior.ExplorerDecisionBehavior;
 import model.bacteria.behavior.PreferentialDecisionBehavior;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import model.perception.PerceptionImpl;
@@ -31,12 +32,16 @@ public class TestBehavior {
     public void testDecisionMakers() {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
-                TestUtils.allNutrientsBad(), x -> TestUtils.getSmallEnergy(), () -> TestUtils.getSmallEnergy());
+                TestUtils.allNutrientsBad(), x -> TestUtils.getSmallEnergy(), () -> TestUtils.getSmallEnergy(),
+                () -> 0.0);
         AbstractDecisionBehavior behavior = TestUtils.baseBehaviorFromOptions(Collections.emptyList());
         assertEquals(ActionType.NOTHING, behavior.chooseAction(knowledge).getType());
         behavior = TestUtils.baseBehaviorFromOptions(
                 Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING, DecisionMakerOption.NEAR_FOOD_MOVEMENT));
-        assertEquals(new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH), behavior.chooseAction(knowledge));
+        assertEquals(
+                new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH,
+                        knowledge.getCurrentPerception().distFromFood(Direction.NORTH).get()),
+                behavior.chooseAction(knowledge));
         behavior = TestUtils.baseBehaviorFromOptions(
                 Arrays.asList(DecisionMakerOption.ALWAYS_EAT, DecisionMakerOption.NEAR_FOOD_MOVEMENT));
         assertEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());
@@ -50,7 +55,7 @@ public class TestBehavior {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
                 TestUtils.allNutrientGood(), TestUtils.singleLowCostActionType(ActionType.MOVE),
-                () -> TestUtils.getSmallEnergy());
+                () -> TestUtils.getSmallEnergy(), () -> 0.0);
         AbstractDecisionBehavior behavior = TestUtils
                 .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.ALWAYS_EAT,
                         DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.ALWAYS_REPLICATE));
@@ -67,7 +72,7 @@ public class TestBehavior {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
                 TestUtils.allNutrientGood(), TestUtils.singleLargeCostActionType(ActionType.REPLICATE),
-                () -> TestUtils.getSmallEnergy());
+                () -> TestUtils.getSmallEnergy(), () -> 0.0);
         AbstractDecisionBehavior behavior = TestUtils
                 .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING,
                         DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.ALWAYS_REPLICATE));
@@ -75,5 +80,29 @@ public class TestBehavior {
         assertEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());
         behavior = new PreferentialDecisionBehavior(behavior, ActionType.MOVE);
         assertEquals(ActionType.MOVE, behavior.chooseAction(knowledge).getType());
+    }
+
+    /**
+     * Test the ExplorerDecisionBehavior.
+     */
+    @Test
+    public void testExplorer() {
+        final BacteriaKnowledge knowledge = new BacteriaKnowledge(
+                new PerceptionImpl(Optional.of(TestUtils.getAFood()), Collections.emptyMap()),
+                TestUtils.allNutrientGood(), TestUtils.singleLargeCostActionType(ActionType.REPLICATE),
+                () -> TestUtils.getSmallEnergy(), () -> 0.0);
+        AbstractDecisionBehavior behavior = TestUtils
+                .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.NEAR_FOOD_MOVEMENT));
+        assertEquals(ActionType.NOTHING, behavior.chooseAction(knowledge).getType());
+        behavior = new ExplorerDecisionBehavior(behavior);
+        assertEquals(ActionType.MOVE, behavior.chooseAction(knowledge).getType());
+
+        behavior = 
+                TestUtils.baseBehaviorFromOptions(
+                        Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING, DecisionMakerOption.NEAR_FOOD_MOVEMENT));
+        assertEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());
+        behavior = new PreferentialDecisionBehavior(new ExplorerDecisionBehavior(behavior), ActionType.MOVE);
+        assertEquals(ActionType.MOVE, behavior.chooseAction(knowledge).getType());
+
     }
 }

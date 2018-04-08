@@ -36,7 +36,7 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
     }
 
     @Override
-    public void addFood(final Food food, final Position position) {
+    public synchronized void addFood(final Food food, final Position position) {
         if (!food.getNutrients().isEmpty()) { // se il cibo non ha nutrienti non viene aggiunto.
             // il cibo puo' essere aggiunto solo se la non collide con altre posizioni di
             // cibi precedentemente inseriti.

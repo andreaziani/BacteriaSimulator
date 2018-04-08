@@ -9,15 +9,16 @@ import model.Position;
 import model.PositionImpl;
 import view.model.bacteria.ViewBacteriaImpl;
 import view.model.bacteria.ViewSpecies;
-import view.model.food.ViewFoodImpl;
+import view.model.food.CreationViewFoodImpl;
+import view.model.food.SimulationViewFood;
 
 /**
  * Represents all the information needed for a simulation to start.
  */
 public class InitialState {
     private Map<PositionImpl, ViewBacteriaImpl> bacteriaMap;
-    private Map<PositionImpl, ViewFoodImpl> foodMap;
-    private final Set<ViewFoodImpl> existingFood;
+    private Map<PositionImpl, SimulationViewFood> foodMap;
+    private final Set<CreationViewFoodImpl> existingFood;
     private final Set<ViewSpecies> species;
     private final double maxX;
     private final double maxY;
@@ -49,7 +50,7 @@ public class InitialState {
      *            the map of all foods.
      */
     public void setState(final Map<PositionImpl, ViewBacteriaImpl> bacteriaMap,
-            final Map<PositionImpl, ViewFoodImpl> foodMap) {
+            final Map<PositionImpl, SimulationViewFood> foodMap) {
         this.bacteriaMap = bacteriaMap;
         this.foodMap = foodMap;
     }
@@ -59,7 +60,7 @@ public class InitialState {
      *            a food to be added to the set that contains all the foods created
      *            by the user.
      */
-    public void addFood(final ViewFoodImpl food) {
+    public void addFood(final CreationViewFoodImpl food) {
         existingFood.add(food);
     }
 
@@ -82,14 +83,14 @@ public class InitialState {
     /**
      * @return the positions of all foods and their view representation.
      */
-    public Map<PositionImpl, ViewFoodImpl> getFoodMap() {
+    public Map<PositionImpl, SimulationViewFood> getFoodMap() {
         return foodMap;
     }
 
     /**
      * @return all the foods created by the user.
      */
-    public Set<ViewFoodImpl> getExistingFood() {
+    public Set<CreationViewFoodImpl> getExistingFood() {
         return existingFood;
     }
 
