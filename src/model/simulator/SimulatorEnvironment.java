@@ -28,7 +28,7 @@ import utils.Log;
  */
 public class SimulatorEnvironment implements Environment {
     private final Position maxPosition = new PositionImpl(1000, 1000);
-    private static final int FOOD_PER_ROUND = 150;
+    private static final int FOOD_PER_ROUND = 15;
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     private BacteriaManager bactManager;

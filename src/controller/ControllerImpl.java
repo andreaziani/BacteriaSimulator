@@ -3,12 +3,15 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 
+import view.ViewImpl;
+
 /**
  * Controller implementation.
  *
  */
 public class ControllerImpl extends EnvironmentControllerImpl implements Controller {
     private final FileController fileController;
+    private ViewImpl view;
 
     /**
      * Create a controller implementation.
@@ -16,6 +19,17 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     public ControllerImpl() {
         super();
         fileController = new FileControllerImpl();
+    }
+
+    @Override
+    protected void simulationLoop() {
+        super.simulationLoop();
+        this.view.update(this.getState());
+    }
+
+    @Override
+    public void setView(final ViewImpl view) {
+        this.view = view;
     }
 
     @Override

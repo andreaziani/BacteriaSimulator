@@ -23,7 +23,7 @@ import view.model.food.ViewFoodImpl;
  *
  */
 public class EnvironmentControllerImpl implements EnvironmentController {
-    private static final long PERIOD = 500L;
+    private static final long PERIOD = 100L;
     private Environment env;
     private FoodController foodController;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
@@ -45,6 +45,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
                 while (!env.getState().getBacteriaState().isEmpty()) {
                     final long start = System.currentTimeMillis();
                     env.update();
+                    simulationLoop();
                     final long elapsed = System.currentTimeMillis() - start;
                     
                     //final State state = env.getState();
@@ -71,28 +72,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         initialState = new InitialState(env.getMaxPosition().getX(), env.getMaxPosition().getY());
     }
 
-    @Override
-    public void addFoodFromView(final ViewFood food, final ViewPosition position) {
-        this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
-                env.getMaxPosition(), maxViewPosition.get()));
-//         System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
-//         env.getMaxPosition(), maxViewPosition.get()).getX() + " " +
-//         ConversionsUtil.conversionFromViewPositionToPosition(position,
-//         env.getMaxPosition(), maxViewPosition.get()).getY());
-
-    }
-
-    @Override
-    public void start() {
-        // TODO start
-        // TODO complete InitialState
-        Log.getLog().info("Application started");
-        this.env.init();
-        isStarted = true;
-        // TODO reorganize logic
-        final Thread mainThread = new Thread(this.loop);
-        mainThread.start();
-    }
 
     /**
      * Restore the simulation to a state defined by an InitialState object.
@@ -112,6 +91,53 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         // TODO resettare env, reinserire tutto da InitialState e fare start
         resetSimulation();
         isStarted = true;
+    }
+
+    /**
+     * @return the initial state of the simulation.
+     */
+    protected InitialState getInitialState() {
+        return initialState;
+    }
+    
+    /**
+     * @return a replay representing the simulation.
+     */
+    protected Replay getReplay() {
+        throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * @return the analysis of the simulation.
+     */
+    protected Analysis getAnalysis() {
+        return env.getAnalisys();
+    }
+
+    @Override
+    public void addFoodFromView(final ViewFood food, final ViewPosition position) {
+        this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
+                env.getMaxPosition(), maxViewPosition.get()));
+//         System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
+//         env.getMaxPosition(), maxViewPosition.get()).getX() + " " +
+//         ConversionsUtil.conversionFromViewPositionToPosition(position,
+//         env.getMaxPosition(), maxViewPosition.get()).getY());
+        
+    }
+
+    protected void simulationLoop() {
+    }
+
+    @Override
+    public void start() {
+        // TODO start
+        // TODO complete InitialState
+        Log.getLog().info("Application started");
+        this.env.init();
+        isStarted = true;
+        // TODO reorganize logic
+        final Thread mainThread = new Thread(this.loop);
+        mainThread.start();
     }
 
     @Override
@@ -159,26 +185,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         return isStarted;
     }
 
-    /**
-     * @return the initial state of the simulation.
-     */
-    protected InitialState getInitialState() {
-        return initialState;
-    }
-
-    /**
-     * @return a replay representing the simulation.
-     */
-    protected Replay getReplay() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @return the analysis of the simulation.
-     */
-    protected Analysis getAnalysis() {
-        return env.getAnalisys();
-    }
     public boolean isSpeciesEmpty() {
         return this.initialState.getSpecies().isEmpty();
     }

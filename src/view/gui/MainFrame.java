@@ -37,6 +37,7 @@ public class MainFrame extends JFrame implements UserInterface {
      */
     public MainFrame(final ViewController view) {
         super("Bacteria Simulator");
+        view.linkPanel(this.simulationPanel);
         final TopPanel topPanel = new TopPanel(view, this);
         this.setSize(width, height);
         view.setDimension(this.simulationPanel.getSize());

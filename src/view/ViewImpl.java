@@ -9,10 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.swing.JPanel;
+
 import controller.Controller;
 import model.Analysis;
 import model.action.ActionType;
 import model.food.Nutrient;
+import view.gui.SimulationPanel;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
@@ -28,7 +31,8 @@ public class ViewImpl implements View, ViewController {
     private final Controller controller;
     private ViewState state;
     private final ViewSpeciesFactory speciesManager;
-
+    private SimulationPanel simulationPanel;
+    
     /**
      * Constructor that build a View passing the Controller that allows interactions
      * with the model.
@@ -43,7 +47,8 @@ public class ViewImpl implements View, ViewController {
 
     @Override
     public void update(final ViewState state) {
-        this.state = state;
+        this.simulationPanel.setState(state);
+        this.simulationPanel.repaint();
     }
 
     @Override
@@ -133,6 +138,11 @@ public class ViewImpl implements View, ViewController {
     @Override
     public boolean isSpeciesEmpty() {
         return this.controller.isSpeciesEmpty();
+    }
+
+    @Override
+    public void linkPanel(SimulationPanel simulationPanel) {
+        this.simulationPanel = simulationPanel;
     }
 
 }

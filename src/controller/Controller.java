@@ -3,6 +3,8 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 
+import view.ViewImpl;
+
 /**
  * Controller.
  * 
@@ -54,4 +56,10 @@ public interface Controller extends EnvironmentController {
      *             if any problem writing in the file occurred.
      */
     void saveAnalisys(File file) throws IOException;
+
+    /**
+     * Set the view of the simulation.
+     * @param view the view to be linked to the controller
+     */
+    void setView(ViewImpl view);
 }

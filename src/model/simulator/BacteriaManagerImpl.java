@@ -42,7 +42,7 @@ import utils.exceptions.PositionAlreadyOccupiedException;
  *
  */
 public class BacteriaManagerImpl implements BacteriaManager {
-    private static final Energy INITIAL_ENERGY = new EnergyImpl(100.0);
+    private static final Energy INITIAL_ENERGY = new EnergyImpl(1000.0);
     private static final double COST_OF_LIVING = 0.2;
     private static final int BACTERIA_PER_SPECIES = 150;
     private final Position simulationMaxPosition;
@@ -74,12 +74,12 @@ public class BacteriaManagerImpl implements BacteriaManager {
         species.stream().forEach(specie -> IntStream.range(0, BACTERIA_PER_SPECIES)
                 .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY())))
                 .forEach(position -> {
-                    final GeneticCode genCode = new GeneticCodeImpl(new GeneImpl(), 2.0, 3.5);
+                    final GeneticCode genCode = new GeneticCodeImpl(new GeneImpl(), 10.0, 3.5);
                     final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode, INITIAL_ENERGY);
                     bacteriaCounter++;
                     this.bacteriaEnv.insertBacteria(position, bacteria);
                 }));
-        this.bacteriaEnv.getBacteriaState().entrySet().stream().forEach(entry -> Log.getLog().info(entry.getValue().toString()));
+        //this.bacteriaEnv.getBacteriaState().entrySet().stream().forEach(entry -> Log.getLog().info(entry.getValue().toString()));
     }
 
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos, final Map<Position, Food> foodsState) {

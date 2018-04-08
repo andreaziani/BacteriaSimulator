@@ -3,6 +3,8 @@ package view.gui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 //import java.awt.Color;
 //import java.awt.Point;
 //import java.util.HashMap;
@@ -45,17 +47,28 @@ public class SimulationPanel extends JPanel {
     protected final void paintComponent(final Graphics g) {
         super.paintComponent(g);
         if (state.isPresent()) {
+            state.get().getBacteriaState().entrySet().stream().forEach(e -> {
+                Graphics2D g2d = (Graphics2D)g;
+                // Assume x, y, and diameter are instance variables.
+                Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
+                        e.getValue().getRadius().getYRadius());
+                g.setColor(e.getValue().getColor());
+                g2d.fill(circle);
+                //g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius() + 5, e.getValue().getRadius().getYRadius() + 5);
+            });
+
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
                 g.setColor(e.getValue().getColor());
                 g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-                        e.getValue().getRadius().getYRadius());
+                        e.getValue().getRadius().getYRadius()+2);
             });
+            System.out.println("Bacteria size = " + state.get().getBacteriaState().size() );
+            state.get().getBacteriaState().entrySet().stream()
+                                        .limit(1)
+                                        .forEach(e -> System.out.println(e.getValue().getColor() + " - " 
+                                                    + e.getKey().getX() + ", " + e.getKey().getY()  + " - "
+                                                    + e.getValue().getRadius().getXRadius() + ", " + e.getValue().getRadius().getYRadius()));
 
-            state.get().getBacteriaState().entrySet().stream().forEach(e -> {
-                g.setColor(e.getValue().getColor());
-                g.fillOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-                        e.getValue().getRadius().getYRadius());
-            });
         }
         // super.paintComponent(g);
         // for (final Map.Entry<Point, Color> e : this.foods.entrySet()) {
