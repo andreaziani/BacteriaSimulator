@@ -25,11 +25,10 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     @Override
     public void init() {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
@@ -39,7 +38,7 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public Analysis getAnalisys() {
+    public Analysis getAnalysis() {
         // TODO Auto-generated method stub
         return null;
     }
