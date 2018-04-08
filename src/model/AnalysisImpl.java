@@ -18,18 +18,27 @@ import model.bacteria.Species;
  */
 public class AnalysisImpl implements Analysis {
 
-    private Map<Species, List<Bacteria>> dividedBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
-        final Map<Species, List<Bacteria>> map = new HashMap<>();
-        for (final Species sp : species) {
-            final List<Bacteria> list = new ArrayList<>();
-            for (final Bacteria bt : bacteria) {
-                if (sp.equals(bt.getSpecies())) {
-                    list.add(bt);
-                }
-            }
-            map.put(sp, list);
+    private final List<State> lstate = new ArrayList<>();
+    private final MutationManager mutManager = new MutationManagerImpl();
+
+    private List<Bacteria> listOfBacteria(final Map<Position, Bacteria> bacteria) {
+        final List<Bacteria> bt = new ArrayList<>();
+        bt.addAll(bacteria.values());
+        return bt;
+    }
+
+    private List<Bacteria> listOfBacteriaMutated(final Map<Bacteria, Mutation> bacteria) {
+        final List<Bacteria> bt = new ArrayList<>();
+        bt.addAll(bacteria.keySet());
+        return bt;
+    }
+
+    private Set<Species> speciesOfBacteria(final List<Bacteria> bacteria) {
+        final Set<Species> sp = new HashSet<>();
+        for (final Bacteria bt : bacteria) {
+            sp.add(bt.getSpecies());
         }
-        return map;
+        return sp;
     }
 
     private SortedMap<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
@@ -45,12 +54,10 @@ public class AnalysisImpl implements Analysis {
         return smap;
     }
 
-    private Set<Species> dead(final Set<Species> species, final List<Bacteria> bacteria) {
-        final Map<Species, Integer> map = numberBySpecies(species, bacteria);
+    private Set<Species> dead(final Set<Species> speciesB, final Set<Species> speciesA) {
         final Set<Species> dead = new HashSet<>();
-        for (final Species sp : species) {
-            final int value = map.get(sp);
-            if (value == 0) {
+        for (final Species sp : speciesB) {
+            if (!speciesA.contains(sp)) {
                 dead.add(sp);
             }
         }
@@ -60,13 +67,14 @@ public class AnalysisImpl implements Analysis {
     private Map<Species, Integer> win(final Set<Species> species, final List<Bacteria> bacteria) {
         final SortedMap<Species, Integer> smap = numberBySpecies(species, bacteria);
         final Map<Species, Integer> wins = new HashMap<>();
-        final int value = smap.get(bacteria.get(0).getSpecies());
+        int value = smap.get(bacteria.get(0).getSpecies());
         for (final Species sp : species) {
             if (value == smap.get(sp)) {
                 wins.put(sp, smap.get(sp));
             } else if (value < smap.get(sp)) {
                 wins.clear();
-                wins.put(sp, smap.get(sp));
+                value = smap.get(sp);
+                wins.put(sp, value);
             }
         }
         return wins;
@@ -77,25 +85,26 @@ public class AnalysisImpl implements Analysis {
         return map;
     }
 
-    private Map<Species, Integer> notMutated(final Set<Species> species, final List<Bacteria> bacteriaMutated, final List<Bacteria> bacteria) {
-        final Map<Species, Integer> btM = mutated(species, bacteriaMutated);
-        final Map<Species, Integer> btNotM = new HashMap<>();
-        final Map<Species, Integer> allBt = numberBySpecies(species, bacteria);
-        for (final Species sp : species) {
-            btNotM.put(sp, (allBt.get(sp) - btM.get(sp)));
-        }
-        return btNotM;
-    }
-
     @Override
     public void addState(final State state) {
-        // TODO Auto-generated method stub
+        this.lstate.add(state);
     }
 
     @Override
     public String getDescription() {
-        // TODO Auto-generated method stub
-        return null;
+        List<Bacteria> before = listOfBacteria(lstate.get(0).getBacteriaState());
+        List<Bacteria> after = listOfBacteria(lstate.get(lstate.size() - 1).getBacteriaState());
+        Set<Species> speciesB = speciesOfBacteria(before);
+        Set<Species> speciesA = speciesOfBacteria(after);
+        Map<Species, Integer> wins = win(speciesB, after);
+        SortedMap<Species, Integer> nByS = numberBySpecies(speciesB, after);
+        Set<Species> dead = dead(speciesB, speciesA);
+        List<Bacteria> bactMutated = listOfBacteriaMutated(mutManager.getMutation());
+        Map<Species, Integer> mt = mutated(speciesB, bactMutated);
+        return ("Species win: " + wins + "\n"
+              + "Species dead: " + dead + "\n"
+              + "Number by Species: " + nByS + "\n"
+              + "Species mutated: " + mt);
     }
 
 }
