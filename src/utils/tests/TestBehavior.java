@@ -15,6 +15,7 @@ import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
 import model.bacteria.behavior.AbstractDecisionBehavior;
 import model.bacteria.behavior.CostFilterDecisionBehavior;
+import model.bacteria.behavior.ExplorerDecisionBehavior;
 import model.bacteria.behavior.PreferentialDecisionBehavior;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import model.perception.PerceptionImpl;
@@ -85,15 +86,14 @@ public class TestBehavior {
     @Test
     public void testExplorer() {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
-                new PerceptionImpl(Optional.empty(), TestUtils.bestDirection(Direction.NORTH)),
+                new PerceptionImpl(Optional.empty(), Collections.emptyMap()),
                 TestUtils.allNutrientGood(), TestUtils.singleLargeCostActionType(ActionType.REPLICATE),
                 () -> TestUtils.getSmallEnergy(), () -> 0.0);
         AbstractDecisionBehavior behavior = TestUtils
-                .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING,
-                        DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.ALWAYS_REPLICATE));
-        behavior = new CostFilterDecisionBehavior(behavior);
-        assertEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());
-        behavior = new PreferentialDecisionBehavior(behavior, ActionType.MOVE);
+                .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.NO_EATING,
+                        DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.NO_REPLICATION));
+        assertEquals(ActionType.NOTHING, behavior.chooseAction(knowledge).getType());
+        behavior = new ExplorerDecisionBehavior(behavior);
         assertEquals(ActionType.MOVE, behavior.chooseAction(knowledge).getType());
     }
 }
