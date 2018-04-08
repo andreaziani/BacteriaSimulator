@@ -5,6 +5,10 @@ package model.bacteria.behavior;
  */
 public enum BehaviorDecoratorOption {
     /**
+     * Represent a ExplorerDecisionBehavior.
+     */
+    EXPLORE("explore the simulation if no food is visible"),
+    /**
      * Represents a CostFilterDecisionBehavior.
      */
     COST_FILTER("Don't tries actions if has not enough energy to perform them"),
@@ -20,11 +24,7 @@ public enum BehaviorDecoratorOption {
      * Represents a PreferentialDecisionBehavior relative to the ActionType
      * REPLICATE.
      */
-    PREFERENTIAL_REPLICATE("add priority to replication"),
-    /**
-     * Represent a ExplorerDecisionBehavior.
-     */
-    EXPLORE("explore the simulation if no food is visible");
+    PREFERENTIAL_REPLICATE("add priority to replication");
 
     private final String description;
 
