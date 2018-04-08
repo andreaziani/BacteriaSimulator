@@ -1,6 +1,5 @@
 package model.bacteria.behavior;
 
-
 /**
  * enumeration representing all types of decorators a behavior can have.
  */
@@ -21,7 +20,11 @@ public enum BehaviorDecoratorOption {
      * Represents a PreferentialDecisionBehavior relative to the ActionType
      * REPLICATE.
      */
-    PREFERENTIAL_REPLICATE("add priority to replication");
+    PREFERENTIAL_REPLICATE("add priority to replication"),
+    /**
+     * Represent a ExplorerDecisionBehavior.
+     */
+    EXPLORE("explore the simulation if no food is visible");
 
     private final String description;
 

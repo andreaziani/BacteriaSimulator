@@ -38,6 +38,8 @@ public final class BehaviorDecoratorFactory {
         case PREFERENTIAL_REPLICATE:
             result = new PreferentialDecisionBehavior(behavior, ActionType.REPLICATE);
             break;
+        case EXPLORE:
+            result = new ExplorerDecisionBehavior(behavior);
         default:
             break;
         }
