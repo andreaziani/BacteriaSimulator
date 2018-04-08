@@ -61,7 +61,6 @@ public class ActionPerformerImpl implements ActionPerformer {
 
     @Override
     public void eat() {
-        System.err.println("Bacteria try to eat");
         final Optional<Food> foodInPosition;
         if (this.foodEnv.getFoodsState().containsKey(this.currentPosition)) {
             foodInPosition =  Optional.of(foodEnv.getFoodsState().get(this.currentPosition));
@@ -70,7 +69,6 @@ public class ActionPerformerImpl implements ActionPerformer {
         }
 
         if (foodInPosition.isPresent()) {
-            System.err.println("Bacteria eat");
             this.bacterium.addFood(foodInPosition.get());
             this.foodEnv.removeFood(foodInPosition.get(), this.currentPosition);
         }

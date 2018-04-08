@@ -27,13 +27,14 @@ import utils.Log;
  *
  */
 public class SimulatorEnvironment implements Environment {
-    private final Position maxPosition = new PositionImpl(1000, 1000);
     private static final int FOOD_PER_ROUND = 15;
+    // pass on Constructor
+    private final Position maxPosition = new PositionImpl(1000, 1000);
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
-    private BacteriaManager bactManager;
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private final MutationManager mutManager = new MutationManagerImpl();
+    private BacteriaManager bactManager;
 
     /**
      * Initializer method, create the default number of Bacteria.
