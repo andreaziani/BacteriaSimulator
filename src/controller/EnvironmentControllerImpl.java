@@ -9,6 +9,7 @@ import model.Environment;
 import model.bacteria.SpeciesBuilder;
 import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;
+import utils.Log;
 import utils.exceptions.InvalidSpeciesExeption;
 import utils.exceptions.SimulationAlreadyStartedExeption;
 import view.model.ViewPosition;
@@ -22,11 +23,13 @@ import view.model.food.ViewFoodImpl;
  *
  */
 public class EnvironmentControllerImpl implements EnvironmentController {
+    private static final long PERIOD = 500L;
     private Environment env;
     private FoodController foodController;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
     private InitialState initialState;
     private boolean isStarted;
+    private final SimulationLoop loop;
 
     /**
      * Constructor that builds the EnvironmentController by passing the Environment
@@ -34,6 +37,31 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      */
     public EnvironmentControllerImpl() {
         resetSimulation();
+
+        this.loop = new SimulationLoop() {
+            @Override
+            public void run() {
+                // TODO different condition
+                while (!env.getState().getBacteriaState().isEmpty()) {
+                    final long start = System.currentTimeMillis();
+                    env.update();
+                    final long elapsed = System.currentTimeMillis() - start;
+                    
+                    //final State state = env.getState();
+                    //Log.getLog().info("Bacteria " + state.getBacteriaState().toString());
+                    //Log.getLog().info("Food " + state.getFoodsState().toString());
+
+                    try {
+                        if(elapsed < PERIOD) {
+                            System.out.println(elapsed);
+                            Thread.sleep(PERIOD - elapsed);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
     }
 
     private void resetSimulation() {
@@ -58,7 +86,12 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     public void start() {
         // TODO start
         // TODO complete InitialState
+        Log.getLog().info("Application started");
+        this.env.init();
         isStarted = true;
+        // TODO reorganize logic
+        final Thread mainThread = new Thread(this.loop);
+        mainThread.start();
     }
 
     /**
@@ -146,5 +179,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     protected Analysis getAnalysis() {
         return env.getAnalisys();
     }
-
+    public boolean isSpeciesEmpty() {
+        return this.initialState.getSpecies().isEmpty();
+    }
 }

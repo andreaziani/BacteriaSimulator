@@ -8,7 +8,6 @@ import java.io.IOException;
  *
  */
 public class ControllerImpl extends EnvironmentControllerImpl implements Controller {
-
     private final FileController fileController;
 
     /**
@@ -41,7 +40,6 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
 
     @Override
     public void saveAnalisys(final File file) throws IOException {
-        this.fileController.saveAnalisys(file, this.getAnalysis());
+        this.fileController.saveAnalysis(file, this.getAnalysis());
     }
-
 }

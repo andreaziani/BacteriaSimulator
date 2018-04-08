@@ -44,6 +44,11 @@ public interface Environment {
     State getState();
 
     /**
+     * Initialize environment.
+     */
+    void init();
+
+    /**
      * update environment.
      */
     void update();

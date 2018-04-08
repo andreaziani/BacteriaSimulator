@@ -130,4 +130,9 @@ public class ViewImpl implements View, ViewController {
         this.controller.start();
     }
 
+    @Override
+    public boolean isSpeciesEmpty() {
+        return this.controller.isSpeciesEmpty();
+    }
+
 }

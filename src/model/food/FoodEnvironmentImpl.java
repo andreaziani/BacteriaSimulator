@@ -37,11 +37,15 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
 
     @Override
     public void addFood(final Food food, final Position position) {
-        // il cibo pu� essere aggiunto solo se la non collide con altre posizioni di cibi precedentemente inseriti.
-        if (!this.foods.entrySet().stream().anyMatch(e -> EnvironmentUtil.isCollision(Pair.of(position, food), Pair.of(e.getKey(), e.getValue())))) { 
-            this.foods.put(position, food);
-        } else {
-            throw new PositionAlreadyOccupiedException();
+        if (!food.getNutrients().isEmpty()) { // se il cibo non ha nutrienti non viene aggiunto.
+            // il cibo puo' essere aggiunto solo se la non collide con altre posizioni di
+            // cibi precedentemente inseriti.
+            if (!this.foods.entrySet().stream().anyMatch(
+                    e -> EnvironmentUtil.isCollision(Pair.of(position, food), Pair.of(e.getKey(), e.getValue())))) {
+                this.foods.put(position, food);
+            } else {
+                throw new PositionAlreadyOccupiedException();
+            }
         }
     }
 
@@ -70,7 +74,7 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
         final RandomPositionStrategy positionStrategy = new GeometricDistribuitionStrategyImpl();
-        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // provo a reinserire se la posizione era gi� occupata.
+        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // provo a reinserire se la posizione era gia' occupata.
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
                 check = false;

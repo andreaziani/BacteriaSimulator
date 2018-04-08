@@ -64,5 +64,5 @@ public interface FileController {
      * @throws IOException
      *             if any problem writing in the file occurred.
      */
-    void saveAnalisys(File file, Analysis analysis) throws IOException;
+    void saveAnalysis(File file, Analysis analysis) throws IOException;
 }

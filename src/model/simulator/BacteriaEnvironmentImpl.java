@@ -39,6 +39,11 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     public Set<Entry<Position, Bacteria>> entrySet() {
         return this.bacteria.entrySet();
     }
+    
+    @Override
+    public Set<Position> activePosition() {
+        return this.bacteria.keySet();
+    }
 
     @Override
     public void removeFromPositions(final Set<Position> positions) {

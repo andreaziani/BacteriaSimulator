@@ -88,16 +88,20 @@ public class TestEnvUtils {
         final int end = 10;
         final int bacteriaX = -3;
         final int bacteriaY = 12;
+        final Position maxPos = new PositionImpl(100, 100);
 
         for (int i = start; i < end; i++) {
             for (int j = start; j < end; j++) {
                 if (i != 0 && j != 0) {
-                    myPosition.add(new PositionImpl(bacteriaX + i, bacteriaY + j));
+                    final Position pos = new PositionImpl(bacteriaX + i, bacteriaY + j);
+                    if (pos.getX() > 0 && pos.getX() < maxPos.getX() && pos.getY() > 0 && pos.getY() < maxPos.getY()) {
+                        myPosition.add(pos);
+                    }
                 }
             }
         }
 
-        final Set<Position> streamPosition = EnvironmentUtil.positionStream(start, end, start, end, new PositionImpl(bacteriaX, bacteriaY))
+        final Set<Position> streamPosition = EnvironmentUtil.positionStream(start, end, start, end, new PositionImpl(bacteriaX, bacteriaY), maxPos)
                                                   .collect(Collectors.toSet());
 
         assertEquals(myPosition, streamPosition);

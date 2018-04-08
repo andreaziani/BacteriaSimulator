@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import view.ViewController;
@@ -27,9 +28,12 @@ public class ChoicesPanel extends JPanel {
         super();
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
-            this.startSimulation.setEnabled(false);
-            view.startSimulation();
-            // TODO 
+            if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
+                this.startSimulation.setEnabled(false);
+                view.startSimulation();
+            } else {
+                JOptionPane.showMessageDialog(this, "You must insert one species and one type of food");
+            }
         });
         this.add(this.startSimulation);
         this.add(this.pauseSimulation);

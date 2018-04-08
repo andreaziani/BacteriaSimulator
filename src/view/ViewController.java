@@ -147,4 +147,9 @@ public interface ViewController {
      * Start the simulation.
      */
     void startSimulation();
+    /**
+     * Return if the user has not yet entered the species.
+     * @return true if the user has not yet entered the species, false in other case.
+     */
+    boolean isSpeciesEmpty();
 }

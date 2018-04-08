@@ -16,15 +16,19 @@ import utils.exceptions.MissingPerceptionExeption;
  */
 public class BacteriaImpl implements Bacteria {
 
-    private Perception currPerception;
+    private final int bacteriaId;
     private final GeneticCode geneticCode;
     private final Species species;
     private final EnergyStorage energyStorage;
+    private final BacteriaKnowledge knowledge;
 
     /**
      * Construct a Bacteria from a Behavior strategy and a genetic code. This
      * constructor use a nutrientStorage as a default EnergyStorage strategy.
      * 
+     * @param id
+     *            a numerical identifier that distinguish each Bacteria present in a
+     *            simulation from the others.
      * @param species
      *            this bacteria's species.
      * @param initialGeneticCode
@@ -32,20 +36,23 @@ public class BacteriaImpl implements Bacteria {
      * @param startingEnergy
      *            the initial Energy of this bacteria.
      */
-    public BacteriaImpl(final Species species, final GeneticCode initialGeneticCode, final Energy startingEnergy) {
+    public BacteriaImpl(final int id, final Species species, final GeneticCode initialGeneticCode,
+            final Energy startingEnergy) {
+        this.bacteriaId = id;
         this.species = species;
         this.geneticCode = initialGeneticCode;
         this.energyStorage = new NutrientStorage(startingEnergy, this.geneticCode::getEnergyFromNutrient);
+        knowledge = new BacteriaKnowledge(this.geneticCode::getEnergyFromNutrient, this::getActionCost, this::getEnergy);
     }
 
     @Override
     public Perception getPerception() {
-        return this.currPerception;
+        return this.knowledge.getCurrentPerception();
     }
 
     @Override
     public void setPerception(final Perception perception) {
-        this.currPerception = perception;
+        knowledge.setPerception(perception);
     }
 
     @Override
@@ -65,11 +72,12 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public Action getAction() {
-        if (this.currPerception == null) {
+        if (!this.knowledge.hasPerception()) {
             throw new MissingPerceptionExeption();
+        } else if (!knowledge.getAction().isPresent()) {
+            knowledge.setAction(this.species.getBehavior().chooseAction(knowledge));
         }
-        return this.species.getBehavior().chooseAction(new BacteriaKnowledge(this.currPerception,
-                this.geneticCode::getEnergyFromNutrient, this::getActionCost, this.getEnergy()));
+        return knowledge.getAction().get();
     }
 
     @Override
@@ -118,7 +126,7 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(currPerception, energyStorage, geneticCode, species);
+        return Objects.hash(bacteriaId);
     }
 
     @Override
@@ -127,9 +135,12 @@ public class BacteriaImpl implements Bacteria {
             return false;
         }
         final BacteriaImpl other = (BacteriaImpl) obj;
-        return Objects.equals(this.currPerception, other.currPerception)
-                && Objects.equals(this.energyStorage, other.energyStorage)
-                && Objects.equals(this.geneticCode, other.geneticCode) && Objects.equals(this.species, other.species);
+        return Objects.equals(this.bacteriaId, other.bacteriaId);
+    }
+
+    @Override
+    public String toString() {
+        return "Bacteria:[ID = " + this.bacteriaId + ", Specie = " + this.species.getName() + ", Energy = " + this.getEnergy().toString() + "]";
     }
 
 }

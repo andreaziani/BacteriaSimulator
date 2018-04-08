@@ -31,7 +31,7 @@ public class TestBehavior {
     public void testDecisionMakers() {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
-                TestUtils.allNutrientsBad(), x -> TestUtils.getSmallEnergy(), TestUtils.getSmallEnergy());
+                TestUtils.allNutrientsBad(), x -> TestUtils.getSmallEnergy(), () -> TestUtils.getSmallEnergy());
         AbstractDecisionBehavior behavior = TestUtils.baseBehaviorFromOptions(Collections.emptyList());
         assertEquals(ActionType.NOTHING, behavior.chooseAction(knowledge).getType());
         behavior = TestUtils.baseBehaviorFromOptions(
@@ -50,7 +50,7 @@ public class TestBehavior {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
                 TestUtils.allNutrientGood(), TestUtils.singleLowCostActionType(ActionType.MOVE),
-                TestUtils.getSmallEnergy());
+                () -> TestUtils.getSmallEnergy());
         AbstractDecisionBehavior behavior = TestUtils
                 .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.ALWAYS_EAT,
                         DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.ALWAYS_REPLICATE));
@@ -67,7 +67,7 @@ public class TestBehavior {
         final BacteriaKnowledge knowledge = new BacteriaKnowledge(
                 new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
                 TestUtils.allNutrientGood(), TestUtils.singleLargeCostActionType(ActionType.REPLICATE),
-                TestUtils.getSmallEnergy());
+                () -> TestUtils.getSmallEnergy());
         AbstractDecisionBehavior behavior = TestUtils
                 .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING,
                         DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.ALWAYS_REPLICATE));
