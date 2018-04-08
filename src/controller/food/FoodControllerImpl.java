@@ -52,7 +52,7 @@ public class FoodControllerImpl implements FoodController {
 
     @Override
     public Color getColorFromFood(final Food food) {
-        if (food.getName() == null || !this.colorForFood.containsKey(food.getName())) {
+        if (food.getName() == null) {
             return Color.black;
         }
         return this.colorForFood.get(food.getName());

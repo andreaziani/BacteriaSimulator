@@ -15,8 +15,8 @@ import utils.exceptions.SimulationAlreadyStartedExeption;
 import view.model.ViewPosition;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
+import view.model.food.CreationViewFoodImpl;
 import view.model.food.ViewFood;
-import view.model.food.ViewFoodImpl;
 
 /**
  * Implementation of EnvironmentController.
@@ -47,13 +47,13 @@ public class EnvironmentControllerImpl implements EnvironmentController {
                     env.update();
                     simulationLoop();
                     final long elapsed = System.currentTimeMillis() - start;
-                    
+
                     //final State state = env.getState();
                     //Log.getLog().info("Bacteria " + state.getBacteriaState().toString());
                     //Log.getLog().info("Food " + state.getFoodsState().toString());
 
                     try {
-                        if(elapsed < PERIOD) {
+                        if (elapsed < PERIOD) {
                             System.out.println(elapsed);
                             Thread.sleep(PERIOD - elapsed);
                         }
@@ -143,7 +143,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
         this.foodController.addNewTypeOfFood(food);
-        initialState.addFood((ViewFoodImpl) food);
+        initialState.addFood((CreationViewFoodImpl) food);
     }
 
     @Override

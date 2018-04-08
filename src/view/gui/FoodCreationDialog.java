@@ -18,7 +18,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import model.food.Nutrient;
 import utils.exceptions.AlreadyExistingFoodException;
 import view.ViewController;
-import view.model.food.ViewFoodImpl.ViewFoodBuilder;
+import view.model.food.CreationViewFoodImpl.ViewFoodBuilder;
 
 /**
  * Frame for creation of new type of food.

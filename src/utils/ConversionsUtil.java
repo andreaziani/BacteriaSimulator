@@ -1,11 +1,10 @@
 package utils;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import controller.InitialState;
 import controller.food.FoodController;
 import model.Position;
@@ -15,6 +14,7 @@ import model.bacteria.Bacteria;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
+import model.food.Nutrient;
 import view.Radius;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
@@ -22,8 +22,8 @@ import view.model.ViewState;
 import view.model.ViewStateImpl;
 import view.model.bacteria.ViewBacteria;
 import view.model.bacteria.ViewBacteriaImpl;
+import view.model.food.SimulationViewFood;
 import view.model.food.ViewFood;
-import view.model.food.ViewFoodImpl.ViewFoodBuilder;
 import view.model.food.ViewProvision;
 import view.model.food.ViewProvisionImpl;
 
@@ -45,11 +45,9 @@ public final class ConversionsUtil {
      * @return the converted ViewFood.
      */
     public static ViewFood conversionFromModelToView(final Food food, final Color color) {
-        final ViewFoodBuilder builder = new ViewFoodBuilder(food.getName());
-        builder.addColor(color);
-        food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n))).entrySet()
-                .forEach(e -> builder.addNutrient(Pair.of(e.getKey(), e.getValue())));
-        return builder.build();
+        final Map<Nutrient, Double> nutrients = new HashMap<>();
+        food.getNutrients().forEach(n -> nutrients.put(n, food.getQuantityFromNutrient(n)));
+        return new SimulationViewFood(Optional.ofNullable(food.getName()), color, nutrients);
     }
 
     /**
