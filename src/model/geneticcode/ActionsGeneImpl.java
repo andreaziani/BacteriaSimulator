@@ -2,10 +2,6 @@ package model.geneticcode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.IntStream;
-
 import model.Energy;
 import model.EnergyImpl;
 import model.action.Action;
@@ -15,8 +11,8 @@ import model.action.ActionType;
  */
 public class ActionsGeneImpl implements ActionsGene {
 
-    private Gene code;
-    private List<Integer> list;
+    private final Gene code;
+    private final List<Integer> list;
     private static final int VAR_EAT = 3;
     private static final int VAR_REPLICATE = 5;
     private static final int VAR_MOVE = 8;

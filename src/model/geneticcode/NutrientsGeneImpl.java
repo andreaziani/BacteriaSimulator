@@ -5,7 +5,6 @@ import java.util.List;
 
 import model.Energy;
 import model.EnergyImpl;
-import model.action.ActionType;
 import model.food.Nutrient;
 
 /**
@@ -13,8 +12,8 @@ import model.food.Nutrient;
  */
 public class NutrientsGeneImpl implements NutrientsGene {
 
-    private Gene code;
-    private List<Integer> list;
+    private final Gene code;
+    private final List<Integer> list;
     private static final int VAR_CARBOHYDRATES = 3;
     private static final int VAR_WATER = 1;
     private static final int VAR_PEPTONES = 8;

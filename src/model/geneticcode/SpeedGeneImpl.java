@@ -3,18 +3,14 @@ package model.geneticcode;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Energy;
-import model.EnergyImpl;
-
 /**
  * Implementation of interface SpeedGene.
  */
 public class SpeedGeneImpl implements SpeedGene {
 
-    private Gene code;
+    private final Gene code;
     private static final int VAR = 10;
-    private List<Integer> list;
-    private double speed;
+    private final List<Integer> list;
     private static final int MIN_ZONE = 4;
     private static final int MAX_ZONE = 7;
     /**
@@ -33,7 +29,6 @@ public class SpeedGeneImpl implements SpeedGene {
 
     @Override
     public double interpretSpeed() {
-        this.speed = code.interpret(list, VAR);
-        return speed;
+        return code.interpret(list, VAR);
     }
 }
