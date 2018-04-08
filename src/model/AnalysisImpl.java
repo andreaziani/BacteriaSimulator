@@ -80,11 +80,6 @@ public class AnalysisImpl implements Analysis {
         return wins;
     }
 
-    private Map<Species, Integer> mutated(final Set<Species> species, final List<Bacteria> bacteriaMutated) {
-        final Map<Species, Integer> map = numberBySpecies(species, bacteriaMutated);
-        return map;
-    }
-
     @Override
     public void addState(final State state) {
         this.lstate.add(state);
@@ -92,15 +87,15 @@ public class AnalysisImpl implements Analysis {
 
     @Override
     public String getDescription() {
-        List<Bacteria> before = listOfBacteria(lstate.get(0).getBacteriaState());
-        List<Bacteria> after = listOfBacteria(lstate.get(lstate.size() - 1).getBacteriaState());
-        Set<Species> speciesB = speciesOfBacteria(before);
-        Set<Species> speciesA = speciesOfBacteria(after);
-        Map<Species, Integer> wins = win(speciesB, after);
-        SortedMap<Species, Integer> nByS = numberBySpecies(speciesB, after);
-        Set<Species> dead = dead(speciesB, speciesA);
-        List<Bacteria> bactMutated = listOfBacteriaMutated(mutManager.getMutation());
-        Map<Species, Integer> mt = mutated(speciesB, bactMutated);
+        final List<Bacteria> before = listOfBacteria(lstate.get(0).getBacteriaState());
+        final List<Bacteria> after = listOfBacteria(lstate.get(lstate.size() - 1).getBacteriaState());
+        final Set<Species> speciesB = speciesOfBacteria(before);
+        final Set<Species> speciesA = speciesOfBacteria(after);
+        final Map<Species, Integer> wins = win(speciesB, after);
+        final SortedMap<Species, Integer> nByS = numberBySpecies(speciesB, after);
+        final Set<Species> dead = dead(speciesB, speciesA);
+        final List<Bacteria> bactMutated = listOfBacteriaMutated(mutManager.getMutation());
+        final Map<Species, Integer> mt = numberBySpecies(speciesB, bactMutated);
         return ("Species win: " + wins + "\n"
               + "Species dead: " + dead + "\n"
               + "Number by Species: " + nByS + "\n"

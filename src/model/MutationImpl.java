@@ -17,15 +17,14 @@ public class MutationImpl implements Mutation {
     private static final int ZONE_SPEED = 4;
     private static final int ZONE_NUTRIENTS = 7;
     private static final int ZONE_51 = 10;
-    private Gene code;
+    private final Gene code;
     private int pos;
     private int na;
     private int zone;
     private int naMutate;
-    private boolean check = false;
-    private int mt;
+    private boolean check;
     private int randomMutation;
-    private int range;
+    private static final int RANGE = 10;
 
     /**
      * Construct a Bacteria's Genetic Code.
@@ -35,11 +34,12 @@ public class MutationImpl implements Mutation {
      */
     public MutationImpl(final Gene code) {
         this.code = code;
+        this.check = false;
     }
 
     private int checkMutation() {
         final Random rndMt = new Random();
-        this.mt = rndMt.nextInt(range);
+        final int mt = rndMt.nextInt(RANGE);
         this.randomMutation += mt;
         return this.randomMutation;
     }
