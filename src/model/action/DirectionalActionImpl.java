@@ -11,28 +11,37 @@ import model.Direction;
 public class DirectionalActionImpl extends AbstractAction implements DirectionalAction {
 
     private final Direction dir;
+    private final double distance;
 
     /**
      * Create a directional action given an ActionType and a Direction.
      * 
      * @param type
-     *            an ActionType.
+     *            the ActionType related to this Action.
      * @param dir
-     *            a Direction.
+     *            the direction in which this action must be executed.
+     * @param distance
+     *            the distance for which this action must be applied.
      * @throws IllegalArgumentExeption
-     *             if type is not Move
+     *             if type is not Move.
      */
-    public DirectionalActionImpl(final ActionType type, final Direction dir) {
+    public DirectionalActionImpl(final ActionType type, final Direction dir, final double distance) {
         super(type);
         if (type != ActionType.MOVE) {
             throw new IllegalArgumentException("Wrong action type");
         }
         this.dir = dir;
+        this.distance = distance;
     }
 
     @Override
     public Direction getDirection() {
         return this.dir;
+    }
+
+    @Override
+    public double getDistance() {
+        return this.distance;
     }
 
     @Override

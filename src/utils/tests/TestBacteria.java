@@ -49,7 +49,7 @@ public class TestBacteria {
         assertEquals(code.getActionCost(action), bacteria.getActionCost(action));
         action = new SimpleAction(ActionType.NOTHING);
         assertEquals(code.getActionCost(action), bacteria.getActionCost(action));
-        action = new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH);
+        action = new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH, 0);
         assertEquals(code.getActionCost(action), bacteria.getActionCost(action));
 
         assertEquals(EnergyImpl.ZERO, bacteria.getEnergy());

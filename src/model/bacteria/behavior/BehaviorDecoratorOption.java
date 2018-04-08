@@ -1,10 +1,13 @@
 package model.bacteria.behavior;
 
-
 /**
  * enumeration representing all types of decorators a behavior can have.
  */
 public enum BehaviorDecoratorOption {
+    /**
+     * Represent a ExplorerDecisionBehavior.
+     */
+    EXPLORE("explore the simulation if no food is visible"),
     /**
      * Represents a CostFilterDecisionBehavior.
      */
