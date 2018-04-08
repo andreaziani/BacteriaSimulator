@@ -39,7 +39,7 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public Analysis getAnalisys() {
+    public Analysis getAnalysis() {
         // TODO Auto-generated method stub
         return null;
     }

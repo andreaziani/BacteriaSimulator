@@ -177,7 +177,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      * @return the analysis of the simulation.
      */
     protected Analysis getAnalysis() {
-        return env.getAnalisys();
+        return env.getAnalysis();
     }
     public boolean isSpeciesEmpty() {
         return this.initialState.getSpecies().isEmpty();
