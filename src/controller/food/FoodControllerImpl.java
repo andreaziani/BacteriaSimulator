@@ -40,7 +40,8 @@ public class FoodControllerImpl implements FoodController {
     @Override
     public Set<ViewFood> getExistingViewFoods() {
         return Collections.unmodifiableSet(env.getExistingFoods().stream()
-                .map(food -> ConversionsUtil.conversionFromModelToView(food, getColorFromFood(food))).collect(Collectors.toSet()));
+                .map(food -> ConversionsUtil.conversionFromModelToView(food, getColorFromFood(food)))
+                .collect(Collectors.toSet()));
     }
 
     @Override
@@ -51,9 +52,9 @@ public class FoodControllerImpl implements FoodController {
 
     @Override
     public Color getColorFromFood(final Food food) {
-        if (this.colorForFood.containsKey(food.getName())) {
-            return this.colorForFood.get(food.getName());
-        } 
-        return Color.black; // bacteria with no name have black color.
+        if (food.getName() == null || this.colorForFood.containsKey(food.getName())) {
+            return Color.black;
+        }
+        return this.colorForFood.get(food.getName());
     }
 }
