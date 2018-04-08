@@ -97,12 +97,11 @@ public class TestBehavior {
         behavior = new ExplorerDecisionBehavior(behavior);
         assertEquals(ActionType.MOVE, behavior.chooseAction(knowledge).getType());
 
-        behavior = new PreferentialDecisionBehavior(
+        behavior = 
                 TestUtils.baseBehaviorFromOptions(
-                        Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING, DecisionMakerOption.NEAR_FOOD_MOVEMENT)),
-                ActionType.MOVE);
+                        Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING, DecisionMakerOption.NEAR_FOOD_MOVEMENT));
         assertEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());
-        behavior = new ExplorerDecisionBehavior(behavior);
+        behavior = new PreferentialDecisionBehavior(new ExplorerDecisionBehavior(behavior), ActionType.MOVE);
         assertEquals(ActionType.MOVE, behavior.chooseAction(knowledge).getType());
 
     }

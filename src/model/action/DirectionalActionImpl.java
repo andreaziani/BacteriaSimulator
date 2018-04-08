@@ -38,7 +38,8 @@ public class DirectionalActionImpl extends AbstractAction implements Directional
     public Direction getDirection() {
         return this.dir;
     }
-    
+
+    @Override
     public double getDistance() {
         return this.distance;
     }
