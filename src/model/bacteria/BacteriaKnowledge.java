@@ -18,6 +18,7 @@ public final class BacteriaKnowledge {
     private final Function<Nutrient, Energy> nutrientToEnergyConverter;
     private final Function<Action, Energy> actionCostFunction;
     private final Supplier<Energy> bacteriaEnergy;
+    private final Supplier<Double> bacteriaSpeed;
     private Optional<Action> action;
 
     /**
@@ -31,13 +32,17 @@ public final class BacteriaKnowledge {
      *            a function that gives the cost of Energy for each Action for the
      *            Bacteria.
      * @param bacteriaEnergy
-     *            the current total Bacteria Energy.
+     *            a supplier for the current total Bacteria Energy.
+     * @param bacteriaSpeed
+     *            a supplier for the current speed of the Bacteria.
      */
     public BacteriaKnowledge(final Function<Nutrient, Energy> nutrientToEnergyConverter,
-            final Function<Action, Energy> actionCostFunction, final Supplier<Energy> bacteriaEnergy) {
+            final Function<Action, Energy> actionCostFunction, final Supplier<Energy> bacteriaEnergy,
+            final Supplier<Double> bacteriaSpeed) {
         this.nutrientToEnergyConverter = nutrientToEnergyConverter;
         this.actionCostFunction = actionCostFunction;
         this.bacteriaEnergy = bacteriaEnergy;
+        this.bacteriaSpeed = bacteriaSpeed;
         action = Optional.empty();
         perception = Optional.empty();
     }
@@ -56,10 +61,13 @@ public final class BacteriaKnowledge {
      *            Bacteria.
      * @param bacteriaEnergy
      *            the current total Bacteria Energy.
+     * @param bacteriaSpeed
+     *            a supplier for the current speed of the Bacteria.
      */
     public BacteriaKnowledge(final Perception perception, final Function<Nutrient, Energy> nutrientToEnergyConverter,
-            final Function<Action, Energy> actionCostFunction, final Supplier<Energy> bacteriaEnergy) {
-        this(nutrientToEnergyConverter, actionCostFunction, bacteriaEnergy);
+            final Function<Action, Energy> actionCostFunction, final Supplier<Energy> bacteriaEnergy,
+            final Supplier<Double> bacteriaSpeed) {
+        this(nutrientToEnergyConverter, actionCostFunction, bacteriaEnergy, bacteriaSpeed);
         this.perception = Optional.of(perception);
     }
 
@@ -135,7 +143,6 @@ public final class BacteriaKnowledge {
      * @return the speed of the bacteria.
      */
     public double getSpeed() {
-        // TODO Auto-generated method stub
-        return 0;
+        return bacteriaSpeed.get();
     }
 }
