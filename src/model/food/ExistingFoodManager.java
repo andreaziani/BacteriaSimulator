@@ -1,6 +1,6 @@
 package model.food;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Manager that contains all existing type of foods created.
@@ -21,7 +21,7 @@ public interface ExistingFoodManager {
     /**
      * Get all types of already existing food.
      * 
-     * @return an unmodifiable copy of the set of existing foods.
+     * @return an unmodifiable copy of the list of existing foods.
      */
-    Set<Food> getExistingFoodsSet();
+    List<Food> getExistingFoodsSet();
 }

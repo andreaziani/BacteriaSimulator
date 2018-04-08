@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Set;
+import java.util.List;
 
 import model.bacteria.Species;
 import model.food.Food;
@@ -32,9 +32,9 @@ public interface Environment {
     /**
      * Get all the existing foods.
      * 
-     * @return an unmodifiable copy of the set of existing foods.
+     * @return an unmodifiable copy of the list of existing foods.
      */
-    Set<Food> getExistingFoods();
+    List<Food> getExistingFoods();
 
     /**
      * return the EnvState.

@@ -1,7 +1,9 @@
 package model.food;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import utils.exceptions.AlreadyExistingFoodException;
@@ -11,7 +13,7 @@ import utils.exceptions.AlreadyExistingFoodException;
  *
  */
 public class ExistingFoodManagerImpl implements ExistingFoodManager {
-    private final Set<Food> existingFoods = new HashSet<>();
+    private final List<Food> existingFoods = new ArrayList<>();
     private final Set<String> foodsNames = new HashSet<>();
 
     @Override
@@ -25,8 +27,8 @@ public class ExistingFoodManagerImpl implements ExistingFoodManager {
     }
 
     @Override
-    public Set<Food> getExistingFoodsSet() {
-        return Collections.unmodifiableSet(this.existingFoods);
+    public List<Food> getExistingFoodsSet() {
+        return Collections.unmodifiableList(this.existingFoods);
     }
 
 }

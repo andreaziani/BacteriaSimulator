@@ -1,7 +1,7 @@
 package model.simulator;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import model.Analysis;
@@ -49,8 +49,8 @@ public class SimulatorEnvironment implements Environment {
     }
 
     @Override
-    public Set<Food> getExistingFoods() {
-        return Collections.unmodifiableSet(this.manager.getExistingFoodsSet());
+    public List<Food> getExistingFoods() {
+        return Collections.unmodifiableList(this.manager.getExistingFoodsSet());
     }
 
     @Override

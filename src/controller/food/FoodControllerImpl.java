@@ -3,9 +3,9 @@ package controller.food;
 import java.awt.Color;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.Set;
 
 import model.Environment;
 import model.Position;
@@ -38,10 +38,10 @@ public class FoodControllerImpl implements FoodController {
     }
 
     @Override
-    public Set<ViewFood> getExistingViewFoods() {
-        return Collections.unmodifiableSet(env.getExistingFoods().stream()
+    public List<ViewFood> getExistingViewFoods() {
+        return Collections.unmodifiableList(env.getExistingFoods().stream()
                 .map(food -> ConversionsUtil.conversionFromModelToView(food, getColorFromFood(food)))
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
     }
 
     @Override
