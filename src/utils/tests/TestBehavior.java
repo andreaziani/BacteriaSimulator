@@ -36,7 +36,10 @@ public class TestBehavior {
         assertEquals(ActionType.NOTHING, behavior.chooseAction(knowledge).getType());
         behavior = TestUtils.baseBehaviorFromOptions(
                 Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING, DecisionMakerOption.NEAR_FOOD_MOVEMENT));
-        assertEquals(new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH), behavior.chooseAction(knowledge));
+        assertEquals(
+                new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH,
+                        knowledge.getCurrentPerception().distFromFood(Direction.NORTH).get()),
+                behavior.chooseAction(knowledge));
         behavior = TestUtils.baseBehaviorFromOptions(
                 Arrays.asList(DecisionMakerOption.ALWAYS_EAT, DecisionMakerOption.NEAR_FOOD_MOVEMENT));
         assertEquals(ActionType.EAT, behavior.chooseAction(knowledge).getType());

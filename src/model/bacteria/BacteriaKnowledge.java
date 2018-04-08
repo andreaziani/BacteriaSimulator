@@ -130,4 +130,12 @@ public final class BacteriaKnowledge {
     public void setAction(final Action action) {
         this.action = Optional.of(action);
     }
+
+    /**
+     * @return the speed of the bacteria.
+     */
+    public double getSpeed() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }
