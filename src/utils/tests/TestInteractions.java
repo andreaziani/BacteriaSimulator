@@ -17,7 +17,7 @@ import view.ViewImpl;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.food.ViewFood;
-import view.model.food.ViewFoodImpl.ViewFoodBuilder;
+import view.model.food.CreationViewFoodImpl.ViewFoodBuilder;
 /**
  * TestClass for interaction of the user adding foods.
  *
