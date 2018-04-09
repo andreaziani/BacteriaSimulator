@@ -48,9 +48,8 @@ public class ActionPerformerImpl implements ActionPerformer {
     @Override
     public void move(final Direction moveDirection) {
         final double movement = this.bacterium.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
-        final int start = (int) -Math.ceil(movement);
-        final int end = (int) Math.ceil(movement);
-        final Optional<Position> newPosition = EnvironmentUtil.positionStream(start, end, currentPosition, this.simulationMaxPosition)
+        final int distance = (int) Math.ceil(movement);
+        final Optional<Position> newPosition = EnvironmentUtil.positionStream(distance, currentPosition, this.simulationMaxPosition)
                 .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(currentPosition, position))
                         .equals(moveDirection))
                 .findAny();
@@ -60,19 +59,17 @@ public class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void eat() {
-        System.err.println("Bacteria try to eat");
+    public void eat(final Optional<Position> foodPosition) {
         final Optional<Food> foodInPosition;
-        if (this.foodEnv.getFoodsState().containsKey(this.currentPosition)) {
-            foodInPosition =  Optional.of(foodEnv.getFoodsState().get(this.currentPosition));
+        if (foodPosition.isPresent() && this.foodEnv.getFoodsState().containsKey(foodPosition.get())) {
+            foodInPosition =  Optional.of(foodEnv.getFoodsState().get(foodPosition.get()));
         } else {
             foodInPosition = Optional.empty();
         }
 
         if (foodInPosition.isPresent()) {
-            System.err.println("Bacteria eat");
             this.bacterium.addFood(foodInPosition.get());
-            this.foodEnv.removeFood(foodInPosition.get(), this.currentPosition);
+            this.foodEnv.removeFood(foodInPosition.get(), foodPosition.get());
         }
     }
 

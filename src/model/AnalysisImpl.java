@@ -96,7 +96,7 @@ public class AnalysisImpl implements Analysis {
         final Set<Species> dead = dead(speciesB, speciesA);
         final List<Bacteria> bactMutated = listOfBacteriaMutated(mutManager.getMutation());
         final Map<Species, Integer> mt = numberBySpecies(speciesB, bactMutated);
-        return ("Species win: " + wins + "\n"
+        return ("Species survived: " + wins + "\n"
               + "Species dead: " + dead + "\n"
               + "Number by Species: " + nByS + "\n"
               + "Species mutated: " + mt);

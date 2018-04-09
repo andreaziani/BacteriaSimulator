@@ -152,4 +152,9 @@ public interface ViewController {
      * @return true if the user has not yet entered the species, false in other case.
      */
     boolean isSpeciesEmpty();
+    /**
+     * Set the userInterface.
+     * @param userInterface the user interface.
+     */
+    void setMainFrame(View userInterface);
 }

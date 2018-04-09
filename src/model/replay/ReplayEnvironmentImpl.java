@@ -1,6 +1,6 @@
 package model.replay;
 
-import java.util.Set;
+import java.util.List;
 
 import model.Analysis;
 import model.Position;
@@ -25,11 +25,10 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     @Override
     public void init() {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
@@ -61,7 +60,7 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public Set<Food> getExistingFoods() {
+    public List<Food> getExistingFoods() {
         // TODO Auto-generated method stub
         return null;
     }

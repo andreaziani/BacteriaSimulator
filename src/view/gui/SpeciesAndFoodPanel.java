@@ -41,8 +41,8 @@ public class SpeciesAndFoodPanel extends JPanel {
         });
         this.add(this.selectFood);
         this.add(this.foods);
-        this.add(this.createSpecies);
         this.add(this.createFood);
+        this.add(this.createSpecies);
         this.setOpaque(true);
         this.setBackground(Color.WHITE);
     }

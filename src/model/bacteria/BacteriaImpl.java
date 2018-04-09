@@ -42,7 +42,8 @@ public class BacteriaImpl implements Bacteria {
         this.species = species;
         this.geneticCode = initialGeneticCode;
         this.energyStorage = new NutrientStorage(startingEnergy, this.geneticCode::getEnergyFromNutrient);
-        knowledge = new BacteriaKnowledge(this.geneticCode::getEnergyFromNutrient, this::getActionCost, this::getEnergy);
+        knowledge = new BacteriaKnowledge(this.geneticCode::getEnergyFromNutrient, this::getActionCost, this::getEnergy,
+                geneticCode::getSpeed);
     }
 
     @Override
@@ -140,7 +141,8 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public String toString() {
-        return "Bacteria:[ID = " + this.bacteriaId + ", Specie = " + this.species.getName() + ", Energy = " + this.getEnergy().toString() + "]";
+        return "Bacteria:[ID = " + this.bacteriaId + ", Specie = " + this.species.getName() + ", Energy = "
+                + this.getEnergy().toString() + "]";
     }
 
 }

@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import utils.exceptions.PositionAlreadyOccupiedException;
-import view.UserInterface;
+import view.View;
 import view.ViewController;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
@@ -22,7 +22,7 @@ import view.model.ViewState;
  * 
  * Main Frame of GUI.
  */
-public class MainFrame extends JFrame implements UserInterface {
+public class MainFrame extends JFrame implements View {
     /**
      * Automatically generated.
      */
@@ -46,7 +46,7 @@ public class MainFrame extends JFrame implements UserInterface {
                     try {
                         view.addFood(view.getFoodsType().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
-                        JOptionPane.showMessageDialog(simulationPanel, "You have just inserted a food in this position.");
+                        JOptionPane.showMessageDialog(simulationPanel, "You have already inserted a food in this position.");
                     }
                 }
 
@@ -66,7 +66,7 @@ public class MainFrame extends JFrame implements UserInterface {
         this.setVisible(true);
     }
     @Override
-    public void updateView(final ViewState state) {
+    public void update(final ViewState state) {
         this.simulationPanel.setState(state);
         simulationPanel.repaint();
     }

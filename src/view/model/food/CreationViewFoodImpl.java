@@ -12,10 +12,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import model.food.Nutrient;
 
 /**
- * The class representing a food in the view.
+ * The class representing a food at the user's creation.
  *
  */
-public final class ViewFoodImpl implements ViewFood {
+public final class CreationViewFoodImpl implements ViewFood {
     private final String name;
     private final Color color;
     private final Map<Nutrient, Double> nutrients = new HashMap<>();
@@ -27,7 +27,7 @@ public final class ViewFoodImpl implements ViewFood {
      * @param builder
      *            from which take informations.
      */
-    private ViewFoodImpl(final ViewFoodBuilder builder) {
+    private CreationViewFoodImpl(final ViewFoodBuilder builder) {
         this.name = builder.name;
         this.color = builder.color;
         builder.nutrients.keySet().stream().forEach(k -> this.nutrients.put(k, builder.nutrients.get(k)));
@@ -56,7 +56,7 @@ public final class ViewFoodImpl implements ViewFood {
     @Override
     public boolean equals(final Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
-            final ViewFoodImpl other = (ViewFoodImpl) obj;
+            final CreationViewFoodImpl other = (CreationViewFoodImpl) obj;
             return Objects.equals(this.name, other.name)
                     && Objects.equals(this.nutrients.keySet(), other.nutrients.keySet())
                     && this.nutrients.keySet().stream()
@@ -142,7 +142,7 @@ public final class ViewFoodImpl implements ViewFood {
          */
         public ViewFood build() {
             this.built = true;
-            return new ViewFoodImpl(this);
+            return new CreationViewFoodImpl(this);
         }
 
         /**

@@ -1,7 +1,7 @@
 package controller.food;
 
 import java.awt.Color;
-import java.util.Set;
+import java.util.List;
 
 import model.Position;
 import model.food.Food;
@@ -29,9 +29,9 @@ public interface FoodController {
     /**
      * Get all types of already existing food.
      * 
-     * @return an unmodifiable set with all types of food.
+     * @return an unmodifiable list with all types of food.
      */
-    Set<ViewFood> getExistingViewFoods();
+    List<ViewFood> getExistingViewFoods();
 
     /**
      * Adds a new type of food to the types of foods that already exist.

@@ -1,7 +1,7 @@
 package model.simulator;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import model.Analysis;
@@ -28,14 +28,15 @@ import utils.Log;
  *
  */
 public class SimulatorEnvironment implements Environment {
+    private static final int FOOD_PER_ROUND = 5;
+    // pass on Constructor
     private final Position maxPosition = new PositionImpl(1000, 1000);
-    private static final int FOOD_PER_ROUND = 150;
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
-    private BacteriaManager bactManager;
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private final MutationManager mutManager = new MutationManagerImpl();
     private final Analysis analysis = new AnalysisImpl();
+    private BacteriaManager bactManager;
     private State state;
 
     /**
@@ -43,7 +44,7 @@ public class SimulatorEnvironment implements Environment {
      */
     public void init() {
         Log.getLog().info("Simulator initialized");
-        this.bactManager = new BacteriaManagerImpl(foodEnv, maxPosition, speciesManager.getSpecies());
+        this.bactManager = new BacteriaManagerImpl(foodEnv, manager, maxPosition, speciesManager.getSpecies());
     }
 
     @Override
@@ -52,13 +53,16 @@ public class SimulatorEnvironment implements Environment {
     }
 
     @Override
-    public Set<Food> getExistingFoods() {
-        return Collections.unmodifiableSet(this.manager.getExistingFoodsSet());
+    public List<Food> getExistingFoods() {
+        return Collections.unmodifiableList(this.manager.getExistingFoodsSet());
     }
 
     @Override
     public State getState() {
-        return new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
+        if(this.state == null) {
+            this.state = new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
+        }
+        return this.state;
     }
 
     private void updateFood() {

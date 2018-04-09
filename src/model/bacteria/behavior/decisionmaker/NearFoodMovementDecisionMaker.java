@@ -23,7 +23,11 @@ class NearFoodMovementDecisionMaker implements DecisionMaker {
             tempVal += dirVal;
         }
         final double maxVal = tempVal;
-        values.forEach((d, v) -> result.put(new DirectionalActionImpl(ActionType.MOVE, d), v / maxVal));
+        values.forEach((d,
+                v) -> result.put(new DirectionalActionImpl(ActionType.MOVE, d,
+                        Math.min(knowledge.getCurrentPerception().distFromFood(d).orElse(knowledge.getSpeed()),
+                                knowledge.getSpeed())),
+                        maxVal != 0 ? (v / maxVal) : 0));
         return result;
     }
 }

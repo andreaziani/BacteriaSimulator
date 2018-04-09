@@ -47,7 +47,8 @@ public abstract class AbstractDecisionBehavior implements Behavior {
     public Action chooseAction(final BacteriaKnowledge knowledge) {
         final Map<Action, Double> decisions = new HashMap<>();
         updateDecisions(decisions, knowledge);
-        return decisions.keySet().stream().max((a1, a2) -> Double.compare(decisions.get(a1), decisions.get(a2)))
+        return decisions.keySet().stream().filter(x -> decisions.get(x) > 0)
+                .max((a1, a2) -> Double.compare(decisions.get(a1), decisions.get(a2)))
                 .orElseGet(() -> new SimpleAction(ActionType.NOTHING));
     }
 }
