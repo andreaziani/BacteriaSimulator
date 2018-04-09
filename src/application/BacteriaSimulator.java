@@ -20,7 +20,8 @@ public final class BacteriaSimulator {
     }
 
     private void start() {
-        new MainFrame(view);
+        final MainFrame frame = new MainFrame(view);
+        this.view.setMainFrame(frame);
     }
 
     /**

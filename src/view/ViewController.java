@@ -9,7 +9,6 @@ import java.util.Map;
 
 import model.Analysis;
 import model.action.ActionType;
-import view.gui.MainFrame;
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 
@@ -154,8 +153,8 @@ public interface ViewController {
      */
     boolean isSpeciesEmpty();
     /**
-     * Set the MainFrame representing the actual GUI.
-     * @param simulationPanel
+     * Set the userInterface.
+     * @param userInterface the user interface.
      */
-    void setMainFrame(MainFrame mainFrame);
+    void setMainFrame(View userInterface);
 }

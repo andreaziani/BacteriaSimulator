@@ -8,15 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import javax.swing.JPanel;
-
 import controller.Controller;
 import model.Analysis;
 import model.action.ActionType;
 import model.food.Nutrient;
-import view.gui.MainFrame;
-import view.gui.SimulationPanel;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
@@ -31,9 +26,8 @@ import view.model.food.ViewFood;
 public class ViewImpl implements View, ViewController {
     private final Controller controller;
     private final ViewSpeciesFactory speciesManager;
-    private ViewState state;
-    private MainFrame mainFrame;
-    
+    private View userInterface;
+
     /**
      * Constructor that build a View passing the Controller that allows interactions
      * with the model.
@@ -48,7 +42,7 @@ public class ViewImpl implements View, ViewController {
 
     @Override
     public void update(final ViewState state) {
-        this.mainFrame.updateView(state);
+        this.userInterface.update(state);
     }
 
     @Override
@@ -141,8 +135,8 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void setMainFrame(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
+    public void setMainFrame(final View userInterface) {
+        this.userInterface = userInterface;
     }
 
 }

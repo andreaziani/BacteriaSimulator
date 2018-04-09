@@ -42,7 +42,7 @@ import utils.exceptions.PositionAlreadyOccupiedException;
  *
  */
 public class BacteriaManagerImpl implements BacteriaManager {
-    private static final Energy INITIAL_ENERGY = new EnergyImpl(100.0);
+    private static final Energy INITIAL_ENERGY = new EnergyImpl(10000.0);
     private static final double COST_OF_LIVING = 2.0;
     private static final int BACTERIA_PER_SPECIES = 50;
     private final Position simulationMaxPosition;
