@@ -151,8 +151,8 @@ public final class ConversionsUtil {
      */
     public static Position conversionFromViewPositionToPosition(final ViewPosition pos, final Position maxPosition,
             final ViewPosition maxViewPosition) {
-        return new PositionImpl(pos.getX() * maxPosition.getX() / maxViewPosition.getX(),
-                pos.getY() * maxPosition.getY() / maxViewPosition.getY());
+        return new PositionImpl(Math.round(pos.getX() * maxPosition.getX() / maxViewPosition.getX()),
+                Math.round(pos.getY() * maxPosition.getY() / maxViewPosition.getY()));
     }
 
     /**

@@ -46,7 +46,7 @@ public class MainFrame extends JFrame implements View {
                     try {
                         view.addFood(view.getFoodsType().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
-                        JOptionPane.showMessageDialog(simulationPanel, "You have just inserted a food in this position.");
+                        JOptionPane.showMessageDialog(simulationPanel, "You have already inserted a food in this position.");
                     }
                 }
 
