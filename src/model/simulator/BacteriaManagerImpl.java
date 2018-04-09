@@ -107,8 +107,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private Optional<Position> collidingFood(final Position bacteriaPos, final Map<Position, Food> foodsState){
-        if(this.maxFoodRadius.isPresent()) {     
-            System.out.println("Food's max radius so far = " + this.maxFoodRadius.get());
+        if (this.maxFoodRadius.isPresent()) {
             final int maxRadius = (int) Math.ceil(this.maxFoodRadius.get());
             final Bacteria bacteria = this.bacteriaEnv.getBacteria(bacteriaPos);
             return EnvironmentUtil.positionStream(maxRadius, bacteriaPos, simulationMaxPosition) 

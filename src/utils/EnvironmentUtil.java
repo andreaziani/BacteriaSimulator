@@ -152,7 +152,9 @@ public final class EnvironmentUtil {
     }
 
     /**
-     * Generate stream of Position up to distance "distance" from bacteriaPost.
+     * Generate stream of Position up to distance "distance" from bacteriaPost (in the range 
+     * [(bacteriaPos - distance, bacteriaPos - distance), (bacteriaPos + distance, bacteriaPos + distance)]).
+     * 
      * @param distance  the maximum distance of each position
      * @param bacteriaPos the original Position of the Bacteria
      * @param maxPosition
