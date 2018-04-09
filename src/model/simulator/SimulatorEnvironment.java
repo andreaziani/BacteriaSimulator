@@ -44,7 +44,7 @@ public class SimulatorEnvironment implements Environment {
      */
     public void init() {
         Log.getLog().info("Simulator initialized");
-        this.bactManager = new BacteriaManagerImpl(foodEnv, maxPosition, speciesManager.getSpecies());
+        this.bactManager = new BacteriaManagerImpl(foodEnv, manager, maxPosition, speciesManager.getSpecies());
     }
 
     @Override

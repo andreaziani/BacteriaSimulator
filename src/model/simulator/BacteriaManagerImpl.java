@@ -23,6 +23,7 @@ import model.action.DirectionalActionImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.bacteria.Species;
+import model.food.ExistingFoodManager;
 import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodFactory;
@@ -42,31 +43,37 @@ import utils.exceptions.PositionAlreadyOccupiedException;
  *
  */
 public class BacteriaManagerImpl implements BacteriaManager {
-    private static final Energy INITIAL_ENERGY = new EnergyImpl(10000.0);
-    private static final double COST_OF_LIVING = 2.0;
+    private static final Energy INITIAL_ENERGY = new EnergyImpl(1000.0);
+    private static final double COST_OF_LIVING = 1.5;
     private static final int BACTERIA_PER_SPECIES = 50;
     private final Position simulationMaxPosition;
+    private final ExistingFoodManager manager;
     private final FoodEnvironment foodEnv;
     private final Energy energyForLiving = new EnergyImpl(COST_OF_LIVING);
     private final FoodFactory factory = new FoodFactoryImpl();
     private final BacteriaEnvironment bacteriaEnv;
     private final ActionPerformer actionPerf;
     private final Random rand = new Random();
+    private Optional<Double> maxFoodRadius;
+    private Optional<Position> foodPosition;
     private int bacteriaCounter;
     /**
      * Constructor.
      * 
      * @param foodEnv
      *            used to update food environment according to bacteria actions
+     * @param manager
+     *            food manager used to fast retrieve all kind of food in simulation
      * @param maxPosition
      *            contains information about the maximum position in the simulation
      * @param species
      *            existing species used to create the Bacteria
      */
-    public BacteriaManagerImpl(final FoodEnvironment foodEnv, final Position maxPosition, final Set<Species> species) {
+    public BacteriaManagerImpl(final FoodEnvironment foodEnv, final ExistingFoodManager manager, final Position maxPosition, final Set<Species> species) {
         this.bacteriaCounter = 0;
         this.simulationMaxPosition = maxPosition;
         this.foodEnv = foodEnv;
+        this.manager = manager;
         this.bacteriaEnv = new BacteriaEnvironmentImpl();
         this.actionPerf = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
 
@@ -74,7 +81,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
         species.stream().forEach(specie -> IntStream.range(0, BACTERIA_PER_SPECIES)
                 .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY())))
                 .forEach(position -> {
-                    final GeneticCode genCode = new GeneticCodeImpl(new GeneImpl(), 10.0, 4.5);
+                    final GeneticCode genCode = new GeneticCodeImpl(new GeneImpl(), 10.0, 20.0);
                     final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode, INITIAL_ENERGY);
                     bacteriaCounter++;
                     this.bacteriaEnv.insertBacteria(position, bacteria);
@@ -82,12 +89,10 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos, final Map<Position, Food> foodsState) {
-        final double radius = this.bacteriaEnv.getBacteria(bacteriaPos).getPerceptionRadius();
-        final int start = (int) -Math.ceil(radius);
-        final int end = (int) Math.ceil(radius);
+        final int radius = (int) Math.ceil(this.bacteriaEnv.getBacteria(bacteriaPos).getPerceptionRadius());
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
-        EnvironmentUtil.positionStream(start, end, bacteriaPos, simulationMaxPosition)
+        EnvironmentUtil.positionStream(radius, bacteriaPos, simulationMaxPosition)
                 .map(pos -> Pair.of(pos, EnvironmentUtil.distance(pos, bacteriaPos)))
                 .filter(pairPosDist -> pairPosDist.getRight() <= radius)
                 .filter(pairPosDist -> foodsState.containsKey(pairPosDist.getLeft())).map(pairPosDist -> {
@@ -101,10 +106,26 @@ public class BacteriaManagerImpl implements BacteriaManager {
         return distsToFood;
     }
 
+    private Optional<Position> collidingFood(final Position bacteriaPos, final Map<Position, Food> foodsState){
+        if(this.maxFoodRadius.isPresent()) {     
+            System.out.println("Food's max radius so far = " + this.maxFoodRadius.get());
+            final int maxRadius = (int) Math.ceil(this.maxFoodRadius.get());
+            final Bacteria bacteria = this.bacteriaEnv.getBacteria(bacteriaPos);
+            return EnvironmentUtil.positionStream(maxRadius, bacteriaPos, simulationMaxPosition) 
+                .filter(pos -> foodsState.containsKey(pos))
+                .map(pos -> Pair.of(pos, foodsState.get(pos)))
+                .filter(pairPosFood -> EnvironmentUtil.isCollision(Pair.of(bacteriaPos, bacteria), pairPosFood))
+                .map(a -> a.getLeft())
+                .findAny();
+        } else {            
+            return Optional.empty();
+        }
+    }
+
     private Perception createPerception(final Position bacteriaPos, final Map<Position, Food> foodsState) {
-        // TODO perception should check for colliding food
-        final Optional<Food> foodInPosition = foodsState.containsKey(bacteriaPos)
-                ? Optional.of(foodsState.get(bacteriaPos))
+        this.foodPosition = collidingFood(bacteriaPos, foodsState);
+        final Optional<Food> foodInPosition = this.foodPosition.isPresent()
+                ? Optional.of(foodsState.get(this.foodPosition.get()))
                 : Optional.empty();
         final Map<Direction, Double> distsToFood = closestFoodDistances(bacteriaPos, foodsState);
         return new PerceptionImpl(foodInPosition, distsToFood);
@@ -123,7 +144,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                 actionPerf.move(moveAction.getDirection());
                 break;
             case EAT:
-                actionPerf.eat();
+                actionPerf.eat(this.foodPosition);
                 break;
             case REPLICATE:
                 if (actionPerf.replicate(bacteriaCounter)) {
@@ -148,6 +169,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private void updateLivingBacteria() {
+        this.maxFoodRadius = this.manager.getExistingFoodsSet().stream()
+                                                               .map(food -> food.getRadius())
+                                                               .max((r1, r2) -> Double.compare(r1, r2));
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
         final Set<Position> positions = new HashSet<Position>(this.bacteriaEnv.activePosition());
         positions.stream()

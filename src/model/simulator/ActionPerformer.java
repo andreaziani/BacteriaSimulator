@@ -1,5 +1,7 @@
 package model.simulator;
 
+import java.util.Optional;
+
 import model.Direction;
 import model.Position;
 import model.bacteria.Bacteria;
@@ -23,9 +25,10 @@ public interface ActionPerformer {
     void move(Direction moveDirection);
 
     /**
-     * Perform the action EAT.
+     * Perform the action EAT on the food in given position.
+     * @param foodPosition the position of the food to eat.
      */
-    void eat();
+    void eat(Optional<Position> foodPosition);
 
     /**
      * 
