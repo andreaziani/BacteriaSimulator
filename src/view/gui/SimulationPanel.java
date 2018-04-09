@@ -64,7 +64,8 @@ public class SimulationPanel extends JPanel {
                 g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
                         e.getValue().getRadius().getYRadius()+2);
             });
-            System.out.println("Bacteria size = " + state.get().getBacteriaState().size() );
+            Log.getLog().info("Bacteria size = " + state.get().getBacteriaState().size());
+            Log.getLog().info("Food size = " + state.get().getFoodsState().size());
             state.get().getBacteriaState().entrySet().stream()
                                         .limit(1)
                                         .forEach(e -> Log.getLog().info("Bacteria radius: " + e.getValue().getRadius().getXRadius() + ", " 
