@@ -28,6 +28,7 @@ import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
+import model.geneticcode.Gene;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCode;
 import model.geneticcode.GeneticCodeImpl;
@@ -59,33 +60,44 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private int bacteriaCounter;
     /**
      * Constructor.
-     * 
+     * @param bacteriaMap
+     *            optional Map used to initialize the environment.
+     * @param species
+     *            existing species used to create the Bacteria
      * @param foodEnv
      *            used to update food environment according to bacteria actions
      * @param manager
      *            food manager used to fast retrieve all kind of food in simulation
      * @param maxPosition
      *            contains information about the maximum position in the simulation
-     * @param species
-     *            existing species used to create the Bacteria
      */
-    public BacteriaManagerImpl(final FoodEnvironment foodEnv, final ExistingFoodManager manager, final Position maxPosition, final Set<Species> species) {
+    public BacteriaManagerImpl(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species, final FoodEnvironment foodEnv, final ExistingFoodManager manager, final Position maxPosition) {
         this.bacteriaCounter = 0;
         this.simulationMaxPosition = maxPosition;
         this.foodEnv = foodEnv;
         this.manager = manager;
         this.bacteriaEnv = new BacteriaEnvironmentImpl();
+        this.populate(Optional.empty(), species);
         this.actionPerf = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
+    }
 
+    private void populate(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species) {
         Log.getLog().info("Start populating");
-        species.stream().forEach(specie -> IntStream.range(0, BACTERIA_PER_SPECIES)
+        if (bacteriaMap.isPresent()) {
+            bacteriaMap.get().entrySet().forEach(e -> this.bacteriaEnv.insertBacteria(e.getKey(), e.getValue()));
+        } else {
+            species.stream().forEach(specie -> {
+                final Gene gene = new GeneImpl();
+                IntStream.range(0, BACTERIA_PER_SPECIES)
                 .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY())))
                 .forEach(position -> {
-                    final GeneticCode genCode = new GeneticCodeImpl(new GeneImpl(), 10.0, 20.0);
+                    final GeneticCode genCode = new GeneticCodeImpl(gene, 10.0, 20.0);
                     final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode, INITIAL_ENERGY);
                     bacteriaCounter++;
                     this.bacteriaEnv.insertBacteria(position, bacteria);
-                }));
+                });
+            });
+        }
     }
 
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos, final Map<Position, Food> foodsState) {
