@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import utils.Log;
+import utils.Logger;
 import view.model.ViewState;
 
 /**
@@ -64,11 +64,11 @@ public class SimulationPanel extends JPanel {
                 //g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius() + 5, e.getValue().getRadius().getYRadius() + 5);
             });
 
-            Log.getLog().info("Bacteria size = " + state.get().getBacteriaState().size());
-            Log.getLog().info("Food size = " + state.get().getFoodsState().size());
+            Logger.getLog().info("Bacteria size = " + state.get().getBacteriaState().size());
+            Logger.getLog().info("Food size = " + state.get().getFoodsState().size());
             state.get().getBacteriaState().entrySet().stream()
                                         .limit(1)
-                                        .forEach(e -> Log.getLog().info("Bacteria radius: " + e.getValue().getRadius().getXRadius() + ", " 
+                                        .forEach(e -> Logger.getLog().info("Bacteria radius: " + e.getValue().getRadius().getXRadius() + ", " 
                                                                                             + e.getValue().getRadius().getYRadius()));
         }
     }

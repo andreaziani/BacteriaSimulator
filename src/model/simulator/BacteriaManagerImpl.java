@@ -35,7 +35,7 @@ import model.geneticcode.GeneticCodeImpl;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
 import utils.EnvironmentUtil;
-import utils.Log;
+import utils.Logger;
 import utils.exceptions.NotEnounghEnergyException;
 import utils.exceptions.PositionAlreadyOccupiedException;
 
@@ -77,12 +77,12 @@ public class BacteriaManagerImpl implements BacteriaManager {
         this.foodEnv = foodEnv;
         this.manager = manager;
         this.bacteriaEnv = new BacteriaEnvironmentImpl();
-        this.populate(Optional.empty(), species);
+        this.populate(bacteriaMap, species);
         this.actionPerf = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
     }
 
     private void populate(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species) {
-        Log.getLog().info("Start populating");
+        Logger.getLog().info("Start populating");
         if (bacteriaMap.isPresent()) {
             bacteriaMap.get().entrySet().forEach(e -> this.bacteriaEnv.insertBacteria(e.getKey(), e.getValue()));
         } else {
@@ -128,7 +128,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                 .filter(pairPosFood -> EnvironmentUtil.isCollision(Pair.of(bacteriaPos, bacteria), pairPosFood))
                 .map(a -> a.getLeft())
                 .findAny();
-        } else {            
+        } else {
             return Optional.empty();
         }
     }
@@ -199,6 +199,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                         this.foodEnv.addFood(entry.getValue().getInternalFood(this.factory), entry.getKey());
                     } catch (PositionAlreadyOccupiedException e) {
                         // Food collided with other food nearby, just don't add
+                        Logger.getLog().info("Bacteria died on Food");
                     }
                 })
                 .map(entry -> entry.getKey()).collect(Collectors.toSet());

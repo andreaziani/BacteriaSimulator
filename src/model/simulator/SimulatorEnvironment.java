@@ -25,7 +25,7 @@ import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodEnvironmentImpl;
 import utils.ConversionsUtil;
-import utils.Log;
+import utils.Logger;
 
 /**
  * implementation of Environment.
@@ -49,7 +49,7 @@ public class SimulatorEnvironment implements Environment {
      *          the initial state used to initialize the simulation
      */
     public void init(final Optional<InitialState> initialState) {
-        Log.getLog().info("Simulator initialized");
+        Logger.getLog().info("Simulator initialized");
         if (initialState.isPresent()) {
             // add existing food
             initialState.get().getExistingFood().forEach(creationViewFood -> {

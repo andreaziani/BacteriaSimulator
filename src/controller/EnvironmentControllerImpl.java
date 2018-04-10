@@ -9,7 +9,7 @@ import model.Environment;
 import model.bacteria.SpeciesBuilder;
 import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;
-import utils.Log;
+import utils.Logger;
 import utils.exceptions.InvalidSpeciesExeption;
 import utils.exceptions.SimulationAlreadyStartedExeption;
 import view.model.ViewPosition;
@@ -109,14 +109,16 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         return env.getAnalysis();
     }
 
-
+    /**
+     * method intended for allowing EnvController and Controller to "communicate".
+     */
     protected void simulationLoop() {
     }
 
-    private void startLoop(Optional<InitialState> initialState) {
+    private void startLoop(final Optional<InitialState> initialState) {
         this.env.init(initialState);
         final Thread mainThread = new Thread(this.loop);
-        Log.getLog().info("Application started");
+        Logger.getLog().info("Application started");
         isStarted = true;
         mainThread.start();
     }
@@ -135,7 +137,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 //         env.getMaxPosition(), maxViewPosition.get()).getX() + " " +
 //         ConversionsUtil.conversionFromViewPositionToPosition(position,
 //         env.getMaxPosition(), maxViewPosition.get()).getY());
-        
     }
 
     @Override
