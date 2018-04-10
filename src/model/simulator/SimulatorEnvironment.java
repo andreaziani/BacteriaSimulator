@@ -59,7 +59,7 @@ public class SimulatorEnvironment implements Environment {
 
     @Override
     public State getState() {
-        if(this.state == null) {
+        if (this.state == null) {
             this.state = new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
         }
         return this.state;
