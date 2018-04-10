@@ -33,6 +33,7 @@ public class SpeciesAndFoodPanel extends JPanel {
         super();
         this.setLayout(new FlowLayout());
         this.foods.addItem("Select a food");
+        this.foods.setEnabled(false);
         this.createSpecies.addActionListener(e -> {
             new SpeciesCreationDialog(view, main);
         });
@@ -59,6 +60,12 @@ public class SpeciesAndFoodPanel extends JPanel {
      */
     public void updateFoods(final ViewController view) {
         this.foods.removeAllItems();
-        view.getFoodsType().forEach(f -> this.foods.addItem(f.getName()));
+        if (view.getFoodsType().isEmpty()) {
+            this.foods.addItem("Select a Food");
+            this.setEnabled(false);
+        } else {
+            this.foods.setEnabled(true);
+            view.getFoodsName().forEach(f -> this.foods.addItem(f));
+        }
     }
 }

@@ -2,7 +2,6 @@ package view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
@@ -34,11 +33,11 @@ public class FoodCreationDialog extends JDialog {
     private final JPanel center = new JPanel();
     private final JPanel bot = new JPanel();
     private final JLabel setName = new JLabel("Name: ");
-    private final JTextField name = new JTextField(20);
     private final JLabel selectNutrient = new JLabel("Select Nutrient: ");
-    private final JComboBox<String> nutrients = new JComboBox<>();
     private final JLabel setQuantity = new JLabel("Set quantity: ");
+    private final JTextField name = new JTextField(20);
     private final JTextField quantity = new JTextField(10);
+    private final JComboBox<String> nutrients = new JComboBox<>();
     private final JButton addName = new JButton("Add name");
     private final JButton addNutrient = new JButton("Set Nutrient quantity");
     private final JButton createFood = new JButton("Create food");
@@ -55,8 +54,8 @@ public class FoodCreationDialog extends JDialog {
      */
     public FoodCreationDialog(final ViewController view, final SpeciesAndFoodPanel superPanel, final JFrame main) {
         super(main, "Create new Food", true);
-        this.setLayout(new BorderLayout());
         start(view);
+
         this.addName.addActionListener(e -> {
             try {
                 this.builder = new ViewFoodBuilder(this.name.getText());
@@ -94,25 +93,11 @@ public class FoodCreationDialog extends JDialog {
                 this.dispose();
             }
         });
-        top.add(this.setName);
-        top.add(this.name);
-        center.add(this.selectNutrient);
-        center.add(this.nutrients);
-        center.add(this.setQuantity);
-        center.add(this.quantity);
-        bot.add(this.addName);
-        bot.add(this.addNutrient);
-        bot.add(this.createFood);
-        this.add(this.top, BorderLayout.NORTH);
-        this.add(this.center, BorderLayout.CENTER);
-        this.add(this.bot, BorderLayout.SOUTH);
-
-        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        this.pack();
-        this.setVisible(true);
+        finalSettings();
     }
 
     private void start(final ViewController view) {
+        this.setLayout(new BorderLayout());
         this.addNutrient.setEnabled(false);
         this.createFood.setEnabled(false);
         this.nutrients.setEnabled(false);
@@ -120,6 +105,25 @@ public class FoodCreationDialog extends JDialog {
         this.name.setText("Food1");
         this.quantity.setText("10.00");
         view.getNutrients().forEach(n -> nutrients.addItem(n));
+    }
+
+    private void finalSettings() {
+        this.top.add(this.setName);
+        this.top.add(this.name);
+        this.center.add(this.selectNutrient);
+        this.center.add(this.nutrients);
+        this.center.add(this.setQuantity);
+        this.center.add(this.quantity);
+        this.bot.add(this.addName);
+        this.bot.add(this.addNutrient);
+        this.bot.add(this.createFood);
+        this.add(this.top, BorderLayout.NORTH);
+        this.add(this.center, BorderLayout.CENTER);
+        this.add(this.bot, BorderLayout.SOUTH);
+
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
     }
 
     private Nutrient getSelectedNutrient() {

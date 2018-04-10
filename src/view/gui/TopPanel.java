@@ -81,7 +81,9 @@ public class TopPanel extends JPanel {
     public int getSelectedFood() {
         return this.speciesAndFood.getSelectedFood();
     }
-
+    public void updateFoods() {
+        
+    }
     private void componentsSettings() {
         this.fileMenu.setActionCommand("File");
         this.fileMenu.add(loadSimulation);

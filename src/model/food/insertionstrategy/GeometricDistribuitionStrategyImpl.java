@@ -10,9 +10,22 @@ import model.PositionImpl;
  * random choice.
  */
 public class GeometricDistribuitionStrategyImpl implements RandomPositionStrategy {
+    private static final double PROBABILITY = 0.01;
+    private final Position maxPosition;
+
+    /**
+     * Build the strategy by passing the maximum position.
+     * 
+     * @param maxPosition
+     *            the maximum position in the environment.
+     */
+    public GeometricDistribuitionStrategyImpl(final Position maxPosition) {
+        this.maxPosition = maxPosition;
+    }
+
     @Override
     public Position getPosition() {
-        final GeometricDistribution dist = new GeometricDistribution(0.01);
-        return new PositionImpl(dist.sample(), dist.sample());
+        final GeometricDistribution dist = new GeometricDistribution(PROBABILITY);
+        return new PositionImpl(dist.sample() % maxPosition.getX(), dist.sample() % maxPosition.getY());
     }
 }

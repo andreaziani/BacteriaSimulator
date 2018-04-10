@@ -21,6 +21,7 @@ import utils.exceptions.PositionAlreadyOccupiedException;
  */
 public class FoodEnvironmentImpl implements FoodEnvironment {
     private static final int MAXATTEMPS = 10;
+    private final Position maxPos;
     private final Map<Position, Food> foods = new HashMap<>();
     private final ExistingFoodManager manager;
 
@@ -31,8 +32,9 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
      * @param manager
      *            that contains all existing foods.
      */
-    public FoodEnvironmentImpl(final ExistingFoodManager manager) {
+    public FoodEnvironmentImpl(final ExistingFoodManager manager, final Position maximumPosition) {
         this.manager = manager;
+        this.maxPos = maximumPosition;
     }
 
     @Override
@@ -73,7 +75,7 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
     public void addRandomFood() {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
-        final RandomPositionStrategy positionStrategy = new GeometricDistribuitionStrategyImpl();
+        final RandomPositionStrategy positionStrategy = new GeometricDistribuitionStrategyImpl(this.maxPos);
         for (int i = MAXATTEMPS; (i > 0 && check); i--) { // provo a reinserire se la posizione era gia' occupata.
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
