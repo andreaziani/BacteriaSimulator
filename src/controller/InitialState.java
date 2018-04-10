@@ -162,6 +162,14 @@ public class InitialState {
         return getStateOrIllegalState().reconstructState(speciesMapper, startingEnergy);
     }
 
+    /**
+     * @return a boolean indicating whether there is already a state in the initial
+     *         state.
+     */
+    public boolean hasState() {
+        return this.state.isPresent();
+    }
+
     private SimpleState getStateOrIllegalState() {
         try {
             return this.state.get();

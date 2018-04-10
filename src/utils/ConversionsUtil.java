@@ -171,4 +171,10 @@ public final class ConversionsUtil {
         return new Radius((int) (oldRadius * maxViewPosition.getX() / maxPosition.getX()),
                 (int) (oldRadius * maxViewPosition.getY() / maxPosition.getY()));
     }
+/**
+ * @return the color of an unnamed food.
+ */
+    public static Color getUnNamedFoodColor() {
+        return Color.BLACK;
+    }
 }

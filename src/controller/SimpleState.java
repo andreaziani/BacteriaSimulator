@@ -19,6 +19,7 @@ import model.bacteria.Species;
 import model.food.FoodImpl;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCodeImpl;
+import utils.ConversionsUtil;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.SimulationViewFood;
 import view.model.food.ViewFood;
@@ -48,13 +49,14 @@ public class SimpleState {
             bacteriaMap = state.getBacteriaState().entrySet().stream().collect(Collectors
                     .toMap(x -> (PositionImpl) x.getKey(), x -> new SimpleBacteria(x.getValue(), viewSpecies.stream()
                             .filter(s -> s.getName().equals(x.getValue().getSpecies().getName())).findFirst().get())));
-            foodMap = state.getFoodsState().entrySet().stream()
-                    .collect(Collectors.toMap(x -> (PositionImpl) x.getKey(),
-                            x -> new SimulationViewFood(Optional.of(x.getValue().getName()),
-                                    viewFoods.stream().filter(f -> f.getName().equals(x.getValue().getName()))
+            foodMap = state.getFoodsState().entrySet().stream().collect(Collectors.toMap(x -> (PositionImpl) x.getKey(),
+                    x -> new SimulationViewFood(Optional.ofNullable(x.getValue().getName()),
+                            viewFoods.stream().filter(f -> f.getName().equals(x.getValue().getName())).count() == 0
+                                    ? ConversionsUtil.getUnNamedFoodColor()
+                                    : viewFoods.stream().filter(f -> f.getName().equals(x.getValue().getName()))
                                             .findFirst().get().getColor(),
-                                    x.getValue().getNutrients().stream().collect(Collectors.toMap(Function.identity(),
-                                            n -> x.getValue().getQuantityFromNutrient(n))))));
+                            x.getValue().getNutrients().stream().collect(Collectors.toMap(Function.identity(),
+                                    n -> x.getValue().getQuantityFromNutrient(n))))));
         } catch (NoSuchElementException e) {
             throw new IllegalArgumentException();
         }
@@ -89,12 +91,17 @@ public class SimpleState {
      */
     public State reconstructState(final Function<ViewSpecies, Species> speciesMapper,
             final Supplier<Energy> startingEnergy) {
-        return new StateImpl(
-                getFoodMap().entrySet().stream().collect(Collectors.toMap(x -> x.getKey(),
-                        x -> new FoodImpl(x.getValue().getNutrients().stream().collect(
-                                Collectors.toMap(Function.identity(), n -> x.getValue().getQuantityFromNutrient(n)))))),
-                getBacteriaMap().entrySet().stream()
-                        .collect(Collectors.toMap(x -> x.getKey(),
+        return new StateImpl(getFoodMap().entrySet().stream().collect(Collectors.toMap(x -> x.getKey(), x -> {
+            try {
+                return new FoodImpl(x.getValue().getName(), x.getValue().getNutrients().stream()
+                        .collect(Collectors.toMap(Function.identity(), n -> x.getValue().getQuantityFromNutrient(n))));
+            } catch (NoSuchElementException e) { // TODO temporary implementation for absence of alternatives
+                return new FoodImpl(x.getValue().getNutrients().stream()
+                        .collect(Collectors.toMap(Function.identity(), n -> x.getValue().getQuantityFromNutrient(n))));
+            }
+        })), getBacteriaMap().entrySet().stream()
+                .collect(
+                        Collectors.toMap(x -> x.getKey(),
                                 x -> new BacteriaImpl(x.getValue().getId(),
                                         speciesMapper.apply(x.getValue().getSpecies()),
                                         new GeneticCodeImpl(new GeneImpl(x.getValue().getCode()),
