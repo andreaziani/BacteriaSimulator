@@ -3,6 +3,7 @@ package controller;
 import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -86,17 +87,35 @@ public class SimpleState {
      * @return a new State representing this object in the way it should be
      *         represented in the model.
      */
-    public State reconstructState(final Function<ViewSpecies, Species> speciesMapper, final Supplier<Energy> startingEnergy) {
+    public State reconstructState(final Function<ViewSpecies, Species> speciesMapper,
+            final Supplier<Energy> startingEnergy) {
         return new StateImpl(
                 getFoodMap().entrySet().stream().collect(Collectors.toMap(x -> x.getKey(),
                         x -> new FoodImpl(x.getValue().getNutrients().stream().collect(
                                 Collectors.toMap(Function.identity(), n -> x.getValue().getQuantityFromNutrient(n)))))),
                 getBacteriaMap().entrySet().stream()
                         .collect(Collectors.toMap(x -> x.getKey(),
-                                x -> new BacteriaImpl(x.getValue().getId(), speciesMapper.apply(x.getValue().getSpecies()),
+                                x -> new BacteriaImpl(x.getValue().getId(),
+                                        speciesMapper.apply(x.getValue().getSpecies()),
                                         new GeneticCodeImpl(new GeneImpl(x.getValue().getCode()),
                                                 x.getValue().getRadius(), x.getValue().getRadius()),
                                         startingEnergy.get()))));
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(bacteriaMap, foodMap);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final SimpleState other = (SimpleState) obj;
+        return this.bacteriaMap.entrySet().containsAll(other.bacteriaMap.entrySet())
+                && other.bacteriaMap.entrySet().containsAll(this.bacteriaMap.entrySet())
+                && this.foodMap.entrySet().containsAll(other.foodMap.entrySet())
+                && other.foodMap.entrySet().containsAll(this.foodMap.entrySet());
+    }
 }

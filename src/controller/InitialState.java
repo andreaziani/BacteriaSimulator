@@ -2,15 +2,19 @@ package controller;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.omg.CORBA.OMGVMCID;
+
 import model.Energy;
 import model.Position;
 import model.PositionImpl;
 import model.State;
+import model.bacteria.BacteriaImpl;
 import model.bacteria.Species;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.CreationViewFoodImpl;
@@ -164,5 +168,22 @@ public class InitialState {
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException();
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(state, existingFood, species, maxX, maxY);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final InitialState other = (InitialState) obj;
+        return Objects.equals(this.maxX, other.maxX) && Objects.equals(this.maxY, other.maxY)
+                && Objects.equals(this.state, other.state) && this.existingFood.containsAll(other.existingFood)
+                && other.existingFood.containsAll(this.existingFood) && this.species.containsAll(other.species)
+                && other.species.containsAll(this.species);
     }
 }

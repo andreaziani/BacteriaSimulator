@@ -1,8 +1,10 @@
 package controller;
 
 import java.util.List;
+import java.util.Objects;
 
 import model.bacteria.Bacteria;
+import model.bacteria.BacteriaImpl;
 import model.geneticcode.NucleicAcid;
 import view.model.bacteria.ViewSpecies;
 
@@ -70,4 +72,25 @@ public class SimpleBacteria {
     public List<NucleicAcid> getCode() {
         return code;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, code, radius, perceptionRadius, species);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final SimpleBacteria other = (SimpleBacteria) obj;
+        boolean result = Objects.equals(this.id, other.id) && Objects.equals(this.radius, other.radius)
+                && Objects.equals(this.perceptionRadius, other.perceptionRadius)
+                && Objects.equals(this.species, other.species) && Objects.equals(this.code.size(), other.code.size());
+        for (int i = 0; result && i < this.code.size(); i++) {
+            result = Objects.equals(this.code.get(i), other.code.get(i));
+        }
+        return result;
+    }
+
 }
