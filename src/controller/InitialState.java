@@ -7,7 +7,6 @@ import java.util.Set;
 
 import model.Position;
 import model.PositionImpl;
-import view.model.bacteria.ViewBacteriaImpl;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.CreationViewFoodImpl;
 import view.model.food.SimulationViewFood;
@@ -16,7 +15,7 @@ import view.model.food.SimulationViewFood;
  * Represents all the information needed for a simulation to start.
  */
 public class InitialState {
-    private Map<PositionImpl, ViewBacteriaImpl> bacteriaMap;
+    private Map<PositionImpl, SimpleBacteria> bacteriaMap;
     private Map<PositionImpl, SimulationViewFood> foodMap;
     private final Set<CreationViewFoodImpl> existingFood;
     private final Set<ViewSpecies> species;
@@ -49,7 +48,7 @@ public class InitialState {
      * @param foodMap
      *            the map of all foods.
      */
-    public void setState(final Map<PositionImpl, ViewBacteriaImpl> bacteriaMap,
+    public void setState(final Map<PositionImpl, SimpleBacteria> bacteriaMap,
             final Map<PositionImpl, SimulationViewFood> foodMap) {
         this.bacteriaMap = bacteriaMap;
         this.foodMap = foodMap;
@@ -76,7 +75,7 @@ public class InitialState {
     /**
      * @return the positions of all bacteria and their view representation.
      */
-    public Map<PositionImpl, ViewBacteriaImpl> getBacteriaMap() {
+    public Map<PositionImpl, SimpleBacteria> getBacteriaMap() {
         return bacteriaMap;
     }
 
