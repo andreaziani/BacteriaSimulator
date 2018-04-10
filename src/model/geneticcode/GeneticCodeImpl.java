@@ -9,12 +9,12 @@ import model.food.Nutrient;
  */
 
 public class GeneticCodeImpl implements GeneticCode {
-    private Gene code;
-    private SpeedGene speed;
-    private NutrientsGene nutrients;
-    private ActionsGene actions;
-    private double radius;
-    private double perceptionRadius;
+    private final Gene code;
+    private final SpeedGene speed;
+    private final NutrientsGene nutrients;
+    private final ActionsGene actions;
+    private final double radius;
+    private final double perceptionRadius;
 
     /**
      * Construct a Bacteria's Genetic Code.
