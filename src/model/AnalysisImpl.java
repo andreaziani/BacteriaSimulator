@@ -3,8 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -20,6 +22,10 @@ public class AnalysisImpl implements Analysis {
 
     private final List<State> lstate = new ArrayList<>();
     private final MutationManager mutManager = new MutationManagerImpl();
+    private List<Bacteria> lbefore = new ArrayList<>();
+    private List<Bacteria> lafter = new ArrayList<>();
+    private Set<Species> speciesB = new HashSet<>();
+    private Set<Species> speciesA = new HashSet<>();
 
     private List<Bacteria> listOfBacteria(final Map<Position, Bacteria> bacteria) {
         final List<Bacteria> bt = new ArrayList<>();
@@ -85,21 +91,62 @@ public class AnalysisImpl implements Analysis {
         this.lstate.add(state);
     }
 
+    private void before() {
+        this.lbefore = listOfBacteria(this.lstate.get(0).getBacteriaState());
+        this.speciesB = speciesOfBacteria(this.lbefore);
+    }
+
+    private void after() {
+        this.lafter = listOfBacteria(this.lstate.get(this.lstate.size() - 1).getBacteriaState());
+        this.speciesA = speciesOfBacteria(this.lafter);
+    }
+
+    private String toString(final Map<Species, Integer> mapBacteria) {
+        StringBuilder sb = new StringBuilder();
+        Iterator<Entry<Species, Integer>> iter = mapBacteria.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry<Species, Integer> entry = iter.next();
+            sb.append(entry.getKey());
+            sb.append(':').append('"');
+            sb.append(entry.getValue());
+            sb.append('"');
+            if (iter.hasNext()) {
+                sb.append(',').append('\n');
+            }
+        }
+        return sb.toString();
+
+    }
+
+    private String resultWins() {
+        final Map<Species, Integer> wins = win(this.speciesB, this.lafter);
+        return toString(wins);
+    }
+
+    private String resultNByS() {
+        final SortedMap<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
+        return toString(nByS);
+    }
+
+    private String resultDead() {
+        final Set<Species> dead = dead(this.speciesB, this.speciesA);
+        return "" + dead + "";
+    }
+
+    private String resultBactMutated() {
+        final List<Bacteria> bactMutated = listOfBacteriaMutated(this.mutManager.getMutation());
+        final Map<Species, Integer> mt = numberBySpecies(this.speciesB, bactMutated);
+        return toString(mt);
+    }
+
     @Override
     public String getDescription() {
-        final List<Bacteria> before = listOfBacteria(lstate.get(0).getBacteriaState());
-        final List<Bacteria> after = listOfBacteria(lstate.get(lstate.size() - 1).getBacteriaState());
-        final Set<Species> speciesB = speciesOfBacteria(before);
-        final Set<Species> speciesA = speciesOfBacteria(after);
-        final Map<Species, Integer> wins = win(speciesB, after);
-        final SortedMap<Species, Integer> nByS = numberBySpecies(speciesB, after);
-        final Set<Species> dead = dead(speciesB, speciesA);
-        final List<Bacteria> bactMutated = listOfBacteriaMutated(mutManager.getMutation());
-        final Map<Species, Integer> mt = numberBySpecies(speciesB, bactMutated);
-        return ("Species survived: " + wins + "\n"
-              + "Species dead: " + dead + "\n"
-              + "Number by Species: " + nByS + "\n"
-              + "Species mutated: " + mt);
+        before();
+        after();
+        return ("Species survived: \n" + resultWins() + "\n"
+              + "Species dead: \n" + resultDead() + "\n"
+              + "Number by Species: \n" + resultNByS() + "\n"
+              + "Species mutated: \n" + resultBactMutated());
     }
 
 }
