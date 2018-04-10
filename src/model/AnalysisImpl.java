@@ -101,9 +101,9 @@ public class AnalysisImpl implements Analysis {
         this.speciesA = speciesOfBacteria(this.lafter);
     }
 
-    private String toString(final Map<Species, Integer> map) {
+    private String toString(final Map<Species, Integer> mapBacteria) {
         StringBuilder sb = new StringBuilder();
-        Iterator<Entry<Species, Integer>> iter = map.entrySet().iterator();
+        Iterator<Entry<Species, Integer>> iter = mapBacteria.entrySet().iterator();
         while (iter.hasNext()) {
             Entry<Species, Integer> entry = iter.next();
             sb.append(entry.getKey());
