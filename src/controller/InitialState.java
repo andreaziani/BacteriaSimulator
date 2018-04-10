@@ -1,13 +1,21 @@
 package controller;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
+import org.omg.CORBA.OMGVMCID;
+
+import model.Energy;
 import model.Position;
 import model.PositionImpl;
-import view.model.bacteria.ViewBacteriaImpl;
+import model.State;
+import model.bacteria.BacteriaImpl;
+import model.bacteria.Species;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.CreationViewFoodImpl;
 import view.model.food.SimulationViewFood;
@@ -16,8 +24,7 @@ import view.model.food.SimulationViewFood;
  * Represents all the information needed for a simulation to start.
  */
 public class InitialState {
-    private Map<PositionImpl, ViewBacteriaImpl> bacteriaMap;
-    private Map<PositionImpl, SimulationViewFood> foodMap;
+    private Optional<SimpleState> state;
     private final Set<CreationViewFoodImpl> existingFood;
     private final Set<ViewSpecies> species;
     private final double maxX;
@@ -32,8 +39,7 @@ public class InitialState {
      *            the maximum size of the y coordinate.
      */
     public InitialState(final double maxX, final double maxY) {
-        bacteriaMap = new HashMap<>();
-        foodMap = new HashMap<>();
+        this.state = Optional.empty();
         existingFood = new HashSet<>();
         species = new HashSet<>();
         this.maxX = maxX;
@@ -41,18 +47,40 @@ public class InitialState {
     }
 
     /**
-     * Set the state of the simulation in the form of maps of positions and View
-     * representation of the simulation objects.
+     * Create an InitialState from the size of the simulation and a representation
+     * of the State of the simulation.
      * 
-     * @param bacteriaMap
-     *            the map of all bacteria.
-     * @param foodMap
-     *            the map of all foods.
+     * @param maxX
+     *            the maximum size of the x coordinate.
+     * @param maxY
+     *            the maximum size of the y coordinate.
+     * @param state
+     *            a serializable representation of the State of the environment.
      */
-    public void setState(final Map<PositionImpl, ViewBacteriaImpl> bacteriaMap,
-            final Map<PositionImpl, SimulationViewFood> foodMap) {
-        this.bacteriaMap = bacteriaMap;
-        this.foodMap = foodMap;
+    public InitialState(final double maxX, final double maxY, final SimpleState state) {
+        this.state = Optional.of(state);
+        existingFood = new HashSet<>();
+        species = new HashSet<>();
+        this.maxX = maxX;
+        this.maxY = maxY;
+    }
+
+    /**
+     * Set the state of the simulation from a state of the environment.
+     * 
+     * @param state
+     *            a State of the environment.
+     * @throws IllegalStateException
+     *             if there are no species of foods in the initialState
+     * @throws IllegalArgumentException
+     *             if the state does not corresponds to the foods and species
+     *             inserted in this object.
+     */
+    public void setState(final State state) {
+        if (species.isEmpty() || existingFood.isEmpty()) {
+            throw new IllegalStateException();
+        }
+        this.state = Optional.of(new SimpleState(state, existingFood, species));
     }
 
     /**
@@ -74,17 +102,22 @@ public class InitialState {
     }
 
     /**
-     * @return the positions of all bacteria and their view representation.
+     * @return the positions of all bacteria in a easily serializable
+     *         representation.
+     * @throws IllegalStateException
+     *             if the state has not been set.
      */
-    public Map<PositionImpl, ViewBacteriaImpl> getBacteriaMap() {
-        return bacteriaMap;
+    public Map<PositionImpl, SimpleBacteria> getBacteriaMap() {
+        return getStateOrIllegalState().getBacteriaMap();
     }
 
     /**
-     * @return the positions of all foods and their view representation.
+     * @return the positions of all foods in a easily serializable representation.
+     * @throws IllegalStateException
+     *             if the state has not been set.
      */
     public Map<PositionImpl, SimulationViewFood> getFoodMap() {
-        return foodMap;
+        return getStateOrIllegalState().getFoodMap();
     }
 
     /**
@@ -107,5 +140,58 @@ public class InitialState {
      */
     public Position getMaxPosition() {
         return new PositionImpl(maxX, maxY);
+    }
+
+    /**
+     * Return a new State constructed from the contained initial state and some
+     * indicator as to how to construct a Bacteria.
+     * 
+     * @param speciesMapper
+     *            a function to transform a view representation of a species into a
+     *            species.
+     * @param startingEnergy
+     *            a supplier of energy to assign to each bacteria as their starting
+     *            amount.
+     * @return a new State representing the initial state in the way it should be
+     *         represented in the model.
+     * @throws IllegalStateException
+     *             if the state has not been set.
+     */
+    public State reconstructState(final Function<ViewSpecies, Species> speciesMapper,
+            final Supplier<Energy> startingEnergy) {
+        return getStateOrIllegalState().reconstructState(speciesMapper, startingEnergy);
+    }
+
+    /**
+     * @return a boolean indicating whether there is already a state in the initial
+     *         state.
+     */
+    public boolean hasState() {
+        return this.state.isPresent();
+    }
+
+    private SimpleState getStateOrIllegalState() {
+        try {
+            return this.state.get();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException();
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(state, existingFood, species, maxX, maxY);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final InitialState other = (InitialState) obj;
+        return Objects.equals(this.maxX, other.maxX) && Objects.equals(this.maxY, other.maxY)
+                && Objects.equals(this.state, other.state) && this.existingFood.containsAll(other.existingFood)
+                && other.existingFood.containsAll(this.existingFood) && this.species.containsAll(other.species)
+                && other.species.containsAll(this.species);
     }
 }

@@ -13,6 +13,12 @@ import model.simulator.Collidable;
  */
 public interface Bacteria extends Collidable {
     /**
+     * @return a unique identifier of the Bacteria relative to a specific
+     *         simulation.
+     */
+    int getId();
+
+    /**
      * @param perception
      *            a perception that will be set to be the current perception of the
      *            bacteria.

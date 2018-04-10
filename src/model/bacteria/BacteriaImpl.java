@@ -47,6 +47,11 @@ public class BacteriaImpl implements Bacteria {
     }
 
     @Override
+    public int getId() {
+        return this.bacteriaId;
+    }
+
+    @Override
     public Perception getPerception() {
         return this.knowledge.getCurrentPerception();
     }
