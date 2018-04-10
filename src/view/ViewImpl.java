@@ -139,4 +139,9 @@ public class ViewImpl implements View, ViewController {
         this.userInterface = userInterface;
     }
 
+    @Override
+    public void updateExistingFoods() {
+        this.userInterface.updateExistingFoods();
+    }
+
 }
