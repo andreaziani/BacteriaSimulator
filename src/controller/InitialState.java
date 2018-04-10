@@ -1,24 +1,17 @@
 package controller;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import model.Energy;
 import model.Position;
 import model.PositionImpl;
 import model.State;
-import model.StateImpl;
-import model.bacteria.BacteriaImpl;
 import model.bacteria.Species;
-import model.food.FoodImpl;
-import model.geneticcode.GeneImpl;
-import model.geneticcode.GeneticCodeImpl;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.CreationViewFoodImpl;
 import view.model.food.SimulationViewFood;
@@ -111,12 +104,7 @@ public class InitialState {
      *             if the state has not been set.
      */
     public Map<PositionImpl, SimpleBacteria> getBacteriaMap() {
-        try {
-            return this.state.get().getBacteriaMap();
-        } catch (IllegalArgumentException e) {
-            throw new IllegalStateException();
-        }
-
+        return getStateOrIllegalState().getBacteriaMap();
     }
 
     /**
@@ -125,11 +113,7 @@ public class InitialState {
      *             if the state has not been set.
      */
     public Map<PositionImpl, SimulationViewFood> getFoodMap() {
-        try {
-            return this.state.get().getFoodMap();
-        } catch (IllegalArgumentException e) {
-            throw new IllegalStateException();
-        }
+        return getStateOrIllegalState().getFoodMap();
     }
 
     /**
@@ -152,5 +136,33 @@ public class InitialState {
      */
     public Position getMaxPosition() {
         return new PositionImpl(maxX, maxY);
+    }
+
+    /**
+     * Return a new State constructed from the contained initial state and some
+     * indicator as to how to construct a Bacteria.
+     * 
+     * @param speciesMapper
+     *            a function to transform a view representation of a species into a
+     *            species.
+     * @param startingEnergy
+     *            a supplier of energy to assign to each bacteria as their starting
+     *            amount.
+     * @return a new State representing the initial state in the way it should be
+     *         represented in the model.
+     * @throws IllegalStateException
+     *             if the state has not been set.
+     */
+    public State reconstructState(final Function<ViewSpecies, Species> speciesMapper,
+            final Supplier<Energy> startingEnergy) {
+        return getStateOrIllegalState().reconstructState(speciesMapper, startingEnergy);
+    }
+
+    private SimpleState getStateOrIllegalState() {
+        try {
+            return this.state.get();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException();
+        }
     }
 }
