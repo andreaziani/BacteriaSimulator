@@ -33,7 +33,8 @@ public class SimpleState {
      *             if the elements in state do not match with the elements of
      *             viewFood and viewSpecies.
      */
-    public SimpleState(final State state, final Set<ViewFood> viewFoods, final Set<ViewSpecies> viewSpecies) {
+    public SimpleState(final State state, final Set<? extends ViewFood> viewFoods, final Set<ViewSpecies> viewSpecies) {
+        //TODO is wildcard necessary?
         try {
             bacteriaMap = state.getBacteriaState().entrySet().stream().collect(Collectors
                     .toMap(x -> (PositionImpl) x.getKey(), x -> new SimpleBacteria(x.getValue(), viewSpecies.stream()

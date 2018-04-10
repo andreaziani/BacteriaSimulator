@@ -1,12 +1,13 @@
 package controller;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import model.Position;
 import model.PositionImpl;
+import model.State;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.CreationViewFoodImpl;
 import view.model.food.SimulationViewFood;
@@ -15,8 +16,7 @@ import view.model.food.SimulationViewFood;
  * Represents all the information needed for a simulation to start.
  */
 public class InitialState {
-    private Map<PositionImpl, SimpleBacteria> bacteriaMap;
-    private Map<PositionImpl, SimulationViewFood> foodMap;
+    private Optional<SimpleState> state;
     private final Set<CreationViewFoodImpl> existingFood;
     private final Set<ViewSpecies> species;
     private final double maxX;
@@ -31,8 +31,7 @@ public class InitialState {
      *            the maximum size of the y coordinate.
      */
     public InitialState(final double maxX, final double maxY) {
-        bacteriaMap = new HashMap<>();
-        foodMap = new HashMap<>();
+        this.state = Optional.empty();
         existingFood = new HashSet<>();
         species = new HashSet<>();
         this.maxX = maxX;
@@ -40,18 +39,40 @@ public class InitialState {
     }
 
     /**
-     * Set the state of the simulation in the form of maps of positions and View
-     * representation of the simulation objects.
+     * Create an InitialState from the size of the simulation and a representation
+     * of the State of the simulation.
      * 
-     * @param bacteriaMap
-     *            the map of all bacteria.
-     * @param foodMap
-     *            the map of all foods.
+     * @param maxX
+     *            the maximum size of the x coordinate.
+     * @param maxY
+     *            the maximum size of the y coordinate.
+     * @param state
+     *            a serializable representation of the State of the environment.
      */
-    public void setState(final Map<PositionImpl, SimpleBacteria> bacteriaMap,
-            final Map<PositionImpl, SimulationViewFood> foodMap) {
-        this.bacteriaMap = bacteriaMap;
-        this.foodMap = foodMap;
+    public InitialState(final double maxX, final double maxY, final SimpleState state) {
+        this.state = Optional.of(state);
+        existingFood = new HashSet<>();
+        species = new HashSet<>();
+        this.maxX = maxX;
+        this.maxY = maxY;
+    }
+
+    /**
+     * Set the state of the simulation from a state of the environment.
+     * 
+     * @param state
+     *            a State of the environment.
+     * @throws IllegalStateException
+     *             if there are no species of foods in the initialState
+     * @throws IllegalArgumentException
+     *             if the state does not corresponds to the foods and species
+     *             inserted in this object.
+     */
+    public void setState(final State state) {
+        if (species.isEmpty() || existingFood.isEmpty()) {
+            throw new IllegalStateException();
+        }
+        this.state = Optional.of(new SimpleState(state, existingFood, species));
     }
 
     /**
@@ -73,17 +94,31 @@ public class InitialState {
     }
 
     /**
-     * @return the positions of all bacteria and their view representation.
+     * @return the positions of all bacteria in a easily serializable
+     *         representation.
+     * @throws IllegalStateException
+     *             if the state has not been set.
      */
     public Map<PositionImpl, SimpleBacteria> getBacteriaMap() {
-        return bacteriaMap;
+        try {
+            return this.state.get().getBacteriaMap();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException();
+        }
+
     }
 
     /**
-     * @return the positions of all foods and their view representation.
+     * @return the positions of all foods in a easily serializable representation.
+     * @throws IllegalStateException
+     *             if the state has not been set.
      */
     public Map<PositionImpl, SimulationViewFood> getFoodMap() {
-        return foodMap;
+        try {
+            return this.state.get().getFoodMap();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException();
+        }
     }
 
     /**
