@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import utils.Log;
+import utils.Logger;
 import view.model.ViewState;
 
 /**
@@ -48,33 +48,29 @@ public class SimulationPanel extends JPanel {
     protected final void paintComponent(final Graphics g) {
         super.paintComponent(g);
         if (state.isPresent()) {
-            state.get().getBacteriaState().entrySet().stream().forEach(e -> {
-                Graphics2D g2d = (Graphics2D)g;
-                // Assume x, y, and diameter are instance variables.
-                //g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius() + 5, e.getValue().getRadius().getYRadius() + 5);
-                // TODO probably there is a better way
-                Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-                        e.getValue().getRadius().getYRadius());
-                g.setColor(e.getValue().getColor());
-                g2d.fill(circle);
-            });
-
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
                 g.setColor(e.getValue().getColor());
                 g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
                         e.getValue().getRadius().getYRadius()+2);
             });
-            System.out.println("Bacteria size = " + state.get().getBacteriaState().size() );
+
+            state.get().getBacteriaState().entrySet().stream().forEach(e -> {
+                // TODO probably there is a better way
+                final Graphics2D g2d = (Graphics2D)g;
+                final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
+                        e.getValue().getRadius().getYRadius());
+                g.setColor(e.getValue().getColor());
+                g2d.fill(circle);
+                //g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius() + 5, e.getValue().getRadius().getYRadius() + 5);
+            });
+
+            Logger.getLog().info("Bacteria size = " + state.get().getBacteriaState().size());
+            Logger.getLog().info("Food size = " + state.get().getFoodsState().size());
             state.get().getBacteriaState().entrySet().stream()
                                         .limit(1)
-                                        .forEach(e -> Log.getLog().info("Bacteria radius: " + e.getValue().getRadius().getXRadius() + ", " 
+                                        .forEach(e -> Logger.getLog().info("Bacteria radius: " + e.getValue().getRadius().getXRadius() + ", " 
                                                                                             + e.getValue().getRadius().getYRadius()));
         }
-        // super.paintComponent(g);
-        // for (final Map.Entry<Point, Color> e : this.foods.entrySet()) {
-        // g.setColor(e.getValue());
-        // g.fillOval(e.getKey().x, e.getKey().y, RADIUS * 2, RADIUS * 2);
-        // }
     }
 
     /**

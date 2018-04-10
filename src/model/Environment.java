@@ -1,7 +1,9 @@
 package model;
 
 import java.util.List;
+import java.util.Optional;
 
+import controller.InitialState;
 import model.bacteria.Species;
 import model.food.Food;
 
@@ -45,8 +47,10 @@ public interface Environment {
 
     /**
      * Initialize environment.
+     * @param initialState
+     *          optional initialState used to initialize the simulation
      */
-    void init();
+    void init(Optional<InitialState> initialState);
 
     /**
      * update environment.

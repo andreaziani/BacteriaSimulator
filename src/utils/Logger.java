@@ -3,18 +3,18 @@ package utils;
 /**
  * Log utility.
  */
-public final class Log {
-    private static final Log SINGLETON = new Log();
+public final class Logger {
+    private static final Logger LOG = new Logger();
 
-    private Log() {
+    private Logger() {
     };
 
     /**
      * Return the reference to the logger.
      * @return Log 
      */
-    public static Log getLog() {
-        return SINGLETON;
+    public static Logger getLog() {
+        return LOG;
     }
 
     /**

@@ -143,10 +143,26 @@ public final class EnvironmentUtil {
      *            the end value for both the X and the Y coordinate
      * @param bacteriaPos
      *            the original Position of the Bacteria
+     * @param maxPosition
+     *            the upper limit that every position must not exceed
      * @return a stream of Position
      */
     public static Stream<Position> positionStream(final int start, final int end, final Position bacteriaPos, final Position maxPosition) {
         return positionStream(start, end, start, end, bacteriaPos, maxPosition);
+    }
+
+    /**
+     * Generate stream of Position up to distance "distance" from bacteriaPost (in the range 
+     * [(bacteriaPos - distance, bacteriaPos - distance), (bacteriaPos + distance, bacteriaPos + distance)]).
+     * 
+     * @param distance  the maximum distance of each position
+     * @param bacteriaPos the original Position of the Bacteria
+     * @param maxPosition
+     *            the upper limit that every position must not exceed
+     * @return a stream of Position
+     */
+    public static Stream<Position> positionStream(final int distance, final Position bacteriaPos, final Position maxPosition) {
+        return positionStream(-distance, distance, bacteriaPos, maxPosition);
     }
 
     /**

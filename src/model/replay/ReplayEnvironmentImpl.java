@@ -1,7 +1,9 @@
 package model.replay;
 
 import java.util.List;
+import java.util.Optional;
 
+import controller.InitialState;
 import model.Analysis;
 import model.Position;
 import model.State;
@@ -27,7 +29,7 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public void init() {
+    public void init(final Optional<InitialState> initialState) {
         // TODO Auto-generated method stub
     }
 

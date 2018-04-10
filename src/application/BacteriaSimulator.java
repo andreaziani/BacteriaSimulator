@@ -10,13 +10,12 @@ import view.gui.MainFrame;
  */
 public final class BacteriaSimulator {
 
-    private final Controller controller;
     private final ViewImpl view;
 
     private BacteriaSimulator() {
-        this.controller = new ControllerImpl();
-        this.view = new ViewImpl(this.controller);
-        this.controller.setView(view);
+        final Controller controller = new ControllerImpl();
+        this.view = new ViewImpl(controller);
+        controller.setView(view);
     }
 
     private void start() {

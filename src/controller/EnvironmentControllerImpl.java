@@ -9,7 +9,7 @@ import model.Environment;
 import model.bacteria.SpeciesBuilder;
 import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;
-import utils.Log;
+import utils.Logger;
 import utils.exceptions.InvalidSpeciesExeption;
 import utils.exceptions.SimulationAlreadyStartedExeption;
 import view.model.ViewPosition;
@@ -41,24 +41,22 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         this.loop = new SimulationLoop() {
             @Override
             public void run() {
-                // TODO different condition
-                while (!env.getState().getBacteriaState().isEmpty()) {
+                boolean condition = true;
+                while (condition) {
                     final long start = System.currentTimeMillis();
-                    env.update();
-                    simulationLoop();
+                    synchronized (EnvironmentControllerImpl.this) {
+                        env.update();
+                        simulationLoop();
+                        condition = !env.getState().getBacteriaState().isEmpty();
+                    }
                     final long elapsed = System.currentTimeMillis() - start;
-
-                    //final State state = env.getState();
-                    //Log.getLog().info("Bacteria " + state.getBacteriaState().toString());
-                    //Log.getLog().info("Food " + state.getFoodsState().toString());
-
-                    try {
-                        if (elapsed < PERIOD) {
+                    if (elapsed < PERIOD) {
+                        try {
                             System.out.println(elapsed);
                             Thread.sleep(PERIOD - elapsed);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
                 }
             }
@@ -72,7 +70,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         initialState = new InitialState(env.getMaxPosition().getX(), env.getMaxPosition().getY());
     }
 
-
     /**
      * Restore the simulation to a state defined by an InitialState object.
      * 
@@ -80,7 +77,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      *            the representation of the initial state.
      */
     protected void setInitialState(final InitialState initialState) {
-        resetSimulation();
         this.initialState = initialState;
     }
 
@@ -88,9 +84,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      * Start the simulation from the initialState saved in this controller.
      */
     protected void startFromInitialState() {
-        // TODO resettare env, reinserire tutto da InitialState e fare start
-        resetSimulation();
-        isStarted = true;
+        //resetSimulation(); if reset HERE all the parameters (species, food types ..) get deleted
+        this.startLoop(Optional.of(this.initialState));
     }
 
     /**
@@ -99,14 +94,14 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     protected InitialState getInitialState() {
         return initialState;
     }
-    
+
     /**
      * @return a replay representing the simulation.
      */
     protected Replay getReplay() {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * @return the analysis of the simulation.
      */
@@ -114,51 +109,55 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         return env.getAnalysis();
     }
 
+    /**
+     * method intended for allowing EnvController and Controller to "communicate".
+     */
+    protected void simulationLoop() {
+    }
+
+    private void startLoop(final Optional<InitialState> initialState) {
+        this.env.init(initialState);
+        final Thread mainThread = new Thread(this.loop);
+        Logger.getLog().info("Application started");
+        isStarted = true;
+        mainThread.start();
+    }
+
     @Override
-    public void addFoodFromView(final ViewFood food, final ViewPosition position) {
+    public synchronized void start() {
+        //resetSimulation(); if reset HERE all the parameters (species, food types ..) get deleted
+        this.startLoop(Optional.empty());
+    }
+
+    @Override
+    public synchronized void addFoodFromView(final ViewFood food, final ViewPosition position) {
         this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
                 env.getMaxPosition(), maxViewPosition.get()));
 //         System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
 //         env.getMaxPosition(), maxViewPosition.get()).getX() + " " +
 //         ConversionsUtil.conversionFromViewPositionToPosition(position,
 //         env.getMaxPosition(), maxViewPosition.get()).getY());
-        
-    }
-
-    protected void simulationLoop() {
     }
 
     @Override
-    public void start() {
-        // TODO start
-        // TODO complete InitialState
-        Log.getLog().info("Application started");
-        this.env.init();
-        isStarted = true;
-        // TODO reorganize logic
-        final Thread mainThread = new Thread(this.loop);
-        mainThread.start();
-    }
-
-    @Override
-    public void addNewTypeOfFood(final ViewFood food) {
+    public synchronized void addNewTypeOfFood(final ViewFood food) {
         this.foodController.addNewTypeOfFood(food);
         initialState.addFood((CreationViewFoodImpl) food);
     }
 
     @Override
-    public List<ViewFood> getExistingViewFoods() {
+    public synchronized List<ViewFood> getExistingViewFoods() {
         return this.foodController.getExistingViewFoods();
     }
 
     @Override
-    public ViewState getState() {
+    public synchronized ViewState getState() {
         return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController,
                 this.env.getMaxPosition(), this.maxViewPosition.get(), initialState);
     }
 
     @Override
-    public void addSpecies(final ViewSpecies species) {
+    public synchronized void addSpecies(final ViewSpecies species) {
         if (isSimulationStarted()) {
             throw new SimulationAlreadyStartedExeption();
         }
@@ -174,18 +173,18 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     @Override
-    public void setMaxViewDimension(final ViewPosition position) {
+    public synchronized void setMaxViewDimension(final ViewPosition position) {
         this.maxViewPosition = Optional.of(position);
     }
 
     /**
      * @return a boolean indicating if the simulation is already started.
      */
-    public boolean isSimulationStarted() {
+    public synchronized boolean isSimulationStarted() {
         return isStarted;
     }
 
-    public boolean isSpeciesEmpty() {
+    public synchronized boolean isSpeciesEmpty() {
         return this.initialState.getSpecies().isEmpty();
     }
 }
