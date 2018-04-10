@@ -71,7 +71,6 @@ public class MainFrame extends JFrame implements View {
     public void updateExistingFoods() {
         this.topPanel.updateFoods(this.view);
     }
-    
     private void viewSettings() {
         this.setSize(width, height);
         this.view.setDimension(this.simulationPanel.getSize());
