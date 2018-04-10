@@ -1,13 +1,24 @@
 package controller;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
+import model.Energy;
 import model.Position;
 import model.PositionImpl;
 import model.State;
+import model.StateImpl;
+import model.bacteria.BacteriaImpl;
+import model.bacteria.Species;
+import model.food.FoodImpl;
+import model.geneticcode.GeneImpl;
+import model.geneticcode.GeneticCodeImpl;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.CreationViewFoodImpl;
 import view.model.food.SimulationViewFood;

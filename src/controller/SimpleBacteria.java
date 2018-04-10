@@ -11,6 +11,7 @@ import view.model.bacteria.ViewSpecies;
  * for saving and loading simulations and is easily serializable via json.
  */
 public class SimpleBacteria {
+    private final int id;
     private final double radius;
     private final double perceptionRadius;
     private final ViewSpecies species;
@@ -27,10 +28,18 @@ public class SimpleBacteria {
      *            a view representation of the bacteria's species.
      */
     public SimpleBacteria(final Bacteria bacteria, final ViewSpecies species) {
+        this.id = bacteria.getId();
         this.radius = bacteria.getRadius();
         this.perceptionRadius = bacteria.getPerceptionRadius();
         this.species = species;
         this.code = bacteria.getGeneticCode().getCode().getCode();
+    }
+
+    /**
+     * @return the id of the bacteria.
+     */
+    public int getId() {
+        return id;
     }
 
     /**
