@@ -20,6 +20,7 @@ public class SpeciesAndFoodPanel extends JPanel {
     private final JButton createSpecies = new JButton("Create Species");
     private final JButton setStrategy = new JButton("Set Strategy");
     private final JLabel selectFood = new JLabel("Select Food: ");
+    private final JLabel selectStrategy = new JLabel("Select Strategy: ");
     private final JComboBox<String> foods = new JComboBox<>();
     private final JComboBox<String> strategies = new JComboBox<>();
     /**
@@ -48,6 +49,7 @@ public class SpeciesAndFoodPanel extends JPanel {
         this.createFood.addActionListener(e -> {
             new FoodCreationDialog(view, this, main);
         });
+        this.add(this.selectStrategy);
         this.add(this.strategies);
         this.add(this.setStrategy);
         this.add(this.selectFood);
