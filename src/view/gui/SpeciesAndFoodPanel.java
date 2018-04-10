@@ -8,7 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import model.food.insertionstrategy.position.DistributionStrategy;
 import view.ViewController;
 /**
  * 
@@ -18,8 +18,11 @@ import view.ViewController;
 public class SpeciesAndFoodPanel extends JPanel {
     private final JButton createFood = new JButton("Create Food");
     private final JButton createSpecies = new JButton("Create Species");
+    private final JButton setStrategy = new JButton("Set Strategy");
     private final JLabel selectFood = new JLabel("Select Food: ");
+    private final JLabel selectStrategy = new JLabel("Select Strategy: ");
     private final JComboBox<String> foods = new JComboBox<>();
+    private final JComboBox<String> strategies = new JComboBox<>();
     /**
      * Automatically generated.
      */
@@ -33,12 +36,22 @@ public class SpeciesAndFoodPanel extends JPanel {
         super();
         this.setLayout(new FlowLayout());
         this.foods.addItem("Select a food");
+        this.foods.setEnabled(false);
+        this.setStrategy.addActionListener(e -> {
+            view.setDistributionStrategy(this.getSelectedStrategy());
+            this.strategies.setEnabled(false);
+            this.setStrategy.setEnabled(false);
+        });
+        view.getAvailableDistributionStrategies().forEach(d -> this.strategies.addItem(d));
         this.createSpecies.addActionListener(e -> {
             new SpeciesCreationDialog(view, main);
         });
         this.createFood.addActionListener(e -> {
             new FoodCreationDialog(view, this, main);
         });
+        this.add(this.selectStrategy);
+        this.add(this.strategies);
+        this.add(this.setStrategy);
         this.add(this.selectFood);
         this.add(this.foods);
         this.add(this.createFood);
@@ -59,6 +72,15 @@ public class SpeciesAndFoodPanel extends JPanel {
      */
     public void updateFoods(final ViewController view) {
         this.foods.removeAllItems();
-        view.getFoodsType().forEach(f -> this.foods.addItem(f.getName()));
+        if (view.getFoodsType().isEmpty()) {
+            this.foods.addItem("Select a Food");
+            this.setEnabled(false);
+        } else {
+            this.foods.setEnabled(true);
+            view.getFoodsName().forEach(f -> this.foods.addItem(f));
+        }
+    }
+    private DistributionStrategy getSelectedStrategy() {
+        return DistributionStrategy.valueOf((String) this.strategies.getSelectedItem());
     }
 }

@@ -1,4 +1,5 @@
 package view.gui;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 
@@ -7,9 +8,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import view.ViewController;
+
 /**
- * Panel that contains all the components that allow the user
- * to choose whether to start and stop the simulation.
+ * Panel that contains all the components that allow the user to choose whether
+ * to start and stop the simulation.
  *
  */
 public class ChoicesPanel extends JPanel {
@@ -20,9 +22,12 @@ public class ChoicesPanel extends JPanel {
      * Automatically generated.
      */
     private static final long serialVersionUID = -5569246934783157059L;
+
     /**
      * Construct the panel by passing the view on which to handle the interactions.
-     * @param view the view on which to handle the interactions.
+     * 
+     * @param view
+     *            the view controller on which to handle the interactions.
      */
     public ChoicesPanel(final ViewController view) {
         super();

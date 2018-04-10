@@ -32,6 +32,7 @@ public class TestFood {
     private static final double V1 = 100.2;
     private static final double V2 = 0.2;
     private static final double V3 = 13.1;
+    private final Position mPos = new PositionImpl(1000,1000);
     private final Map<Nutrient, Double> nutrients1 = new HashMap<>();
     private final Map<Nutrient, Double> nutrients2 = new HashMap<>();
     private final Map<Nutrient, Double> nutrients3 = new HashMap<>();
@@ -74,7 +75,7 @@ public class TestFood {
         assertNotEquals("Foods are not equals", food1, food2);
         assertNotEquals("Foods are not equals", food1, food4);
         assertEquals("Foods are equals", food1, food3);
-        modifyNutrients(); // verifico che modificando i nutrienti non si modifichino i food già creati.
+        modifyNutrients(); // verifico che modificando i nutrienti non si modifichino i food giï¿½ creati.
         final Food food5 = factory.createFoodFromNameAndNutrients("Banana", nutrients1);
         assertNotEquals("Foods are not equals", food1, food5);
     }
@@ -118,7 +119,7 @@ public class TestFood {
         final Food food2 = factory.createFoodFromNameAndNutrients("mela", nutrients2);
         final Food food3 = factory.createFoodFromNameAndNutrients("arancia", nutrients1);
         final ExistingFoodManager manager = new ExistingFoodManagerImpl();
-        final FoodEnvironment env = new FoodEnvironmentImpl(manager);
+        final FoodEnvironment env = new FoodEnvironmentImpl(manager, mPos);
         manager.addFood(food1);
         manager.addFood(food2);
         manager.addFood(food3);

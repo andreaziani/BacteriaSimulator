@@ -12,6 +12,7 @@ import controller.Controller;
 import model.Analysis;
 import model.action.ActionType;
 import model.food.Nutrient;
+import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
@@ -137,6 +138,21 @@ public class ViewImpl implements View, ViewController {
     @Override
     public void setMainFrame(final View userInterface) {
         this.userInterface = userInterface;
+    }
+
+    @Override
+    public void updateExistingFoods() {
+        this.userInterface.updateExistingFoods();
+    }
+
+    @Override
+    public List<String> getAvailableDistributionStrategies() {
+        return Arrays.asList(DistributionStrategy.values()).stream().map(n -> n.toString()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void setDistributionStrategy(final DistributionStrategy strategy) {
+        this.controller.setDistributionStrategy(strategy);
     }
 
 }

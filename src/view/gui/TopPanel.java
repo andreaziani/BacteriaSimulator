@@ -81,6 +81,13 @@ public class TopPanel extends JPanel {
     public int getSelectedFood() {
         return this.speciesAndFood.getSelectedFood();
     }
+    /**
+     * Update food's type.
+     * @param view from which to take existing food's name.
+     */
+    public void updateFoods(final ViewController view) {
+        this.speciesAndFood.updateFoods(view);
+    }
 
     private void componentsSettings() {
         this.fileMenu.setActionCommand("File");

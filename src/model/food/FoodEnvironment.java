@@ -3,6 +3,7 @@ package model.food;
 import java.util.Map;
 
 import model.Position;
+import model.food.insertionstrategy.position.DistributionStrategy;
 
 /**
  * Environment that deals with food operations, allows to enter new food or
@@ -64,4 +65,13 @@ public interface FoodEnvironment {
      * @return an unmodifiable copy of a map that contains positions and foods.
      */
     Map<Position, Food> getFoodsState();
+
+    /**
+     * Set the strategy for distributing food in the environment. The strategy is
+     * Uniform distribuion by default.
+     * 
+     * @param strategy
+     *            the strategy chosen.
+     */
+    void setPositionStrategy(DistributionStrategy strategy);
 }

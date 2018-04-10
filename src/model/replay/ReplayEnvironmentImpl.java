@@ -9,6 +9,7 @@ import model.Position;
 import model.State;
 import model.bacteria.Species;
 import model.food.Food;
+import model.food.insertionstrategy.position.DistributionStrategy;
 
 /**
  * implementation of ReplayEnvironment.
@@ -65,6 +66,12 @@ public class ReplayEnvironmentImpl implements ReplayEnvironment {
     public List<Food> getExistingFoods() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void setFoodDistributionStrategy(final DistributionStrategy strategy) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

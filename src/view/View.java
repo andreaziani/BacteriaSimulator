@@ -14,4 +14,8 @@ public interface View {
      *            of view.
      */
     void update(ViewState state);
+    /**
+     * Update the list of existing foods.
+     */
+    void updateExistingFoods();
 }

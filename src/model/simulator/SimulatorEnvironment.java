@@ -24,6 +24,7 @@ import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodEnvironmentImpl;
+import model.food.insertionstrategy.position.DistributionStrategy;
 import utils.ConversionsUtil;
 import utils.Logger;
 
@@ -32,15 +33,15 @@ import utils.Logger;
  *
  */
 public class SimulatorEnvironment implements Environment {
-    private static final int FOOD_PER_ROUND = 5;
+    private static final int FOOD_PER_ROUND = 2;
     // pass on Constructor
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
-    private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager);
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private final MutationManager mutManager = new MutationManagerImpl();
     private final Analysis analysis = new AnalysisImpl();
     private BacteriaManager bactManager;
     private Position maxPosition = new PositionImpl(1000.0, 1000.0);
+    private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(manager, maxPosition);
     private State state;
 
     /**
@@ -137,5 +138,10 @@ public class SimulatorEnvironment implements Environment {
     @Override
     public void addNewTypeOfFood(final Food food) {
         this.manager.addFood(food);
+    }
+
+    @Override
+    public void setFoodDistributionStrategy(final DistributionStrategy strategy) {
+        this.foodEnv.setPositionStrategy(strategy);
     }
 }

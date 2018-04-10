@@ -31,15 +31,16 @@ public class MainFrame extends JFrame implements View {
     private final int height = dim.height * 2 / 3;
     private final int width = dim.width * 2 / 3;
     private final SimulationPanel simulationPanel = new SimulationPanel(width, height);
+    private final TopPanel topPanel;
+    private final ViewController view;
     /**
      * Constructor the MainFrame by passing a View.
      * @param view the View with which to interact.
      */
     public MainFrame(final ViewController view) {
         super("Bacteria Simulator");
-        final TopPanel topPanel = new TopPanel(view, this);
-        this.setSize(width, height);
-        view.setDimension(this.simulationPanel.getSize());
+        this.view = view;
+        topPanel = new TopPanel(this.view, this);
         this.simulationPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
                 if (!view.getFoodsType().isEmpty() && view.isSimulationStarter()) {
@@ -59,15 +60,24 @@ public class MainFrame extends JFrame implements View {
 //                System.out.println(simulationPanel.getSize().width + " " + simulationPanel.getSize().height);
             }
         });
-        this.getContentPane().setBackground(Color.WHITE);
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(simulationPanel, BorderLayout.CENTER);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setVisible(true);
+        this.viewSettings();
     }
     @Override
     public void update(final ViewState state) {
         this.simulationPanel.setState(state);
         simulationPanel.repaint();
+    }
+    @Override
+    public void updateExistingFoods() {
+        this.topPanel.updateFoods(this.view);
+    }
+    private void viewSettings() {
+        this.setSize(width, height);
+        this.view.setDimension(this.simulationPanel.getSize());
+        this.getContentPane().setBackground(Color.WHITE);
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(simulationPanel, BorderLayout.CENTER);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setVisible(true);
     }
 }

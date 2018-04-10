@@ -7,6 +7,7 @@ import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.Environment;
 import model.bacteria.SpeciesBuilder;
+import model.food.insertionstrategy.position.DistributionStrategy;
 import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;
 import utils.Logger;
@@ -186,5 +187,10 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     public synchronized boolean isSpeciesEmpty() {
         return this.initialState.getSpecies().isEmpty();
+    }
+
+    @Override
+    public void setDistributionStrategy(final DistributionStrategy strategy) {
+        this.env.setFoodDistributionStrategy(strategy);
     }
 }

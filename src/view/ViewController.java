@@ -9,6 +9,7 @@ import java.util.Map;
 
 import model.Analysis;
 import model.action.ActionType;
+import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 
@@ -117,7 +118,8 @@ public interface ViewController {
      * 
      * @param file
      *            the file to load from.
-     * @throws IOException in case of a problem.
+     * @throws IOException
+     *             in case of a problem.
      */
     void loadSimulation(File file) throws IOException;
 
@@ -126,7 +128,8 @@ public interface ViewController {
      * 
      * @param file
      *            the file to save into.
-     * @throws IOException in case of a problem.
+     * @throws IOException
+     *             in case of a problem.
      */
     void saveSimulation(File file) throws IOException;
 
@@ -135,26 +138,48 @@ public interface ViewController {
      * 
      * @param file
      *            the file to save into.
-     * @throws IOException in case of a problem.
+     * @throws IOException
+     *             in case of a problem.
      */
     void saveAnalysis(File file) throws IOException;
+
     /**
      * Return if the simulation is started.
+     * 
      * @return true if the simulation is started, false in other case.
      */
     boolean isSimulationStarter();
+
     /**
      * Start the simulation.
      */
     void startSimulation();
+
     /**
      * Return if the user has not yet entered the species.
-     * @return true if the user has not yet entered the species, false in other case.
+     * 
+     * @return true if the user has not yet entered the species, false in other
+     *         case.
      */
     boolean isSpeciesEmpty();
+
     /**
      * Set the userInterface.
-     * @param userInterface the user interface.
+     * 
+     * @param userInterface
+     *            the user interface.
      */
     void setMainFrame(View userInterface);
+
+    /**
+     * Get the available distribution strategies.
+     * 
+     * @return the list of available strategies.
+     */
+    List<String> getAvailableDistributionStrategies();
+    /**
+     * Set the distribution strategy for foods.
+     * @param strategy the strategy chosen.
+     */
+    void setDistributionStrategy(DistributionStrategy strategy);
 }
