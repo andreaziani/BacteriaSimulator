@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.List;
+
+import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 import view.model.ViewState;
@@ -76,14 +78,26 @@ public interface EnvironmentController {
      *            the maximum dimension of the view.
      */
     void setMaxViewDimension(ViewPosition maxDimension);
+
     /**
      * Return if the simulation is started.
+     * 
      * @return true if the simulation is started, false in other case.
      */
     boolean isSimulationStarted();
+
     /**
      * Return if some species is present.
+     * 
      * @return true if there are no species created, false in other case.
      */
     boolean isSpeciesEmpty();
+
+    /**
+     * Set the distribution strategy for foods. The strategy is Uniform
+     * distribution by default.
+     * 
+     * @param strategy the strategy chosen.
+     */
+    void setDistributionStrategy(DistributionStrategy strategy);
 }

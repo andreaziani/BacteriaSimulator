@@ -1,4 +1,4 @@
-package model.food.insertionstrategy;
+package model.food.insertionstrategy.position;
 
 import org.apache.commons.math3.distribution.GeometricDistribution;
 
@@ -9,7 +9,7 @@ import model.PositionImpl;
  * Implementation of the strategy that uses a geometric distribution for the
  * random choice.
  */
-public class GeometricDistribuitionStrategyImpl implements RandomPositionStrategy {
+public class GeometricDistribuitionStrategyImpl extends AbstractStrategy {
     private static final double PROBABILITY = 0.01;
     private final Position maxPosition;
 
@@ -18,8 +18,11 @@ public class GeometricDistribuitionStrategyImpl implements RandomPositionStrateg
      * 
      * @param maxPosition
      *            the maximum position in the environment.
+     * @param strategy
+     *            the type of strategy chosen.
      */
-    public GeometricDistribuitionStrategyImpl(final Position maxPosition) {
+    public GeometricDistribuitionStrategyImpl(final Position maxPosition, final DistributionStrategy strategy) {
+        super(strategy);
         this.maxPosition = maxPosition;
     }
 

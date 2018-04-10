@@ -24,6 +24,7 @@ import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodEnvironmentImpl;
+import model.food.insertionstrategy.position.DistributionStrategy;
 import utils.ConversionsUtil;
 import utils.Logger;
 
@@ -137,5 +138,10 @@ public class SimulatorEnvironment implements Environment {
     @Override
     public void addNewTypeOfFood(final Food food) {
         this.manager.addFood(food);
+    }
+
+    @Override
+    public void setFoodDistributionStrategy(final DistributionStrategy strategy) {
+        this.foodEnv.setPositionStrategy(strategy);
     }
 }

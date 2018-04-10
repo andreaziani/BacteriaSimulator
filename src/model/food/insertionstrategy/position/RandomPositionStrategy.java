@@ -1,4 +1,4 @@
-package model.food.insertionstrategy;
+package model.food.insertionstrategy.position;
 
 import model.Position;
 

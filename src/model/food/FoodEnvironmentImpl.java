@@ -7,10 +7,12 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import model.Position;
-import model.food.insertionstrategy.GeometricDistribuitionStrategyImpl;
 import model.food.insertionstrategy.RandomFoodStrategy;
 import model.food.insertionstrategy.RandomFoodStrategyImpl;
-import model.food.insertionstrategy.RandomPositionStrategy;
+import model.food.insertionstrategy.position.GeometricDistribuitionStrategyImpl;
+import model.food.insertionstrategy.position.DistributionStrategy;
+import model.food.insertionstrategy.position.RandomPositionStrategy;
+import model.food.insertionstrategy.position.RandomPositionStrategyImpl;
 import utils.EnvironmentUtil;
 import utils.exceptions.PositionAlreadyOccupiedException;
 
@@ -24,6 +26,7 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
     private final Position maxPos;
     private final Map<Position, Food> foods = new HashMap<>();
     private final ExistingFoodManager manager;
+    private DistributionStrategy strategy = DistributionStrategy.UNIFORM_DISTRIBUTION; //Uniform distribution by default.
 
     /**
      * Construct the FoodEnvironment from an ExistingFoodManager with which to know
@@ -31,6 +34,8 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
      * 
      * @param manager
      *            that contains all existing foods.
+     * @param maximumPosition
+     *            the maximum position in the environment.
      */
     public FoodEnvironmentImpl(final ExistingFoodManager manager, final Position maximumPosition) {
         this.manager = manager;
@@ -70,12 +75,20 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
         removeFood(food, oldPosition); // maybe they can generate an Exception.
         addFood(food, newPosition);
     }
-
+    @Override
+    public void setPositionStrategy(final DistributionStrategy strategy) {
+        this.strategy = strategy;
+    }
     @Override
     public void addRandomFood() {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
-        final RandomPositionStrategy positionStrategy = new GeometricDistribuitionStrategyImpl(this.maxPos);
+        RandomPositionStrategy positionStrategy;
+        if (this.strategy == DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
+            positionStrategy = new GeometricDistribuitionStrategyImpl(this.maxPos, strategy);
+        } else {
+            positionStrategy = new RandomPositionStrategyImpl(maxPos, strategy);
+        }
         for (int i = MAXATTEMPS; (i > 0 && check); i--) { // provo a reinserire se la posizione era gia' occupata.
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());

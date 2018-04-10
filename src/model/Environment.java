@@ -6,6 +6,7 @@ import java.util.Optional;
 import controller.InitialState;
 import model.bacteria.Species;
 import model.food.Food;
+import model.food.insertionstrategy.position.DistributionStrategy;
 
 /**
  * Environment of the simulation, deals with all the actions in the simulation.
@@ -74,4 +75,10 @@ public interface Environment {
      * @return the maximum position.
      */
     Position getMaxPosition();
+    /**
+     * Set the distribution strategy for foods.
+     * The strategy is Uniform distribution by default.
+     * @param strategy the strategy chosen.
+     */
+    void setFoodDistributionStrategy(DistributionStrategy strategy);
 }

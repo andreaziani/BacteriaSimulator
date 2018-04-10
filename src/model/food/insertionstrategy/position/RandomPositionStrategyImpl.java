@@ -1,7 +1,6 @@
-package model.food.insertionstrategy;
+package model.food.insertionstrategy.position;
 
 import java.util.Random;
-import java.util.RandomAccess;
 
 import model.Position;
 import model.PositionImpl;
@@ -12,7 +11,7 @@ import model.PositionImpl;
  * 
  *
  */
-public class RandomPositionStrategyImpl implements RandomPositionStrategy, RandomAccess {
+public class RandomPositionStrategyImpl extends AbstractStrategy {
     private final Position maxPosition;
 
     /**
@@ -20,8 +19,11 @@ public class RandomPositionStrategyImpl implements RandomPositionStrategy, Rando
      * 
      * @param maxPosition
      *            the maximum position in the environment.
+     * @param strategy
+     *            the strategy chosen.
      */
-    public RandomPositionStrategyImpl(final Position maxPosition) {
+    public RandomPositionStrategyImpl(final Position maxPosition, final DistributionStrategy strategy) {
+        super(strategy);
         this.maxPosition = maxPosition;
     }
 
