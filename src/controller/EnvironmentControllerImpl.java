@@ -41,12 +41,13 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         this.loop = new SimulationLoop() {
             @Override
             public void run() {
-                // TODO different condition
-                while (!env.getState().getBacteriaState().isEmpty()) {
+                boolean condition = true;
+                while (condition) {
                     final long start = System.currentTimeMillis();
                     synchronized (EnvironmentControllerImpl.this) {
                         env.update();
                         simulationLoop();
+                        condition = !env.getState().getBacteriaState().isEmpty();
                     }
                     final long elapsed = System.currentTimeMillis() - start;
                     if (elapsed < PERIOD) {
@@ -76,7 +77,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      *            the representation of the initial state.
      */
     protected void setInitialState(final InitialState initialState) {
-        resetSimulation();
         this.initialState = initialState;
     }
 
@@ -84,9 +84,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      * Start the simulation from the initialState saved in this controller.
      */
     protected void startFromInitialState() {
-        // TODO resettare env, reinserire tutto da InitialState e fare start
-        resetSimulation();
-        isStarted = true;
+        //resetSimulation(); if reset HERE all the parameters (species, food types ..) get deleted
+        this.startLoop(Optional.of(this.initialState));
     }
 
     /**
@@ -95,14 +94,14 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     protected InitialState getInitialState() {
         return initialState;
     }
-    
+
     /**
      * @return a replay representing the simulation.
      */
     protected Replay getReplay() {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * @return the analysis of the simulation.
      */
@@ -114,16 +113,18 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     protected void simulationLoop() {
     }
 
+    private void startLoop(Optional<InitialState> initialState) {
+        this.env.init(initialState);
+        final Thread mainThread = new Thread(this.loop);
+        Log.getLog().info("Application started");
+        isStarted = true;
+        mainThread.start();
+    }
+
     @Override
     public synchronized void start() {
-        // TODO start
-        // TODO complete InitialState
-        Log.getLog().info("Application started");
-        this.env.init();
-        isStarted = true;
-        // TODO reorganize logic
-        final Thread mainThread = new Thread(this.loop);
-        mainThread.start();
+        //resetSimulation(); if reset HERE all the parameters (species, food types ..) get deleted
+        this.startLoop(Optional.empty());
     }
 
     @Override
