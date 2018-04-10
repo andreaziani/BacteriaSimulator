@@ -92,13 +92,13 @@ public class AnalysisImpl implements Analysis {
     }
 
     private void before() {
-        this.lbefore = listOfBacteria(lstate.get(0).getBacteriaState());
+        this.lbefore = listOfBacteria(this.lstate.get(0).getBacteriaState());
         this.speciesB = speciesOfBacteria(this.lbefore);
     }
 
     private void after() {
-        this.lafter = listOfBacteria(lstate.get(lstate.size() - 1).getBacteriaState());
-        this.speciesA = speciesOfBacteria(lafter);
+        this.lafter = listOfBacteria(this.lstate.get(this.lstate.size() - 1).getBacteriaState());
+        this.speciesA = speciesOfBacteria(this.lafter);
     }
 
     private String toString(final Map<Species, Integer> map) {
@@ -130,7 +130,7 @@ public class AnalysisImpl implements Analysis {
 
     private String resultDead() {
         final Set<Species> dead = dead(this.speciesB, this.speciesA);
-        return ("Species dead: " + dead + "\n");
+        return "" + dead + "";
     }
 
     private String resultBactMutated() {
