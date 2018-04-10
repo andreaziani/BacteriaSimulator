@@ -130,7 +130,7 @@ public class AnalysisImpl implements Analysis {
 
     private String resultDead() {
         final Set<Species> dead = dead(this.speciesB, this.speciesA);
-        return "" + dead + "";
+        return dead.toString();
     }
 
     private String resultBactMutated() {
