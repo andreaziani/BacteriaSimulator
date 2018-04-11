@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import model.bacteria.Bacteria;
-import model.bacteria.BacteriaImpl;
 import model.geneticcode.NucleicAcid;
 import view.model.bacteria.ViewSpecies;
 

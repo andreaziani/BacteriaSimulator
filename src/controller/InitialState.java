@@ -8,13 +8,10 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.omg.CORBA.OMGVMCID;
-
 import model.Energy;
 import model.Position;
 import model.PositionImpl;
 import model.State;
-import model.bacteria.BacteriaImpl;
 import model.bacteria.Species;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.CreationViewFoodImpl;

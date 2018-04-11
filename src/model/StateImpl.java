@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
-import controller.SimpleState;
 import model.bacteria.Bacteria;
 import model.food.Food;
 
