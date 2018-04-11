@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -122,16 +123,11 @@ public final class EnvironmentUtil {
     public static Stream<Position> positionStream(final int startX, final int endX, final int startY, final int endY,
             final Position bacteriaPos, final Position maxPosition) {
         return IntStream.range(startX, endX)
-                .filter(x -> x != 0)
-                .mapToObj(x -> IntStream.range(startY, endY)
-                        .filter(y -> y != 0)
+                .mapToObj(x -> IntStream.range(startY, endY).filter(y -> x != 0 || y != 0)
                         .mapToObj(y -> new PositionImpl(bacteriaPos.getX() + x, bacteriaPos.getY() + y)))
-                .flatMap(position -> position)
-                .map(position -> (Position) position)
-                .filter(position -> position.getX() < maxPosition.getX()
-                                        && position.getX() > 0
-                                        && position.getY() < maxPosition.getY()
-                                        && position.getY() > 0);
+                .flatMap(position -> position).map(position -> (Position) position)
+                .filter(position -> position.getX() < maxPosition.getX() && position.getX() > 0
+                        && position.getY() < maxPosition.getY() && position.getY() > 0);
     }
 
     /**
@@ -147,21 +143,26 @@ public final class EnvironmentUtil {
      *            the upper limit that every position must not exceed
      * @return a stream of Position
      */
-    public static Stream<Position> positionStream(final int start, final int end, final Position bacteriaPos, final Position maxPosition) {
+    public static Stream<Position> positionStream(final int start, final int end, final Position bacteriaPos,
+            final Position maxPosition) {
         return positionStream(start, end, start, end, bacteriaPos, maxPosition);
     }
 
     /**
-     * Generate stream of Position up to distance "distance" from bacteriaPost (in the range 
-     * [(bacteriaPos - distance, bacteriaPos - distance), (bacteriaPos + distance, bacteriaPos + distance)]).
+     * Generate stream of Position up to distance "distance" from bacteriaPost (in
+     * the range [(bacteriaPos - distance, bacteriaPos - distance), (bacteriaPos +
+     * distance, bacteriaPos + distance)]).
      * 
-     * @param distance  the maximum distance of each position
-     * @param bacteriaPos the original Position of the Bacteria
+     * @param distance
+     *            the maximum distance of each position
+     * @param bacteriaPos
+     *            the original Position of the Bacteria
      * @param maxPosition
      *            the upper limit that every position must not exceed
      * @return a stream of Position
      */
-    public static Stream<Position> positionStream(final int distance, final Position bacteriaPos, final Position maxPosition) {
+    public static Stream<Position> positionStream(final int distance, final Position bacteriaPos,
+            final Position maxPosition) {
         return positionStream(-distance, distance, bacteriaPos, maxPosition);
     }
 
@@ -178,5 +179,22 @@ public final class EnvironmentUtil {
             final Pair<Position, ? extends Collidable> entry2) {
         final double distance = distance(entry1.getLeft(), entry2.getLeft());
         return (distance <= entry1.getRight().getRadius() + entry2.getRight().getRadius());
+    }
+
+    /**
+     * Check whether the position would generate a collision with other entry.
+     * @param origin the original entry
+     * @param newPosition the new position to be used
+     * @param entityMap the map in which check for the collision
+     * @return true if it would cause a collision, false otherwise
+     */
+    public static boolean causeCollision(final Pair<Position, ? extends Collidable> origin,
+            final Position newPosition,
+            final Map<Position, ? extends Collidable> entityMap) {
+        final double radius = origin.getRight().getRadius();
+        return positionStream((int) Math.ceil(2 * radius), newPosition, new PositionImpl(1000, 1000))
+                    .filter(pos -> !(pos.getX() == origin.getLeft().getX() && pos.getY() == origin.getLeft().getY()))
+                    .filter(pos -> entityMap.containsKey(pos))
+                    .anyMatch(pos -> distance(pos,  newPosition) <= radius + entityMap.get(pos).getRadius());
     }
 }

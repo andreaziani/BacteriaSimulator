@@ -3,6 +3,7 @@ package model.simulator;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.math3.analysis.function.Log;
 
 import model.Direction;
 import model.Energy;
@@ -15,6 +16,7 @@ import model.geneticcode.CopyFactory;
 import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;
 import utils.EnvironmentUtil;
+import utils.Logger;
 
 /**
  * Implementation of ActionPerformer interface.
@@ -48,10 +50,13 @@ public class ActionPerformerImpl implements ActionPerformer {
     @Override
     public void move(final Direction moveDirection) {
         final double movement = this.bacterium.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
+        final Pair<Position, Bacteria> dataPair = Pair.of(this.currentPosition, this.bacterium);
         final int distance = (int) Math.ceil(movement);
         final Optional<Position> newPosition = EnvironmentUtil.positionStream(distance, currentPosition, this.simulationMaxPosition)
                 .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(currentPosition, position))
                         .equals(moveDirection))
+                .filter(position -> !EnvironmentUtil.causeCollision(dataPair, position, this.bactEnv.getBacteriaState()))
+                .filter(position -> !this.bactEnv.containBacteriaInPosition(position))
                 .findAny();
         if (newPosition.isPresent()) {
             this.bactEnv.changeBacteriaPosition(this.currentPosition, newPosition.get());

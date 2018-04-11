@@ -83,13 +83,32 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
     private void populate(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species) {
         Logger.getLog().info("Start populating");
+        /*
+        final Species spec = species.stream().limit(1).findAny().get();
+        final Gene g = new GeneImpl();
+        final GeneticCode gen = new GeneticCodeImpl(g, 10.0, 20.0);
+        final Position p1 = new PositionImpl(10, 10);
+        final Position p2 = new PositionImpl(40, 40);
+        final Bacteria b1 = new BacteriaImpl(bacteriaCounter, spec, gen, INITIAL_ENERGY);
+        final Bacteria b2 = new BacteriaImpl(bacteriaCounter, spec, gen, INITIAL_ENERGY);
+        this.bacteriaEnv.insertBacteria(p1, b1);
+        this.bacteriaEnv.insertBacteria(p2, b2);
+        */
         if (bacteriaMap.isPresent()) {
             bacteriaMap.get().entrySet().forEach(e -> this.bacteriaEnv.insertBacteria(e.getKey(), e.getValue()));
         } else {
             species.stream().forEach(specie -> {
                 final Gene gene = new GeneImpl();
+                final GeneticCode test = new GeneticCodeImpl(gene, 10.0, 20.0);
+                final Bacteria bTest = new BacteriaImpl(bacteriaCounter, specie, test, INITIAL_ENERGY);
                 IntStream.range(0, BACTERIA_PER_SPECIES)
-                .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY())))
+                .mapToObj(x -> {
+                    Position pos = new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY()));
+                    while (EnvironmentUtil.causeCollision(Pair.of(pos, bTest), pos, this.bacteriaEnv.getBacteriaState())) {
+                        pos = new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY()));
+                    }
+                    return pos;
+                })
                 .forEach(position -> {
                     final GeneticCode genCode = new GeneticCodeImpl(gene, 10.0, 20.0);
                     final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode, INITIAL_ENERGY);
@@ -98,6 +117,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                 });
             });
         }
+        //*/
     }
 
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos, final Map<Position, Food> foodsState) {

@@ -26,7 +26,7 @@ import view.model.food.ViewFood;
  *
  */
 public abstract class EnvironmentControllerImpl implements EnvironmentController {
-    private static final long PERIOD = 100L;
+    private static final long PERIOD = 125L;
     private Environment env;
     private FoodController foodController;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
@@ -56,9 +56,9 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
                         condition = !env.isSimulationOver();
                     }
                     final long elapsed = System.currentTimeMillis() - start;
+                    System.out.println(elapsed + " ms");
                     if (elapsed < PERIOD) {
                         try {
-                            System.out.println(elapsed);
                             Thread.sleep(PERIOD - elapsed);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
