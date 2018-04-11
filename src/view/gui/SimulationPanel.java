@@ -50,7 +50,7 @@ public class SimulationPanel extends JPanel {
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
                 g.setColor(e.getValue().getColor());
                 g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-                        e.getValue().getRadius().getYRadius() + 2);
+                        e.getValue().getRadius().getYRadius());
             });
 
             state.get().getBacteriaState().entrySet().stream().forEach(e -> {
@@ -65,10 +65,6 @@ public class SimulationPanel extends JPanel {
 
             Logger.getLog().info("Bacteria size = " + state.get().getBacteriaState().size());
             Logger.getLog().info("Food size = " + state.get().getFoodsState().size());
-            state.get().getBacteriaState().entrySet().stream()
-                                        .limit(1)
-                                        .forEach(e -> Logger.getLog().info("Bacteria radius: " + e.getValue().getRadius().getXRadius() + ", " 
-                                                                                            + e.getValue().getRadius().getYRadius()));
         }
     }
 
