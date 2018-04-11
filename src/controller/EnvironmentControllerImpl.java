@@ -25,7 +25,7 @@ import view.model.food.ViewFood;
  * Implementation of EnvironmentController.
  *
  */
-public class EnvironmentControllerImpl implements EnvironmentController {
+public abstract class EnvironmentControllerImpl implements EnvironmentController {
     private static final long PERIOD = 100L;
     private Environment env;
     private FoodController foodController;
@@ -123,8 +123,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     /**
      * method intended for allowing EnvController and Controller to "communicate".
      */
-    protected void simulationLoop() {
-    }
+    protected abstract void simulationLoop();
 
     private void startLoop(final Optional<InitialState> initialState) {
         this.updateCurrentState(SimulationState.RUNNING);

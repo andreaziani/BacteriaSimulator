@@ -34,6 +34,7 @@ public class AnalysisImpl implements Analysis {
      * Normal constructor that create an analysis without data already in it.
      */
     public AnalysisImpl() {
+        cachedDescription = Optional.empty();
     }
 
     /**
@@ -168,8 +169,7 @@ public class AnalysisImpl implements Analysis {
             after();
             cachedDescription = Optional.of(("Species survived: \n" + resultWins() + "\n" + "Species dead: \n" + resultDead() + "\n"
                     + "Number by Species: \n" + resultNByS() + "\n" + "Species mutated: \n" + resultBactMutated()));
-        } 
-        
+        }
         return cachedDescription.get();
     }
 

@@ -24,7 +24,6 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
 
     @Override
     protected void simulationLoop() {
-        super.simulationLoop();
         this.view.update(this.getState());
     }
 
