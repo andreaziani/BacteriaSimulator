@@ -29,6 +29,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
      * Automatically generated.
      */
     private static final long serialVersionUID = 2643418239937346321L;
+    private final ChoicesPanel choicesPanel;
 
     /**
      * Constructor.
@@ -46,7 +47,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.speciesAndFood = new SpeciesAndFoodPanel(view, main);
         this.componentsSettings();
         this.add(menuBar, BorderLayout.NORTH);
-        this.add(new ChoicesPanel(view), BorderLayout.SOUTH);
+        choicesPanel = new ChoicesPanel(view);
+        this.add(choicesPanel, BorderLayout.SOUTH);
         this.add(this.speciesAndFood, BorderLayout.CENTER);
 
         final JFileChooser simulationChooser = new JFileChooser();
@@ -100,5 +102,6 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     @Override
     public void updateSimulationState(final SimulationState state) {
         this.speciesAndFood.updateSimulationState(state);
+        this.choicesPanel.updateSimulationState(state);
     }
 }

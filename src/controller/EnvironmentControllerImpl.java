@@ -185,7 +185,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public synchronized void addSpecies(final ViewSpecies species) {
-        if (isSimulationStarted()) {
+        if (this.currentState != SimulationState.NOT_READY && this.currentState != SimulationState.READY) {
             throw new SimulationAlreadyStartedExeption();
         }
         try {

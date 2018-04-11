@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import controller.SimulationState;
 import view.ViewController;
@@ -35,7 +36,6 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
             if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
-                this.startSimulation.setEnabled(false);
                 view.startSimulation();
             } else {
                 JOptionPane.showMessageDialog(this, "You must insert one species and one type of food");
@@ -44,6 +44,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.add(this.startSimulation);
         this.add(this.pauseSimulation);
         this.add(this.stopSimulation);
+        this.startSimulation.setEnabled(false);
         this.stopSimulation.setEnabled(false);
         this.pauseSimulation.setEnabled(false);
         this.setOpaque(true);
@@ -52,24 +53,26 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
 
     @Override
     public void updateSimulationState(final SimulationState state) {
-        switch (state) {
-        case RUNNING:
-        case REPLAY:
-            startSimulation.setEnabled(false);
-            stopSimulation.setEnabled(true);
-            pauseSimulation.setEnabled(true);
-            break;
-        case READY: 
-        case PAUSE:
-            startSimulation.setEnabled(true);
-            pauseSimulation.setEnabled(false);
-            stopSimulation.setEnabled(false);
-            break;
-        default:
-            startSimulation.setEnabled(false);
-            stopSimulation.setEnabled(false);
-            pauseSimulation.setEnabled(false);
-            break;
-        }
+        SwingUtilities.invokeLater(() -> {
+            switch (state) {
+            case RUNNING:
+            case REPLAY:
+                startSimulation.setEnabled(false);
+                stopSimulation.setEnabled(true);
+                pauseSimulation.setEnabled(true);
+                break;
+            case READY: 
+            case PAUSE:
+                startSimulation.setEnabled(true);
+                pauseSimulation.setEnabled(false);
+                stopSimulation.setEnabled(false);
+                break;
+            default:
+                startSimulation.setEnabled(false);
+                stopSimulation.setEnabled(false);
+                pauseSimulation.setEnabled(false);
+                break;
+            }
+        }); 
     }
 }

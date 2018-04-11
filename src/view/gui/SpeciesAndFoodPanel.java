@@ -107,7 +107,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
                 createFood.setEnabled(false);
                 createSpecies.setEnabled(false);
                 setStrategy.setEnabled(false);
-                selectStrategy.setEnabled(false);
+                strategies.setEnabled(false);
             }
         });
 
