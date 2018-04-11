@@ -53,7 +53,7 @@ public class FoodControllerImpl implements FoodController {
     @Override
     public Color getColorFromFood(final Food food) {
         if (food.getName() == null) {
-            return Color.black;
+            return ConversionsUtil.getUnNamedFoodColor();
         }
         return this.colorForFood.get(food.getName());
     }

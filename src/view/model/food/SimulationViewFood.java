@@ -36,7 +36,13 @@ public class SimulationViewFood implements ViewFood {
     public String getName() {
         return name.get();
     }
-
+    /**
+     * 
+     * @return true if the name is present, false in other case.
+     */
+    public boolean isNamePresent() {
+        return this.name.isPresent();
+    }
     @Override
     public Set<Nutrient> getNutrients() {
         return this.nutrients.keySet();

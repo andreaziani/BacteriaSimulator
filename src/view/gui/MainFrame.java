@@ -28,8 +28,8 @@ public class MainFrame extends JFrame implements View {
      */
     private static final long serialVersionUID = -6602885048333089318L;
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-    private final int height = dim.height * 2 / 3;
-    private final int width = dim.width * 2 / 3;
+    private final int height = dim.height;
+    private final int width = dim.width;
     private final SimulationPanel simulationPanel = new SimulationPanel(width, height);
     private final TopPanel topPanel;
     private final ViewController view;
