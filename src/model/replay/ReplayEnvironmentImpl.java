@@ -54,7 +54,6 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
 
     @Override
     public void init(final Optional<InitialState> initialState) {
-        throw new UnsupportedOperationException();
     }
 
     @Override

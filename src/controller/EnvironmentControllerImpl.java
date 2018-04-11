@@ -5,9 +5,11 @@ import java.util.Optional;
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Analysis;
+import model.EnergyImpl;
 import model.Environment;
 import model.bacteria.SpeciesBuilder;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.replay.ReplayEnvironmentImpl;
 import model.simulator.SimulatorEnvironment;
 import utils.ConversionsUtil;
 import utils.Logger;
@@ -29,6 +31,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     private FoodController foodController;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
     private InitialState initialState;
+    private Replay replay;
     private boolean isStarted;
     private final SimulationLoop loop;
 
@@ -47,6 +50,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
                     final long start = System.currentTimeMillis();
                     synchronized (EnvironmentControllerImpl.this) {
                         env.update();
+                        replay.addState(env.getState());
                         simulationLoop();
                         condition = !env.getState().getBacteriaState().isEmpty();
                     }
@@ -60,6 +64,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
                         }
                     }
                 }
+                replay.setAnalysis(env.getAnalysis());
             }
         };
     }
@@ -85,8 +90,10 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      * Start the simulation from the initialState saved in this controller.
      */
     protected void startFromInitialState() {
-        //resetSimulation(); if reset HERE all the parameters (species, food types ..) get deleted
+        // resetSimulation(); if reset HERE all the parameters (species, food types ..)
+        // get deleted
         this.startLoop(Optional.of(this.initialState));
+        start();
     }
 
     /**
@@ -100,7 +107,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      * @return a replay representing the simulation.
      */
     protected Replay getReplay() {
-        throw new UnsupportedOperationException();
+        return this.replay;
     }
 
     /**
@@ -126,18 +133,32 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     @Override
     public synchronized void start() {
-        //resetSimulation(); if reset HERE all the parameters (species, food types ..) get deleted
+        // resetSimulation(); if reset HERE all the parameters (species, food types ..)
+        // get deleted
         this.startLoop(Optional.empty());
+    }
+
+    /**
+     * @param replay
+     *            a replay from which to construct a ReplayEnvironment.
+     */
+    protected void startReplay(final Replay replay) {
+        initialState = replay.getInitialState();
+        env = new ReplayEnvironmentImpl(initialState,
+                replay.getStateList().stream().map(
+                        x -> x.reconstructState(s -> new SpeciesBuilder(s.getName()).build(), () -> EnergyImpl.ZERO))
+                        .iterator(),
+                replay.getAnalysis());
     }
 
     @Override
     public synchronized void addFoodFromView(final ViewFood food, final ViewPosition position) {
         this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
                 env.getMaxPosition(), maxViewPosition.get()));
-//         System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
-//         env.getMaxPosition(), maxViewPosition.get()).getX() + " " +
-//         ConversionsUtil.conversionFromViewPositionToPosition(position,
-//         env.getMaxPosition(), maxViewPosition.get()).getY());
+        // System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
+        // env.getMaxPosition(), maxViewPosition.get()).getX() + " " +
+        // ConversionsUtil.conversionFromViewPositionToPosition(position,
+        // env.getMaxPosition(), maxViewPosition.get()).getY());
     }
 
     @Override
@@ -181,10 +202,15 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     /**
      * @return a boolean indicating if the simulation is already started.
      */
+    @Override
     public synchronized boolean isSimulationStarted() {
         return isStarted;
     }
 
+    /**
+     * @return if there are no species in the initial state.
+     */
+    @Override
     public synchronized boolean isSpeciesEmpty() {
         return this.initialState.getSpecies().isEmpty();
     }

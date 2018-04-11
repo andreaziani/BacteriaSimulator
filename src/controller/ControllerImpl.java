@@ -44,7 +44,7 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
 
     @Override
     public synchronized void loadReplay(final File file) {
-        this.fileController.loadReplay(file);
+        this.startReplay(this.fileController.loadReplay(file));
     }
 
     @Override
