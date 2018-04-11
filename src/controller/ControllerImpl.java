@@ -34,6 +34,7 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
 
     @Override
     public synchronized void loadInitialState(final File file) throws IOException {
+        this.updateCurrentState(SimulationState.REPLAY);
         this.setInitialState(this.fileController.loadInitialState(file));
     }
 

@@ -94,10 +94,19 @@ public interface EnvironmentController {
     boolean isSpeciesEmpty();
 
     /**
-     * Set the distribution strategy for foods. The strategy is Uniform
-     * distribution by default.
+     * Set the distribution strategy for foods. The strategy is Uniform distribution
+     * by default.
      * 
-     * @param strategy the strategy chosen.
+     * @param strategy
+     *            the strategy chosen.
      */
     void setDistributionStrategy(DistributionStrategy strategy);
+
+    /**
+     * Update the current state of the simulation.
+     * 
+     * @param state
+     *            the state that the simulation can assume.
+     */
+    void updateCurrentState(SimulationState state);
 }

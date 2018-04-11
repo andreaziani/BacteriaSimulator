@@ -33,6 +33,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     private InitialState initialState;
     private Replay replay;
     private boolean isStarted;
+    private SimulationState currentState = SimulationState.NOT_READY;
     private final SimulationLoop loop;
 
     /**
@@ -40,8 +41,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
      * as an argument.
      */
     public EnvironmentControllerImpl() {
-        resetSimulation();
 
+        resetSimulation();
         this.loop = new SimulationLoop() {
             @Override
             public void run() {
@@ -64,12 +65,14 @@ public class EnvironmentControllerImpl implements EnvironmentController {
                         }
                     }
                 }
+                updateCurrentState(SimulationState.END);
                 replay.setAnalysis(env.getAnalysis());
             }
         };
     }
 
     private void resetSimulation() {
+        this.updateCurrentState(SimulationState.NOT_READY);
         isStarted = false;
         this.env = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.env);
@@ -124,6 +127,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     private void startLoop(final Optional<InitialState> initialState) {
+        this.updateCurrentState(SimulationState.RUNNING);
         this.env.init(initialState);
         this.initialState.setState(env.getState());
         replay = new Replay(this.initialState);
@@ -157,14 +161,13 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     public synchronized void addFoodFromView(final ViewFood food, final ViewPosition position) {
         this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
                 env.getMaxPosition(), maxViewPosition.get()));
-        // System.out.println(ConversionsUtil.conversionFromViewPositionToPosition(position,
-        // env.getMaxPosition(), maxViewPosition.get()).getX() + " " +
-        // ConversionsUtil.conversionFromViewPositionToPosition(position,
-        // env.getMaxPosition(), maxViewPosition.get()).getY());
     }
 
     @Override
     public synchronized void addNewTypeOfFood(final ViewFood food) {
+        if (this.currentState == SimulationState.NOT_READY && !this.isSpeciesEmpty()) {
+            this.updateCurrentState(SimulationState.READY);
+        }
         this.foodController.addNewTypeOfFood(food);
         initialState.addFood((CreationViewFoodImpl) food);
     }
@@ -186,6 +189,9 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             throw new SimulationAlreadyStartedExeption();
         }
         try {
+            if (this.currentState == SimulationState.NOT_READY && !this.getExistingViewFoods().isEmpty()) {
+                this.updateCurrentState(SimulationState.READY);
+            }
             final SpeciesBuilder builder = new SpeciesBuilder(species.getName());
             species.getDecisionOptions().forEach(builder::addDecisionMaker);
             species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
@@ -220,5 +226,10 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public void setDistributionStrategy(final DistributionStrategy strategy) {
         this.env.setFoodDistributionStrategy(strategy);
+    }
+
+    @Override
+    public final void updateCurrentState(final SimulationState state) {
+        this.currentState = state;
     }
 }
