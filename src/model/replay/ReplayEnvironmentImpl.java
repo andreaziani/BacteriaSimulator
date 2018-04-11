@@ -18,7 +18,7 @@ import model.food.insertionstrategy.position.DistributionStrategy;
  */
 public final class ReplayEnvironmentImpl implements ReplayEnvironment {
 
-    private InitialState initialState;
+    private final InitialState initialState;
     private final Iterator<State> states;
     private final Analysis analysis;
     private Optional<State> currentState;
@@ -93,6 +93,11 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     @Override
     public void setFoodDistributionStrategy(final DistributionStrategy strategy) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isSimulationOver() {
+        return states.hasNext();
     }
 
 }

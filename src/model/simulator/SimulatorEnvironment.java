@@ -144,4 +144,9 @@ public class SimulatorEnvironment implements Environment {
     public void setFoodDistributionStrategy(final DistributionStrategy strategy) {
         this.foodEnv.setPositionStrategy(strategy);
     }
+
+    @Override
+    public boolean isSimulationOver() {
+        return getState().getBacteriaState().isEmpty();
+    }
 }

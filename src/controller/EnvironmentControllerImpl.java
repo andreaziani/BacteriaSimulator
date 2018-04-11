@@ -52,7 +52,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
                         env.update();
                         replay.addState(env.getState());
                         simulationLoop();
-                        condition = !env.getState().getBacteriaState().isEmpty();
+                        condition = !env.isSimulationOver();
                     }
                     final long elapsed = System.currentTimeMillis() - start;
                     if (elapsed < PERIOD) {

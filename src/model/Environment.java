@@ -25,13 +25,17 @@ public interface Environment {
      *             if the position is already occupied by another food.
      */
     void addFood(Food food, Position position);
+
     /**
      * Add a new type of food in the ExistingFoodManager.
-     * @param food the new type of food.
+     * 
+     * @param food
+     *            the new type of food.
      * @throws AlreadyExistingFoodException
      *             if the food already exist.
      */
     void addNewTypeOfFood(Food food);
+
     /**
      * Get all the existing foods.
      * 
@@ -48,8 +52,9 @@ public interface Environment {
 
     /**
      * Initialize environment.
+     * 
      * @param initialState
-     *          optional initialState used to initialize the simulation
+     *            optional initialState used to initialize the simulation
      */
     void init(Optional<InitialState> initialState);
 
@@ -70,15 +75,25 @@ public interface Environment {
      *            add a Species to the simulation.
      */
     void addSpecies(Species species);
+
     /**
      * Get the maximum position in the environment.
+     * 
      * @return the maximum position.
      */
     Position getMaxPosition();
+
     /**
-     * Set the distribution strategy for foods.
-     * The strategy is Uniform distribution by default.
-     * @param strategy the strategy chosen.
+     * Set the distribution strategy for foods. The strategy is Uniform distribution
+     * by default.
+     * 
+     * @param strategy
+     *            the strategy chosen.
      */
     void setFoodDistributionStrategy(DistributionStrategy strategy);
+
+    /**
+     * @return if the simulation is over.
+     */
+    boolean isSimulationOver();
 }
