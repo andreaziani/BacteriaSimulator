@@ -125,6 +125,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
     private void startLoop(final Optional<InitialState> initialState) {
         this.env.init(initialState);
+        this.initialState.setState(env.getState());
+        replay = new Replay(this.initialState);
         final Thread mainThread = new Thread(this.loop);
         Logger.getLog().info("Application started");
         isStarted = true;
