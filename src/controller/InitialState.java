@@ -140,6 +140,15 @@ public class InitialState {
     }
 
     /**
+     * @return the state of the simulation.
+     * @throws IllegalStateException
+     *             if the state has not been set.
+     */
+    public SimpleState getState() {
+        return getStateOrIllegalState();
+    }
+
+    /**
      * Return a new State constructed from the contained initial state and some
      * indicator as to how to construct a Bacteria.
      * 
@@ -168,11 +177,7 @@ public class InitialState {
     }
 
     private SimpleState getStateOrIllegalState() {
-        try {
-            return this.state.get();
-        } catch (IllegalArgumentException e) {
-            throw new IllegalStateException();
-        }
+        return this.state.orElseThrow(() -> new IllegalStateException());
     }
 
     @Override
