@@ -1,5 +1,6 @@
 package model.replay;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,63 +16,84 @@ import model.food.insertionstrategy.position.DistributionStrategy;
  * implementation of ReplayEnvironment.
  *
  */
-public class ReplayEnvironmentImpl implements ReplayEnvironment {
+public final class ReplayEnvironmentImpl implements ReplayEnvironment {
+
+    private InitialState initialState;
+    private final Iterator<State> states;
+    private final Analysis analysis;
+    private Optional<State> currentState;
+
+    /**
+     * Creates an environment that returns every states specified by the iterator.
+     * 
+     * @param initialState
+     *            the initial state of the simulation.
+     * @param states
+     *            an iterator of states representing the states of the simulation to
+     *            replay.
+     * @param analysis
+     *            the analysis of the simulation.
+     */
+    public ReplayEnvironmentImpl(final InitialState initialState, final Iterator<State> states,
+            final Analysis analysis) {
+        this.initialState = initialState;
+        this.states = states;
+        this.analysis = analysis;
+        update();
+    }
 
     @Override
     public void addFood(final Food food, final Position position) {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public State getState() {
-        // TODO Auto-generated method stub
-        return null;
+        return currentState.orElseThrow(() -> new IllegalStateException());
     }
 
     @Override
     public void init(final Optional<InitialState> initialState) {
-        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-
+        if (states.hasNext()) {
+            currentState = Optional.of(states.next());
+        } else {
+            currentState = Optional.empty();
+        }
     }
 
     @Override
     public Analysis getAnalysis() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.analysis;
     }
 
     @Override
     public void addSpecies(final Species species) {
-        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Position getMaxPosition() {
-        // TODO Auto-generated method stub
-        return null;
+        return initialState.getMaxPosition();
     }
 
     @Override
     public void addNewTypeOfFood(final Food food) {
-        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Food> getExistingFoods() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void setFoodDistributionStrategy(final DistributionStrategy strategy) {
-        // TODO Auto-generated method stub
-        
+        throw new UnsupportedOperationException();
     }
 
 }

@@ -7,12 +7,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import model.bacteria.Bacteria;
 import model.bacteria.Species;
+
 /**
  * 
  * Implementation of Analysis.
@@ -20,12 +22,31 @@ import model.bacteria.Species;
  */
 public class AnalysisImpl implements Analysis {
 
-    private final List<State> lstate = new ArrayList<>();
-    private final MutationManager mutManager = new MutationManagerImpl();
-    private List<Bacteria> lbefore = new ArrayList<>();
-    private List<Bacteria> lafter = new ArrayList<>();
-    private Set<Species> speciesB = new HashSet<>();
-    private Set<Species> speciesA = new HashSet<>();
+    private final transient List<State> lstate = new ArrayList<>();
+    private final transient MutationManager mutManager = new MutationManagerImpl();
+    private transient List<Bacteria> lbefore = new ArrayList<>();
+    private transient List<Bacteria> lafter = new ArrayList<>();
+    private transient Set<Species> speciesB = new HashSet<>();
+    private transient Set<Species> speciesA = new HashSet<>();
+    private Optional<String> cachedDescription;
+
+    /**
+     * Normal constructor that create an analysis without data already in it.
+     */
+    public AnalysisImpl() {
+    }
+
+    /**
+     * Generate an analysis with a description already done.
+     * 
+     * @param cachedDescription
+     *            a description that will be given by this analysis until a new
+     *            state is set.
+     */
+    public AnalysisImpl(final String cachedDescription) {
+        super();
+        this.cachedDescription = Optional.of(cachedDescription);
+    }
 
     private List<Bacteria> listOfBacteria(final Map<Position, Bacteria> bacteria) {
         final List<Bacteria> bt = new ArrayList<>();
@@ -89,6 +110,7 @@ public class AnalysisImpl implements Analysis {
     @Override
     public void addState(final State state) {
         this.lstate.add(state);
+        cachedDescription = Optional.empty();
     }
 
     private void before() {
@@ -141,12 +163,14 @@ public class AnalysisImpl implements Analysis {
 
     @Override
     public String getDescription() {
-        before();
-        after();
-        return ("Species survived: \n" + resultWins() + "\n"
-              + "Species dead: \n" + resultDead() + "\n"
-              + "Number by Species: \n" + resultNByS() + "\n"
-              + "Species mutated: \n" + resultBactMutated());
+        if (!cachedDescription.isPresent()) {
+            before();
+            after();
+            cachedDescription = Optional.of(("Species survived: \n" + resultWins() + "\n" + "Species dead: \n" + resultDead() + "\n"
+                    + "Number by Species: \n" + resultNByS() + "\n" + "Species mutated: \n" + resultBactMutated()));
+        } 
+        
+        return cachedDescription.get();
     }
 
 }

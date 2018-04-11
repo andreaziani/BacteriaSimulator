@@ -3,7 +3,10 @@ package controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import model.Analysis;
+import model.AnalysisImpl;
 import model.State;
 
 /**
@@ -13,12 +16,14 @@ import model.State;
 public class Replay {
     private final InitialState initialState;
     private final List<SimpleState> stateList;
+    private Optional<AnalysisImpl> analysis;
 
     /**
      * Create a replay with only the information about the initial state.
      * 
      * @param initialState
      *            the initial state of the simulation.
+     * 
      * @throws IllegalArgumentException
      *             if the initial state has not a state yet.
      */
@@ -41,10 +46,32 @@ public class Replay {
 
     /**
      * @param state
-     *            a state to be inserted as the next element of the replay.
+     *            a state to be inserted as the next element of the replay. No check
+     *            is made to assert that this state is compatible with the initial
+     *            state of this replay.
      */
     public void addState(final State state) {
         stateList.add(new SimpleState(state, initialState.getExistingFood(), initialState.getSpecies()));
+    }
+
+    /**
+     * @return the analysis of the replay.
+     * @throws NoSuchElementException
+     *             if the analysis has not been set yet.
+     */
+    public Analysis getAnalysis() {
+        return analysis.get();
+    }
+
+    /**
+     * Set the analysis of this simulation.
+     * 
+     * @param analysis
+     *            the analysis of the simulation. No check is made to assert that
+     *            the analysis is compatible with initialState.
+     */
+    public void setAnalysis(final Analysis analysis) {
+        this.analysis = Optional.of(new AnalysisImpl(analysis.getDescription()));
     }
 
     /**
