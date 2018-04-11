@@ -12,7 +12,6 @@ import java.awt.geom.Ellipse2D;
 import java.util.Optional;
 
 import javax.swing.JPanel;
-
 import utils.Logger;
 import view.model.ViewState;
 
@@ -51,12 +50,12 @@ public class SimulationPanel extends JPanel {
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
                 g.setColor(e.getValue().getColor());
                 g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-                        e.getValue().getRadius().getYRadius()+2);
+                        e.getValue().getRadius().getYRadius() + 2);
             });
 
             state.get().getBacteriaState().entrySet().stream().forEach(e -> {
                 // TODO probably there is a better way
-                final Graphics2D g2d = (Graphics2D)g;
+                final Graphics2D g2d = (Graphics2D) g;
                 final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
                         e.getValue().getRadius().getYRadius());
                 g.setColor(e.getValue().getColor());

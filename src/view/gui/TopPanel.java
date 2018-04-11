@@ -2,7 +2,6 @@ package view.gui;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -10,14 +9,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import controller.SimulationState;
 import view.ViewController;
 
 /**
  * Top Panel of MainFrame.
  *
  */
-public class TopPanel extends JPanel {
+public class TopPanel extends JPanel implements SimulationStateUpdatable {
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu fileMenu = new JMenu("File");
     private final JMenu helpMenu = new JMenu("Help");
@@ -96,5 +95,10 @@ public class TopPanel extends JPanel {
         this.helpMenu.add(help);
         this.menuBar.add(this.fileMenu);
         this.menuBar.add(helpMenu);
+    }
+
+    @Override
+    public void updateSimulationState(final SimulationState state) {
+        this.speciesAndFood.updateSimulationState(state);
     }
 }

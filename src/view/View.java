@@ -1,12 +1,13 @@
 package view;
 
+import view.gui.SimulationStateUpdatable;
 import view.model.ViewState;
 
 /**
  * Interface that represents the access point for the Simulation's Controller to
  * the View.
  */
-public interface View {
+public interface View extends SimulationStateUpdatable {
     /**
      * Update view state.
      * 

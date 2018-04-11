@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import controller.Controller;
+import controller.SimulationState;
 import model.Analysis;
 import model.action.ActionType;
 import model.food.Nutrient;
@@ -121,7 +122,7 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public boolean isSimulationStarter() {
+    public boolean isSimulationStarted() {
         return this.controller.isSimulationStarted();
     }
 
@@ -155,4 +156,8 @@ public class ViewImpl implements View, ViewController {
         this.controller.setDistributionStrategy(strategy);
     }
 
+    @Override
+    public void updateSimulationState(final SimulationState state) {
+        this.userInterface.updateSimulationState(state);
+    }
 }

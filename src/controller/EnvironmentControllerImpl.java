@@ -72,7 +72,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     private void resetSimulation() {
-        this.updateCurrentState(SimulationState.NOT_READY);
+        this.currentState = SimulationState.NOT_READY;
         isStarted = false;
         this.env = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.env);
@@ -229,7 +229,8 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     @Override
-    public final void updateCurrentState(final SimulationState state) {
+    public void updateCurrentState(final SimulationState state) {
         this.currentState = state;
     }
+
 }

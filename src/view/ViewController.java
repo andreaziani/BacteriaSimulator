@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import model.Analysis;
 import model.action.ActionType;
 import model.food.insertionstrategy.position.DistributionStrategy;
@@ -148,7 +147,7 @@ public interface ViewController {
      * 
      * @return true if the simulation is started, false in other case.
      */
-    boolean isSimulationStarter();
+    boolean isSimulationStarted();
 
     /**
      * Start the simulation.

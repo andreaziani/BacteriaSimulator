@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controller.SimulationState;
 import view.ViewController;
 
 /**
@@ -14,7 +15,7 @@ import view.ViewController;
  * to start and stop the simulation.
  *
  */
-public class ChoicesPanel extends JPanel {
+public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
     private final JButton startSimulation = new JButton("Start");
     private final JButton stopSimulation = new JButton("Stop");
     private final JButton pauseSimulation = new JButton("Pause");
@@ -47,5 +48,28 @@ public class ChoicesPanel extends JPanel {
         this.pauseSimulation.setEnabled(false);
         this.setOpaque(true);
         this.setBackground(Color.WHITE);
+    }
+
+    @Override
+    public void updateSimulationState(final SimulationState state) {
+        switch (state) {
+        case RUNNING:
+        case REPLAY:
+            startSimulation.setEnabled(false);
+            stopSimulation.setEnabled(true);
+            pauseSimulation.setEnabled(true);
+            break;
+        case READY: 
+        case PAUSE:
+            startSimulation.setEnabled(true);
+            pauseSimulation.setEnabled(false);
+            stopSimulation.setEnabled(false);
+            break;
+        default:
+            startSimulation.setEnabled(false);
+            stopSimulation.setEnabled(false);
+            pauseSimulation.setEnabled(false);
+            break;
+        }
     }
 }

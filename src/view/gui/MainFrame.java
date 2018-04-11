@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import controller.SimulationState;
 import utils.exceptions.PositionAlreadyOccupiedException;
 import view.View;
 import view.ViewController;
@@ -22,11 +23,12 @@ import view.model.ViewState;
  * 
  * Main Frame of GUI.
  */
-public class MainFrame extends JFrame implements View {
+public class MainFrame extends JFrame implements View, SimulationStateUpdatable {
     /**
      * Automatically generated.
      */
     private static final long serialVersionUID = -6602885048333089318L;
+    private boolean isSimulationRunning;
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private final int height = dim.height * 4 / 5;
     private final int width = dim.width * 4 / 5;
@@ -43,7 +45,7 @@ public class MainFrame extends JFrame implements View {
         topPanel = new TopPanel(this.view, this);
         this.simulationPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
-                if (!view.getFoodsType().isEmpty() && view.isSimulationStarter()) {
+                if (!view.getFoodsType().isEmpty() && isSimulationRunning) {
                     try {
                         view.addFood(view.getFoodsType().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
@@ -79,5 +81,11 @@ public class MainFrame extends JFrame implements View {
         this.add(simulationPanel, BorderLayout.CENTER);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+
+    @Override
+    public void updateSimulationState(final SimulationState state) {
+        this.topPanel.updateSimulationState(state);
+        this.isSimulationRunning = state == SimulationState.RUNNING;
     }
 }

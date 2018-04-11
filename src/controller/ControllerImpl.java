@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 
+import view.View;
 import view.ViewImpl;
 
 /**
@@ -11,7 +12,7 @@ import view.ViewImpl;
  */
 public class ControllerImpl extends EnvironmentControllerImpl implements Controller {
     private final FileController fileController;
-    private ViewImpl view;
+    private View view;
 
     /**
      * Create a controller implementation.
@@ -56,5 +57,10 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     @Override
     public synchronized void saveAnalisys(final File file) throws IOException {
         this.fileController.saveAnalysis(file, this.getAnalysis());
+    }
+    @Override
+    public void updateCurrentState(final SimulationState state) {
+        super.updateCurrentState(state);
+        this.view.updateSimulationState(state);
     }
 }
