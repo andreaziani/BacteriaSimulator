@@ -115,24 +115,27 @@ public class LegendPanel extends JPanel implements SimulationStateUpdatable, Col
             final List<Color> candidateColors, final JPanel namesPanel, final JPanel buttonsPanel) {
         final Iterator<Integer> colorIterator;
         if (set.size() > candidateColors.size()) {
-            colorIterator = new Random().ints(candidateColors.size()).iterator();
+            colorIterator = new Random().ints(0, candidateColors.size()).iterator();
         } else {
-            colorIterator = new Random().ints(candidateColors.size()).distinct().iterator();
+            colorIterator = new Random().ints(0, candidateColors.size()).distinct().iterator();
         }
         for (final Colorable el : set) {
             final Color color = candidateColors.get(colorIterator.next());
             final JLabel nameLabel = new JLabel(el.getName());
-            nameLabel.setBackground(color);
-            map.put(el.getName(), color);
+            updateColor(nameLabel, map, el.getName(), color);
             namesPanel.add(nameLabel);
             final JButton btn = new JButton("Change");
             btn.addActionListener(ev -> {
-                final Color c = JColorChooser.showDialog(LegendPanel.this, "Choose new color", color);
-                nameLabel.setBackground(c);
-                foodColors.put(el.getName(), c);
+                final Color nextColor = JColorChooser.showDialog(LegendPanel.this, "Choose new color", color);
+                updateColor(nameLabel, map, el.getName(), nextColor);
             });
             buttonsPanel.add(btn);
         }
+    }
+
+    private void updateColor(final JLabel label, final Map<String, Color> map, final String key, final Color color) {
+        label.setForeground(color);
+        map.put(key, color);
     }
 
     @Override
