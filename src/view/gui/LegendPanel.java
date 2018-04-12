@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,9 +34,10 @@ public class LegendPanel extends JPanel implements SimulationStateUpdatable, Col
      * Automatically generated.
      */
     private static final long serialVersionUID = -8989135061384289871L;
+    private static final String UNNAMED_FOOD = "Unnamed Food";
 
     private final ViewController viewController;
-    private final JPanel legendContainer;
+    private JPanel legendContainer;
     private final List<Color> candidateFoodsColors;
     private final List<Color> candidateSpeciesColors;
     private final JLabel foodLabel;
@@ -57,35 +59,24 @@ public class LegendPanel extends JPanel implements SimulationStateUpdatable, Col
         candidateFoodsColors = new ArrayList<>();
         candidateSpeciesColors = new ArrayList<>();
         candidateFoodsColors.add(Color.RED);
-        candidateFoodsColors.add(Color.RED.brighter());
-        candidateFoodsColors.add(Color.RED.darker());
+        candidateFoodsColors.add(Color.ORANGE);
         candidateFoodsColors.add(Color.PINK);
-        candidateFoodsColors.add(Color.PINK.brighter());
-        candidateFoodsColors.add(Color.PINK.darker());
         candidateFoodsColors.add(Color.YELLOW);
-        candidateFoodsColors.add(Color.YELLOW.brighter());
 
         candidateSpeciesColors.add(Color.BLUE);
-        candidateSpeciesColors.add(Color.BLUE.darker());
-        candidateSpeciesColors.add(Color.BLUE.brighter());
-        candidateSpeciesColors.add(Color.CYAN.darker());
-        candidateSpeciesColors.add(Color.CYAN.brighter());
-        candidateSpeciesColors.add(Color.CYAN.darker());
+        candidateSpeciesColors.add(Color.CYAN);
         candidateSpeciesColors.add(Color.GREEN);
-        candidateSpeciesColors.add(Color.GREEN.brighter());
-        candidateSpeciesColors.add(Color.GREEN.darker());
         candidateSpeciesColors.add(Color.MAGENTA);
-        candidateSpeciesColors.add(Color.MAGENTA.darker());
 
         this.viewController = viewController;
         foods = new HashSet<>();
         species = new HashSet<>();
         foodColors = new HashMap<>();
         speciesColors = new HashMap<>();
-        legendContainer = new JPanel(new GridLayout(1, 2));
+        legendContainer = new JPanel();
         legendContainer.setVisible(false);
-        foodLabel = new JLabel("Foods");
-        speciesLabel = new JLabel("Species");
+        foodLabel = new JLabel("Foods:");
+        speciesLabel = new JLabel("Species:");
         this.add(legendContainer);
     }
 
@@ -98,21 +89,22 @@ public class LegendPanel extends JPanel implements SimulationStateUpdatable, Col
                 species = viewController.getSpecies();
                 foodColors = new HashMap<>();
                 speciesColors = new HashMap<>();
-                final JPanel namesPanel = new JPanel(new GridLayout(foods.size() + species.size(), 1));
-                final JPanel buttonsPanel = new JPanel(new GridLayout(foods.size() + species.size(), 1));
-                namesPanel.add(foodLabel);
-                fillPanelsOfColorables(foods, foodColors, candidateFoodsColors, namesPanel, buttonsPanel);
-                namesPanel.add(speciesLabel);
-                fillPanelsOfColorables(species, speciesColors, candidateSpeciesColors, namesPanel, buttonsPanel);
-                legendContainer.add(namesPanel);
-                legendContainer.add(buttonsPanel);
+                this.remove(legendContainer);
+                legendContainer = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
+                legendContainer.add(foodLabel);
+                // TODO can this be fooled.
+                legendContainer.add(buildLegendEntryPanel(UNNAMED_FOOD, Color.BLACK, foodColors));
+                fillPanelsOfColorables(foods, foodColors, candidateFoodsColors);
+                legendContainer.add(speciesLabel);
+                fillPanelsOfColorables(species, speciesColors, candidateSpeciesColors);
                 legendContainer.setVisible(true);
+                this.add(legendContainer);
             }));
         }
     }
 
     private void fillPanelsOfColorables(final Set<? extends Colorable> set, final Map<String, Color> map,
-            final List<Color> candidateColors, final JPanel namesPanel, final JPanel buttonsPanel) {
+            final List<Color> candidateColors) {
         final Iterator<Integer> colorIterator;
         if (set.size() > candidateColors.size()) {
             colorIterator = new Random().ints(0, candidateColors.size()).iterator();
@@ -121,16 +113,22 @@ public class LegendPanel extends JPanel implements SimulationStateUpdatable, Col
         }
         for (final Colorable el : set) {
             final Color color = candidateColors.get(colorIterator.next());
-            final JLabel nameLabel = new JLabel(el.getName());
-            updateColor(nameLabel, map, el.getName(), color);
-            namesPanel.add(nameLabel);
-            final JButton btn = new JButton("Change");
-            btn.addActionListener(ev -> {
-                final Color nextColor = JColorChooser.showDialog(LegendPanel.this, "Choose new color", color);
-                updateColor(nameLabel, map, el.getName(), nextColor);
-            });
-            buttonsPanel.add(btn);
+            legendContainer.add(buildLegendEntryPanel(el.getName(), color, map));
         }
+    }
+
+    private JPanel buildLegendEntryPanel(final String name, final Color color, final Map<String, Color> map) {
+        final JPanel legendEntryPanel = new JPanel(new GridLayout(1, 2));
+        final JLabel nameLabel = new JLabel(name);
+        updateColor(nameLabel, map, name, color);
+        legendEntryPanel.add(nameLabel);
+        final JButton btn = new JButton("Change");
+        btn.addActionListener(ev -> {
+            final Color nextColor = JColorChooser.showDialog(LegendPanel.this, "Choose new color", color);
+            updateColor(nameLabel, map, name, nextColor);
+        });
+        legendEntryPanel.add(btn);
+        return legendEntryPanel;
     }
 
     private void updateColor(final JLabel label, final Map<String, Color> map, final String key, final Color color) {
@@ -149,6 +147,10 @@ public class LegendPanel extends JPanel implements SimulationStateUpdatable, Col
     }
 
     private Color getColorFromColorable(final Colorable colorable, final Map<String, Color> map) {
-        return map.getOrDefault(colorable.getName(), Color.BLACK); // TODO better to find black in a more general way.
+        try {
+            return map.getOrDefault(colorable.getName(), Color.BLACK); 
+        } catch (NoSuchElementException e) {
+            return map.get(UNNAMED_FOOD);
+        }
     }
 }
