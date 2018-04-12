@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -48,7 +47,7 @@ public class SpeciesCreationDialog extends JDialog {
      * @param main
      *            the JFrame that will be blocked by this dialog.
      */
-    public SpeciesCreationDialog(final ViewController view, final JFrame main) {
+    public SpeciesCreationDialog(final ViewController view, final MainFrame main) {
         super(main, true);
         this.setTitle("Create a Species");
         this.view = view;
@@ -68,7 +67,7 @@ public class SpeciesCreationDialog extends JDialog {
         checkBoxList = new ArrayList<>();
         view.getDecoratorOptions().stream().map(x -> new JCheckBox(x)).forEach(checkBoxList::add);
         final JButton btnCreate = new JButton("create Species");
-        btnCreate.addActionListener(e -> createSpecies());
+        btnCreate.addActionListener(e -> createSpecies(main));
 
         final JPanel comboPanel = new JPanel(new GridLayout(comboBoxes.size() * 2, 1));
         for (final ActionType type : ActionType.values()) {
@@ -100,7 +99,7 @@ public class SpeciesCreationDialog extends JDialog {
         this.setVisible(true);
     }
 
-    private void createSpecies() {
+    private void createSpecies(final MainFrame main) {
         try {
             if (txtName.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Name not valid");
@@ -110,6 +109,7 @@ public class SpeciesCreationDialog extends JDialog {
                                 .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue().getSelectedIndex())),
                         checkBoxList.stream().map(x -> x.isSelected()).collect(Collectors.toList()));
                 JOptionPane.showMessageDialog(this, "Species " + txtName.getText() + " added succesfully");
+                main.notifyUpdate();
                 this.setVisible(false);
                 this.dispose();
             }

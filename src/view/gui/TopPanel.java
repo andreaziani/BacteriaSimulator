@@ -3,7 +3,6 @@ package view.gui;
 import java.awt.BorderLayout;
 import java.io.IOException;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -39,7 +38,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
      * @param main
      *            frame that's call this panel.
      */
-    public TopPanel(final ViewController view, final JFrame main) {
+    public TopPanel(final ViewController view, final MainFrame main) {
         super(new BorderLayout());
         this.help.addActionListener(e -> {
             new HelpDialog(main);

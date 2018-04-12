@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import controller.SimulationState;
 import utils.exceptions.PositionAlreadyOccupiedException;
@@ -89,8 +90,17 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
 
     @Override
     public void updateSimulationState(final SimulationState state) {
-        this.legendPanel.updateSimulationState(state);
+        if (state == SimulationState.END || state == SimulationState.NOT_READY) {
+            this.legendPanel.reset();
+        }
+        SwingUtilities.invokeLater(() -> this.legendPanel.update());
         this.topPanel.updateSimulationState(state);
         this.isSimulationRunning = state == SimulationState.RUNNING;
+    }
+    /**
+     * Notify the presence of a change in species of foods that must be propagated to all other panels interested.
+     */
+    public void notifyUpdate() {
+        this.legendPanel.update();
     }
 }

@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -28,6 +27,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
     private final JComboBox<String> foods = new JComboBox<>();
     private final JComboBox<String> strategies = new JComboBox<>();
     private final ViewController view;
+    private final MainFrame mainFrame;
     /**
      * Automatically generated.
      */
@@ -41,8 +41,9 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
      * @param main
      *            frame that's call this panel.
      */
-    public SpeciesAndFoodPanel(final ViewController view, final JFrame main) {
+    public SpeciesAndFoodPanel(final ViewController view, final MainFrame main) {
         super();
+        this.mainFrame = main;
         this.setLayout(new FlowLayout());
         this.foods.addItem("Select a food");
         this.foods.setEnabled(false);
@@ -89,6 +90,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
             this.foods.setEnabled(true);
             view.getFoodsName().forEach(f -> this.foods.addItem(f));
         }
+        mainFrame.notifyUpdate();
     }
 
     private DistributionStrategy getSelectedStrategy() {
@@ -97,8 +99,8 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
 
     @Override
     public void updateSimulationState(final SimulationState state) {
-        updateFoods();
         SwingUtilities.invokeLater(() -> {
+            updateFoods();
             if (state == SimulationState.NOT_READY || state == SimulationState.READY) {
                 createFood.setEnabled(true);
                 createSpecies.setEnabled(true);
