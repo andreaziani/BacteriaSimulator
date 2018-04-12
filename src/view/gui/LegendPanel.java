@@ -69,8 +69,8 @@ public class LegendPanel extends JPanel implements ColorAssigner {
         speciesColors = new HashMap<>();
         legendContainer = new JPanel();
         legendContainer.setVisible(false);
-        foodLabel = new JLabel("Foods:");
-        speciesLabel = new JLabel("Species:");
+        foodLabel = new JLabel("Food colors:");
+        speciesLabel = new JLabel("Species colors:");
         this.add(legendContainer);
     }
 
