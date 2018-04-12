@@ -77,12 +77,14 @@ public class SpeciesBuilder {
      * 
      * @param name
      *            the name of the Species.
+     * @return this builder.
      */
-    public final void reset(final String name) {
+    public final SpeciesBuilder reset(final String name) {
         this.name = name;
         built = false;
         decisionMakers = new EnumMap<>(ActionType.class);
         decorators = new ArrayList<>();
+        return this;
     }
 
     private void controlIsBuilt(final boolean builtState) {
@@ -96,10 +98,12 @@ public class SpeciesBuilder {
      *            the name of the Species being built.
      * @throws IllegalStateException
      *             if the object has already being built.
+     * @return this builder.
      */
-    public void setName(final String name) {
+    public SpeciesBuilder setName(final String name) {
         controlIsBuilt(false);
         this.name = name;
+        return this;
     }
 
     /**
@@ -110,10 +114,12 @@ public class SpeciesBuilder {
      *            replaced instead of added.
      * @throws IllegalStateException
      *             if the object has already being built.
+     * @return this builder.
      */
-    public void addDecisionMaker(final DecisionMakerOption option) {
+    public SpeciesBuilder addDecisionMaker(final DecisionMakerOption option) {
         controlIsBuilt(false);
         decisionMakers.put(option.getType(), DecisionMakerFactory.createDecisionMaker(option));
+        return this;
     }
 
     /**
@@ -122,10 +128,12 @@ public class SpeciesBuilder {
      *            the DecisionMakers of the Species being constructed.
      * @throws IllegalStateException
      *             if the object has already being built.
+     * @return this builder.
      */
-    public void addDecisionBehaiorDecorator(final BehaviorDecoratorOption decoratorOption) {
+    public SpeciesBuilder addDecisionBehaiorDecorator(final BehaviorDecoratorOption decoratorOption) {
         controlIsBuilt(false);
         decorators.add(decoratorOption);
+        return this;
     }
 
     /**
