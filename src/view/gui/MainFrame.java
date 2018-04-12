@@ -103,5 +103,6 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
      */
     public void notifyUpdate() {
         this.legendPanel.update();
+        this.legendPanel.revalidate();
     }
 }
