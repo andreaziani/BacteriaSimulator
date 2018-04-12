@@ -34,7 +34,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
     private InitialState initialState;
     private Replay replay;
-    private boolean isStarted;
     private SimulationState currentState = SimulationState.NOT_READY;
     private final SimulationLoop loop;
 
@@ -75,7 +74,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     private void resetSimulation() {
         this.currentState = SimulationState.NOT_READY;
-        isStarted = false;
         this.env = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.env);
         initialState = new InitialState(env.getMaxPosition().getX(), env.getMaxPosition().getY());
@@ -141,7 +139,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         replay = new Replay(this.initialState);
         final Thread mainThread = new Thread(this.loop);
         Logger.getLog().info("Application started");
-        isStarted = true;
         mainThread.start();
     }
 
@@ -215,17 +212,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.maxViewPosition = Optional.of(position);
     }
 
-    /**
-     * @return a boolean indicating if the simulation is already started.
-     */
-    @Override
-    public synchronized boolean isSimulationStarted() {
-        return isStarted;
-    }
-
-    /**
-     * @return if there are no species in the initial state.
-     */
     @Override
     public synchronized boolean isSpeciesEmpty() {
         return this.initialState.getSpecies().isEmpty();

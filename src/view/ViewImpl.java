@@ -123,11 +123,6 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public boolean isSimulationStarted() {
-        return this.controller.isSimulationStarted();
-    }
-
-    @Override
     public void startSimulation() {
         this.controller.start();
     }
