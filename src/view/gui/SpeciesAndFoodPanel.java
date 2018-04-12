@@ -27,6 +27,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
     private final JLabel selectStrategy = new JLabel("Select Strategy: ");
     private final JComboBox<String> foods = new JComboBox<>();
     private final JComboBox<String> strategies = new JComboBox<>();
+    private final ViewController view;
     /**
      * Automatically generated.
      */
@@ -45,6 +46,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         this.setLayout(new FlowLayout());
         this.foods.addItem("Select a food");
         this.foods.setEnabled(false);
+        this.view = view;
         this.setStrategy.addActionListener(e -> {
             view.setDistributionStrategy(this.getSelectedStrategy());
         });
@@ -77,10 +79,8 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
     /**
      * Update food's type.
      * 
-     * @param view
-     *            from which to take existing food's name.
      */
-    public void updateFoods(final ViewController view) {
+    public void updateFoods() {
         this.foods.removeAllItems();
         if (view.getFoodsType().isEmpty()) {
             this.foods.addItem("Select a Food");
@@ -97,12 +97,13 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
 
     @Override
     public void updateSimulationState(final SimulationState state) {
+        updateFoods();
         SwingUtilities.invokeLater(() -> {
             if (state == SimulationState.NOT_READY || state == SimulationState.READY) {
                 createFood.setEnabled(true);
                 createSpecies.setEnabled(true);
                 setStrategy.setEnabled(true);
-                selectStrategy.setEnabled(true);
+                strategies.setEnabled(true);
             } else {
                 createFood.setEnabled(false);
                 createSpecies.setEnabled(false);

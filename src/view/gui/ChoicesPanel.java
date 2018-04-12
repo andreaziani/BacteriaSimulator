@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -35,11 +34,11 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         super();
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
-            if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
+            //if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
                 view.startSimulation();
-            } else {
-                JOptionPane.showMessageDialog(this, "You must insert one species and one type of food");
-            }
+            //} else {
+                //JOptionPane.showMessageDialog(this, "You must insert one species and one type of food");
+            //}
         });
         this.add(this.startSimulation);
         this.add(this.pauseSimulation);

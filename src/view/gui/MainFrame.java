@@ -71,7 +71,7 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     }
     @Override
     public void updateExistingFoods() {
-        this.topPanel.updateFoods(this.view);
+        this.topPanel.updateFoods();
     }
     private void viewSettings() {
         this.setSize(width, height);

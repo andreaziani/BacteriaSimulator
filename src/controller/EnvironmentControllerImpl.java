@@ -87,6 +87,13 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      */
     protected void setInitialState(final InitialState initialState) {
         this.initialState = initialState;
+        if (initialState.getExistingFood().isEmpty() || initialState.getSpecies().isEmpty()) {
+            this.updateCurrentState(SimulationState.NOT_READY);
+        } else if (initialState.hasState()) {
+            this.start();
+        } else {
+            this.updateCurrentState(SimulationState.READY);
+        }
     }
 
     /**
@@ -164,11 +171,11 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized void addNewTypeOfFood(final ViewFood food) {
+        this.foodController.addNewTypeOfFood(food);
+        initialState.addFood((CreationViewFoodImpl) food);
         if (this.currentState == SimulationState.NOT_READY && !this.isSpeciesEmpty()) {
             this.updateCurrentState(SimulationState.READY);
         }
-        this.foodController.addNewTypeOfFood(food);
-        initialState.addFood((CreationViewFoodImpl) food);
     }
 
     @Override
@@ -184,9 +191,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized void addSpecies(final ViewSpecies species) {
-        if (this.currentState != SimulationState.NOT_READY && this.currentState != SimulationState.READY) {
-            throw new SimulationAlreadyStartedExeption();
-        }
         try {
             if (this.currentState == SimulationState.NOT_READY && !this.getExistingViewFoods().isEmpty()) {
                 this.updateCurrentState(SimulationState.READY);
@@ -198,6 +202,9 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
             initialState.addSpecies(species);
         } catch (IllegalStateException e) {
             throw new InvalidSpeciesExeption();
+        }
+        if (this.currentState != SimulationState.NOT_READY && this.currentState != SimulationState.READY) {
+            throw new SimulationAlreadyStartedExeption();
         }
     }
 

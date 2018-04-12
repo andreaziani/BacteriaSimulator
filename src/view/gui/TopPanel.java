@@ -84,10 +84,9 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     }
     /**
      * Update food's type.
-     * @param view from which to take existing food's name.
      */
-    public void updateFoods(final ViewController view) {
-        this.speciesAndFood.updateFoods(view);
+    public void updateFoods() {
+        this.speciesAndFood.updateFoods();
     }
 
     private void componentsSettings() {

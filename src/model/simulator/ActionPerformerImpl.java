@@ -3,7 +3,6 @@ package model.simulator;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.math3.analysis.function.Log;
 
 import model.Direction;
 import model.Energy;
@@ -16,7 +15,6 @@ import model.geneticcode.CopyFactory;
 import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;
 import utils.EnvironmentUtil;
-import utils.Logger;
 
 /**
  * Implementation of ActionPerformer interface.
