@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Set;
 
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
@@ -109,4 +110,9 @@ public interface EnvironmentController {
      *            the state that the simulation can assume.
      */
     void updateCurrentState(SimulationState state);
+
+    /**
+     * @return a set containing all the species currently present in the simulation.
+     */
+    Set<ViewSpecies> getSpecies();
 }

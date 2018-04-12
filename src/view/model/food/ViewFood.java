@@ -1,9 +1,9 @@
 package view.model.food;
 
-import java.awt.Color;
 import java.util.Set;
 
 import model.food.Nutrient;
+import view.gui.Colorable;
 
 /**
  * 
@@ -11,13 +11,7 @@ import model.food.Nutrient;
  * nutrients in their quantity and color.
  *
  */
-public interface ViewFood {
-    /**
-     * Get the name of the food.
-     * 
-     * @return the name of the food.
-     */
-    String getName();
+public interface ViewFood extends Colorable {
     /**
      * Get all the nutrients present in the food.
      * 
@@ -33,11 +27,4 @@ public interface ViewFood {
      * @return the quantity of the nutrient in the food.
      */
     double getQuantityFromNutrient(Nutrient nutrient);
-
-    /**
-     * Get the color of the food.
-     * 
-     * @return the color of the food.
-     */
-    Color getColor();
 }

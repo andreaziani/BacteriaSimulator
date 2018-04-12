@@ -51,7 +51,7 @@ public class Replay {
      *            state of this replay.
      */
     public void addState(final State state) {
-        stateList.add(new SimpleState(state, initialState.getExistingFood(), initialState.getSpecies()));
+        stateList.add(new SimpleState(state, initialState.getSpecies()));
     }
 
     /**

@@ -1,22 +1,18 @@
 package view.model.food;
 
-import java.awt.Color;
+
 
 import view.Radius;
+import view.gui.Colorable;
 
 /**
  * Representation of a provision in the view.
  * A provision is a representation of a food in the gui.
  *
  */
-public interface ViewProvision {
+public interface ViewProvision extends Colorable {
     /**
      * @return the radius of the bacteria.
      */
     Radius getRadius();
-
-    /**
-     * @return a color representing the Species of the bacteria.
-     */
-    Color getColor();
 }

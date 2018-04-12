@@ -26,6 +26,7 @@ public class SimulationPanel extends JPanel {
      * Automatically generated.
      */
     private static final long serialVersionUID = 2015198232069587535L;
+    private final ColorAssigner colorAssigner;
     private Optional<ViewState> state = Optional.empty();
 
     /**
@@ -34,9 +35,12 @@ public class SimulationPanel extends JPanel {
      *            the max width of the panel.
      * @param height
      *            the max height of the panel.
+     * @param colorAssigner
+     *            a strategy that chooses colors for foods and bacterias.
      */
-    public SimulationPanel(final int width, final int height) {
+    public SimulationPanel(final int width, final int height, final ColorAssigner colorAssigner) {
         super();
+        this.colorAssigner = colorAssigner;
         this.setSize(width, height);
         this.setLayout(new FlowLayout());
         this.setOpaque(true);
@@ -48,7 +52,7 @@ public class SimulationPanel extends JPanel {
         super.paintComponent(g);
         if (state.isPresent()) {
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
-                g.setColor(e.getValue().getColor());
+                g.setColor(colorAssigner.getColorFromFood(e.getValue()));
                 g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
                         e.getValue().getRadius().getYRadius());
             });
@@ -56,11 +60,13 @@ public class SimulationPanel extends JPanel {
             state.get().getBacteriaState().entrySet().stream().forEach(e -> {
                 // TODO probably there is a better way
                 final Graphics2D g2d = (Graphics2D) g;
-                final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-                        e.getValue().getRadius().getYRadius());
-                g.setColor(e.getValue().getColor());
+                final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX(), (int) e.getKey().getY(),
+                        e.getValue().getRadius().getXRadius(), e.getValue().getRadius().getYRadius());
+                g.setColor(colorAssigner.getColorFromSpecies(e.getValue().getSpecies()));
                 g2d.fill(circle);
-                //g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius() + 5, e.getValue().getRadius().getYRadius() + 5);
+                // g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(),
+                // e.getValue().getRadius().getXRadius() + 5,
+                // e.getValue().getRadius().getYRadius() + 5);
             });
 
             Logger.getLog().info("Bacteria size = " + state.get().getBacteriaState().size());

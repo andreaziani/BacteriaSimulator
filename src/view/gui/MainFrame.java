@@ -32,7 +32,8 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private final int height = dim.height * 4 / 5;
     private final int width = dim.width * 4 / 5;
-    private final SimulationPanel simulationPanel = new SimulationPanel(width, height);
+    private final LegendPanel legendPanel;
+    private final SimulationPanel simulationPanel;
     private final TopPanel topPanel;
     private final ViewController view;
     /**
@@ -43,6 +44,8 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
         super("Bacteria Simulator");
         this.view = view;
         topPanel = new TopPanel(this.view, this);
+        this.legendPanel = new LegendPanel(view);
+        this.simulationPanel = new SimulationPanel(width, height, legendPanel);
         this.simulationPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
                 if (!view.getFoodsType().isEmpty() && isSimulationRunning) {
@@ -79,6 +82,7 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
         this.getContentPane().setBackground(Color.WHITE);
         this.add(topPanel, BorderLayout.NORTH);
         this.add(simulationPanel, BorderLayout.CENTER);
+        this.add(legendPanel, BorderLayout.EAST);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
     }

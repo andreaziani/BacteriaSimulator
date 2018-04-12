@@ -1,15 +1,11 @@
 package controller.food;
 
-import java.awt.Color;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import model.Environment;
 import model.Position;
-import model.food.Food;
 import utils.ConversionsUtil;
 import view.model.food.ViewFood;
 
@@ -19,7 +15,6 @@ import view.model.food.ViewFood;
  */
 public class FoodControllerImpl implements FoodController {
     private final Environment env;
-    private final Map<String, Color> colorForFood = new HashMap<>();
 
     /**
      * Constructor that build the controller by passing the Environment on which it
@@ -40,21 +35,12 @@ public class FoodControllerImpl implements FoodController {
     @Override
     public List<ViewFood> getExistingViewFoods() {
         return Collections.unmodifiableList(env.getExistingFoods().stream()
-                .map(food -> ConversionsUtil.conversionFromModelToView(food, getColorFromFood(food)))
+                .map(food -> ConversionsUtil.conversionFromModelToView(food))
                 .collect(Collectors.toList()));
     }
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
         this.env.addNewTypeOfFood(ConversionsUtil.conversionFromViewToModel(food));
-        this.colorForFood.put(food.getName(), food.getColor());
-    }
-
-    @Override
-    public Color getColorFromFood(final Food food) {
-        if (food.getName() == null) {
-            return ConversionsUtil.getUnNamedFoodColor();
-        }
-        return this.colorForFood.get(food.getName());
     }
 }

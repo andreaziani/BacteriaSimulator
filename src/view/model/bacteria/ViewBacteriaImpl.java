@@ -1,6 +1,6 @@
 package view.model.bacteria;
 
-import java.awt.Color;
+
 import java.util.Objects;
 
 import view.Radius;
@@ -28,11 +28,6 @@ public class ViewBacteriaImpl implements ViewBacteria {
     @Override
     public Radius getRadius() {
         return this.radius;
-    }
-
-    @Override
-    public Color getColor() {
-        return this.species.getColor();
     }
 
     @Override

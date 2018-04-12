@@ -1,6 +1,6 @@
 package view.model.bacteria;
 
-import java.awt.Color;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +52,6 @@ public class ViewSpeciesFactory {
      * 
      * @param name
      *            the name of the Species.
-     * @param color
-     *            the color of the Species.
      * @param decisionOptions
      *            the decision makers associated with each ActionType.
      * @param decorators
@@ -66,9 +64,9 @@ public class ViewSpeciesFactory {
      * @throws AlreadyExistingSpeciesExeption
      *             if a species with that name already exists.
      */
-    public ViewSpecies createSpecies(final String name, final Color color,
+    public ViewSpecies createSpecies(final String name,
             final Map<ActionType, Integer> decisionOptions, final List<Boolean> decorators) {
-        return new ViewSpecies(name, color,
+        return new ViewSpecies(name,
                 decisionOptions.entrySet().stream().map(x -> decisionOptionsMap.get(x.getKey()).get(x.getValue()))
                         .collect(Collectors.toSet()),
                 decoratorOptionsList.stream().filter(x -> decorators.get(decoratorOptionsList.indexOf(x)))

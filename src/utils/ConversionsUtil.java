@@ -1,6 +1,5 @@
 package utils;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -40,14 +39,12 @@ public final class ConversionsUtil {
      * 
      * @param food
      *            the Food to convert in ViewFood;
-     * @param color
-     *            the color of the food.
      * @return the converted ViewFood.
      */
-    public static ViewFood conversionFromModelToView(final Food food, final Color color) {
+    public static ViewFood conversionFromModelToView(final Food food) {
         final Map<Nutrient, Double> nutrients = new HashMap<>();
         food.getNutrients().forEach(n -> nutrients.put(n, food.getQuantityFromNutrient(n)));
-        return new SimulationViewFood(Optional.ofNullable(food.getName()), color, nutrients);
+        return new SimulationViewFood(Optional.ofNullable(food.getName()), nutrients);
     }
 
     /**
@@ -105,8 +102,7 @@ public final class ConversionsUtil {
                         p -> conversionFromPositionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
                         p -> new ViewProvisionImpl(
                                 conversionRadius(p.getValue().getRadius(), maxPosition, maxViewPosition),
-                                conversionFromModelToView(state.getFoodsState().get(p.getKey()),
-                                        fcontroller.getColorFromFood(state.getFoodsState().get(p.getKey()))))));
+                                conversionFromModelToView(state.getFoodsState().get(p.getKey())))));
 
 //        final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
 //                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),
@@ -170,11 +166,5 @@ public final class ConversionsUtil {
             final ViewPosition maxViewPosition) {
         return new Radius((int) (oldRadius * maxViewPosition.getX() / maxPosition.getX()),
                 (int) (oldRadius * maxViewPosition.getY() / maxPosition.getY()));
-    }
-/**
- * @return the color of an unnamed food.
- */
-    public static Color getUnNamedFoodColor() {
-        return Color.BLACK;
     }
 }

@@ -1,6 +1,5 @@
 package view.model.bacteria;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,13 +9,13 @@ import java.util.Set;
 
 import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import view.gui.Colorable;
 
 /**
  * Representation of a Species for the View.
  */
-public class ViewSpecies {
+public class ViewSpecies implements Colorable {
     private final String name;
-    private final Color color;
     private Set<DecisionMakerOption> decisionOptions = Collections.emptySet();
     private List<BehaviorDecoratorOption> decoratorOptions = Collections.emptyList();
 
@@ -25,12 +24,9 @@ public class ViewSpecies {
      * 
      * @param name
      *            the name of the species.
-     * @param color
-     *            the color of the bacteria of this species.
      */
-    public ViewSpecies(final String name, final Color color) {
+    public ViewSpecies(final String name) {
         this.name = name;
-        this.color = color;
     }
 
     /**
@@ -39,32 +35,21 @@ public class ViewSpecies {
      * 
      * @param name
      *            the name of the species.
-     * @param color
-     *            the color of the bacteria of this species.
      * @param decisionOptions
      *            the DecisionMaker options.
      * @param decoratorOptions
      *            the BehaviorDecorator options.
      */
-    public ViewSpecies(final String name, final Color color, final Set<DecisionMakerOption> decisionOptions,
+    public ViewSpecies(final String name, final Set<DecisionMakerOption> decisionOptions,
             final List<BehaviorDecoratorOption> decoratorOptions) {
-        this(name, color);
+        this(name);
         this.decisionOptions = new HashSet<>(decisionOptions);
         this.decoratorOptions = new ArrayList<>(decoratorOptions);
     }
 
-    /**
-     * @return the name of the species.
-     */
+    @Override
     public String getName() {
         return this.name;
-    }
-
-    /**
-     * @return the color of the bacteria of this species.
-     */
-    public Color getColor() {
-        return this.color;
     }
 
     /**
@@ -83,7 +68,7 @@ public class ViewSpecies {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, color, decisionOptions, decoratorOptions);
+        return Objects.hash(name, decisionOptions, decoratorOptions);
     }
 
     @Override
@@ -92,7 +77,7 @@ public class ViewSpecies {
             return false;
         }
         final ViewSpecies other = (ViewSpecies) obj;
-        return Objects.equals(this.name, other.name) && Objects.equals(this.color, other.color)
+        return Objects.equals(this.name, other.name)
                 && this.decisionOptions.containsAll(other.decisionOptions)
                 && other.decisionOptions.containsAll(this.decisionOptions)
                 && this.decoratorOptions.containsAll(other.decoratorOptions)

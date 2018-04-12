@@ -1,8 +1,7 @@
 package utils.tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-import java.awt.Color;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,11 +48,11 @@ public class TestInitialState {
     @Test
     public void testJsonSerialization() {
         final InitialState state = new InitialState(TestUtils.getLargeDouble(), TestUtils.getLargeDouble());
-        state.addFood((CreationViewFoodImpl) new ViewFoodBuilder("FoodName").addColor(Color.BLACK)
+        state.addFood((CreationViewFoodImpl) new ViewFoodBuilder("FoodName")
                 .addNutrient(Pair.of(Nutrient.CARBOHYDRATES, TestUtils.getSmallDouble())).build());
-        state.addSpecies(new ViewSpecies(SPECIES_NAME1, Color.BLACK,
-                new HashSet<>(Collections.singleton(DecisionMakerOption.ALWAYS_EAT)),
-                Arrays.asList(BehaviorDecoratorOption.COST_FILTER)));
+        state.addSpecies(
+                new ViewSpecies(SPECIES_NAME1, new HashSet<>(Collections.singleton(DecisionMakerOption.ALWAYS_EAT)),
+                        Arrays.asList(BehaviorDecoratorOption.COST_FILTER)));
         final Gson gson = new Gson();
         final String json = gson.toJson(state);
         final InitialState stateRestored = gson.fromJson(json, InitialState.class);
@@ -67,14 +66,14 @@ public class TestInitialState {
     @Test
     public void testStateConversion() { // TODO refactoring
         final InitialState initialState = new InitialState(TestUtils.getLargeDouble(), TestUtils.getLargeDouble());
-        initialState.addFood((CreationViewFoodImpl) new ViewFoodBuilder("FoodName").addColor(Color.BLACK)
+        initialState.addFood((CreationViewFoodImpl) new ViewFoodBuilder("FoodName")
                 .addNutrient(Pair.of(Nutrient.CARBOHYDRATES, TestUtils.getSmallDouble())).build());
-        initialState.addSpecies(new ViewSpecies(SPECIES_NAME1, Color.BLACK));
+        initialState.addSpecies(new ViewSpecies(SPECIES_NAME1));
         final Set<DecisionMakerOption> options = new HashSet<>();
         options.add(DecisionMakerOption.ALWAYS_EAT);
         options.add(DecisionMakerOption.NO_MOVEMENT);
         options.add(DecisionMakerOption.NO_REPLICATION);
-        initialState.addSpecies(new ViewSpecies(SPECIES_NAME2, Color.ORANGE, options,
+        initialState.addSpecies(new ViewSpecies(SPECIES_NAME2, options,
                 Collections.singletonList(BehaviorDecoratorOption.COST_FILTER)));
         final Map<Position, Food> foodState = new HashMap<>();
         foodState.put(new PositionImpl(TestUtils.getSmallDouble(), TestUtils.getLargeDouble()), TestUtils.getAFood());

@@ -2,6 +2,8 @@ package controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Analysis;
@@ -239,4 +241,8 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.currentState = state;
     }
 
+    @Override
+    public Set<ViewSpecies> getSpecies() {
+        return this.initialState.getSpecies();
+    }
 }

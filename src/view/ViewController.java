@@ -1,15 +1,17 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import model.Analysis;
 import model.action.ActionType;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
+import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
 
 /**
@@ -89,8 +91,6 @@ public interface ViewController {
      * 
      * @param name
      *            the name of the Species.
-     * @param color
-     *            the color of the Species.
      * @param decisionOptions
      *            the decision makers associated with each ActionType.
      * @param decorators
@@ -102,7 +102,7 @@ public interface ViewController {
      * @throws AlreadyExistingSpeciesExeption
      *             if a species with that name already exists.
      */
-    void createSpecies(String name, Color color, Map<ActionType, Integer> decisionOptions, List<Boolean> decorators);
+    void createSpecies(String name, Map<ActionType, Integer> decisionOptions, List<Boolean> decorators);
 
     /**
      * Set the view dimension.
@@ -176,9 +176,17 @@ public interface ViewController {
      * @return the list of available strategies.
      */
     List<String> getAvailableDistributionStrategies();
+
     /**
      * Set the distribution strategy for foods.
-     * @param strategy the strategy chosen.
+     * 
+     * @param strategy
+     *            the strategy chosen.
      */
     void setDistributionStrategy(DistributionStrategy strategy);
+
+    /**
+     * @return a set containing all the species currently present in the simulation.
+     */
+    Set<ViewSpecies> getSpecies();
 }

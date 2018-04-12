@@ -77,7 +77,7 @@ public class InitialState {
         if (species.isEmpty() || existingFood.isEmpty()) {
             throw new IllegalStateException();
         }
-        this.state = Optional.of(new SimpleState(state, existingFood, species));
+        this.state = Optional.of(new SimpleState(state, species));
     }
 
     /**

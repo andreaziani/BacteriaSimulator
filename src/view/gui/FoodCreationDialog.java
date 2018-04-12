@@ -1,9 +1,7 @@
 package view.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -82,8 +80,6 @@ public class FoodCreationDialog extends JDialog {
 
         this.createFood.addActionListener(e -> {
             try {
-                this.builder
-                        .addColor(JColorChooser.showDialog(this, "Choose Species visualization color", Color.BLACK));
                 view.addNewTypeOfFood(this.builder.build());
                 JOptionPane.showMessageDialog(this, "Successful creation");
                 this.dispose();

@@ -19,10 +19,8 @@ import model.bacteria.Species;
 import model.food.FoodImpl;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCodeImpl;
-import utils.ConversionsUtil;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.SimulationViewFood;
-import view.model.food.ViewFood;
 
 /**
  * Simplification of a SimpleState object that maintains only useful information
@@ -35,15 +33,13 @@ public class SimpleState {
     /**
      * @param state
      *            a State to represent in this object.
-     * @param viewFoods
-     *            a set of view representations of foods.
      * @param viewSpecies
      *            a set of view representations of species.
      * @throws IllegalArgumentException
      *             if the elements in state do not match with the elements of
      *             viewFood and viewSpecies.
      */
-    public SimpleState(final State state, final Set<? extends ViewFood> viewFoods, final Set<ViewSpecies> viewSpecies) {
+    public SimpleState(final State state, final Set<ViewSpecies> viewSpecies) {
         // TODO is wildcard necessary?
         try {
             bacteriaMap = state.getBacteriaState().entrySet().stream().collect(Collectors
@@ -51,10 +47,6 @@ public class SimpleState {
                             .filter(s -> s.getName().equals(x.getValue().getSpecies().getName())).findFirst().get())));
             foodMap = state.getFoodsState().entrySet().stream().collect(Collectors.toMap(x -> (PositionImpl) x.getKey(),
                     x -> new SimulationViewFood(Optional.ofNullable(x.getValue().getName()),
-                            viewFoods.stream().filter(f -> f.getName().equals(x.getValue().getName())).count() == 0
-                                    ? ConversionsUtil.getUnNamedFoodColor()
-                                    : viewFoods.stream().filter(f -> f.getName().equals(x.getValue().getName()))
-                                            .findFirst().get().getColor(),
                             x.getValue().getNutrients().stream().collect(Collectors.toMap(Function.identity(),
                                     n -> x.getValue().getQuantityFromNutrient(n))))));
         } catch (NoSuchElementException e) {

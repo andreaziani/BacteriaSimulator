@@ -1,12 +1,12 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import controller.Controller;
 import controller.SimulationState;
@@ -17,6 +17,7 @@ import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
+import view.model.bacteria.ViewSpecies;
 import view.model.bacteria.ViewSpeciesFactory;
 import view.model.food.ViewFood;
 
@@ -86,9 +87,9 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void createSpecies(final String name, final Color color, final Map<ActionType, Integer> decisionOptions,
+    public void createSpecies(final String name, final Map<ActionType, Integer> decisionOptions,
             final List<Boolean> decorators) {
-        controller.addSpecies(speciesManager.createSpecies(name, color, decisionOptions, decorators));
+        controller.addSpecies(speciesManager.createSpecies(name, decisionOptions, decorators));
     }
 
     @Override
@@ -159,5 +160,10 @@ public class ViewImpl implements View, ViewController {
     @Override
     public void updateSimulationState(final SimulationState state) {
         this.userInterface.updateSimulationState(state);
+    }
+
+    @Override
+    public Set<ViewSpecies> getSpecies() {
+        return this.controller.getSpecies();
     }
 }

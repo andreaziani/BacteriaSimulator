@@ -1,6 +1,6 @@
 package view.model.food;
 
-import java.awt.Color;
+
 
 import view.Radius;
 
@@ -28,8 +28,7 @@ public class ViewProvisionImpl implements ViewProvision {
     }
 
     @Override
-    public Color getColor() {
-        return this.food.getColor();
+    public String getName() {
+        return food.getName();
     }
-
 }

@@ -2,7 +2,6 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-
 import view.ViewImpl;
 
 /**
@@ -59,7 +58,9 @@ public interface Controller extends EnvironmentController {
 
     /**
      * Set the view of the simulation.
-     * @param view the view to be linked to the controller
+     * 
+     * @param view
+     *            the view to be linked to the controller
      */
     void setView(ViewImpl view);
 }
