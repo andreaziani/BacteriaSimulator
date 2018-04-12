@@ -63,16 +63,17 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
             @Override
             public void componentResized(final ComponentEvent arg0) {
                 view.setDimension(simulationPanel.getSize());
-//                System.out.println(simulationPanel.getSize().width + " " + simulationPanel.getSize().height);
             }
         });
         this.viewSettings();
     }
+
     @Override
     public void update(final ViewState state) {
         this.simulationPanel.setState(state);
         simulationPanel.repaint();
     }
+
     @Override
     public void updateExistingFoods() {
         this.topPanel.updateFoods();

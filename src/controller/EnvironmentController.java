@@ -81,13 +81,6 @@ public interface EnvironmentController {
     void setMaxViewDimension(ViewPosition maxDimension);
 
     /**
-     * Return if the simulation is started.
-     * 
-     * @return true if the simulation is started, false in other case.
-     */
-    boolean isSimulationStarted();
-
-    /**
      * Return if some species is present.
      * 
      * @return true if there are no species created, false in other case.
