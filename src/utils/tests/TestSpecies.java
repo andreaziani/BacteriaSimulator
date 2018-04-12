@@ -41,12 +41,12 @@ public class TestSpecies {
         species = tryBuild(builder);
         assertEquals(NAME_2, species.getName());
 
-        builder.reset(NAME_1);
-        builder.addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER);
-        builder.addDecisionMaker(DecisionMakerOption.ALWAYS_EAT);
-        builder.addDecisionMaker(DecisionMakerOption.NO_MOVEMENT);
-        builder.addDecisionMaker(DecisionMakerOption.NO_REPLICATION);
-        species = builder.build();
+        species = builder.reset(NAME_1)
+                         .addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER)
+                         .addDecisionMaker(DecisionMakerOption.ALWAYS_EAT)
+                         .addDecisionMaker(DecisionMakerOption.NO_MOVEMENT)
+                         .addDecisionMaker(DecisionMakerOption.NO_REPLICATION)
+                         .build();
 
         assertEquals(
                 new CostFilterDecisionBehavior(
@@ -80,10 +80,10 @@ public class TestSpecies {
                 () -> manager.addSpecies(new SpeciesBuilder(NAME_1).build()));
         assertEquals(1, manager.getSpecies().size());
 
-        final SpeciesBuilder builder = new SpeciesBuilder(NAME_1);
-        builder.addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER);
-        builder.addDecisionMaker(DecisionMakerOption.ALWAYS_EAT);
-        assertThrows(AlreadyExistingSpeciesExeption.class, () -> manager.addSpecies(builder.build()));
+        assertThrows(AlreadyExistingSpeciesExeption.class, () -> manager.addSpecies(
+                new SpeciesBuilder(NAME_1).addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER)
+                                          .addDecisionMaker(DecisionMakerOption.ALWAYS_EAT)
+                                          .build()));
         assertEquals(1, manager.getSpecies().size());
 
         manager.addSpecies(new SpeciesBuilder(NAME_2).build());

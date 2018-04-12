@@ -64,7 +64,7 @@ public class TestInitialState {
      * informations and tests that an InitialState does the conversion correctly.
      */
     @Test
-    public void testStateConversion() { // TODO refactoring
+    public void testStateConversion() { 
         final InitialState initialState = new InitialState(TestUtils.getLargeDouble(), TestUtils.getLargeDouble());
         initialState.addFood((CreationViewFoodImpl) new ViewFoodBuilder("FoodName")
                 .addNutrient(Pair.of(Nutrient.CARBOHYDRATES, TestUtils.getSmallDouble())).build());
@@ -86,12 +86,11 @@ public class TestInitialState {
                 new BacteriaImpl(0, species1,
                         new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(), TestUtils.getSmallDouble()),
                         TestUtils.getSmallEnergy()));
-        final SpeciesBuilder builder = new SpeciesBuilder(SPECIES_NAME2);
-        builder.addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER);
-        builder.addDecisionMaker(DecisionMakerOption.ALWAYS_EAT);
-        builder.addDecisionMaker(DecisionMakerOption.NO_MOVEMENT);
-        builder.addDecisionMaker(DecisionMakerOption.NO_REPLICATION);
-        final Species species2 = builder.build();
+        final Species species2 = new SpeciesBuilder(SPECIES_NAME2).addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER)
+                                                                  .addDecisionMaker(DecisionMakerOption.ALWAYS_EAT)
+                                                                  .addDecisionMaker(DecisionMakerOption.NO_MOVEMENT)
+                                                                  .addDecisionMaker(DecisionMakerOption.NO_REPLICATION)
+                                                                  .build();
         bacteriaState.put(new PositionImpl(TestUtils.getSmallDouble(), TestUtils.getLargeDouble()),
                 new BacteriaImpl(0, species2,
                         new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(), TestUtils.getSmallDouble()),
