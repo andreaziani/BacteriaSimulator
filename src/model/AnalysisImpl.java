@@ -51,20 +51,26 @@ public class AnalysisImpl implements Analysis {
 
     private List<Bacteria> listOfBacteria(final Map<Position, Bacteria> bacteria) {
         final List<Bacteria> bt = new ArrayList<>();
-        bt.addAll(bacteria.values());
+        if (!bacteria.isEmpty()) {
+            bt.addAll(bacteria.values());
+        }
         return bt;
     }
 
     private List<Bacteria> listOfBacteriaMutated(final Map<Bacteria, Mutation> bacteria) {
         final List<Bacteria> bt = new ArrayList<>();
-        bt.addAll(bacteria.keySet());
+        if (!bacteria.isEmpty()) {
+            bt.addAll(bacteria.keySet());
+        }
         return bt;
     }
 
     private Set<Species> speciesOfBacteria(final List<Bacteria> bacteria) {
         final Set<Species> sp = new HashSet<>();
-        for (final Bacteria bt : bacteria) {
-            sp.add(bt.getSpecies());
+        if (!bacteria.isEmpty()) {
+            for (final Bacteria bt : bacteria) {
+                sp.add(bt.getSpecies());
+            }
         }
         return sp;
     }
@@ -95,14 +101,16 @@ public class AnalysisImpl implements Analysis {
     private Map<Species, Integer> win(final Set<Species> species, final List<Bacteria> bacteria) {
         final SortedMap<Species, Integer> smap = numberBySpecies(species, bacteria);
         final Map<Species, Integer> wins = new HashMap<>();
-        int value = smap.get(bacteria.get(0).getSpecies());
-        for (final Species sp : species) {
-            if (value == smap.get(sp)) {
-                wins.put(sp, smap.get(sp));
-            } else if (value < smap.get(sp)) {
-                wins.clear();
-                value = smap.get(sp);
-                wins.put(sp, value);
+        if (!bacteria.isEmpty()) {
+            int value = smap.get(bacteria.get(0).getSpecies());
+            for (final Species sp : species) {
+                if (value == smap.get(sp)) {
+                    wins.put(sp, smap.get(sp));
+                } else if (value < smap.get(sp)) {
+                    wins.clear();
+                    value = smap.get(sp);
+                    wins.put(sp, value);
+                }
             }
         }
         return wins;
@@ -120,19 +128,18 @@ public class AnalysisImpl implements Analysis {
     }
 
     private void after() {
-        this.lafter = listOfBacteria(this.lstate.get(this.lstate.size() - 1).getBacteriaState());
-        this.speciesA = speciesOfBacteria(this.lafter);
+            this.lafter = listOfBacteria(this.lstate.get(this.lstate.size() - 1).getBacteriaState());
+            this.speciesA = speciesOfBacteria(this.lafter);
     }
 
     private String toString(final Map<Species, Integer> mapBacteria) {
-        StringBuilder sb = new StringBuilder();
-        Iterator<Entry<Species, Integer>> iter = mapBacteria.entrySet().iterator();
+        final StringBuilder sb = new StringBuilder();
+        final Iterator<Entry<Species, Integer>> iter = mapBacteria.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry<Species, Integer> entry = iter.next();
+            final Entry<Species, Integer> entry = iter.next();
             sb.append(entry.getKey());
-            sb.append(':').append('"');
+            sb.append(':');
             sb.append(entry.getValue());
-            sb.append('"');
             if (iter.hasNext()) {
                 sb.append(',').append('\n');
             }
@@ -157,7 +164,10 @@ public class AnalysisImpl implements Analysis {
     }
 
     private String resultBactMutated() {
-        final List<Bacteria> bactMutated = listOfBacteriaMutated(this.mutManager.getMutation());
+        List<Bacteria> bactMutated = new ArrayList<>();
+        if (!this.mutManager.getMutation().isEmpty()) {
+            bactMutated = listOfBacteriaMutated(this.mutManager.getMutation());
+        }
         final Map<Species, Integer> mt = numberBySpecies(this.speciesB, bactMutated);
         return toString(mt);
     }
