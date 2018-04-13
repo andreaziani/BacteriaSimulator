@@ -133,7 +133,7 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void setMainFrame(final View userInterface) {
+    public void setUserInterface(final View userInterface) {
         this.userInterface = userInterface;
     }
 

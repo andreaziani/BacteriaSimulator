@@ -161,7 +161,7 @@ public interface ViewController {
      * @param userInterface
      *            the user interface.
      */
-    void setMainFrame(View userInterface);
+    void setUserInterface(View userInterface);
 
     /**
      * Get the available distribution strategies.
