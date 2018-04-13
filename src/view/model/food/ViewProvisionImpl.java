@@ -9,7 +9,7 @@ import view.Radius;
  * Implementation of ViewProvision.
  *
  */
-public class ViewProvisionImpl implements ViewProvision {
+public final class ViewProvisionImpl implements ViewProvision {
     private final Radius radius;
     private final ViewFood food;
     /**

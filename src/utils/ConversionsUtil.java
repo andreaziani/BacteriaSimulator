@@ -41,7 +41,7 @@ public final class ConversionsUtil {
      *            the Food to convert in ViewFood;
      * @return the converted ViewFood.
      */
-    public static ViewFood conversionFromModelToView(final Food food) {
+    public static ViewFood conversionFromFoodToViewFood(final Food food) {
         final Map<Nutrient, Double> nutrients = new HashMap<>();
         food.getNutrients().forEach(n -> nutrients.put(n, food.getQuantityFromNutrient(n)));
         return new SimulationViewFood(Optional.ofNullable(food.getName()), nutrients);
@@ -54,7 +54,7 @@ public final class ConversionsUtil {
      *            the ViewFood to convert in Food.
      * @return the converted Food.
      */
-    public static Food conversionFromViewToModel(final ViewFood food) {
+    public static Food conversionFromViewFoodToFood(final ViewFood food) {
         final FoodFactory factory = new FoodFactoryImpl();
         return factory.createFoodFromNameAndNutrients(food.getName(),
                 food.getNutrients().stream().collect(Collectors.toMap(n -> n, n -> food.getQuantityFromNutrient(n))));
@@ -102,7 +102,7 @@ public final class ConversionsUtil {
                         p -> conversionFromPositionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
                         p -> new ViewProvisionImpl(
                                 conversionRadius(p.getValue().getRadius(), maxPosition, maxViewPosition),
-                                conversionFromModelToView(state.getFoodsState().get(p.getKey())))));
+                                conversionFromFoodToViewFood(state.getFoodsState().get(p.getKey())))));
 
 //        final Map<ViewPosition, ViewFood> foodState = state.getFoodsState().keySet().stream()
 //                .collect(Collectors.toMap(p -> conversionFromPositionToViewPosition(p, maxPosition, maxViewPosition),

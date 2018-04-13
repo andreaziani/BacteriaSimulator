@@ -69,13 +69,13 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     }
 
     @Override
-    public void update(final ViewState state) {
+    public final void update(final ViewState state) {
         this.simulationPanel.setState(state);
         simulationPanel.repaint();
     }
 
     @Override
-    public void updateExistingFoods() {
+    public final void updateExistingFoods() {
         this.topPanel.updateFoods();
     }
     private void viewSettings() {
@@ -90,7 +90,7 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     }
 
     @Override
-    public void updateSimulationState(final SimulationState state) {
+    public final void updateSimulationState(final SimulationState state) {
         if (state == SimulationState.END || state == SimulationState.NOT_READY) {
             this.legendPanel.reset();
         }

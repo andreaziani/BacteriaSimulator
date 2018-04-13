@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
  * Class to manage the coordinates of bacteria and food in the view.
  * 
  */
-public class ViewPositionImpl implements ViewPosition {
+public final class ViewPositionImpl implements ViewPosition {
     private final Pair<Double, Double> coordinates;
 
     /**

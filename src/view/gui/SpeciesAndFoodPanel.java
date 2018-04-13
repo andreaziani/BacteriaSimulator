@@ -98,7 +98,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
     }
 
     @Override
-    public void updateSimulationState(final SimulationState state) {
+    public final void updateSimulationState(final SimulationState state) {
         SwingUtilities.invokeLater(() -> {
             updateFoods();
             if (state == SimulationState.NOT_READY || state == SimulationState.READY) {

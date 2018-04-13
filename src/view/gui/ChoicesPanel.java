@@ -51,7 +51,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
     }
 
     @Override
-    public void updateSimulationState(final SimulationState state) {
+    public final void updateSimulationState(final SimulationState state) {
         SwingUtilities.invokeLater(() -> {
             switch (state) {
             case RUNNING:

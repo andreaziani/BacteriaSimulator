@@ -9,10 +9,10 @@ import model.food.Nutrient;
 
 /**
  * 
- * The class representing a food in the view.
+ * The class representing a food in the ViewState.
  *
  */
-public class SimulationViewFood implements ViewFood {
+public final class SimulationViewFood implements ViewFood {
     private final Optional<String> name;
     private final Map<Nutrient, Double> nutrients;
 

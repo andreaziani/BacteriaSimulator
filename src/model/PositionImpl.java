@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
  * 
  *
  */
-public class PositionImpl implements Position {
+public final class PositionImpl implements Position {
     private final Pair<Double, Double> coordinates;
 
     /**

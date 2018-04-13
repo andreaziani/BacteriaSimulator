@@ -98,7 +98,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     }
 
     @Override
-    public void updateSimulationState(final SimulationState state) {
+    public final void updateSimulationState(final SimulationState state) {
         this.speciesAndFood.updateSimulationState(state);
         this.choicesPanel.updateSimulationState(state);
     }
