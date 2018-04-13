@@ -13,7 +13,7 @@ import java.util.Set;
  *
  */
 public final class FoodImpl implements Food {
-    private static final double RADIUS = 5.0;
+    private static final double RADIUS = 7.0;
     private final Optional<String> name;
     private final Map<Nutrient, Double> nutrients;
 
@@ -56,7 +56,7 @@ public final class FoodImpl implements Food {
 
     @Override
     public String getName() {
-        return this.name.orElse(null); // if the name is present return the name, else this is a bacteria that's dead.
+        return this.name.orElse(null); // if the name is present return the name, else return null (this is a bacteria that's dead).
     }
 
     @Override

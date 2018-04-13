@@ -8,7 +8,7 @@ import view.model.food.ViewFood;
 /**
  * 
  * Controller that deals with interactions between foods. ViewFood declared in
- * view will be matched to model Food.
+ * view will be matched to Food in model.
  *
  */
 public interface FoodController {

@@ -46,7 +46,7 @@ public interface EnvironmentController {
     /**
      * Get all types of already existing food.
      * 
-     * @return the list with all types of food.
+     * @return an unmodifiable list with all types of food.
      */
     List<ViewFood> getExistingViewFoods();
 
@@ -73,7 +73,7 @@ public interface EnvironmentController {
     void addSpecies(ViewSpecies species);
 
     /**
-     * Set the maximum view position.
+     * Set the maximum view dimension.
      * 
      * @param maxDimension
      *            the maximum dimension of the view.
@@ -100,7 +100,7 @@ public interface EnvironmentController {
      * Update the current state of the simulation.
      * 
      * @param state
-     *            the state that the simulation can assume.
+     *            the state that the simulation'll assume.
      */
     void updateCurrentState(SimulationState state);
 

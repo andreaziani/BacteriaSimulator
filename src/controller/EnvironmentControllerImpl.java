@@ -38,8 +38,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     private final SimulationLoop loop;
 
     /**
-     * Constructor that builds the EnvironmentController by passing the Environment
-     * as an argument.
+     * Constructor of EnvironmentController.
      */
     public EnvironmentControllerImpl() {
 
