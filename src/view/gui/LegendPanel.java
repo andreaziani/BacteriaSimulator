@@ -8,8 +8,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.swing.JButton;
@@ -26,7 +28,7 @@ import view.model.food.ViewProvision;
 /**
  * Panel that assign colors to species.
  */
-public class LegendPanel extends JPanel implements ColorAssigner {
+public final class LegendPanel extends JPanel implements ColorAssigner {
 
     /**
      * Automatically generated.
@@ -35,7 +37,7 @@ public class LegendPanel extends JPanel implements ColorAssigner {
     private static final String UNNAMED_FOOD = "Unnamed Food";
 
     private final ViewController viewController;
-    private JPanel legendContainer;
+    private Optional<JPanel> legendContainer;
     private final List<Color> candidateFoodsColors;
     private final List<Color> candidateSpeciesColors;
     private final JLabel foodLabel;
@@ -43,6 +45,8 @@ public class LegendPanel extends JPanel implements ColorAssigner {
 
     private Map<String, Color> foodColors;
     private Map<String, Color> speciesColors;
+    private Iterator<Color> foodColorIterator;
+    private Iterator<Color> speciesColorIterator;
 
     /**
      * Create a new LegendPanel specifing the ViewController of the application.
@@ -65,13 +69,17 @@ public class LegendPanel extends JPanel implements ColorAssigner {
         candidateSpeciesColors.add(Color.MAGENTA);
 
         this.viewController = viewController;
-        foodColors = new HashMap<>();
-        speciesColors = new HashMap<>();
-        legendContainer = new JPanel();
-        legendContainer.setVisible(false);
+        init();
         foodLabel = new JLabel("Food colors:");
         speciesLabel = new JLabel("Species colors:");
-        this.add(legendContainer);
+    }
+
+    private void init() {
+        foodColors = new HashMap<>();
+        speciesColors = new HashMap<>();
+        foodColorIterator = getColorIterator(candidateFoodsColors);
+        speciesColorIterator = getColorIterator(candidateSpeciesColors);
+        legendContainer = Optional.empty();
     }
 
     /**
@@ -80,28 +88,31 @@ public class LegendPanel extends JPanel implements ColorAssigner {
     public void update() {
         final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
         final Set<ViewSpecies> species = viewController.getSpecies();
-        this.remove(legendContainer);
-        legendContainer = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
-        legendContainer.add(foodLabel);
-        legendContainer.add(buildLegendEntryPanel(UNNAMED_FOOD, Color.BLACK, foodColors));
-        fillPanelsOfColorables(foods, foodColors, candidateFoodsColors);
-        legendContainer.add(speciesLabel);
-        fillPanelsOfColorables(species, speciesColors, candidateSpeciesColors);
-        legendContainer.setVisible(true);
-        this.add(legendContainer);
+        JPanel legendPanel;
+        if (this.legendContainer.isPresent()) {
+            this.remove(legendContainer.get());
+        }
+        legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
+        legendContainer = Optional.of(legendPanel);
+        legendPanel.add(foodLabel);
+        legendPanel.add(buildLegendEntryPanel(UNNAMED_FOOD, Color.BLACK, foodColors));
+        fillPanelsOfColorables(foods, foodColors, this::nextRandomFoodColor);
+        legendPanel.add(speciesLabel);
+        fillPanelsOfColorables(species, speciesColors, this::nextRandomSpeciesColor);
+        legendPanel.setVisible(true);
+        this.add(legendPanel);
     }
 
     private void fillPanelsOfColorables(final Set<? extends Colorable> set, final Map<String, Color> map,
-            final List<Color> candidateColors) {
-        final Iterator<Integer> colorIterator;
-        if (set.size() > candidateColors.size()) {
-            colorIterator = new Random().ints(0, candidateColors.size()).iterator();
-        } else {
-            colorIterator = new Random().ints(0, candidateColors.size()).distinct().iterator();
-        }
+            final Supplier<Color> colorSupplier) {
         for (final Colorable el : set) {
-            final Color color = map.getOrDefault(el.getName(), candidateColors.get(colorIterator.next()));
-            legendContainer.add(buildLegendEntryPanel(el.getName(), color, map));
+            final Color color;
+            if (map.containsKey(el.getName())) {
+                color = map.get(el.getName());
+            } else {
+                color = colorSupplier.get();
+            }
+            legendContainer.get().add(buildLegendEntryPanel(el.getName(), color, map));
         }
     }
 
@@ -124,17 +135,32 @@ public class LegendPanel extends JPanel implements ColorAssigner {
         map.put(key, color);
     }
 
+    private Color nextRandomFoodColor() {
+        if (!foodColorIterator.hasNext()) {
+            foodColorIterator = getColorIterator(candidateFoodsColors);
+        }
+        return foodColorIterator.next();
+    }
+    private Color nextRandomSpeciesColor() {
+        if (!speciesColorIterator.hasNext()) {
+            speciesColorIterator = getColorIterator(candidateSpeciesColors);
+        }
+        return speciesColorIterator.next();
+    }
+    private Iterator<Color> getColorIterator(final List<Color> list) {
+        return new Random().ints(0, list.size()).distinct().limit(list.size()).mapToObj(i -> list.get(i)).iterator();
+    }
+
     /**
      * Reset all associations of colors and hide the legend.
      */
     public void reset() {
         SwingUtilities.invokeLater(() -> {
-            foodColors = new HashMap<>();
-            speciesColors = new HashMap<>();
-            legendContainer = new JPanel();
-            this.remove(legendContainer);
-            legendContainer.setVisible(false);
-            this.add(legendContainer);
+            init();
+            if (legendContainer.isPresent()) {
+                this.remove(legendContainer.get());
+                legendContainer = Optional.empty();
+            }
         });
     }
 
