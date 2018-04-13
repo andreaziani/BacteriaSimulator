@@ -143,7 +143,7 @@ public class SimulatorEnvironment implements Environment {
 
     @Override
     public void setFoodDistributionStrategy(final DistributionStrategy strategy) {
-        this.foodEnv.setPositionStrategy(strategy);
+        this.foodEnv.setDistributionStrategy(strategy);
     }
 
     @Override

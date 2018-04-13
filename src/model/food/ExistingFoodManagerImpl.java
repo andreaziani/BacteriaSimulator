@@ -12,7 +12,7 @@ import utils.exceptions.AlreadyExistingFoodException;
  * Manager that contains all the existing types of food.
  *
  */
-public class ExistingFoodManagerImpl implements ExistingFoodManager {
+public final class ExistingFoodManagerImpl implements ExistingFoodManager {
     private final List<Food> existingFoods = new ArrayList<>();
     private final Set<String> foodsNames = new HashSet<>();
 

@@ -22,12 +22,15 @@ public class GeometricDistribuitionStrategyImpl extends AbstractStrategy {
      *            the type of strategy chosen.
      */
     public GeometricDistribuitionStrategyImpl(final Position maxPosition, final DistributionStrategy strategy) {
-        super(strategy);
+        super();
+        if (strategy != DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
+            throw new IllegalArgumentException();
+        }
         this.maxPosition = maxPosition;
     }
 
     @Override
-    public Position getPosition() {
+    protected final Position distributedPosition() {
         final GeometricDistribution dist = new GeometricDistribution(PROBABILITY);
         return new PositionImpl(dist.sample() % maxPosition.getX(), dist.sample() % maxPosition.getY());
     }

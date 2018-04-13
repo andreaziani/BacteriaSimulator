@@ -21,32 +21,31 @@ import utils.exceptions.PositionAlreadyOccupiedException;
  *
  *
  */
-public class FoodEnvironmentImpl implements FoodEnvironment {
+public final class FoodEnvironmentImpl implements FoodEnvironment {
     private static final int MAXATTEMPS = 10;
-    private final Position maxPos;
+    private final Position maxDim;
     private final Map<Position, Food> foods = new HashMap<>();
     private final ExistingFoodManager manager;
     private DistributionStrategy strategy = DistributionStrategy.UNIFORM_DISTRIBUTION; //Uniform distribution by default.
 
     /**
      * Construct the FoodEnvironment from an ExistingFoodManager with which to know
-     * the types of food already created.
+     * the types of food already created and the maximum dimension of the environment.
      * 
      * @param manager
      *            that contains all existing foods.
-     * @param maximumPosition
+     * @param maximumDimension
      *            the maximum position in the environment.
      */
-    public FoodEnvironmentImpl(final ExistingFoodManager manager, final Position maximumPosition) {
+    public FoodEnvironmentImpl(final ExistingFoodManager manager, final Position maximumDimension) {
         this.manager = manager;
-        this.maxPos = maximumPosition;
+        this.maxDim = maximumDimension;
     }
 
     @Override
     public void addFood(final Food food, final Position position) {
-        if (!food.getNutrients().isEmpty()) { // se il cibo non ha nutrienti non viene aggiunto.
-            // il cibo puo' essere aggiunto solo se la non collide con altre posizioni di
-            // cibi precedentemente inseriti.
+        if (!food.getNutrients().isEmpty()) { // Can't add a food with no nutrients.
+            // a food can be added only if it don't collide with other foo
             if (!this.foods.entrySet().stream().anyMatch(
                     e -> EnvironmentUtil.isCollision(Pair.of(position, food), Pair.of(e.getKey(), e.getValue())))) {
                 this.foods.put(position, food);
@@ -72,24 +71,26 @@ public class FoodEnvironmentImpl implements FoodEnvironment {
 
     @Override
     public void changeFoodPosition(final Position oldPosition, final Position newPosition, final Food food) {
-        removeFood(food, oldPosition); // maybe they can generate an Exception.
+        removeFood(food, oldPosition);
         addFood(food, newPosition);
     }
+
     @Override
-    public void setPositionStrategy(final DistributionStrategy strategy) {
+    public void setDistributionStrategy(final DistributionStrategy strategy) {
         this.strategy = strategy;
     }
+
     @Override
     public void addRandomFood() {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
         RandomPositionStrategy positionStrategy;
         if (this.strategy == DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
-            positionStrategy = new GeometricDistribuitionStrategyImpl(this.maxPos, strategy);
+            positionStrategy = new GeometricDistribuitionStrategyImpl(this.maxDim, strategy);
         } else {
-            positionStrategy = new RandomPositionStrategyImpl(maxPos, strategy);
+            positionStrategy = new RandomPositionStrategyImpl(maxDim, strategy);
         }
-        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // provo a reinserire se la posizione era gia' occupata.
+        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // try to re-insert in another position if the precedent was occupied.
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
                 check = false;

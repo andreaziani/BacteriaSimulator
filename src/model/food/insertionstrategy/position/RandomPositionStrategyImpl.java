@@ -23,12 +23,15 @@ public class RandomPositionStrategyImpl extends AbstractStrategy {
      *            the strategy chosen.
      */
     public RandomPositionStrategyImpl(final Position maxPosition, final DistributionStrategy strategy) {
-        super(strategy);
+        super();
+        if (strategy != DistributionStrategy.UNIFORM_DISTRIBUTION) {
+            throw new IllegalArgumentException();
+        }
         this.maxPosition = maxPosition;
     }
 
     @Override
-    public Position getPosition() {
+    protected final Position distributedPosition() {
         final Random rand = new Random();
         return new PositionImpl(rand.nextInt() % this.maxPosition.getX(), rand.nextInt() % this.maxPosition.getY());
     }

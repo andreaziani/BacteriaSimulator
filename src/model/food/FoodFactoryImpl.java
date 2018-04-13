@@ -7,7 +7,7 @@ import java.util.Map;
  * 
  *
  */
-public class FoodFactoryImpl implements FoodFactory {
+public final class FoodFactoryImpl implements FoodFactory {
 
     @Override
     public Food createFoodFromNutrients(final Map<Nutrient, Double> nutrients) {

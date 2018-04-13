@@ -12,7 +12,7 @@ import model.food.Food;
  * random choice.
  *
  */
-public class RandomFoodStrategyImpl implements RandomFoodStrategy {
+public final class RandomFoodStrategyImpl implements RandomFoodStrategy {
 
     @Override
     public Food getFood(final ExistingFoodManager manager) {

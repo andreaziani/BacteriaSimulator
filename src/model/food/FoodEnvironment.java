@@ -68,10 +68,10 @@ public interface FoodEnvironment {
 
     /**
      * Set the strategy for distributing food in the environment. The strategy is
-     * Uniform distribuion by default.
+     * Uniform distribution by default.
      * 
      * @param strategy
      *            the strategy chosen.
      */
-    void setPositionStrategy(DistributionStrategy strategy);
+    void setDistributionStrategy(DistributionStrategy strategy);
 }
