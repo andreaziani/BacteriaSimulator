@@ -93,8 +93,9 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     public final void updateSimulationState(final SimulationState state) {
         if (state == SimulationState.END || state == SimulationState.NOT_READY) {
             this.legendPanel.reset();
+        } else {
+            SwingUtilities.invokeLater(() -> this.legendPanel.update());
         }
-        SwingUtilities.invokeLater(() -> this.legendPanel.update());
         this.topPanel.updateSimulationState(state);
         this.isSimulationRunning = state == SimulationState.RUNNING;
     }
