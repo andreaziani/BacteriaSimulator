@@ -55,7 +55,7 @@ public class ActionPerformerImpl implements ActionPerformer {
                         .equals(moveDirection))
                 .filter(position -> !EnvironmentUtil.causeCollision(dataPair, position, this.bactEnv.getBacteriaState()))
                 .filter(position -> !this.bactEnv.containBacteriaInPosition(position))
-                .findAny();
+                .max((p1, p2) -> Double.compare(EnvironmentUtil.distance(currentPosition, p1), EnvironmentUtil.distance(currentPosition, p2)));
         if (newPosition.isPresent()) {
             this.bactEnv.changeBacteriaPosition(this.currentPosition, newPosition.get());
         }
