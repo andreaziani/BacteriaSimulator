@@ -48,16 +48,23 @@ public class ActionPerformerImpl implements ActionPerformer {
     @Override
     public void move(final Direction moveDirection) {
         final double movement = this.bacterium.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
-        final Pair<Position, Bacteria> dataPair = Pair.of(this.currentPosition, this.bacterium);
         final int distance = (int) Math.ceil(movement);
+        this.bactEnv.clearPosition(this.currentPosition);
         final Optional<Position> newPosition = EnvironmentUtil.positionStream(distance, currentPosition, this.simulationMaxPosition)
                 .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(currentPosition, position))
                         .equals(moveDirection))
-                .filter(position -> !EnvironmentUtil.causeCollision(dataPair, position, this.bactEnv.getBacteriaState()))
+                .filter(position -> {
+                    return !EnvironmentUtil.positionStream((int) Math.ceil(this.bacterium.getRadius()), position, this.simulationMaxPosition)
+                        .anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
+                })
                 .filter(position -> !this.bactEnv.containBacteriaInPosition(position))
                 .max((p1, p2) -> Double.compare(EnvironmentUtil.distance(currentPosition, p1), EnvironmentUtil.distance(currentPosition, p2)));
+
         if (newPosition.isPresent()) {
             this.bactEnv.changeBacteriaPosition(this.currentPosition, newPosition.get());
+            this.bactEnv.setPosition(newPosition.get());
+        } else {
+            this.bactEnv.setPosition(this.currentPosition);
         }
     }
 

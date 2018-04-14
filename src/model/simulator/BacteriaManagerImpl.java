@@ -58,8 +58,10 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private Optional<Double> maxFoodRadius;
     private Optional<Position> foodPosition;
     private int bacteriaCounter;
+
     /**
      * Constructor.
+     * 
      * @param bacteriaMap
      *            optional Map used to initialize the environment.
      * @param species
@@ -71,12 +73,13 @@ public class BacteriaManagerImpl implements BacteriaManager {
      * @param maxPosition
      *            contains information about the maximum position in the simulation
      */
-    public BacteriaManagerImpl(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species, final FoodEnvironment foodEnv, final ExistingFoodManager manager, final Position maxPosition) {
+    public BacteriaManagerImpl(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species,
+            final FoodEnvironment foodEnv, final ExistingFoodManager manager, final Position maxPosition) {
         this.bacteriaCounter = 0;
         this.simulationMaxPosition = maxPosition;
         this.foodEnv = foodEnv;
         this.manager = manager;
-        this.bacteriaEnv = new BacteriaEnvironmentImpl();
+        this.bacteriaEnv = new BacteriaEnvironmentImpl(maxPosition);
         this.populate(bacteriaMap, species);
         this.actionPerf = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
     }
@@ -84,43 +87,38 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private void populate(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species) {
         Logger.getLog().info("Start populating");
         /*
-        final Species spec = species.stream().limit(1).findAny().get();
-        final Gene g = new GeneImpl();
-        final GeneticCode gen = new GeneticCodeImpl(g, 10.0, 20.0);
-        final Position p1 = new PositionImpl(10, 10);
-        final Position p2 = new PositionImpl(40, 40);
-        final Bacteria b1 = new BacteriaImpl(bacteriaCounter, spec, gen, INITIAL_ENERGY);
-        final Bacteria b2 = new BacteriaImpl(bacteriaCounter, spec, gen, INITIAL_ENERGY);
-        this.bacteriaEnv.insertBacteria(p1, b1);
-        this.bacteriaEnv.insertBacteria(p2, b2);
-        */
+         * final Species spec = species.stream().limit(1).findAny().get(); final Gene g
+         * = new GeneImpl(); final GeneticCode gen = new GeneticCodeImpl(g, 10.0, 20.0);
+         * final Position p1 = new PositionImpl(10, 10); final Position p2 = new
+         * PositionImpl(40, 40); final Bacteria b1 = new BacteriaImpl(bacteriaCounter,
+         * spec, gen, INITIAL_ENERGY); final Bacteria b2 = new
+         * BacteriaImpl(bacteriaCounter, spec, gen, INITIAL_ENERGY);
+         * this.bacteriaEnv.insertBacteria(p1, b1); this.bacteriaEnv.insertBacteria(p2,
+         * b2);
+         */
         if (bacteriaMap.isPresent()) {
             bacteriaMap.get().entrySet().forEach(e -> this.bacteriaEnv.insertBacteria(e.getKey(), e.getValue()));
         } else {
             species.stream().forEach(specie -> {
+                // TODO Random placed Bacteria could collide
                 final Gene gene = new GeneImpl();
-                final GeneticCode test = new GeneticCodeImpl(gene, 10.0, 20.0);
-                final Bacteria bTest = new BacteriaImpl(bacteriaCounter, specie, test, INITIAL_ENERGY);
                 IntStream.range(0, BACTERIA_PER_SPECIES)
-                .mapToObj(x -> {
-                    Position pos = new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY()));
-                    while (EnvironmentUtil.causeCollision(Pair.of(pos, bTest), pos, this.bacteriaEnv.getBacteriaState())) {
-                        pos = new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()), rand.nextInt((int) this.simulationMaxPosition.getY()));
-                    }
-                    return pos;
-                })
-                .forEach(position -> {
-                    final GeneticCode genCode = new GeneticCodeImpl(gene, 10.0, 20.0);
-                    final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode, INITIAL_ENERGY);
-                    bacteriaCounter++;
-                    this.bacteriaEnv.insertBacteria(position, bacteria);
-                });
+                        .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()),
+                                rand.nextInt((int) this.simulationMaxPosition.getY())))
+                        .forEach(position -> {
+                            final GeneticCode genCode = new GeneticCodeImpl(gene, 10.0, 20.0);
+                            final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode,
+                                    INITIAL_ENERGY);
+                            bacteriaCounter++;
+                            this.bacteriaEnv.insertBacteria(position, bacteria);
+                        });
             });
         }
-        //*/
+        // */
     }
 
-    private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos, final Map<Position, Food> foodsState) {
+    private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos,
+            final Map<Position, Food> foodsState) {
         final int radius = (int) Math.ceil(this.bacteriaEnv.getBacteria(bacteriaPos).getPerceptionRadius());
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
@@ -138,16 +136,14 @@ public class BacteriaManagerImpl implements BacteriaManager {
         return distsToFood;
     }
 
-    private Optional<Position> collidingFood(final Position bacteriaPos, final Map<Position, Food> foodsState){
+    private Optional<Position> collidingFood(final Position bacteriaPos, final Map<Position, Food> foodsState) {
         if (this.maxFoodRadius.isPresent()) {
             final int maxRadius = (int) Math.ceil(this.maxFoodRadius.get());
             final Bacteria bacteria = this.bacteriaEnv.getBacteria(bacteriaPos);
-            return EnvironmentUtil.positionStream(maxRadius, bacteriaPos, simulationMaxPosition) 
-                .filter(pos -> foodsState.containsKey(pos))
-                .map(pos -> Pair.of(pos, foodsState.get(pos)))
-                .filter(pairPosFood -> EnvironmentUtil.isCollision(Pair.of(bacteriaPos, bacteria), pairPosFood))
-                .map(a -> a.getLeft())
-                .findAny();
+            return EnvironmentUtil.positionStream(maxRadius, bacteriaPos, simulationMaxPosition)
+                    .filter(pos -> foodsState.containsKey(pos)).map(pos -> Pair.of(pos, foodsState.get(pos)))
+                    .filter(pairPosFood -> EnvironmentUtil.isCollision(Pair.of(bacteriaPos, bacteria), pairPosFood))
+                    .map(a -> a.getLeft()).findAny();
         } else {
             return Optional.empty();
         }
@@ -200,29 +196,29 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private void updateLivingBacteria() {
-        this.maxFoodRadius = this.manager.getExistingFoodsSet().stream()
-                                                               .map(food -> food.getRadius())
-                                                               .max((r1, r2) -> Double.compare(r1, r2));
+        this.bacteriaEnv.updateOccupiedPositions();
+        this.maxFoodRadius = this.manager.getExistingFoodsSet().stream().map(food -> food.getRadius())
+                .max((r1, r2) -> Double.compare(r1, r2));
+
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
         final Set<Position> positions = new HashSet<Position>(this.bacteriaEnv.activePosition());
-        positions.stream()
-                .peek(position -> this.bacteriaEnv.getBacteria(position).setPerception(this.createPerception(position, foodsState)))
-                .peek(position -> this.costOfLiving(this.bacteriaEnv.getBacteria(position)))
-                .forEach(position -> this.performAction(position, this.bacteriaEnv.getBacteria(position)));
+
+        positions.stream().map(pos -> Pair.of(pos, this.bacteriaEnv.getBacteria(pos)))
+                .peek(posBact -> posBact.getRight().setPerception(this.createPerception(posBact.getLeft(), foodsState)))
+                .peek(posBact -> this.costOfLiving(posBact.getRight()))
+                .forEach(posBact -> this.performAction(posBact.getLeft(), posBact.getRight()));
     }
 
     private void updateDeadBacteria() {
         final Set<Position> toBeRemoved = this.bacteriaEnv.entrySet().stream()
-                .filter(entry -> entry.getValue().isDead())
-                .peek(entry -> {
+                .filter(entry -> entry.getValue().isDead()).peek(entry -> {
                     try {
                         this.foodEnv.addFood(entry.getValue().getInternalFood(this.factory), entry.getKey());
                     } catch (PositionAlreadyOccupiedException e) {
                         // Food collided with other food nearby, just don't add
                         Logger.getLog().info("Bacteria died on Food");
                     }
-                })
-                .map(entry -> entry.getKey()).collect(Collectors.toSet());
+                }).map(entry -> entry.getKey()).collect(Collectors.toSet());
         this.bacteriaEnv.removeFromPositions(toBeRemoved);
     }
 

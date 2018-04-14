@@ -55,4 +55,28 @@ public interface BacteriaEnvironment {
      * @return an unmodifiable map represent the state
      */
     Map<Position, Bacteria> getBacteriaState();
+
+    /**
+     * Update all Position that a Bacteria occupies within its Radius.
+     */
+    void updateOccupiedPositions();
+
+    /**
+     * Check whether a Position is occupied by another Bacteria.
+     * @param position the position that have to be checked
+     * @return true if the position is occupied, false otherwise
+     */
+    boolean isPositionOccupied(Position position);
+
+    /**
+     * Set all Position occupied by the Bacteria in given position as not occupied.
+     * @param position the Position of the Bacteria
+     */
+    void clearPosition(Position position);
+
+    /**
+     * Set all Position occupied by the Bacteria in given position as occupied.
+     * @param position the Position of the Bacteria
+     */
+    void setPosition(Position position);
 }
