@@ -1,6 +1,5 @@
 package view.gui;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -47,7 +46,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.stopSimulation.setEnabled(false);
         this.pauseSimulation.setEnabled(false);
         this.setOpaque(true);
-        this.setBackground(Color.WHITE);
+        this.setBackground(null);
     }
 
     @Override

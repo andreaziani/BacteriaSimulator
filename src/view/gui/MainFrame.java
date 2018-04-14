@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -80,6 +81,7 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     private void viewSettings() {
         this.setSize(width, height);
         this.view.setDimension(this.simulationPanel.getSize());
+        this.legendPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
         this.getContentPane().setBackground(Color.WHITE);
         this.add(topPanel, BorderLayout.NORTH);
         this.add(simulationPanel, BorderLayout.CENTER);
