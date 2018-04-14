@@ -65,7 +65,6 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         this.add(this.createFood);
         this.add(this.createSpecies);
         this.setOpaque(true);
-        this.setBackground(null);
     }
 
     /**

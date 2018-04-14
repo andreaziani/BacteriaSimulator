@@ -46,7 +46,6 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.stopSimulation.setEnabled(false);
         this.pauseSimulation.setEnabled(false);
         this.setOpaque(true);
-        this.setBackground(null);
     }
 
     @Override
