@@ -1,7 +1,10 @@
 package view.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.io.IOException;
+
+import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -44,11 +47,11 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
             new HelpDialog(main);
         });
         this.speciesAndFood = new SpeciesAndFoodPanel(view, main);
-        this.componentsSettings();
         this.add(menuBar, BorderLayout.NORTH);
         choicesPanel = new ChoicesPanel(view);
         this.add(choicesPanel, BorderLayout.SOUTH);
         this.add(this.speciesAndFood, BorderLayout.CENTER);
+        this.componentsSettings();
 
         final JFileChooser simulationChooser = new JFileChooser();
         simulationChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -95,6 +98,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.helpMenu.add(help);
         this.menuBar.add(this.fileMenu);
         this.menuBar.add(helpMenu);
+        this.speciesAndFood.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
+        this.choicesPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
     }
 
     @Override

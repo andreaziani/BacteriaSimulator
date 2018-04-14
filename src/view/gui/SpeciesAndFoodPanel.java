@@ -1,6 +1,5 @@
 package view.gui;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -66,7 +65,6 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         this.add(this.createFood);
         this.add(this.createSpecies);
         this.setOpaque(true);
-        this.setBackground(Color.WHITE);
     }
 
     /**

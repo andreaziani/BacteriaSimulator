@@ -71,7 +71,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
                         }
                     }
                 }
-                updateCurrentState(SimulationState.END);
+                updateCurrentState(SimulationState.ENDED);
                 replay.setAnalysis(env.getAnalysis());
             }
         };
