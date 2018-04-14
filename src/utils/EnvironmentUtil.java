@@ -1,6 +1,5 @@
 package utils;
 
-import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -179,22 +178,5 @@ public final class EnvironmentUtil {
             final Pair<Position, ? extends Collidable> entry2) {
         final double distance = distance(entry1.getLeft(), entry2.getLeft());
         return (distance <= entry1.getRight().getRadius() + entry2.getRight().getRadius());
-    }
-
-    /**
-     * Check whether the position would generate a collision with other entry.
-     * @param origin the original entry
-     * @param newPosition the new position to be used
-     * @param entityMap the map in which check for the collision
-     * @return true if it would cause a collision, false otherwise
-     */
-    public static boolean causeCollision(final Pair<Position, ? extends Collidable> origin,
-            final Position newPosition,
-            final Map<Position, ? extends Collidable> entityMap) {
-        final double radius = origin.getRight().getRadius();
-        return positionStream((int) Math.ceil(2 * radius), newPosition, new PositionImpl(1000, 1000))
-                    .filter(pos -> !(pos.getX() == origin.getLeft().getX() && pos.getY() == origin.getLeft().getY()))
-                    .filter(pos -> entityMap.containsKey(pos))
-                    .anyMatch(pos -> distance(pos,  newPosition) <= radius + entityMap.get(pos).getRadius());
     }
 }
