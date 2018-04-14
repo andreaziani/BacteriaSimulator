@@ -85,14 +85,14 @@ public class TestEnvUtils {
     public void testPosStream() {
         final Set<Position> myPosition = new HashSet<>();
         final int start = 0;
-        final int end = 10;
-        final int bacteriaX = -3;
+        final int end = 5;
+        final int bacteriaX = -2;
         final int bacteriaY = 12;
         final Position maxPos = new PositionImpl(100, 100);
 
         for (int i = start; i < end; i++) {
             for (int j = start; j < end; j++) {
-                if (i != 0 && j != 0) {
+                if (i != 0 || j != 0) {
                     final Position pos = new PositionImpl(bacteriaX + i, bacteriaY + j);
                     if (pos.getX() > 0 && pos.getX() < maxPos.getX() && pos.getY() > 0 && pos.getY() < maxPos.getY()) {
                         myPosition.add(pos);
@@ -100,10 +100,10 @@ public class TestEnvUtils {
                 }
             }
         }
-
+        System.out.println(myPosition);
         final Set<Position> streamPosition = EnvironmentUtil.positionStream(start, end, start, end, new PositionImpl(bacteriaX, bacteriaY), maxPos)
                                                   .collect(Collectors.toSet());
-
+        System.out.println(streamPosition);
         assertEquals(myPosition, streamPosition);
     }
 
