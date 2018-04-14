@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import controller.SimulationState;
 import utils.exceptions.PositionAlreadyOccupiedException;
@@ -91,11 +90,7 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
 
     @Override
     public final void updateSimulationState(final SimulationState state) {
-        if (state == SimulationState.END || state == SimulationState.NOT_READY) {
-            this.legendPanel.reset();
-        } else {
-            SwingUtilities.invokeLater(() -> this.legendPanel.update());
-        }
+        this.legendPanel.updateSimulationState(state);
         this.topPanel.updateSimulationState(state);
         this.isSimulationRunning = state == SimulationState.RUNNING;
     }

@@ -61,7 +61,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
                 pauseSimulation.setEnabled(true);
                 break;
             case READY: 
-            case PAUSE:
+            case PAUSED:
                 startSimulation.setEnabled(true);
                 pauseSimulation.setEnabled(false);
                 stopSimulation.setEnabled(false);
