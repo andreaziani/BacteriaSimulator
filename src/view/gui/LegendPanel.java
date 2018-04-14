@@ -156,11 +156,11 @@ public final class LegendPanel extends JPanel implements ColorAssigner {
      */
     public void reset() {
         SwingUtilities.invokeLater(() -> {
-            init();
             if (legendContainer.isPresent()) {
                 this.remove(legendContainer.get());
                 legendContainer = Optional.empty();
             }
+            init();
         });
     }
 
