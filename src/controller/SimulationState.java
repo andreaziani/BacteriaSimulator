@@ -20,7 +20,7 @@ public enum SimulationState {
     /**
      * Simulation is in pause.
      */
-    PAUSE,
+    PAUSED,
     /**
      * Replay is running.
      */
@@ -28,5 +28,5 @@ public enum SimulationState {
     /**
      * Simulation is ended.
      */
-    END;
+    ENDED;
 }
