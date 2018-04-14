@@ -9,6 +9,7 @@ import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.EnergyImpl;
 import model.Environment;
+import model.State;
 import model.bacteria.SpeciesBuilder;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.replay.ReplayEnvironmentImpl;
@@ -49,14 +50,19 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
                 boolean condition = true;
                 while (condition) {
                     final long start = System.currentTimeMillis();
+                    State simulationState;
                     synchronized (EnvironmentControllerImpl.this) {
                         env.update();
-                        replay.addState(env.getState());
+                        simulationState = env.getState();
+                        replay.addState(simulationState);
                         simulationLoop();
                         condition = !env.isSimulationOver();
                     }
                     final long elapsed = System.currentTimeMillis() - start;
-                    System.out.println(elapsed + " ms");
+                    // DUBUGGING INFO
+                    Logger.getLog().info("Elapsed: " + elapsed + " ms");
+                    Logger.getLog().info("Bact size: " + simulationState.getBacteriaState().size());
+                    Logger.getLog().info("Food size: " + simulationState.getFoodsState().size());
                     if (elapsed < PERIOD) {
                         try {
                             Thread.sleep(PERIOD - elapsed);
