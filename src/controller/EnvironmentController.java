@@ -39,7 +39,7 @@ public interface EnvironmentController {
      * @param food
      *            the new type of food to be added.
      * @throws AlreadyExistingFoodException
-     *             if the food is already existing.
+     *             if the food already exist.
      */
     void addNewTypeOfFood(ViewFood food);
 
@@ -108,4 +108,10 @@ public interface EnvironmentController {
      * @return a set containing all the species currently present in the simulation.
      */
     Set<ViewSpecies> getSpecies();
+
+    /**
+     * Reset all information of the simulation and prepare the controller to create
+     * a new one.
+     */
+    void resetSimulation();
 }

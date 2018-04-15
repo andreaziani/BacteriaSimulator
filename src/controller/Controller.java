@@ -11,7 +11,8 @@ import view.ViewImpl;
  */
 public interface Controller extends EnvironmentController {
     /**
-     * Load an initial state of a simulation.
+     * Load an initial state of a simulation. Before loading, the view will be
+     * notified that the state of the simulation is NOT_READY.
      * 
      * @param file
      *            the file to save into.

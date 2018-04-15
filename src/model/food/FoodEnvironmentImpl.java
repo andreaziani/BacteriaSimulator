@@ -9,10 +9,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import model.Position;
 import model.food.insertionstrategy.RandomFoodStrategy;
 import model.food.insertionstrategy.RandomFoodStrategyImpl;
-import model.food.insertionstrategy.position.GeometricDistribuitionStrategyImpl;
+import model.food.insertionstrategy.position.GeometricDistributionStrategy;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.food.insertionstrategy.position.PositionStrategy;
 import model.food.insertionstrategy.position.RandomPositionStrategy;
-import model.food.insertionstrategy.position.RandomPositionStrategyImpl;
 import utils.EnvironmentUtil;
 import utils.exceptions.PositionAlreadyOccupiedException;
 
@@ -84,11 +84,11 @@ public final class FoodEnvironmentImpl implements FoodEnvironment {
     public void addRandomFood() {
         boolean check = true;
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
-        RandomPositionStrategy positionStrategy;
+        PositionStrategy positionStrategy;
         if (this.strategy == DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
-            positionStrategy = new GeometricDistribuitionStrategyImpl(this.maxDim, strategy);
+            positionStrategy = new GeometricDistributionStrategy(this.maxDim, strategy);
         } else {
-            positionStrategy = new RandomPositionStrategyImpl(maxDim, strategy);
+            positionStrategy = new RandomPositionStrategy(maxDim, strategy);
         }
         for (int i = MAXATTEMPS; (i > 0 && check); i--) { // try to re-insert in another position if the precedent was occupied.
             try {

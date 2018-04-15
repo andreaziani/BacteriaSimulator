@@ -96,11 +96,12 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
         this.topPanel.updateSimulationState(state);
         this.isSimulationRunning = state == SimulationState.RUNNING;
     }
+
     /**
-     * Notify the presence of a change in species of foods that must be propagated to all other panels interested.
+     * Notify the presence of a change in species or foods that must be propagated
+     * to all other panels interested.
      */
     public void notifyUpdate() {
         this.legendPanel.update();
-        this.legendPanel.revalidate();
     }
 }

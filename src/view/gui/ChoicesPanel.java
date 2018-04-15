@@ -15,6 +15,7 @@ import view.ViewController;
  *
  */
 public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
+    private final JButton resetSimulation = new JButton("Reset");
     private final JButton startSimulation = new JButton("Start");
     private final JButton stopSimulation = new JButton("Stop");
     private final JButton pauseSimulation = new JButton("Pause");
@@ -29,7 +30,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
      * @param view
      *            the view controller on which to handle the interactions.
      */
-    public ChoicesPanel(final ViewController view) {
+    public ChoicesPanel(final ViewController view, final MainFrame main) {
         super();
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
@@ -39,6 +40,11 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
                 //JOptionPane.showMessageDialog(this, "You must insert one species and one type of food");
             //}
         });
+        this.resetSimulation.addActionListener(e -> {
+            view.reset();
+            main.notifyUpdate();
+        });
+        this.add(this.resetSimulation);
         this.add(this.startSimulation);
         this.add(this.pauseSimulation);
         this.add(this.stopSimulation);

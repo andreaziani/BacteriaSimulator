@@ -26,6 +26,8 @@ public interface ViewController {
      *            the food to insert.
      * @param position
      *            the position of the food.
+     * @throws PositionAlreadyOccupiedException
+     *             if the position is already occupied from another food.
      */
     void addFood(ViewFood food, ViewPosition position);
 
@@ -34,6 +36,8 @@ public interface ViewController {
      * 
      * @param food
      *            the new type of food to add.
+     * @throws AlreadyExistingFoodException
+     *             if the food is already created.
      */
     void addNewTypeOfFood(ViewFood food);
 
@@ -182,4 +186,9 @@ public interface ViewController {
      * @return a set containing all the species currently present in the simulation.
      */
     Set<ViewSpecies> getSpecies();
+
+    /**
+     * Request a reset of the application to its initial state.
+     */
+    void reset();
 }

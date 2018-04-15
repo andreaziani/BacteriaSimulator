@@ -2,9 +2,9 @@ package model.food.insertionstrategy.position;
 
 import model.Position;
 /**
- * Abstract implementation of Strategy.
+ * Abstract implementation of Position Strategy.
  */
-public abstract class AbstractStrategy implements RandomPositionStrategy {
+public abstract class AbstractPositionStrategy implements PositionStrategy {
     @Override
     public final Position getPosition() {
         return this.distributedPosition();

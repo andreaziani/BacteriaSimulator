@@ -13,7 +13,7 @@ import view.model.food.ViewFood;
  * Implementation of FoodController, it manages food interactions.
  *
  */
-public class FoodControllerImpl implements FoodController {
+public final class FoodControllerImpl implements FoodController {
     private final Environment env;
 
     /**
@@ -28,19 +28,19 @@ public class FoodControllerImpl implements FoodController {
     }
 
     @Override
-    public final void addFoodFromViewToModel(final ViewFood food, final Position position) {
-        this.env.addFood(ConversionsUtil.conversionFromViewFoodToFood(food), position);
+    public void addFoodFromViewToModel(final ViewFood food, final Position position) {
+        this.env.addFood(ConversionsUtil.viewFoodToFood(food), position);
     }
 
     @Override
-    public final List<ViewFood> getExistingViewFoods() {
+    public List<ViewFood> getExistingViewFoods() {
         return Collections.unmodifiableList(env.getExistingFoods().stream()
-                .map(food -> ConversionsUtil.conversionFromFoodToViewFood(food))
+                .map(food -> ConversionsUtil.foodToViewFood(food))
                 .collect(Collectors.toList()));
     }
 
     @Override
-    public final void addNewTypeOfFood(final ViewFood food) {
-        this.env.addNewTypeOfFood(ConversionsUtil.conversionFromViewFoodToFood(food));
+    public void addNewTypeOfFood(final ViewFood food) {
+        this.env.addNewTypeOfFood(ConversionsUtil.viewFoodToFood(food));
     }
 }

@@ -2,6 +2,7 @@ package model.food;
 
 import java.util.List;
 
+
 /**
  * Manager that contains all existing type of foods created.
  * 

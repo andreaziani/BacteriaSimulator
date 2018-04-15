@@ -51,7 +51,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     private Iterator<Color> speciesColorIterator;
 
     /**
-     * Create a new LegendPanel specifing the ViewController of the application.
+     * Create a new LegendPanel specifying the ViewController of the application.
      * 
      * @param viewController
      *            the view controller.
@@ -72,9 +72,9 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
 
         simulationState = SimulationState.NOT_READY;
         this.viewController = viewController;
-        init();
         foodLabel = new JLabel("Food colors:");
         speciesLabel = new JLabel("Species colors:");
+        init();
     }
 
     private void init() {
@@ -83,7 +83,13 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         foodColorIterator = getColorIterator(candidateFoodsColors);
         speciesColorIterator = getColorIterator(candidateSpeciesColors);
         legendContainer = Optional.empty();
-        this.setVisible(false);
+        update();
+    }
+
+    private void resetContainer() {
+        if (this.legendContainer.isPresent()) {
+            this.remove(legendContainer.get());
+        }
     }
 
     /**
@@ -91,11 +97,12 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      */
     public void reset() {
         SwingUtilities.invokeLater(() -> {
-            if (legendContainer.isPresent()) {
-                this.remove(legendContainer.get());
-                legendContainer = Optional.empty();
-            }
+            resetContainer();
+            legendContainer = Optional.empty();
             init();
+            //forced refresh of the panel because revalidate() doesn't work.
+            this.setVisible(false);
+            this.setVisible(true);
         });
     }
 
@@ -112,11 +119,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     @Override
     public void updateSimulationState(final SimulationState state) {
         this.simulationState = state;
-        if (simulationState == SimulationState.ENDED || simulationState == SimulationState.NOT_READY) {
+        if (simulationState == SimulationState.NOT_READY) {
             this.reset();
-        }
-        if (simulationState != SimulationState.ENDED) {
-            SwingUtilities.invokeLater(() -> update());
         }
     }
 
@@ -126,23 +130,19 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      * method is not thread safe.
      */
     public void update() {
-        if (simulationState != SimulationState.ENDED && simulationState != SimulationState.NOT_READY) {
-            final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
-            final Set<ViewSpecies> species = viewController.getSpecies();
-            JPanel legendPanel;
-            if (this.legendContainer.isPresent()) {
-                this.remove(legendContainer.get());
-            }
-            legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
-            legendContainer = Optional.of(legendPanel);
-            legendPanel.add(foodLabel);
-            legendPanel.add(buildLegendEntryPanel(UNNAMED_FOOD, Color.BLACK, foodColors));
-            fillPanelsOfColorables(foods, foodColors, this::nextRandomFoodColor);
-            legendPanel.add(speciesLabel);
-            fillPanelsOfColorables(species, speciesColors, this::nextRandomSpeciesColor);
-            this.add(legendPanel);
-            this.setVisible(true);
-        }
+        final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
+        final Set<ViewSpecies> species = viewController.getSpecies();
+        JPanel legendPanel;
+        resetContainer();
+        legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
+        legendContainer = Optional.of(legendPanel);
+        legendPanel.add(foodLabel);
+        legendPanel.add(buildLegendEntryPanel(UNNAMED_FOOD, Color.BLACK, foodColors));
+        fillPanelsOfColorables(foods, foodColors, this::nextRandomFoodColor);
+        legendPanel.add(speciesLabel);
+        fillPanelsOfColorables(species, speciesColors, this::nextRandomSpeciesColor);
+        this.add(legendPanel);
+        this.revalidate();
     }
 
     private void fillPanelsOfColorables(final Set<? extends Colorable> set, final Map<String, Color> map,
