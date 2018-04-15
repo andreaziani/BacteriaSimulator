@@ -54,12 +54,12 @@ public class SimulatorEnvironment implements Environment {
         if (initialState.isPresent()) {
             // add existing food
             initialState.get().getExistingFood().forEach(creationViewFood -> {
-                final Food food = ConversionsUtil.conversionFromViewFoodToFood(creationViewFood);
+                final Food food = ConversionsUtil.viewFoodToFood(creationViewFood);
                 this.manager.addFood(food);
             });
             // add food
             initialState.get().getFoodMap().entrySet().forEach(entry -> {
-                final Food food = ConversionsUtil.conversionFromViewFoodToFood(entry.getValue());
+                final Food food = ConversionsUtil.viewFoodToFood(entry.getValue());
                 this.foodEnv.addFood(food, entry.getKey());
             });
             // add existing species

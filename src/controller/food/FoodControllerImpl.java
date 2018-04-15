@@ -29,18 +29,18 @@ public final class FoodControllerImpl implements FoodController {
 
     @Override
     public void addFoodFromViewToModel(final ViewFood food, final Position position) {
-        this.env.addFood(ConversionsUtil.conversionFromViewFoodToFood(food), position);
+        this.env.addFood(ConversionsUtil.viewFoodToFood(food), position);
     }
 
     @Override
     public List<ViewFood> getExistingViewFoods() {
         return Collections.unmodifiableList(env.getExistingFoods().stream()
-                .map(food -> ConversionsUtil.conversionFromFoodToViewFood(food))
+                .map(food -> ConversionsUtil.foodToViewFood(food))
                 .collect(Collectors.toList()));
     }
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
-        this.env.addNewTypeOfFood(ConversionsUtil.conversionFromViewFoodToFood(food));
+        this.env.addNewTypeOfFood(ConversionsUtil.viewFoodToFood(food));
     }
 }

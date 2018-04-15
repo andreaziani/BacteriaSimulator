@@ -169,7 +169,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized void addFoodFromView(final ViewFood food, final ViewPosition position) {
-        this.foodController.addFoodFromViewToModel(food, ConversionsUtil.conversionFromViewPositionToPosition(position,
+        this.foodController.addFoodFromViewToModel(food, ConversionsUtil.viewPositionToPosition(position,
                 env.getMaxPosition(), maxViewPosition.get()));
     }
 
@@ -189,7 +189,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized ViewState getState() {
-        return ConversionsUtil.conversionFromStateToViewState(this.env.getState(), foodController,
+        return ConversionsUtil.stateToViewState(this.env.getState(), foodController,
                 this.env.getMaxPosition(), this.maxViewPosition.get(), initialState);
     }
 
