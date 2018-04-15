@@ -38,21 +38,25 @@ public interface FileController {
     /**
      * Load a replay of a simulation.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
      * @return the replay loaded.
+     * @throws IOException
+     *             if any problem reading the file occurred.
      */
-    Replay loadReplay(File file);
+    Replay loadReplay(String path) throws IOException;
 
     /**
      * Save a replay.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
      * @param replay
      *            a replay of a simulation.
+     * @throws IOException
+     *             if any problem writing in the file occurred.
      */
-    void saveReplay(File file, Replay replay);
+    void saveReplay(String path, Replay replay) throws IOException;
 
     /**
      * Save the final analisys.

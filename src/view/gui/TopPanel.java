@@ -24,6 +24,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     private final JMenu helpMenu = new JMenu("Help");
     private final JMenuItem loadSimulation = new JMenuItem("Load Simulation");
     private final JMenuItem saveSimulation = new JMenuItem("Save Simulation");
+    private final JMenuItem loadReplay = new JMenuItem("Load Replay");
+    private final JMenuItem saveReplay = new JMenuItem("Save Replay");
     private final JMenuItem help = new JMenuItem("How to use");
     private final SpeciesAndFoodPanel speciesAndFood;
 
@@ -75,6 +77,30 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                 }
             }
         });
+
+        final JFileChooser replayChooser = new JFileChooser();
+        simulationChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        simulationChooser.setDialogTitle("Choose a file");
+
+        loadReplay.addActionListener(e -> {
+            if (replayChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
+                try {
+                    view.loadReplay(replayChooser.getSelectedFile().getPath());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "An error occurred trying to load the replay");
+                }
+            }
+        });
+        saveReplay.addActionListener(e -> {
+            if (replayChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
+                try {
+                    view.saveReplay(replayChooser.getSelectedFile().getPath());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "An error occurred trying to load the replay");
+                }
+            }
+        });
+        this.saveReplay.setEnabled(false);
     }
 
     /**
@@ -95,6 +121,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.fileMenu.setActionCommand("File");
         this.fileMenu.add(loadSimulation);
         this.fileMenu.add(this.saveSimulation);
+        this.fileMenu.add(loadReplay);
+        this.fileMenu.add(saveReplay);
         this.helpMenu.add(help);
         this.menuBar.add(this.fileMenu);
         this.menuBar.add(helpMenu);
@@ -106,5 +134,10 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     public final void updateSimulationState(final SimulationState state) {
         this.speciesAndFood.updateSimulationState(state);
         this.choicesPanel.updateSimulationState(state);
+        if (state == SimulationState.ENDED) {
+            this.saveReplay.setEnabled(true);
+        } else {
+            this.saveReplay.setEnabled(false);
+        }
     }
 }

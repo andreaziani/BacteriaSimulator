@@ -63,14 +63,6 @@ public interface ViewController {
     List<String> getNutrients();
 
     /**
-     * Load a replay.
-     * 
-     * @param path
-     *            of the Replay file.
-     */
-    void loadReplay(String path);
-
-    /**
      * Show analisys.
      * 
      * @param analysis
@@ -135,6 +127,26 @@ public interface ViewController {
      *             in case of a problem.
      */
     void saveSimulation(File file) throws IOException;
+
+    /**
+     * Load a replay.
+     * 
+     * @param path
+     *            of the Replay file.
+     * @throws IOException
+     *             in case of a problem.
+     */
+    void loadReplay(String path) throws IOException;
+
+    /**
+     * Save a replay.
+     * 
+     * @param path
+     *            the path of the file to save into.
+     * @throws IOException
+     *             in case of a problem.
+     */
+    void saveReplay(String path) throws IOException;
 
     /**
      * Save an Analysis.

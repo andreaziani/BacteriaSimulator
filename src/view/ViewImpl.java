@@ -55,12 +55,6 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void loadReplay(final String path) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void showAnalisys(final Analysis analysis) {
         // TODO Auto-generated method stub
 
@@ -115,6 +109,16 @@ public class ViewImpl implements View, ViewController {
     @Override
     public void saveSimulation(final File file) throws IOException {
         controller.saveInitialState(file);
+    }
+
+    @Override
+    public void loadReplay(final String path) throws IOException {
+        controller.loadReplay(path);
+    }
+
+    @Override
+    public void saveReplay(String path) throws IOException {
+        controller.saveReplay(path);
     }
 
     @Override

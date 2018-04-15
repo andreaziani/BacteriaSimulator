@@ -41,13 +41,21 @@ public class FileControllerImpl implements FileController {
     }
 
     @Override
-    public Replay loadReplay(final File file) {
-        throw new UnsupportedOperationException();
+    public Replay loadReplay(final String path) throws IOException {
+        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
+            return gson.fromJson(reader, Replay.class);
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new IOException();
+        }
     }
 
     @Override
-    public void saveReplay(final File file, final Replay replay) {
-        throw new UnsupportedOperationException();
+    public void saveReplay(final String path, final Replay replay) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            writer.write(gson.toJson(replay));
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new IOException();
+        }
     }
 
     @Override

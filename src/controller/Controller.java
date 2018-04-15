@@ -34,18 +34,22 @@ public interface Controller extends EnvironmentController {
     /**
      * Load a replay of a simulation.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
+     * @throws IOException
+     *             if any problem reading the file occurred.
      */
-    void loadReplay(File file);
+    void loadReplay(String path) throws IOException;
 
     /**
      * Save the replay of the last runned simulation.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
+     * @throws IOException
+     *             if any problem writing in the file occurred.
      */
-    void saveReplay(File file);
+    void saveReplay(String path) throws IOException;
 
     /**
      * Save the final analysis of the last simulation runned.
