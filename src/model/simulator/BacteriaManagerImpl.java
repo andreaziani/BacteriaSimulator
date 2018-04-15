@@ -58,6 +58,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private Optional<Double> maxFoodRadius;
     private Optional<Position> foodPosition;
     private int bacteriaCounter;
+    private long action = 0, perception = 0;
 
     /**
      * Constructor.
@@ -106,7 +107,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                         .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()),
                                 rand.nextInt((int) this.simulationMaxPosition.getY())))
                         .forEach(position -> {
-                            final GeneticCode genCode = new GeneticCodeImpl(gene, 10.0, 20.0);
+                            final GeneticCode genCode = new GeneticCodeImpl(gene, 8.0, 25.0);
                             final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode,
                                     INITIAL_ENERGY);
                             bacteriaCounter++;
@@ -150,15 +151,18 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private Perception createPerception(final Position bacteriaPos, final Map<Position, Food> foodsState) {
+        final long t1 = System.nanoTime();
         this.foodPosition = collidingFood(bacteriaPos, foodsState);
         final Optional<Food> foodInPosition = this.foodPosition.isPresent()
                 ? Optional.of(foodsState.get(this.foodPosition.get()))
                 : Optional.empty();
         final Map<Direction, Double> distsToFood = closestFoodDistances(bacteriaPos, foodsState);
+        this.perception += (System.nanoTime() - t1);
         return new PerceptionImpl(foodInPosition, distsToFood);
     }
 
     private void performAction(final Position bacteriaPos, final Bacteria bacteria) {
+        final long t1 = System.nanoTime();
         actionPerf.setStatus(bacteriaPos, bacteria);
         final Action action = bacteria.getAction();
         final ActionType actionType = action.getType();
@@ -185,6 +189,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
         } catch (NotEnounghEnergyException e) {
             bacteria.spendEnergy(bacteria.getEnergy());
         }
+        this.action += (System.nanoTime() - t1);
     }
 
     private void costOfLiving(final Bacteria bacteria) {
@@ -195,7 +200,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
         }
     }
 
-    private void updateLivingBacteria() {
+    private void updateAliveBacteria() {
         this.bacteriaEnv.updateOccupiedPositions();
         this.maxFoodRadius = this.manager.getExistingFoodsSet().stream().map(food -> food.getRadius())
                 .max((r1, r2) -> Double.compare(r1, r2));
@@ -211,14 +216,16 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
     private void updateDeadBacteria() {
         final Set<Position> toBeRemoved = this.bacteriaEnv.entrySet().stream()
-                .filter(entry -> entry.getValue().isDead()).peek(entry -> {
+                .filter(entry -> entry.getValue().isDead())
+                .peek(entry -> {
                     try {
                         this.foodEnv.addFood(entry.getValue().getInternalFood(this.factory), entry.getKey());
                     } catch (PositionAlreadyOccupiedException e) {
                         // Food collided with other food nearby, just don't add
                         Logger.getLog().info("Bacteria died on Food");
                     }
-                }).map(entry -> entry.getKey()).collect(Collectors.toSet());
+                })
+                .map(entry -> entry.getKey()).collect(Collectors.toSet());
         this.bacteriaEnv.removeFromPositions(toBeRemoved);
     }
 
@@ -227,8 +234,11 @@ public class BacteriaManagerImpl implements BacteriaManager {
      */
     @Override
     public void updateBacteria() {
+        System.out.println("Perception " + (this.perception / 1e6) + " ms");
+        System.out.println("ActionPerf " + (this.action / 1e6) + " ms");
+        this.perception = this.action = 0;
         this.updateDeadBacteria();
-        this.updateLivingBacteria();
+        this.updateAliveBacteria();
     }
 
     /**
