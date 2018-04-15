@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.FileController;
 import controller.SimulationState;
+import utils.exceptions.IllegalExtensionExeption;
 import view.ViewController;
 
 /**
@@ -70,6 +71,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                     view.loadSimulation(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the simulation");
+                } catch (IllegalExtensionExeption ex) {
+                    JOptionPane.showMessageDialog(this, "The extension of the file was not correct");
                 }
             }
         });
@@ -95,6 +98,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                     view.loadReplay(replayChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the replay");
+                } catch (IllegalExtensionExeption ex) {
+                    JOptionPane.showMessageDialog(this, "The extension of the file was not correct");
                 }
             }
         });

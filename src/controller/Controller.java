@@ -17,6 +17,8 @@ public interface Controller extends EnvironmentController {
      *            the path of the file to load.
      * @throws IOException
      *             if any problem reading the file occurred.
+     * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
      */
     void loadInitialState(String path) throws IOException;
 
@@ -37,6 +39,8 @@ public interface Controller extends EnvironmentController {
      *            the path of the file to load.
      * @throws IOException
      *             if any problem reading the file occurred.
+     * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
      */
     void loadReplay(String path) throws IOException;
 

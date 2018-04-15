@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Dimension;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +114,8 @@ public interface ViewController {
      *            the path of the file to load.
      * @throws IOException
      *             in case of a problem.
+     * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
      */
     void loadSimulation(String path) throws IOException;
 
@@ -135,6 +136,8 @@ public interface ViewController {
      *            the path of the file to load.
      * @throws IOException
      *             in case of a problem.
+     * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
      */
     void loadReplay(String path) throws IOException;
 
