@@ -3,8 +3,10 @@ package model.replay;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import controller.InitialState;
+import controller.SimpleState;
 import model.Analysis;
 import model.Position;
 import model.State;
@@ -53,10 +55,6 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public void init(final Optional<InitialState> initialState) {
-    }
-
-    @Override
     public void update() {
         if (states.hasNext()) {
             currentState = Optional.of(states.next());
@@ -98,6 +96,24 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     @Override
     public boolean isSimulationOver() {
         return !states.hasNext();
+    }
+
+    @Override
+    public void initialize() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setSimulationParameter(Set<Food> existingFood, Set<Species> existingSpecies) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setSimulationState(SimpleState simulationState, Position maxPosition) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

@@ -2,8 +2,10 @@ package model;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import controller.InitialState;
+import controller.SimpleState;
 import model.bacteria.Species;
 import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
@@ -53,11 +55,12 @@ public interface Environment {
     /**
      * Initialize environment.
      * 
-     * @param initialState
-     *            optional initialState used to initialize the simulation
      */
-    void init(Optional<InitialState> initialState);
+    void initialize();
 
+    void setSimulationParameter(final Set<Food> existingFood, final Set<Species> existingSpecies);
+
+    void setSimulationState(final SimpleState simulationState, final Position maxPosition);
     /**
      * update environment.
      */
