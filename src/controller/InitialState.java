@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,7 +24,7 @@ import view.model.food.SimulationViewFood;
  */
 public class InitialState {
     private Optional<SimpleState> state;
-    private final Set<CreationViewFoodImpl> existingFood;
+    private final List<CreationViewFoodImpl> existingFood;
     private final Set<ViewSpecies> species;
     private final double maxX;
     private final double maxY;
@@ -37,7 +39,7 @@ public class InitialState {
      */
     public InitialState(final double maxX, final double maxY) {
         this.state = Optional.empty();
-        existingFood = new HashSet<>();
+        existingFood = new ArrayList<>();
         species = new HashSet<>();
         this.maxX = maxX;
         this.maxY = maxY;
@@ -56,7 +58,7 @@ public class InitialState {
      */
     public InitialState(final double maxX, final double maxY, final SimpleState state) {
         this.state = Optional.of(state);
-        existingFood = new HashSet<>();
+        existingFood = new ArrayList<>();
         species = new HashSet<>();
         this.maxX = maxX;
         this.maxY = maxY;
@@ -120,7 +122,7 @@ public class InitialState {
     /**
      * @return all the foods created by the user.
      */
-    public Set<CreationViewFoodImpl> getExistingFood() {
+    public List<CreationViewFoodImpl> getExistingFood() {
         return existingFood;
     }
 

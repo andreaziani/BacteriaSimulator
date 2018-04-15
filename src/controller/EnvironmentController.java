@@ -5,6 +5,7 @@ import java.util.Set;
 
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
+import view.model.food.CreationViewFoodImpl;
 import view.model.food.ViewFood;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpecies;
@@ -48,7 +49,7 @@ public interface EnvironmentController {
      * 
      * @return an unmodifiable list with all types of food.
      */
-    List<ViewFood> getExistingViewFoods();
+    List<CreationViewFoodImpl> getExistingViewFoods();
 
     /**
      * Transforms the State and returns it as ViewState.
