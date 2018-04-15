@@ -51,7 +51,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     private Iterator<Color> speciesColorIterator;
 
     /**
-     * Create a new LegendPanel specifing the ViewController of the application.
+     * Create a new LegendPanel specifying the ViewController of the application.
      * 
      * @param viewController
      *            the view controller.
