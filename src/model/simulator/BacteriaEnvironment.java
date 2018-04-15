@@ -16,25 +16,25 @@ public interface BacteriaEnvironment {
      * @param pos the position to be checked
      * @return true if the Position if occupied by a Bacteria, false otherwise
      */
-    boolean containBacteriaInPosition(final Position pos);
+    boolean containBacteriaInPosition(Position pos);
     /**
      * Change the position of a Bacteria from oldPos to newPos.
      * @param oldPos the oldPosition in which the Bacteria is located
      * @param newPos the newPosition where the Bacteria should be moved
      */
-    void changeBacteriaPosition(final Position oldPos, final Position newPos);
+    void changeBacteriaPosition(Position oldPos, Position newPos);
     /**
      * Get the bacteria located in given Position.
      * @param pos the position of the Bacteria to be retrieved
      * @return the Bacteria
      */
-    Bacteria getBacteria(final Position pos);
+    Bacteria getBacteria(Position pos);
     /**
      * Add new Bacteria to the BacteriaEnviroment.
      * @param position the Position in which insert the Bacteria
      * @param bacteria the Bacteria to insert
      */
-    void insertBacteria(final Position position, final Bacteria bacteria);
+    void insertBacteria(Position position, Bacteria bacteria);
     /**
      * Return the Set of Entry<Position, Bacteria> representing the BacteriaEnvironment.
      * @return the Set
@@ -49,7 +49,7 @@ public interface BacteriaEnvironment {
      * Remove a set of Position from the BacteriaEnvironment.
      * @param positions the set of Position to be removed
      */
-    void removeFromPositions(final Set<Position> positions);
+    void removeFromPositions(Set<Position> positions);
     /**
      * Return the state of the BacteriaEnviroment.
      * @return an unmodifiable map represent the state
@@ -71,12 +71,14 @@ public interface BacteriaEnvironment {
     /**
      * Set all Position occupied by the Bacteria in given position as not occupied.
      * @param position the Position of the Bacteria
+     * @param bacteria the Bacteria of which clear the position
      */
-    void clearPosition(Position position);
+    void clearPosition(Position position, Bacteria bacteria);
 
     /**
      * Set all Position occupied by the Bacteria in given position as occupied.
      * @param position the Position of the Bacteria
+     * @param bacteria the Bacteria of which clear the position
      */
-    void setPosition(Position position);
+    void markPosition(Position position, Bacteria bacteria);
 }

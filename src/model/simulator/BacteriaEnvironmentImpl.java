@@ -18,15 +18,22 @@ import utils.EnvironmentUtil;
 public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     private final Position maxPosition;
     private final Map<Position, Bacteria> bacteria = new HashMap<>();
-    private BitSet occupiedPosition;
+    private BitSet occupiedPosition = new BitSet();
 
     private int positionToBitSetIndex(final Position pos) {
         return (int) (pos.getX() * this.maxPosition.getX() + pos.getY());
     }
 
+    private void setPosition(final Position bacteriaPos, final Bacteria bact, final boolean value) {
+        EnvironmentUtil.positionStream((int) Math.ceil(bact.getRadius()), bacteriaPos, this.maxPosition)
+                .filter(pos -> EnvironmentUtil.distance(pos, bacteriaPos) <= bact.getRadius())
+                .forEach(pos -> this.occupiedPosition.set(this.positionToBitSetIndex(pos), value));
+    }
+
     public BacteriaEnvironmentImpl(final Position maxPosition) {
         this.maxPosition = maxPosition;
     }
+
     @Override
     public boolean containBacteriaInPosition(final Position pos) {
         return this.bacteria.containsKey(pos);
@@ -50,7 +57,7 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     public Set<Entry<Position, Bacteria>> entrySet() {
         return this.bacteria.entrySet();
     }
-    
+
     @Override
     public Set<Position> activePosition() {
         return this.bacteria.keySet();
@@ -58,11 +65,16 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
 
     @Override
     public void removeFromPositions(final Set<Position> positions) {
-        this.bacteria.keySet().removeAll(positions);
+        positions.stream().forEach(pos -> {
+            final Bacteria bacteria = this.bacteria.get(pos);
+            this.clearPosition(pos, bacteria);
+            this.bacteria.remove(pos);
+        });
     }
 
     @Override
     public void insertBacteria(final Position position, final Bacteria bacteria) {
+        this.markPosition(position, bacteria);
         this.bacteria.put(position, bacteria);
     }
 
@@ -74,7 +86,7 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     @Override
     public void updateOccupiedPositions() {
         this.occupiedPosition = new BitSet();
-        this.bacteria.entrySet().stream().forEach(e -> this.setPosition(e.getKey()));
+        this.bacteria.entrySet().stream().forEach(e -> this.markPosition(e.getKey(), e.getValue()));
     }
 
     @Override
@@ -83,19 +95,13 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     }
 
     @Override
-    public void clearPosition(final Position position) {
-        final Bacteria bact = this.bacteria.get(position);
-        EnvironmentUtil.positionStream((int) Math.ceil(bact.getRadius()), position, this.maxPosition)
-                       .filter(pos -> EnvironmentUtil.distance(position, pos) <= bact.getRadius())
-                       .forEach(pos -> this.occupiedPosition.clear(this.positionToBitSetIndex(pos)));
+    public void clearPosition(final Position position, final Bacteria bacteria) {
+        this.setPosition(position, bacteria, false);
     }
 
     @Override
-    public void setPosition(final Position position) {
-        final Bacteria bact = this.bacteria.get(position);
-        EnvironmentUtil.positionStream((int) Math.ceil(bact.getRadius()), position, this.maxPosition)
-                       .filter(pos -> EnvironmentUtil.distance(position, pos) <= bact.getRadius())
-                       .forEach(pos -> this.occupiedPosition.set(this.positionToBitSetIndex(pos)));
+    public void markPosition(final Position position, final Bacteria bacteria) {
+        this.setPosition(position, bacteria, true);
     }
 
 }
