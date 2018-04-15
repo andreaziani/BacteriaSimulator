@@ -10,8 +10,6 @@ import java.util.Set;
 import model.Analysis;
 import model.action.ActionType;
 import model.food.insertionstrategy.position.DistributionStrategy;
-import utils.exceptions.AlreadyExistingFoodException;
-import utils.exceptions.PositionAlreadyOccupiedException;
 import view.model.ViewPosition;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;

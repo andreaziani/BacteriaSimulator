@@ -2,7 +2,6 @@ package model.food;
 
 import java.util.List;
 
-import utils.exceptions.AlreadyExistingFoodException;
 
 /**
  * Manager that contains all existing type of foods created.
