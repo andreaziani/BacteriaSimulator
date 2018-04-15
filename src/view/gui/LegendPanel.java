@@ -112,11 +112,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     @Override
     public void updateSimulationState(final SimulationState state) {
         this.simulationState = state;
-        if (simulationState == SimulationState.ENDED || simulationState == SimulationState.NOT_READY) {
+        if (simulationState == SimulationState.NOT_READY) {
             this.reset();
-        }
-        if (simulationState != SimulationState.ENDED) {
-            SwingUtilities.invokeLater(() -> update());
         }
     }
 
@@ -126,7 +123,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      * method is not thread safe.
      */
     public void update() {
-        if (simulationState != SimulationState.ENDED && simulationState != SimulationState.NOT_READY) {
+        if (simulationState != SimulationState.NOT_READY) {
             final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
             final Set<ViewSpecies> species = viewController.getSpecies();
             JPanel legendPanel;
