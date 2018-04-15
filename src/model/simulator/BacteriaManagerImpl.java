@@ -107,7 +107,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                         .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()),
                                 rand.nextInt((int) this.simulationMaxPosition.getY())))
                         .forEach(position -> {
-                            final GeneticCode genCode = new GeneticCodeImpl(gene, 8.0, 25.0);
+                            final GeneticCode genCode = new GeneticCodeImpl(gene, 10.0, 25.0);
                             final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode,
                                     INITIAL_ENERGY);
                             bacteriaCounter++;
