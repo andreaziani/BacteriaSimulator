@@ -38,9 +38,9 @@ import view.model.food.CreationViewFoodImpl;
 import view.model.food.CreationViewFoodImpl.ViewFoodBuilder;
 
 /**
- * Tests the InitialState class and related classes.
+ * Tests InitialState, SimpleState and Replay.
  */
-public class TestInitialState {
+public class TestSerializationClasses {
     private static final String SPECIES_NAME2 = "Other species name";
     private static final String SPECIES_NAME1 = "SpeciesName";
 
@@ -50,7 +50,7 @@ public class TestInitialState {
     private Function<ViewSpecies, Species> speciesMapper;
 
     /**
-     * Initialize tests with states.
+     * Initialize objects for tests.
      */
     @Before
     public void initTests() {
@@ -95,7 +95,7 @@ public class TestInitialState {
     }
 
     /**
-     * Tests correctness of the json serialization of an InitialState object.
+     * Tests correctness of the json serialization of SimpleState, InitialState and Replay.
      */
     @Test
     public void testJsonSerialization() {
