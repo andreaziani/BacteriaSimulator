@@ -30,6 +30,8 @@ public interface FileController {
      *             if any problem reading the file occurred.
      * @throws IllegalExtensionExeption
      *             if the extension of the file was not valid.
+     * @throws FileFormatException
+     *             if the extension of the file was not valid.
      */
     InitialState loadInitialState(String path) throws IOException;
 
@@ -54,6 +56,8 @@ public interface FileController {
      * @throws IOException
      *             if any problem reading the file occurred.
      * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
+     * @throws FileFormatException
      *             if the extension of the file was not valid.
      */
     Replay loadReplay(String path) throws IOException;

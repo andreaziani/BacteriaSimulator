@@ -12,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 import model.Analysis;
+import utils.exceptions.FileFormatException;
 import utils.exceptions.IllegalExtensionExeption;
 
 /**
@@ -28,7 +29,7 @@ public class FileControllerImpl implements FileController {
         try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
             return gson.fromJson(reader, objectClass);
         } catch (JsonIOException | JsonSyntaxException e) {
-            throw new IOException();
+            throw new FileFormatException();
         }
     }
 

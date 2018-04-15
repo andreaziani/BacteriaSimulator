@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+
 import view.ViewImpl;
 
 /**
@@ -18,6 +19,8 @@ public interface Controller extends EnvironmentController {
      * @throws IOException
      *             if any problem reading the file occurred.
      * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
+     * @throws FileFormatException
      *             if the extension of the file was not valid.
      */
     void loadInitialState(String path) throws IOException;
@@ -40,6 +43,8 @@ public interface Controller extends EnvironmentController {
      * @throws IOException
      *             if any problem reading the file occurred.
      * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
+     * @throws FileFormatException
      *             if the extension of the file was not valid.
      */
     void loadReplay(String path) throws IOException;

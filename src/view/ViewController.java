@@ -116,6 +116,8 @@ public interface ViewController {
      *             in case of a problem.
      * @throws IllegalExtensionExeption
      *             if the extension of the file was not valid.
+     * @throws FileFormatException
+     *             if the extension of the file was not valid.
      */
     void loadSimulation(String path) throws IOException;
 
@@ -137,6 +139,8 @@ public interface ViewController {
      * @throws IOException
      *             in case of a problem.
      * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
+     * @throws FileFormatException
      *             if the extension of the file was not valid.
      */
     void loadReplay(String path) throws IOException;
