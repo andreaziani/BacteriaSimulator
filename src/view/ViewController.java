@@ -10,6 +10,8 @@ import java.util.Set;
 import model.Analysis;
 import model.action.ActionType;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import utils.exceptions.AlreadyExistingFoodException;
+import utils.exceptions.PositionAlreadyOccupiedException;
 import view.model.ViewPosition;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
@@ -26,6 +28,8 @@ public interface ViewController {
      *            the food to insert.
      * @param position
      *            the position of the food.
+     * @throws PositionAlreadyOccupiedException
+     *             if the position is already occupied from another food.
      */
     void addFood(ViewFood food, ViewPosition position);
 
@@ -34,6 +38,8 @@ public interface ViewController {
      * 
      * @param food
      *            the new type of food to add.
+     * @throws AlreadyExistingFoodException
+     *             if the food is already created.
      */
     void addNewTypeOfFood(ViewFood food);
 

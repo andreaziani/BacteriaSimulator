@@ -39,7 +39,7 @@ public interface EnvironmentController {
      * @param food
      *            the new type of food to be added.
      * @throws AlreadyExistingFoodException
-     *             if the food is already existing.
+     *             if the food already exist.
      */
     void addNewTypeOfFood(ViewFood food);
 
