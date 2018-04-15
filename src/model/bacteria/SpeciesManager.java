@@ -1,6 +1,5 @@
 package model.bacteria;
 
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
