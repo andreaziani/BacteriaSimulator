@@ -56,7 +56,7 @@ public class TestInitialState {
         final Gson gson = new Gson();
         final String json = gson.toJson(state);
         final InitialState stateRestored = gson.fromJson(json, InitialState.class);
-        assertEquals(state, stateRestored);
+        assertEquals("state constructed from json should not equals to the original", state, stateRestored);
     }
 
     /**
@@ -100,6 +100,7 @@ public class TestInitialState {
         initialState.setState(state);
         final Function<ViewSpecies, Species> speciesMapper = x -> x.getName().equals(SPECIES_NAME1) ? species1
                 : species2;
-        assertEquals(state, initialState.reconstructState(speciesMapper, () -> TestUtils.getSmallEnergy()));
+        assertEquals("state reconstructed from initialState should equals the given state", 
+                state, initialState.reconstructState(speciesMapper, () -> TestUtils.getSmallEnergy()));
     }
 }

@@ -31,8 +31,9 @@ public class TestNutrientStorage {
     @Test
     public void testEmpty() {
         final NutrientStorage storage = new NutrientStorage(n -> (new EnergyImpl(1)));
-        assertEquals(0, storage.getEnergyStored().getAmount(), TestUtils.getDoubleCompareDelta());
-        assertTrue(storage.getNutrients().isEmpty());
+        assertEquals("The storage should not have energy", 0, storage.getEnergyStored().getAmount(),
+                TestUtils.getDoubleCompareDelta());
+        assertTrue("The storage should be empty", storage.getNutrients().isEmpty());
         assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
         try {
             storage.takeEnergy(EnergyImpl.ZERO);
@@ -48,8 +49,10 @@ public class TestNutrientStorage {
     @Test
     public void testStartingEnergy() {
         final NutrientStorage storage = new NutrientStorage(TestUtils.getLargeEnergy(), TestUtils.allNutrientGood());
-        assertEquals(TestUtils.getLargeEnergy().getAmount(), storage.getEnergyStored().getAmount(), TestUtils.getDoubleCompareDelta());
-        assertEquals(TestUtils.getLargeEnergy(), storage.getEnergyStored());
+        assertEquals(TestUtils.getLargeEnergy().getAmount(), storage.getEnergyStored().getAmount(),
+                TestUtils.getDoubleCompareDelta());
+        assertEquals("The storage should not have energy equals to " + TestUtils.getLargeEnergy(),
+                TestUtils.getLargeEnergy(), storage.getEnergyStored());
     }
 
     /**
@@ -60,13 +63,15 @@ public class TestNutrientStorage {
     public void testNoEnergy() {
         final NutrientStorage storage = new NutrientStorage(n -> (EnergyImpl.ZERO));
         storage.storeFood(TestUtils.getAFood());
-        assertFalse(storage.getNutrients().isEmpty());
-        assertEquals(0, storage.getEnergyStored().getAmount(), TestUtils.getDoubleCompareDelta());
+        assertFalse("The storage should be empty", storage.getNutrients().isEmpty());
+        assertEquals("The storage should not have energy", 0, storage.getEnergyStored().getAmount(),
+                TestUtils.getDoubleCompareDelta());
         assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
 
         storage.storeFood(TestUtils.getNotEqualFood(TestUtils.getAFood()));
-        assertFalse(storage.getNutrients().isEmpty());
-        assertEquals(0, storage.getEnergyStored().getAmount(), TestUtils.getDoubleCompareDelta());
+        assertFalse("The storage should not be empty", storage.getNutrients().isEmpty());
+        assertEquals("The storage should not have energy", 0, storage.getEnergyStored().getAmount(),
+                TestUtils.getDoubleCompareDelta());
         assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
     }
 
@@ -78,10 +83,13 @@ public class TestNutrientStorage {
     public void testStoreFood() {
         final NutrientStorage storage = new NutrientStorage(n -> (EnergyImpl.ZERO));
         storage.storeFood(TestUtils.getAFood());
-        assertEquals(TestUtils.getAFood(), new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()));
-        storage.storeFood(TestUtils.getNotEqualFood(TestUtils.getAFood()));
-        assertNotEquals(TestUtils.getAFood(), new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()));
-        assertNotEquals(TestUtils.getNotEqualFood(TestUtils.getAFood()),
+        assertEquals("Food stored should be the same that has been inserted", TestUtils.getAFood(),
+                new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()));
+        final Food secondFood = TestUtils.getNotEqualFood(TestUtils.getAFood());
+        storage.storeFood(secondFood);
+        assertNotEquals("Food stored should be the first that has been inserted", TestUtils.getAFood(),
+                new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()));
+        assertNotEquals("Food stored should be the second that has been inserted", secondFood,
                 new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()));
     }
 
@@ -99,21 +107,24 @@ public class TestNutrientStorage {
 
         final NutrientStorage storage = new NutrientStorage(n -> (new EnergyImpl(n.ordinal())));
         storage.storeFood(food3);
-        assertEquals(Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal(),
-                storage.getEnergyStored().getAmount(), TestUtils.getDoubleCompareDelta());
+        assertEquals("Energy stored should corrispond to the energy given",
+                Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal(), storage.getEnergyStored().getAmount(),
+                TestUtils.getDoubleCompareDelta());
         try {
             storage.takeEnergy(new EnergyImpl(1));
         } catch (Exception e) {
             fail("Should have worked");
         }
-        assertEquals(Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal() - 1,
-                storage.getEnergyStored().getAmount(), TestUtils.getDoubleCompareDelta());
+        assertEquals("Energy stored should corrispond to the energy given",
+                Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal() - 1, storage.getEnergyStored().getAmount(),
+                TestUtils.getDoubleCompareDelta());
         try {
             storage.takeEnergy(new EnergyImpl(Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal() - 1));
         } catch (Exception e) {
             fail("Should have worked");
         }
-        assertEquals(0, storage.getEnergyStored().getAmount(), TestUtils.getDoubleCompareDelta());
+        assertEquals("Energy stored should be zero", 0, storage.getEnergyStored().getAmount(),
+                TestUtils.getDoubleCompareDelta());
         assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
     }
 }

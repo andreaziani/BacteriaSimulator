@@ -34,6 +34,8 @@ import utils.exceptions.MissingPerceptionExeption;
  */
 public class TestBacteria {
 
+    private static final String ACTION_EQUALS_MESSAGE = "Action should cost the same";
+
     /**
      * Test a Bacteria in a non dynamic context.
      */
@@ -44,29 +46,31 @@ public class TestBacteria {
         final Bacteria bacteria = new BacteriaImpl(0, new SpeciesBuilder("").build(), code, EnergyImpl.ZERO);
 
         Action action = new SimpleAction(ActionType.EAT);
-        assertEquals(code.getActionCost(action), bacteria.getActionCost(action));
+        assertEquals(ACTION_EQUALS_MESSAGE, code.getActionCost(action), bacteria.getActionCost(action));
         action = new SimpleAction(ActionType.REPLICATE);
-        assertEquals(code.getActionCost(action), bacteria.getActionCost(action));
+        assertEquals(ACTION_EQUALS_MESSAGE, code.getActionCost(action), bacteria.getActionCost(action));
         action = new SimpleAction(ActionType.NOTHING);
-        assertEquals(code.getActionCost(action), bacteria.getActionCost(action));
+        assertEquals(ACTION_EQUALS_MESSAGE, code.getActionCost(action), bacteria.getActionCost(action));
         action = new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH, 0);
-        assertEquals(code.getActionCost(action), bacteria.getActionCost(action));
+        assertEquals(ACTION_EQUALS_MESSAGE, code.getActionCost(action), bacteria.getActionCost(action));
 
-        assertEquals(EnergyImpl.ZERO, bacteria.getEnergy());
+        assertEquals("Bacteria should not have energy", EnergyImpl.ZERO, bacteria.getEnergy());
 
-        assertEquals(code.getRadius(), bacteria.getRadius(), TestUtils.getDoubleCompareDelta());
-        assertEquals(code.getPerceptionRadius(), bacteria.getPerceptionRadius(), TestUtils.getDoubleCompareDelta());
+        assertEquals("Radius should be the same", code.getRadius(), bacteria.getRadius(),
+                TestUtils.getDoubleCompareDelta());
+        assertEquals("Perception radius should be the same", code.getPerceptionRadius(), bacteria.getPerceptionRadius(),
+                TestUtils.getDoubleCompareDelta());
 
-        assertEquals(code.getSpeed(), bacteria.getSpeed(), TestUtils.getDoubleCompareDelta());
+        assertEquals("Speed should be the same", code.getSpeed(), bacteria.getSpeed(),
+                TestUtils.getDoubleCompareDelta());
 
-        assertTrue(bacteria.isDead());
+        assertTrue("Bacteria should be dead with ZERO energy", bacteria.isDead());
 
-        assertEquals(new SpeciesBuilder("").build(), bacteria.getSpecies());
+        assertEquals("Species should be the same", new SpeciesBuilder("").build(), bacteria.getSpecies());
     }
 
     private GeneticCode getRandomCode() {
-        return new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(),
-                TestUtils.getLargeDouble());
+        return new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(), TestUtils.getLargeDouble());
     }
 
     private Bacteria getTestBacteria(final GeneticCode code, final Energy startingEnergy) {
@@ -90,16 +94,17 @@ public class TestBacteria {
     @Test
     public void testPerceptionAndActionSelection() {
         final Bacteria bacteria = getTestBacteria(getRandomCode(), TestUtils.getLargeEnergy());
-        assertFalse(bacteria.isDead());
+        assertFalse("Bacteria should be dead with ZERO energy", bacteria.isDead());
 
         assertThrows(MissingPerceptionExeption.class, bacteria::getAction);
 
         bacteria.setPerception(
                 new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)));
-        assertTrue(bacteria.getPerception().getFood().isPresent());
-        assertEquals(TestUtils.getAFood(), bacteria.getPerception().getFood().get());
+        assertTrue("Bacteria should know that there is a food", bacteria.getPerception().getFood().isPresent());
+        assertEquals("Percepted food should match with real one", TestUtils.getAFood(),
+                bacteria.getPerception().getFood().get());
 
-        assertEquals(new SimpleAction(ActionType.EAT), bacteria.getAction());
+        assertEquals("Bacteria should want to eat", new SimpleAction(ActionType.EAT), bacteria.getAction());
     }
 
     /**
@@ -113,21 +118,24 @@ public class TestBacteria {
 
         bacteria.spendEnergy(TestUtils.getSmallEnergy());
         correctEnergy = correctEnergy.subtract(TestUtils.getSmallEnergy());
-        assertEquals(correctEnergy, bacteria.getEnergy());
+        assertEquals("Energies should be equal", correctEnergy, bacteria.getEnergy());
 
         bacteria.addFood(TestUtils.getAFood());
         Energy gain = EnergyImpl.ZERO;
         for (final Nutrient n : TestUtils.getAFood().getNutrients()) {
             if (code.getEnergyFromNutrient(n).getAmount() > 0) {
-                gain = gain.add(code.getEnergyFromNutrient(n).multiply(TestUtils.getAFood().getQuantityFromNutrient(n)));
+                gain = gain
+                        .add(code.getEnergyFromNutrient(n).multiply(TestUtils.getAFood().getQuantityFromNutrient(n)));
             }
         }
         correctEnergy = correctEnergy.add(gain);
-        assertEquals(correctEnergy.getAmount(), bacteria.getEnergy().getAmount(), TestUtils.getDoubleCompareDelta());
+        assertEquals("Energies should be equal", correctEnergy.getAmount(), bacteria.getEnergy().getAmount(),
+                TestUtils.getDoubleCompareDelta());
 
         bacteria = getTestBacteria(getRandomCode(), TestUtils.getLargeEnergy());
 
         bacteria.addFood(TestUtils.getAFood());
-        assertEquals(TestUtils.getAFood(), bacteria.getInternalFood(new FoodFactoryImpl()));
+        assertEquals("Food stored should be what it eats", TestUtils.getAFood(),
+                bacteria.getInternalFood(new FoodFactoryImpl()));
     }
 }
