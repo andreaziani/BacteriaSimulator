@@ -144,7 +144,8 @@ public class ViewImpl implements View, ViewController {
 
     @Override
     public List<String> getAvailableDistributionStrategies() {
-        return Arrays.asList(DistributionStrategy.values()).stream().map(n -> n.toString()).collect(Collectors.toList());
+        return Arrays.asList(DistributionStrategy.values()).stream().map(n -> n.toString())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -160,5 +161,10 @@ public class ViewImpl implements View, ViewController {
     @Override
     public Set<ViewSpecies> getSpecies() {
         return this.controller.getSpecies();
+    }
+
+    @Override
+    public void reset() {
+        this.controller.resetSimulation();
     }
 }

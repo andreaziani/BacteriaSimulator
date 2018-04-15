@@ -35,7 +35,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
     private InitialState initialState;
     private Replay replay;
-    private SimulationState currentState = SimulationState.NOT_READY;
+    private SimulationState currentState;
     private final SimulationLoop loop;
 
     /**
@@ -43,7 +43,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      */
     public EnvironmentControllerImpl() {
 
-        resetSimulation();
+        init();
         this.loop = new SimulationLoop() {
             @Override
             public void run() {
@@ -76,21 +76,29 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
             }
         };
     }
-
-    private void resetSimulation() {
+    private void init() {
         this.currentState = SimulationState.NOT_READY;
         this.env = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.env);
         initialState = new InitialState(env.getMaxPosition().getX(), env.getMaxPosition().getY());
     }
 
+    @Override
+    public final void resetSimulation() {
+        updateCurrentState(SimulationState.NOT_READY);
+        init();
+    }
+
     /**
-     * Restore the simulation to a state defined by an InitialState object.
+     * Restore the simulation to a state defined by an InitialState object. Before
+     * setting the state, the view will be notified that the state of the simulation is
+     * NOT_READY.
      * 
      * @param initialState
      *            the representation of the initial state.
      */
     protected void setInitialState(final InitialState initialState) {
+        this.resetSimulation();
         this.initialState = initialState;
         if (initialState.getExistingFood().isEmpty() || initialState.getSpecies().isEmpty()) {
             this.updateCurrentState(SimulationState.NOT_READY);

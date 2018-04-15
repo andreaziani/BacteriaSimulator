@@ -186,4 +186,9 @@ public interface ViewController {
      * @return a set containing all the species currently present in the simulation.
      */
     Set<ViewSpecies> getSpecies();
+
+    /**
+     * Request a reset of the application to its initial state.
+     */
+    void reset();
 }
