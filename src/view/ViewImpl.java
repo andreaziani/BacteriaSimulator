@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Dimension;
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -55,12 +54,6 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void loadReplay(final String path) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void showAnalisys(final Analysis analysis) {
         // TODO Auto-generated method stub
 
@@ -108,18 +101,28 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void loadSimulation(final File file) throws IOException {
-        controller.loadInitialState(file);
+    public void loadSimulation(final String path) throws IOException {
+        controller.loadInitialState(path);
     }
 
     @Override
-    public void saveSimulation(final File file) throws IOException {
-        controller.saveInitialState(file);
+    public void saveSimulation(final String path) throws IOException {
+        controller.saveInitialState(path);
     }
 
     @Override
-    public void saveAnalysis(final File file) throws IOException {
-        controller.saveAnalisys(file);
+    public void loadReplay(final String path) throws IOException {
+        controller.loadReplay(path);
+    }
+
+    @Override
+    public void saveReplay(final String path) throws IOException {
+        controller.saveReplay(path);
+    }
+
+    @Override
+    public void saveAnalysis(final String path) throws IOException {
+        controller.saveAnalisys(path);
     }
 
     @Override

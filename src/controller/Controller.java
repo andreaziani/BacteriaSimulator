@@ -1,7 +1,7 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
+
 import view.ViewImpl;
 
 /**
@@ -14,48 +14,60 @@ public interface Controller extends EnvironmentController {
      * Load an initial state of a simulation. Before loading, the view will be
      * notified that the state of the simulation is NOT_READY.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to load.
      * @throws IOException
      *             if any problem reading the file occurred.
+     * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
+     * @throws FileFormatException
+     *             if the extension of the file was not valid.
      */
-    void loadInitialState(File file) throws IOException;
+    void loadInitialState(String path) throws IOException;
 
     /**
      * Save the initial state of the current simulation for rerunning.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
      * @throws IOException
      *             if any problem writing in the file occurred.
      */
-    void saveInitialState(File file) throws IOException;
+    void saveInitialState(String path) throws IOException;
 
     /**
      * Load a replay of a simulation.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to load.
+     * @throws IOException
+     *             if any problem reading the file occurred.
+     * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
+     * @throws FileFormatException
+     *             if the extension of the file was not valid.
      */
-    void loadReplay(File file);
+    void loadReplay(String path) throws IOException;
 
     /**
      * Save the replay of the last runned simulation.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
+     * @throws IOException
+     *             if any problem writing in the file occurred.
      */
-    void saveReplay(File file);
+    void saveReplay(String path) throws IOException;
 
     /**
      * Save the final analysis of the last simulation runned.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
      * @throws IOException
      *             if any problem writing in the file occurred.
      */
-    void saveAnalisys(File file) throws IOException;
+    void saveAnalisys(String path) throws IOException;
 
     /**
      * Set the view of the simulation.

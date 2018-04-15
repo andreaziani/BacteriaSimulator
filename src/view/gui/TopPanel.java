@@ -11,7 +11,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import controller.FileController;
 import controller.SimulationState;
+import utils.exceptions.FileFormatException;
+import utils.exceptions.IllegalExtensionExeption;
 import view.ViewController;
 
 /**
@@ -24,6 +29,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     private final JMenu helpMenu = new JMenu("Help");
     private final JMenuItem loadSimulation = new JMenuItem("Load Simulation");
     private final JMenuItem saveSimulation = new JMenuItem("Save Simulation");
+    private final JMenuItem loadReplay = new JMenuItem("Load Replay");
+    private final JMenuItem saveReplay = new JMenuItem("Save Replay");
     private final JMenuItem help = new JMenuItem("How to use");
     private final SpeciesAndFoodPanel speciesAndFood;
 
@@ -34,7 +41,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     private final ChoicesPanel choicesPanel;
 
     /**
-     * Constructor.
+     * Constructor. 
      * 
      * @param view
      *            the View with which to interact.
@@ -56,25 +63,61 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         final JFileChooser simulationChooser = new JFileChooser();
         simulationChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         simulationChooser.setDialogTitle("Choose a file");
+        simulationChooser.setFileFilter(new FileNameExtensionFilter("*." + FileController.SIMULATION_EXTENTION, FileController.SIMULATION_EXTENTION));
+        simulationChooser.setAcceptAllFileFilterUsed(false);
 
         loadSimulation.addActionListener(e -> {
             if (simulationChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
-                    view.loadSimulation(simulationChooser.getSelectedFile());
+                    view.loadSimulation(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the simulation");
+                } catch (IllegalExtensionExeption ex) {
+                    JOptionPane.showMessageDialog(this, "The extension of the file was not correct");
+                } catch (FileFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "The selected file does not contain a replay, has been corrupted or use an uoutdated format");
                 }
             }
         });
         saveSimulation.addActionListener(e -> {
             if (simulationChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
-                    view.saveSimulation(simulationChooser.getSelectedFile());
+                    view.saveSimulation(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to save the simulation");
                 }
             }
         });
+
+        final JFileChooser replayChooser = new JFileChooser();
+        replayChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        replayChooser.setDialogTitle("Choose a file");
+        replayChooser.setFileFilter(new FileNameExtensionFilter("*." + FileController.REPLAY_EXTENTION, FileController.REPLAY_EXTENTION));
+        replayChooser.setAcceptAllFileFilterUsed(false);
+
+        loadReplay.addActionListener(e -> {
+            if (replayChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
+                try {
+                    view.loadReplay(replayChooser.getSelectedFile().getPath());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "An error occurred trying to load the replay");
+                } catch (IllegalExtensionExeption ex) {
+                    JOptionPane.showMessageDialog(this, "The extension of the file was not correct");
+                } catch (FileFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "The selected file does not contain a replay, has been corrupted or use an uoutdated format");
+                }
+            }
+        });
+        saveReplay.addActionListener(e -> {
+            if (replayChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
+                try {
+                    view.saveReplay(replayChooser.getSelectedFile().getPath());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "An error occurred trying to load the replay");
+                }
+            }
+        });
+        this.saveReplay.setEnabled(false);
     }
 
     /**
@@ -95,6 +138,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.fileMenu.setActionCommand("File");
         this.fileMenu.add(loadSimulation);
         this.fileMenu.add(this.saveSimulation);
+        this.fileMenu.add(loadReplay);
+        this.fileMenu.add(saveReplay);
         this.helpMenu.add(help);
         this.menuBar.add(this.fileMenu);
         this.menuBar.add(helpMenu);
@@ -106,5 +151,10 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     public final void updateSimulationState(final SimulationState state) {
         this.speciesAndFood.updateSimulationState(state);
         this.choicesPanel.updateSimulationState(state);
+        if (state == SimulationState.ENDED) {
+            this.saveReplay.setEnabled(true);
+        } else {
+            this.saveReplay.setEnabled(false);
+        }
     }
 }

@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Dimension;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -63,14 +62,6 @@ public interface ViewController {
     List<String> getNutrients();
 
     /**
-     * Load a replay.
-     * 
-     * @param path
-     *            of the Replay file.
-     */
-    void loadReplay(String path);
-
-    /**
      * Show analisys.
      * 
      * @param analysis
@@ -119,32 +110,60 @@ public interface ViewController {
     /**
      * Try loading a simulation.
      * 
-     * @param file
-     *            the file to load from.
+     * @param path
+     *            the path of the file to load.
      * @throws IOException
      *             in case of a problem.
+     * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
+     * @throws FileFormatException
+     *             if the extension of the file was not valid.
      */
-    void loadSimulation(File file) throws IOException;
+    void loadSimulation(String path) throws IOException;
 
     /**
      * Save a simulation.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
      * @throws IOException
      *             in case of a problem.
      */
-    void saveSimulation(File file) throws IOException;
+    void saveSimulation(String path) throws IOException;
+
+    /**
+     * Load a replay.
+     * 
+     * @param path
+     *            the path of the file to load.
+     * @throws IOException
+     *             in case of a problem.
+     * @throws IllegalExtensionExeption
+     *             if the extension of the file was not valid.
+     * @throws FileFormatException
+     *             if the extension of the file was not valid.
+     */
+    void loadReplay(String path) throws IOException;
+
+    /**
+     * Save a replay.
+     * 
+     * @param path
+     *            the path of the file to save into.
+     * @throws IOException
+     *             in case of a problem.
+     */
+    void saveReplay(String path) throws IOException;
 
     /**
      * Save an Analysis.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
      * @throws IOException
      *             in case of a problem.
      */
-    void saveAnalysis(File file) throws IOException;
+    void saveAnalysis(String path) throws IOException;
 
     /**
      * Start the simulation.

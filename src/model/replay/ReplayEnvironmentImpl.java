@@ -97,7 +97,7 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
 
     @Override
     public boolean isSimulationOver() {
-        return states.hasNext();
+        return !states.hasNext();
     }
 
 }

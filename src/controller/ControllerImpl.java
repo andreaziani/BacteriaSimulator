@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 
 import view.View;
@@ -33,29 +32,29 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     }
 
     @Override
-    public synchronized void loadInitialState(final File file) throws IOException {
+    public synchronized void loadInitialState(final String path) throws IOException {
         this.updateCurrentState(SimulationState.REPLAY);
-        this.setInitialState(this.fileController.loadInitialState(file));
+        this.setInitialState(this.fileController.loadInitialState(path));
     }
 
     @Override
-    public synchronized void saveInitialState(final File file) throws IOException {
-        this.fileController.saveInitialState(file, this.getInitialState());
+    public synchronized void saveInitialState(final String path) throws IOException {
+        this.fileController.saveInitialState(path, this.getInitialState());
     }
 
     @Override
-    public synchronized void loadReplay(final File file) {
-        this.startReplay(this.fileController.loadReplay(file));
+    public synchronized void loadReplay(final String path) throws IOException {
+        this.startReplay(this.fileController.loadReplay(path));
     }
 
     @Override
-    public synchronized void saveReplay(final File file) {
-        this.fileController.saveReplay(file, this.getReplay());
+    public synchronized void saveReplay(final String path) throws IOException {
+        this.fileController.saveReplay(path, this.getReplay());
     }
 
     @Override
-    public synchronized void saveAnalisys(final File file) throws IOException {
-        this.fileController.saveAnalysis(file, this.getAnalysis());
+    public synchronized void saveAnalisys(final String path) throws IOException {
+        this.fileController.saveAnalysis(path, this.getAnalysis());
     }
     @Override
     public void updateCurrentState(final SimulationState state) {

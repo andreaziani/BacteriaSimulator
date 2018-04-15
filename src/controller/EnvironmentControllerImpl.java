@@ -173,6 +173,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
                         x -> x.reconstructState(s -> new SpeciesBuilder(s.getName()).build(), () -> EnergyImpl.ZERO))
                         .iterator(),
                 replay.getAnalysis());
+        start();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -19,6 +18,7 @@ import model.bacteria.Species;
 import model.food.FoodImpl;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCodeImpl;
+import utils.Pair;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.SimulationViewFood;
 
@@ -27,8 +27,8 @@ import view.model.food.SimulationViewFood;
  * for saving and loading simulations and is easily serializable via json.
  */
 public class SimpleState {
-    private final Map<PositionImpl, SimpleBacteria> bacteriaMap;
-    private final Map<PositionImpl, SimulationViewFood> foodMap;
+    private final Set<Pair<PositionImpl, SimpleBacteria>> bacterias;
+    private final Set<Pair<PositionImpl, SimulationViewFood>> foods;
 
     /**
      * @param state
@@ -40,15 +40,14 @@ public class SimpleState {
      *             viewFood and viewSpecies.
      */
     public SimpleState(final State state, final Set<ViewSpecies> viewSpecies) {
-        // TODO is wildcard necessary?
         try {
-            bacteriaMap = state.getBacteriaState().entrySet().stream().collect(Collectors
+            bacterias = state.getBacteriaState().entrySet().stream().collect(Collectors
                     .toMap(x -> (PositionImpl) x.getKey(), x -> new SimpleBacteria(x.getValue(), viewSpecies.stream()
-                            .filter(s -> s.getName().equals(x.getValue().getSpecies().getName())).findFirst().get())));
-            foodMap = state.getFoodsState().entrySet().stream().collect(Collectors.toMap(x -> (PositionImpl) x.getKey(),
+                            .filter(s -> s.getName().equals(x.getValue().getSpecies().getName())).findFirst().get()))).entrySet().stream().map(x -> new Pair<>(x.getKey(), x.getValue())).collect(Collectors.toSet());
+            foods = state.getFoodsState().entrySet().stream().collect(Collectors.toMap(x -> (PositionImpl) x.getKey(),
                     x -> new SimulationViewFood(Optional.ofNullable(x.getValue().getName()),
                             x.getValue().getNutrients().stream().collect(Collectors.toMap(Function.identity(),
-                                    n -> x.getValue().getQuantityFromNutrient(n))))));
+                                    n -> x.getValue().getQuantityFromNutrient(n)))))).entrySet().stream().map(x -> new Pair<>(x.getKey(), x.getValue())).collect(Collectors.toSet());
         } catch (NoSuchElementException e) {
             throw new IllegalArgumentException();
         }
@@ -58,14 +57,14 @@ public class SimpleState {
      * @return an unmodifiable map of all bacterias and their positions.
      */
     public Map<PositionImpl, SimpleBacteria> getBacteriaMap() {
-        return Collections.unmodifiableMap(bacteriaMap);
+        return bacterias.stream().collect(Collectors.toMap(x -> x.getFirst(), x -> x.getSecond()));
     }
 
     /**
      * @return an unmodifiable map of all foods and their positions.
      */
     public Map<PositionImpl, SimulationViewFood> getFoodMap() {
-        return Collections.unmodifiableMap(foodMap);
+        return foods.stream().collect(Collectors.toMap(x -> x.getFirst(), x -> x.getSecond()));
     }
 
     /**
@@ -103,7 +102,7 @@ public class SimpleState {
 
     @Override
     public int hashCode() {
-        return Objects.hash(bacteriaMap, foodMap);
+        return Objects.hash(bacterias, foods);
     }
 
     @Override
@@ -112,9 +111,9 @@ public class SimpleState {
             return false;
         }
         final SimpleState other = (SimpleState) obj;
-        return this.bacteriaMap.entrySet().containsAll(other.bacteriaMap.entrySet())
-                && other.bacteriaMap.entrySet().containsAll(this.bacteriaMap.entrySet())
-                && this.foodMap.entrySet().containsAll(other.foodMap.entrySet())
-                && other.foodMap.entrySet().containsAll(this.foodMap.entrySet());
+        return this.bacterias.containsAll(other.bacterias)
+                && other.bacterias.containsAll(this.bacterias)
+                && this.foods.containsAll(other.foods)
+                && other.foods.containsAll(this.foods);
     }
 }
