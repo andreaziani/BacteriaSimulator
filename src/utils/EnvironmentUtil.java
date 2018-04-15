@@ -177,6 +177,6 @@ public final class EnvironmentUtil {
     public static boolean isCollision(final Pair<Position, ? extends Collidable> entry1,
             final Pair<Position, ? extends Collidable> entry2) {
         final double distance = distance(entry1.getLeft(), entry2.getLeft());
-        return (distance <= entry1.getRight().getRadius() + entry2.getRight().getRadius());
+        return (distance < entry1.getRight().getRadius() + entry2.getRight().getRadius());
     }
 }
