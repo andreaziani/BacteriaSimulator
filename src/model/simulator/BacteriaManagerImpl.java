@@ -86,7 +86,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private void populate(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species) {
-        Logger.getLog().info("Start populating");
+        Logger.getInstance().info("BacteriaManager", "Start populating");
         /*
          * final Species spec = species.stream().limit(1).findAny().get(); final Gene g
          * = new GeneImpl(); final GeneticCode gen = new GeneticCodeImpl(g, 10.0, 20.0);
@@ -222,7 +222,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                         this.foodEnv.addFood(entry.getValue().getInternalFood(this.factory), entry.getKey());
                     } catch (PositionAlreadyOccupiedException e) {
                         // Food collided with other food nearby, just don't add
-                        Logger.getLog().info("Bacteria died on Food");
+                        Logger.getInstance().info("BacteriaManager", "Bacteria died on Food");
                     }
                 })
                 .map(entry -> entry.getKey()).collect(Collectors.toSet());
@@ -234,9 +234,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
      */
     @Override
     public void updateBacteria() {
-        System.out.println("Perception " + (this.perception / 1e6) + " ms");
-        System.out.println("ActionPerf " + (this.action / 1e6) + " ms");
-        this.perception = this.action = 0;
+        Logger.getInstance().info("BacteriaManager", "Perception " + (this.perception / 1e6) + " ms");
+        Logger.getInstance().info("BacteriaManager", "ActionPerformer " + (this.action / 1e6) + " ms");
+        this.perception = 0; this.action = 0;
         this.updateDeadBacteria();
         this.updateAliveBacteria();
     }

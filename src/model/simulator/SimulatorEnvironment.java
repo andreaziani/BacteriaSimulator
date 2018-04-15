@@ -50,7 +50,7 @@ public class SimulatorEnvironment implements Environment {
      *          the initial state used to initialize the simulation
      */
     public void init(final Optional<InitialState> initialState) {
-        Logger.getLog().info("Simulator initialized");
+        Logger.getInstance().info("Environment", "Simulator initialized");
         if (initialState.isPresent()) {
             // add existing food
             initialState.get().getExistingFood().forEach(creationViewFood -> {

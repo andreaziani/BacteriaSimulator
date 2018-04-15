@@ -60,9 +60,9 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
                     }
                     final long elapsed = System.currentTimeMillis() - start;
                     // DUBUGGING INFO
-                    Logger.getLog().info("Elapsed: " + elapsed + " ms");
-                    Logger.getLog().info("Bact size: " + simulationState.getBacteriaState().size());
-                    Logger.getLog().info("Food size: " + simulationState.getFoodsState().size());
+                    Logger.getInstance().info("GameLoop", "Elapsed: " + elapsed + " ms");
+                    Logger.getInstance().info("GameLoop", "Bact size: " + simulationState.getBacteriaState().size());
+                    Logger.getInstance().info("GameLoop", "Food size: " + simulationState.getFoodsState().size());
                     if (elapsed < PERIOD) {
                         try {
                             Thread.sleep(PERIOD - elapsed);
@@ -151,7 +151,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.initialState.setState(env.getState());
         replay = new Replay(this.initialState);
         final Thread mainThread = new Thread(this.loop);
-        Logger.getLog().info("Application started");
+        Logger.getInstance().info("Controller", "Application started");
         mainThread.start();
     }
 

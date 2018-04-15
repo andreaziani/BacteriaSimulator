@@ -68,9 +68,6 @@ public class SimulationPanel extends JPanel {
                 // e.getValue().getRadius().getXRadius() + 5,
                 // e.getValue().getRadius().getYRadius() + 5);
             });
-
-            Logger.getLog().info("Bacteria size = " + state.get().getBacteriaState().size());
-            Logger.getLog().info("Food size = " + state.get().getFoodsState().size());
         }
     }
 
