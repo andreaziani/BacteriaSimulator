@@ -92,7 +92,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
             }
         });
         saveReplay.addActionListener(e -> {
-            if (replayChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
+            if (replayChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
                     view.saveReplay(replayChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
