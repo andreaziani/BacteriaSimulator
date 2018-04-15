@@ -14,11 +14,11 @@ public interface FileController {
     /**
      * Only accepted extension for initial state files.
      */
-    String SIMULATION_EXTENTION = "bacSim";
+    String SIMULATION_EXTENTION = "sim";
     /**
      * Only accepted extension for replay files.
      */
-    String REPLAY_EXTENTION = "bacRep";
+    String REPLAY_EXTENTION = "rep";
 
     /**
      * Load an initial state of a simulation.
