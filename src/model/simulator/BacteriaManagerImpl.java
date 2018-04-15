@@ -23,6 +23,8 @@ import model.action.DirectionalActionImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.bacteria.Species;
+import model.bacteria.SpeciesManager;
+import model.bacteria.SpeciesManagerImpl;
 import model.food.ExistingFoodManager;
 import model.food.Food;
 import model.food.FoodEnvironment;
@@ -52,8 +54,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private final FoodEnvironment foodEnv;
     private final Energy energyForLiving = new EnergyImpl(COST_OF_LIVING);
     private final FoodFactory factory = new FoodFactoryImpl();
+    private final SpeciesManager speciesManager;
     private final BacteriaEnvironment bacteriaEnv;
-    private final ActionPerformer actionPerf;
+    private final ActionPerformer actionPerformer;
     private final Random rand = new Random();
     private Optional<Double> maxFoodRadius;
     private Optional<Position> foodPosition;
@@ -74,34 +77,25 @@ public class BacteriaManagerImpl implements BacteriaManager {
      * @param maxPosition
      *            contains information about the maximum position in the simulation
      */
-    public BacteriaManagerImpl(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species,
-            final FoodEnvironment foodEnv, final ExistingFoodManager manager, final Position maxPosition) {
+    public BacteriaManagerImpl(final FoodEnvironment foodEnv, final ExistingFoodManager manager, final Position maxPosition, final SpeciesManager speciesManager) {
         this.bacteriaCounter = 0;
-        this.simulationMaxPosition = maxPosition;
         this.foodEnv = foodEnv;
         this.manager = manager;
+        this.simulationMaxPosition = maxPosition;
+        this.speciesManager = speciesManager;
         this.bacteriaEnv = new BacteriaEnvironmentImpl(maxPosition);
-        this.populate(bacteriaMap, species);
-        this.actionPerf = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
+        this.actionPerformer = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
     }
 
-    private void populate(final Optional<Map<Position, Bacteria>> bacteriaMap, final Set<Species> species) {
-        Logger.getInstance().info("BacteriaManager", "Start populating");
-        /*
-         * final Species spec = species.stream().limit(1).findAny().get(); final Gene g
-         * = new GeneImpl(); final GeneticCode gen = new GeneticCodeImpl(g, 10.0, 20.0);
-         * final Position p1 = new PositionImpl(10, 10); final Position p2 = new
-         * PositionImpl(40, 40); final Bacteria b1 = new BacteriaImpl(bacteriaCounter,
-         * spec, gen, INITIAL_ENERGY); final Bacteria b2 = new
-         * BacteriaImpl(bacteriaCounter, spec, gen, INITIAL_ENERGY);
-         * this.bacteriaEnv.insertBacteria(p1, b1); this.bacteriaEnv.insertBacteria(p2,
-         * b2);
-         */
-        if (bacteriaMap.isPresent()) {
-            bacteriaMap.get().entrySet().forEach(e -> this.bacteriaEnv.insertBacteria(e.getKey(), e.getValue()));
+    @Override
+    public void populate(final Optional<Map<Position, Bacteria>> bacteriaState) {
+        Logger.getInstance().info("Bacteria Manager", "Populating simulation...");
+        if (bacteriaState.isPresent()) {
+            Logger.getInstance().info("Bacteria Manager", "Populating from MAP");
+            bacteriaState.get().entrySet().stream().forEach(entry -> this.bacteriaEnv.insertBacteria(entry.getKey(), entry.getValue()));
         } else {
-            species.stream().forEach(specie -> {
-                // TODO Random placed Bacteria could collide
+            Logger.getInstance().info("Bacteria Manager", "Populating RANDOM");
+            this.speciesManager.getSpecies().stream().forEach(specie -> {
                 final Gene gene = new GeneImpl();
                 IntStream.range(0, BACTERIA_PER_SPECIES)
                         .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()),
@@ -115,7 +109,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                         });
             });
         }
-        // */
+        Logger.getInstance().info("Bacteria Manager", "Bacteria SIZE = " + this.bacteriaEnv.getBacteriaState().size());
     }
 
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos,
@@ -163,7 +157,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
     private void performAction(final Position bacteriaPos, final Bacteria bacteria) {
         final long t1 = System.nanoTime();
-        actionPerf.setStatus(bacteriaPos, bacteria);
+        actionPerformer.setStatus(bacteriaPos, bacteria);
         final Action action = bacteria.getAction();
         final ActionType actionType = action.getType();
 
@@ -172,18 +166,18 @@ public class BacteriaManagerImpl implements BacteriaManager {
             switch (actionType) {
             case MOVE:
                 final DirectionalAction moveAction = (DirectionalActionImpl) action;
-                actionPerf.move(moveAction.getDirection());
+                actionPerformer.move(moveAction.getDirection());
                 break;
             case EAT:
-                actionPerf.eat(this.foodPosition);
+                actionPerformer.eat(this.foodPosition);
                 break;
             case REPLICATE:
-                if (actionPerf.replicate(bacteriaCounter)) {
+                if (actionPerformer.replicate(bacteriaCounter)) {
                     bacteriaCounter++;
                 }
                 break;
             default:
-                actionPerf.doNothing();
+                actionPerformer.doNothing();
                 break;
             }
         } catch (NotEnounghEnergyException e) {

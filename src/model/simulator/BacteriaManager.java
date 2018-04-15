@@ -1,6 +1,7 @@
 package model.simulator;
 
 import java.util.Map;
+import java.util.Optional;
 
 import model.Position;
 import model.bacteria.Bacteria;
@@ -17,7 +18,9 @@ public interface BacteriaManager {
 
     /**
      * Return bacteria state.
-     * @return the state of bacteria in the enviroment
+     * @return the state of bacteria in the environment
      */
     Map<Position, Bacteria> getBacteriaState();
+
+    void populate(Optional<Map<Position, Bacteria>> bacteriaState);
 }
