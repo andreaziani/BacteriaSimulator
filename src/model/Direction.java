@@ -48,7 +48,7 @@ public enum Direction {
 
     /**
      * Return the angle lower and upper limit for the Direction, lower is inclusive, upper is exclusive.
-     * @return a Pair<Double, Double> that represent the two angles
+     * @return a MyEntry<Double, Double> that represent the two angles
      */
     public Pair<Double, Double> angleInterval() {
         return Pair.of(this.angleLowerLimit, this.rotateRight().angleLowerLimit);

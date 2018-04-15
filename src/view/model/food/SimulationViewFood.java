@@ -2,6 +2,7 @@ package view.model.food;
 
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -47,5 +48,21 @@ public final class SimulationViewFood implements ViewFood {
     @Override
     public double getQuantityFromNutrient(final Nutrient nutrient) {
         return this.nutrients.get(nutrient);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, nutrients);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final SimulationViewFood other = (SimulationViewFood) obj;
+        return Objects.equals(this.name, other.name)
+                && this.nutrients.entrySet().containsAll(other.nutrients.entrySet())
+                && other.nutrients.entrySet().containsAll(this.nutrients.entrySet());
     }
 }

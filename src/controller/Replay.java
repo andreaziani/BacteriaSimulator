@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import model.Analysis;
@@ -79,5 +80,19 @@ public class Replay {
      */
     public InitialState getInitialState() {
         return initialState;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(initialState, stateList, analysis);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final Replay other = (Replay) obj;
+        return Objects.equals(this.initialState, other.initialState) && Objects.equals(this.analysis, other.analysis) && this.stateList.equals(other.stateList);
     }
 }

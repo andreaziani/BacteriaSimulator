@@ -44,13 +44,13 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     }
 
     @Override
-    public synchronized void loadReplay(final File file) {
-        this.startReplay(this.fileController.loadReplay(file));
+    public synchronized void loadReplay(final String path) throws IOException {
+        this.startReplay(this.fileController.loadReplay(path));
     }
 
     @Override
-    public synchronized void saveReplay(final File file) {
-        this.fileController.saveReplay(file, this.getReplay());
+    public synchronized void saveReplay(final String path) throws IOException {
+        this.fileController.saveReplay(path, this.getReplay());
     }
 
     @Override
