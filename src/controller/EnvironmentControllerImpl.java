@@ -35,7 +35,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
     private InitialState initialState;
     private Replay replay;
-    private SimulationState currentState = SimulationState.NOT_READY;
+    private SimulationState currentState;
     private final SimulationLoop loop;
 
     /**
@@ -43,7 +43,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      */
     public EnvironmentControllerImpl() {
 
-        resetSimulation();
+        init();
         this.loop = new SimulationLoop() {
             @Override
             public void run() {
@@ -76,12 +76,17 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
             }
         };
     }
-
-    private void resetSimulation() {
+    private void init() {
         this.currentState = SimulationState.NOT_READY;
         this.env = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.env);
         initialState = new InitialState(env.getMaxPosition().getX(), env.getMaxPosition().getY());
+    }
+
+    @Override
+    public final void resetSimulation() {
+        updateCurrentState(SimulationState.NOT_READY);
+        init();
     }
 
     /**

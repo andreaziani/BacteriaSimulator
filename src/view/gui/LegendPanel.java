@@ -84,7 +84,12 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         speciesColorIterator = getColorIterator(candidateSpeciesColors);
         legendContainer = Optional.empty();
         update();
-        this.setVisible(true);
+    }
+
+    private void resetContainer() {
+        if (this.legendContainer.isPresent()) {
+            this.remove(legendContainer.get());
+        }
     }
 
     /**
@@ -92,10 +97,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      */
     public void reset() {
         SwingUtilities.invokeLater(() -> {
-            if (legendContainer.isPresent()) {
-                this.remove(legendContainer.get());
-                legendContainer = Optional.empty();
-            }
+            resetContainer();
+            legendContainer = Optional.empty();
             init();
         });
     }
@@ -127,9 +130,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
         final Set<ViewSpecies> species = viewController.getSpecies();
         JPanel legendPanel;
-        if (this.legendContainer.isPresent()) {
-            this.remove(legendContainer.get());
-        }
+        resetContainer();
         legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
         legendContainer = Optional.of(legendPanel);
         legendPanel.add(foodLabel);
@@ -138,7 +139,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         legendPanel.add(speciesLabel);
         fillPanelsOfColorables(species, speciesColors, this::nextRandomSpeciesColor);
         this.add(legendPanel);
-        this.setVisible(true);
+        this.revalidate();
     }
 
     private void fillPanelsOfColorables(final Set<? extends Colorable> set, final Map<String, Color> map,

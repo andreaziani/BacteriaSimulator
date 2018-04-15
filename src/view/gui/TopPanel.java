@@ -48,7 +48,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         });
         this.speciesAndFood = new SpeciesAndFoodPanel(view, main);
         this.add(menuBar, BorderLayout.NORTH);
-        choicesPanel = new ChoicesPanel(view);
+        choicesPanel = new ChoicesPanel(view, main);
         this.add(choicesPanel, BorderLayout.SOUTH);
         this.add(this.speciesAndFood, BorderLayout.CENTER);
         this.componentsSettings();
