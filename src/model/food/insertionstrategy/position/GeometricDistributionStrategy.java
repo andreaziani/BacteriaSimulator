@@ -9,7 +9,7 @@ import model.PositionImpl;
  * Implementation of the strategy that uses a geometric distribution for the
  * random choice.
  */
-public class GeometricDistribuitionStrategyImpl extends AbstractStrategy {
+public final class GeometricDistributionStrategy extends AbstractPositionStrategy {
     private static final double PROBABILITY = 0.01;
     private final Position maxPosition;
 
@@ -20,8 +20,10 @@ public class GeometricDistribuitionStrategyImpl extends AbstractStrategy {
      *            the maximum position in the environment.
      * @param strategy
      *            the type of strategy chosen.
+     * @throws IllegalArgumentException
+     *             if the strategy chosen is not correct.
      */
-    public GeometricDistribuitionStrategyImpl(final Position maxPosition, final DistributionStrategy strategy) {
+    public GeometricDistributionStrategy(final Position maxPosition, final DistributionStrategy strategy) {
         super();
         if (strategy != DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
             throw new IllegalArgumentException();
@@ -30,7 +32,7 @@ public class GeometricDistribuitionStrategyImpl extends AbstractStrategy {
     }
 
     @Override
-    protected final Position distributedPosition() {
+    protected Position distributedPosition() {
         final GeometricDistribution dist = new GeometricDistribution(PROBABILITY);
         return new PositionImpl(dist.sample() % maxPosition.getX(), dist.sample() % maxPosition.getY());
     }
