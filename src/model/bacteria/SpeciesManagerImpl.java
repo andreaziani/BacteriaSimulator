@@ -2,6 +2,7 @@ package model.bacteria;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,15 @@ public class SpeciesManagerImpl implements SpeciesManager {
     @Override
     public Set<Species> getSpecies() {
         return speciesMap.values().stream().collect(Collectors.toSet());
+    }
+
+    @Override
+    public Species getSpeciesByName(final String name) {
+        if (speciesMap.containsKey(name)) {
+            return speciesMap.get(name);
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
 }

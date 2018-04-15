@@ -1,5 +1,6 @@
 package model.bacteria;
 
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
@@ -22,4 +23,15 @@ public interface SpeciesManager {
      * @return a Set containing all the Species added to the manager.
      */
     Set<Species> getSpecies();
+
+    /**
+     * Return a species with the specified name.
+     * 
+     * @param name
+     *            the name of the species.
+     * @return a species with the specified name.
+     * @throws NoSuchElementException
+     *             if no species in the manager have that name.
+     */
+    Species getSpeciesByName(String name);
 }
