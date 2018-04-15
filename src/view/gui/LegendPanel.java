@@ -72,9 +72,9 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
 
         simulationState = SimulationState.NOT_READY;
         this.viewController = viewController;
-        init();
         foodLabel = new JLabel("Food colors:");
         speciesLabel = new JLabel("Species colors:");
+        init();
     }
 
     private void init() {
@@ -83,7 +83,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         foodColorIterator = getColorIterator(candidateFoodsColors);
         speciesColorIterator = getColorIterator(candidateSpeciesColors);
         legendContainer = Optional.empty();
-        this.setVisible(false);
+        update();
+        this.setVisible(true);
     }
 
     /**
@@ -123,23 +124,21 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      * method is not thread safe.
      */
     public void update() {
-        if (simulationState != SimulationState.NOT_READY) {
-            final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
-            final Set<ViewSpecies> species = viewController.getSpecies();
-            JPanel legendPanel;
-            if (this.legendContainer.isPresent()) {
-                this.remove(legendContainer.get());
-            }
-            legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
-            legendContainer = Optional.of(legendPanel);
-            legendPanel.add(foodLabel);
-            legendPanel.add(buildLegendEntryPanel(UNNAMED_FOOD, Color.BLACK, foodColors));
-            fillPanelsOfColorables(foods, foodColors, this::nextRandomFoodColor);
-            legendPanel.add(speciesLabel);
-            fillPanelsOfColorables(species, speciesColors, this::nextRandomSpeciesColor);
-            this.add(legendPanel);
-            this.setVisible(true);
+        final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
+        final Set<ViewSpecies> species = viewController.getSpecies();
+        JPanel legendPanel;
+        if (this.legendContainer.isPresent()) {
+            this.remove(legendContainer.get());
         }
+        legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
+        legendContainer = Optional.of(legendPanel);
+        legendPanel.add(foodLabel);
+        legendPanel.add(buildLegendEntryPanel(UNNAMED_FOOD, Color.BLACK, foodColors));
+        fillPanelsOfColorables(foods, foodColors, this::nextRandomFoodColor);
+        legendPanel.add(speciesLabel);
+        fillPanelsOfColorables(species, speciesColors, this::nextRandomSpeciesColor);
+        this.add(legendPanel);
+        this.setVisible(true);
     }
 
     private void fillPanelsOfColorables(final Set<? extends Colorable> set, final Map<String, Color> map,
