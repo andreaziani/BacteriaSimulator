@@ -85,12 +85,15 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     /**
-     * Restore the simulation to a state defined by an InitialState object.
+     * Restore the simulation to a state defined by an InitialState object. Before
+     * setting the state, the view will be notified that the state of the simulation is
+     * NOT_READY.
      * 
      * @param initialState
      *            the representation of the initial state.
      */
     protected void setInitialState(final InitialState initialState) {
+        this.resetSimulation();
         this.initialState = initialState;
         if (initialState.getExistingFood().isEmpty() || initialState.getSpecies().isEmpty()) {
             this.updateCurrentState(SimulationState.NOT_READY);
