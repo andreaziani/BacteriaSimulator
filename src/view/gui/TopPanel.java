@@ -11,6 +11,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import controller.FileController;
 import controller.SimulationState;
 import view.ViewController;
 
@@ -58,6 +61,8 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         final JFileChooser simulationChooser = new JFileChooser();
         simulationChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         simulationChooser.setDialogTitle("Choose a file");
+        simulationChooser.setFileFilter(new FileNameExtensionFilter("*." + FileController.SIMULATION_EXTENTION, FileController.SIMULATION_EXTENTION));
+        simulationChooser.setAcceptAllFileFilterUsed(false);
 
         loadSimulation.addActionListener(e -> {
             if (simulationChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
@@ -79,8 +84,10 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         });
 
         final JFileChooser replayChooser = new JFileChooser();
-        simulationChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        simulationChooser.setDialogTitle("Choose a file");
+        replayChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        replayChooser.setDialogTitle("Choose a file");
+        replayChooser.setFileFilter(new FileNameExtensionFilter("*." + FileController.REPLAY_EXTENTION, FileController.REPLAY_EXTENTION));
+        replayChooser.setAcceptAllFileFilterUsed(false);
 
         loadReplay.addActionListener(e -> {
             if (replayChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {

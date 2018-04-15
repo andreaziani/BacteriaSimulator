@@ -2,7 +2,6 @@ package controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,40 +21,40 @@ public class FileControllerImpl implements FileController {
 
     private final Gson gson = new Gson();
 
-    @Override
-    public InitialState loadInitialState(final String path) throws IOException {
+    private <T> T loadFromJsonFile(final String path, final Class<T> objectClass) throws IOException {
         try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
-            return gson.fromJson(reader, InitialState.class);
+            return gson.fromJson(reader, objectClass);
         } catch (JsonIOException | JsonSyntaxException e) {
             throw new IOException();
         }
+    }
+
+    private void saveToJsonFile(final String path, final Object object) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            writer.write(gson.toJson(object));
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new IOException();
+        }
+    }
+
+    @Override
+    public InitialState loadInitialState(final String path) throws IOException {
+        return loadFromJsonFile(path, InitialState.class);
     }
 
     @Override
     public void saveInitialState(final String path, final InitialState initialState) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-            writer.write(gson.toJson(initialState));
-        } catch (JsonIOException | JsonSyntaxException e) {
-            throw new IOException();
-        }
+        saveToJsonFile(path, initialState);
     }
 
     @Override
     public Replay loadReplay(final String path) throws IOException {
-        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
-            return gson.fromJson(reader, Replay.class);
-        } catch (JsonIOException | JsonSyntaxException e) {
-            throw new IOException();
-        }
+        return loadFromJsonFile(path, Replay.class);
     }
 
     @Override
     public void saveReplay(final String path, final Replay replay) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-            writer.write(gson.toJson(replay));
-        } catch (JsonIOException | JsonSyntaxException e) {
-            throw new IOException();
-        }
+        saveToJsonFile(path, replay);
     }
 
     @Override

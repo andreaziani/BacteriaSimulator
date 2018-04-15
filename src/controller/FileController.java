@@ -12,6 +12,15 @@ import model.Analysis;
  */
 public interface FileController {
     /**
+     * Only accepted extension for initial state files.
+     */
+    String SIMULATION_EXTENTION = "bacSim";
+    /**
+     * Only accepted extension for replay files.
+     */
+    String REPLAY_EXTENTION = "bacRep";
+
+    /**
      * Load an initial state of a simulation.
      * 
      * @param path
