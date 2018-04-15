@@ -33,14 +33,14 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     }
 
     @Override
-    public synchronized void loadInitialState(final File file) throws IOException {
+    public synchronized void loadInitialState(final String path) throws IOException {
         this.updateCurrentState(SimulationState.REPLAY);
-        this.setInitialState(this.fileController.loadInitialState(file));
+        this.setInitialState(this.fileController.loadInitialState(path));
     }
 
     @Override
-    public synchronized void saveInitialState(final File file) throws IOException {
-        this.fileController.saveInitialState(file, this.getInitialState());
+    public synchronized void saveInitialState(final String path) throws IOException {
+        this.fileController.saveInitialState(path, this.getInitialState());
     }
 
     @Override
@@ -54,8 +54,8 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     }
 
     @Override
-    public synchronized void saveAnalisys(final File file) throws IOException {
-        this.fileController.saveAnalysis(file, this.getAnalysis());
+    public synchronized void saveAnalisys(final String path) throws IOException {
+        this.fileController.saveAnalysis(path, this.getAnalysis());
     }
     @Override
     public void updateCurrentState(final SimulationState state) {

@@ -62,7 +62,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         loadSimulation.addActionListener(e -> {
             if (simulationChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
-                    view.loadSimulation(simulationChooser.getSelectedFile());
+                    view.loadSimulation(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the simulation");
                 }
@@ -71,7 +71,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         saveSimulation.addActionListener(e -> {
             if (simulationChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
-                    view.saveSimulation(simulationChooser.getSelectedFile());
+                    view.saveSimulation(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to save the simulation");
                 }

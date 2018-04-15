@@ -111,28 +111,28 @@ public interface ViewController {
     /**
      * Try loading a simulation.
      * 
-     * @param file
-     *            the file to load from.
+     * @param path
+     *            the path of the file to load.
      * @throws IOException
      *             in case of a problem.
      */
-    void loadSimulation(File file) throws IOException;
+    void loadSimulation(String path) throws IOException;
 
     /**
      * Save a simulation.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
      * @throws IOException
      *             in case of a problem.
      */
-    void saveSimulation(File file) throws IOException;
+    void saveSimulation(String path) throws IOException;
 
     /**
      * Load a replay.
      * 
      * @param path
-     *            of the Replay file.
+     *            the path of the file to load.
      * @throws IOException
      *             in case of a problem.
      */
@@ -151,12 +151,12 @@ public interface ViewController {
     /**
      * Save an Analysis.
      * 
-     * @param file
-     *            the file to save into.
+     * @param path
+     *            the path of the file to save into.
      * @throws IOException
      *             in case of a problem.
      */
-    void saveAnalysis(File file) throws IOException;
+    void saveAnalysis(String path) throws IOException;
 
     /**
      * Start the simulation.

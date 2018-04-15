@@ -102,13 +102,13 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void loadSimulation(final File file) throws IOException {
-        controller.loadInitialState(file);
+    public void loadSimulation(final String path) throws IOException {
+        controller.loadInitialState(path);
     }
 
     @Override
-    public void saveSimulation(final File file) throws IOException {
-        controller.saveInitialState(file);
+    public void saveSimulation(final String path) throws IOException {
+        controller.saveInitialState(path);
     }
 
     @Override
@@ -122,8 +122,8 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void saveAnalysis(final File file) throws IOException {
-        controller.saveAnalisys(file);
+    public void saveAnalysis(final String path) throws IOException {
+        controller.saveAnalisys(path);
     }
 
     @Override
