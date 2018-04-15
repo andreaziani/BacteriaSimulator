@@ -2,7 +2,6 @@ package utils.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,11 +10,14 @@ import java.util.Set;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.Gson;
 
 import controller.InitialState;
+import controller.Replay;
+import controller.SimpleState;
 import model.Position;
 import model.PositionImpl;
 import model.State;
@@ -42,39 +44,30 @@ public class TestInitialState {
     private static final String SPECIES_NAME2 = "Other species name";
     private static final String SPECIES_NAME1 = "SpeciesName";
 
-    /**
-     * Tests correctness of the json serialization of an InitialState object.
-     */
-    @Test
-    public void testJsonSerialization() {
-        final InitialState state = new InitialState(TestUtils.getLargeDouble(), TestUtils.getLargeDouble());
-        state.addFood((CreationViewFoodImpl) new ViewFoodBuilder("FoodName")
-                .addNutrient(Pair.of(Nutrient.CARBOHYDRATES, TestUtils.getSmallDouble())).build());
-        state.addSpecies(
-                new ViewSpecies(SPECIES_NAME1, new HashSet<>(Collections.singleton(DecisionMakerOption.ALWAYS_EAT)),
-                        Arrays.asList(BehaviorDecoratorOption.COST_FILTER)));
-        final Gson gson = new Gson();
-        final String json = gson.toJson(state);
-        final InitialState stateRestored = gson.fromJson(json, InitialState.class);
-        assertEquals("state constructed from json should not equals to the original", state, stateRestored);
-    }
+    private InitialState noStateInitialState;
+    private InitialState fullInitialState;
+    private State state;
+    private Function<ViewSpecies, Species> speciesMapper;
 
     /**
-     * Tests that a conversion from a state into a SimpleState has no loss of
-     * informations and tests that an InitialState does the conversion correctly.
+     * Initialize tests with states.
      */
-    @Test
-    public void testStateConversion() { 
-        final InitialState initialState = new InitialState(TestUtils.getLargeDouble(), TestUtils.getLargeDouble());
-        initialState.addFood((CreationViewFoodImpl) new ViewFoodBuilder("FoodName")
+    @Before
+    public void initTests() {
+        fullInitialState = new InitialState(TestUtils.getLargeDouble(), TestUtils.getLargeDouble());
+        fullInitialState.addFood((CreationViewFoodImpl) new ViewFoodBuilder("FoodName")
                 .addNutrient(Pair.of(Nutrient.CARBOHYDRATES, TestUtils.getSmallDouble())).build());
-        initialState.addSpecies(new ViewSpecies(SPECIES_NAME1));
+        fullInitialState.addSpecies(new ViewSpecies(SPECIES_NAME1));
         final Set<DecisionMakerOption> options = new HashSet<>();
         options.add(DecisionMakerOption.ALWAYS_EAT);
         options.add(DecisionMakerOption.NO_MOVEMENT);
         options.add(DecisionMakerOption.NO_REPLICATION);
-        initialState.addSpecies(new ViewSpecies(SPECIES_NAME2, options,
+        fullInitialState.addSpecies(new ViewSpecies(SPECIES_NAME2, options,
                 Collections.singletonList(BehaviorDecoratorOption.COST_FILTER)));
+
+        noStateInitialState = new InitialState(TestUtils.getLargeDouble(), TestUtils.getLargeDouble());
+        fullInitialState.getExistingFood().forEach(noStateInitialState::addFood);
+        fullInitialState.getSpecies().forEach(noStateInitialState::addSpecies);
         final Map<Position, Food> foodState = new HashMap<>();
         foodState.put(new PositionImpl(TestUtils.getSmallDouble(), TestUtils.getLargeDouble()), TestUtils.getAFood());
         foodState.put(new PositionImpl(TestUtils.getLargeDouble(), TestUtils.getSmallDouble()),
@@ -96,11 +89,41 @@ public class TestInitialState {
                         new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(), TestUtils.getSmallDouble()),
                         TestUtils.getSmallEnergy()));
 
-        final State state = new StateImpl(foodState, bacteriaState);
-        initialState.setState(state);
-        final Function<ViewSpecies, Species> speciesMapper = x -> x.getName().equals(SPECIES_NAME1) ? species1
-                : species2;
-        assertEquals("state reconstructed from initialState should equals the given state", 
-                state, initialState.reconstructState(speciesMapper, () -> TestUtils.getSmallEnergy()));
+        state = new StateImpl(foodState, bacteriaState);
+        fullInitialState.setState(state);
+        speciesMapper = x -> x.getName().equals(SPECIES_NAME1) ? species1 : species2;
+    }
+
+    /**
+     * Tests correctness of the json serialization of an InitialState object.
+     */
+    @Test
+    public void testJsonSerialization() {
+        final Gson gson = new Gson();
+        String json = gson.toJson(new SimpleState(state, fullInitialState.getSpecies()));
+        assertEquals("state constructed from json should equals to the original", new SimpleState(state, fullInitialState.getSpecies()), gson.fromJson(json, SimpleState.class));
+
+        json = gson.toJson(noStateInitialState);
+        assertEquals("initial state constructed from json should equals to the original", noStateInitialState, gson.fromJson(json, InitialState.class));
+
+        json = gson.toJson(noStateInitialState);
+        assertEquals("initial state constructed from json should equals to the original", noStateInitialState, gson.fromJson(json, InitialState.class));
+
+        final Replay replay = new Replay(fullInitialState);
+        json = gson.toJson(replay);
+        assertEquals("replay constructed from json should equals to the original", replay, gson.fromJson(json, Replay.class));
+        replay.addState(state);
+        json = gson.toJson(replay);
+        assertEquals("replay constructed from json should equals to the original", replay, gson.fromJson(json, Replay.class));
+    }
+
+    /**
+     * Tests that a conversion from a state into a SimpleState has no loss of
+     * informations and tests that an InitialState does the conversion correctly.
+     */
+    @Test
+    public void testStateConversion() {
+        assertEquals("state reconstructed from fullInitialState should equals the given state", 
+                state, fullInitialState.reconstructState(speciesMapper, () -> TestUtils.getSmallEnergy()));
     }
 }

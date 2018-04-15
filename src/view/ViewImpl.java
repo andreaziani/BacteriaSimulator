@@ -117,7 +117,7 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void saveReplay(String path) throws IOException {
+    public void saveReplay(final String path) throws IOException {
         controller.saveReplay(path);
     }
 
