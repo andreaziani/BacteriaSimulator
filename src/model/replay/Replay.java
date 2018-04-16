@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import controller.InitialState;
 import model.Analysis;
 import model.AnalysisImpl;
+import model.state.InitialState;
 import model.state.SimpleState;
 import model.state.State;
 

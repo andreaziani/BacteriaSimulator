@@ -1,4 +1,4 @@
-package controller;
+package model.state;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,11 +15,6 @@ import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.FoodImpl;
-import model.state.Position;
-import model.state.PositionImpl;
-import model.state.SimpleBacteria;
-import model.state.SimpleState;
-import model.state.State;
 
 /**
  * Represents all the information needed for a simulation to start.

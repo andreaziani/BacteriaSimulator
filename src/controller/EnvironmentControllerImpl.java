@@ -13,6 +13,7 @@ import model.food.insertionstrategy.position.DistributionStrategy;
 import model.replay.Replay;
 import model.replay.ReplayEnvironmentImpl;
 import model.simulator.SimulatorEnvironment;
+import model.state.InitialState;
 import model.state.State;
 import utils.ConversionsUtil;
 import utils.Logger;
