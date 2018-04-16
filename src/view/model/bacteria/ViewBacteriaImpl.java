@@ -3,14 +3,15 @@ package view.model.bacteria;
 
 import java.util.Objects;
 
+import model.bacteria.species.SpeciesOptions;
 import view.Radius;
 
 /**
- * Implementation of ViewBacteria that uses a ViewSpecies.
+ * Implementation of ViewBacteria that uses a SpeciesOptions.
  */
 public class ViewBacteriaImpl implements ViewBacteria {
     private final Radius radius;
-    private final ViewSpecies species;
+    private final SpeciesOptions species;
 
     /**
      * Create a new ViewBacteria with a given radius and of a given species.
@@ -20,7 +21,7 @@ public class ViewBacteriaImpl implements ViewBacteria {
      * @param species
      *            the species of the bacteria.
      */
-    public ViewBacteriaImpl(final Radius radius, final ViewSpecies species) {
+    public ViewBacteriaImpl(final Radius radius, final SpeciesOptions species) {
         this.radius = radius;
         this.species = species;
     }
@@ -31,7 +32,7 @@ public class ViewBacteriaImpl implements ViewBacteria {
     }
 
     @Override
-    public ViewSpecies getSpecies() {
+    public SpeciesOptions getSpecies() {
         return this.species;
     }
 

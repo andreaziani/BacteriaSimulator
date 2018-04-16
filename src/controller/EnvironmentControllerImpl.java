@@ -3,18 +3,15 @@ package controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.EnergyImpl;
 import model.Environment;
-import model.Position;
 import model.State;
-import model.bacteria.Species;
-import model.bacteria.SpeciesBuilder;
-import model.food.Food;
+import model.bacteria.species.SpeciesBuilder;
+import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.replay.ReplayEnvironmentImpl;
 import model.simulator.SimulatorEnvironment;
@@ -24,8 +21,6 @@ import utils.exceptions.InvalidSpeciesExeption;
 import utils.exceptions.SimulationAlreadyStartedExeption;
 import view.model.ViewPosition;
 import view.model.ViewState;
-import view.model.bacteria.ViewSpecies;
-import view.model.food.CreationViewFoodImpl;
 import view.model.food.ViewFood;
 
 /**
@@ -37,7 +32,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     private Environment environment;
     private FoodController foodController;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
-    private InitialState initialState;
     private Replay replay;
     private SimulationState currentState;
     private final SimulationLoop loop;
@@ -85,49 +79,23 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.currentState = SimulationState.NOT_READY;
         this.environment = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.environment);
-        initialState = new InitialState(environment.getMaxPosition().getX(), environment.getMaxPosition().getY());
     }
-
-    private void setParameter() {
-        final Set<Food> existingFood = this.initialState.getExistingFood().stream()
-                .map(viewFood -> ConversionsUtil.viewFoodToFood(viewFood)).collect(Collectors.toSet());
-
-        final Set<Species> existingSpecies = this.initialState.getSpecies().stream().map(viewSpecie -> {
-            final SpeciesBuilder builder = new SpeciesBuilder(viewSpecie.getName());
-            viewSpecie.getDecisionOptions().forEach(builder::addDecisionMaker);
-            viewSpecie.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
-            return builder.build();
-        }).collect(Collectors.toSet());
-
-        this.environment.setSimulationParameter(existingFood, existingSpecies);
-    }
-
-    private void setState() {
-        this.setParameter();
-        final Position maxPosition = this.initialState.getMaxPosition();
-        final SimpleState simulationState = this.initialState.getState();
-        this.environment.setSimulationState(simulationState, maxPosition);
-    }
-
     /**
      * Start the simulation from the initialState saved in this controller.
      */
     protected void startFromState() {
-        this.setState();
         this.startLoop();
     }
 
     @Override
     public synchronized void start() {
-        this.setParameter();
         this.startLoop();
     }
 
     private void startLoop() {
         this.updateCurrentState(SimulationState.RUNNING);
         this.environment.initialize();
-        this.initialState.setState(environment.getState());
-        replay = new Replay(this.initialState);
+        replay = new Replay(this.environment.getInitialState());
         final Thread mainThread = new Thread(this.loop);
 
         Logger.getInstance().info("Controller", "Application started");
@@ -150,10 +118,11 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      */
     protected void setInitialState(final InitialState initialState) {
         this.resetSimulation();
-        this.initialState = initialState;
+        environment = new SimulatorEnvironment(initialState);
+        foodController = new FoodControllerImpl(environment);
         if (initialState.getExistingFood().isEmpty() || initialState.getSpecies().isEmpty()) {
             this.updateCurrentState(SimulationState.NOT_READY);
-        } else if (initialState.hasState()) {
+        } else if (initialState.hasState()) { //Better to set in PAUSED
             this.start();
         } else {
             this.updateCurrentState(SimulationState.READY);
@@ -164,7 +133,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      * @return the initial state of the simulation.
      */
     protected InitialState getInitialState() {
-        return initialState;
+        return environment.getInitialState();
     }
 
     /**
@@ -191,8 +160,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      *            a replay from which to construct a ReplayEnvironment.
      */
     protected void startReplay(final Replay replay) {
-        initialState = replay.getInitialState();
-        environment = new ReplayEnvironmentImpl(initialState,
+        environment = new ReplayEnvironmentImpl(replay.getInitialState(),
                 replay.getStateList().stream().map(
                         x -> x.reconstructState(s -> new SpeciesBuilder(s.getName()).build(), () -> EnergyImpl.ZERO))
                         .iterator(),
@@ -207,36 +175,31 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized void addNewTypeOfFood(final ViewFood food) {
-        //this.foodController.addNewTypeOfFood(food);
-        initialState.addFood((CreationViewFoodImpl) food);
+        this.foodController.addNewTypeOfFood(food);
+        
         if (this.currentState == SimulationState.NOT_READY && !this.isSpeciesEmpty()) {
             this.updateCurrentState(SimulationState.READY);
         }
     }
 
     @Override
-    public synchronized List<CreationViewFoodImpl> getExistingViewFoods() {
-        return this.initialState.getExistingFood();
-        //return this.foodController.getExistingViewFoods();
+    public synchronized List<ViewFood> getExistingViewFoods() {
+        return this.foodController.getExistingViewFoods();
     }
 
     @Override
     public synchronized ViewState getState() {
         return ConversionsUtil.stateToViewState(this.environment.getState(), foodController,
-                this.environment.getMaxPosition(), this.maxViewPosition.get(), initialState);
+                this.environment.getMaxPosition(), this.maxViewPosition.get(), environment.getInitialState());
     }
 
     @Override
-    public synchronized void addSpecies(final ViewSpecies species) {
+    public synchronized void addSpecies(final SpeciesOptions species) {
         try {
             if (this.currentState == SimulationState.NOT_READY && !this.getExistingViewFoods().isEmpty()) {
                 this.updateCurrentState(SimulationState.READY);
             }
-            final SpeciesBuilder builder = new SpeciesBuilder(species.getName());
-            species.getDecisionOptions().forEach(builder::addDecisionMaker);
-            species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
-            //environment.addSpecies(builder.build());
-            initialState.addSpecies(species);
+            environment.addSpecies(species);
         } catch (IllegalStateException e) {
             throw new InvalidSpeciesExeption();
         }
@@ -252,7 +215,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized boolean isSpeciesEmpty() {
-        return this.initialState.getSpecies().isEmpty();
+        return this.getInitialState().getSpecies().isEmpty();
     }
 
     @Override
@@ -260,13 +223,18 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.environment.setFoodDistributionStrategy(strategy);
     }
 
-    @Override
-    public void updateCurrentState(final SimulationState state) {
+    /**
+     * Update the current state of the simulation.
+     * 
+     * @param state
+     *            the state that the simulation'll assume.
+     */
+    protected void updateCurrentState(final SimulationState state) {
         this.currentState = state;
     }
 
     @Override
-    public Set<ViewSpecies> getSpecies() {
-        return this.initialState.getSpecies();
+    public Set<SpeciesOptions> getSpecies() {
+        return this.getInitialState().getSpecies();
     }
 }

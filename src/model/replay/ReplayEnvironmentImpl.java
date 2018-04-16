@@ -3,14 +3,12 @@ package model.replay;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import controller.InitialState;
-import controller.SimpleState;
 import model.Analysis;
 import model.Position;
 import model.State;
-import model.bacteria.Species;
+import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
 
@@ -69,7 +67,7 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public void addSpecies(final Species species) {
+    public void addSpecies(final SpeciesOptions species) {
         throw new UnsupportedOperationException();
     }
 
@@ -100,20 +98,10 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
 
     @Override
     public void initialize() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
-    public void setSimulationParameter(Set<Food> existingFood, Set<Species> existingSpecies) {
-        // TODO Auto-generated method stub
-
+    public InitialState getInitialState() {
+        return this.initialState;
     }
-
-    @Override
-    public void setSimulationState(SimpleState simulationState, Position maxPosition) {
-        // TODO Auto-generated method stub
-
-    }
-
 }

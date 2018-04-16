@@ -3,6 +3,7 @@ package model.simulator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.IntStream;
@@ -21,10 +22,11 @@ import model.PositionImpl;
 import model.State;
 import model.StateImpl;
 import model.bacteria.Bacteria;
-import model.bacteria.Species;
-import model.bacteria.SpeciesBuilder;
-import model.bacteria.SpeciesManager;
-import model.bacteria.SpeciesManagerImpl;
+import model.bacteria.species.Species;
+import model.bacteria.species.SpeciesBuilder;
+import model.bacteria.species.SpeciesManager;
+import model.bacteria.species.SpeciesManagerImpl;
+import model.bacteria.species.SpeciesOptions;
 import model.food.ExistingFoodManager;
 import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
@@ -45,43 +47,39 @@ public class SimulatorEnvironment implements Environment {
     private static final double DEFAULT_WIDTH = 1000.0;
     // pass on Constructor
     private final MutationManager mutManager = new MutationManagerImpl();
-    private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
+    private final ExistingFoodManager foodManager = new ExistingFoodManagerImpl();
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private final Analysis analysis = new AnalysisImpl();
     private final FoodEnvironment foodEnv;
     private BacteriaManager bactManager;
     private Position maxPosition = new PositionImpl(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    private Optional<State> initState = Optional.empty();
-    private State state;
+    private InitialState initialState;
+    private Optional<State> state;
 
+    /**
+     * Create an empty environment.
+     */
     public SimulatorEnvironment() {
-        this.foodEnv = new FoodEnvironmentImpl(this.manager, this.maxPosition);
-        this.bactManager = new BacteriaManagerImpl(this.foodEnv, this.manager, this.maxPosition, this.speciesManager);
+        this.foodEnv = new FoodEnvironmentImpl(this.foodManager, this.maxPosition);
+        this.bactManager = new BacteriaManagerImpl(this.foodEnv, this.foodManager, this.maxPosition, this.speciesManager);
+        initialState = new InitialState(this.maxPosition.getX(), this.maxPosition.getY());
+        state = Optional.empty();
     }
 
     /**
-     * Initializer method, create the default number of Bacteria.
+     * Create an environment from an initial state. If the initial state has also
+     * already a state it initialize the environment with that state.
+     * 
      * @param initialState
-     *          the initial state used to initialize the simulation
+     *            an InitialState.
      */
-
-    public void setSimulationParameter(final Set<Food> existingFood, final Set<Species> existingSpecies) {
-        existingFood.forEach(food -> this.manager.addFood(food));
-        existingSpecies.forEach(species -> this.speciesManager.addSpecies(species));
-    }
-
-    public void setSimulationState(final SimpleState simulationState, final Position maxPosition) {
-        this.initState = Optional.of(simulationState.reconstructState(species -> this.speciesManager.getSpeciesByName(species.getName()), () -> INITIAL_ENERGY));
-        this.maxPosition = maxPosition;
-    }
-
-    public void initialize() {
-        Logger.getInstance().info("Environment", "Simulator initialized");
-        if (this.initState.isPresent()) {
-            this.initState.get().getFoodsState().forEach((position, food) -> this.foodEnv.addFood(food, position));
-            this.bactManager.populate(Optional.of(this.initState.get().getBacteriaState()));
-        } else {
-            this.bactManager.populate(Optional.empty());
+    public SimulatorEnvironment(final InitialState initialState) {
+        this();
+        this.initialState = initialState;
+        initialState.getExistingFood().forEach(this.foodManager::addFood);
+        initialState.getSpecies().forEach(this.speciesManager::addSpecies);
+        if (initialState.hasState()) {
+            initialize();
         }
     }
 
@@ -92,15 +90,15 @@ public class SimulatorEnvironment implements Environment {
 
     @Override
     public List<Food> getExistingFoods() {
-        return Collections.unmodifiableList(this.manager.getExistingFoodsSet());
+        return Collections.unmodifiableList(this.foodManager.getExistingFoodsSet());
     }
 
     @Override
     public State getState() {
-        if (this.state == null) {
-            this.state = new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
+        if (!this.state.isPresent()) {
+            this.state = Optional.of(new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState()));
         }
-        return this.state;
+        return this.state.get();
     }
 
     private void updateFood() {
@@ -120,8 +118,8 @@ public class SimulatorEnvironment implements Environment {
         this.updateBacteria();
         this.updateFood();
         this.updateMutation();
-        this.state = new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
-        analysis.addState(state);
+        this.state = Optional.of(new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState()));
+        analysis.addState(state.get());
     }
 
     @Override
@@ -130,8 +128,9 @@ public class SimulatorEnvironment implements Environment {
     }
 
     @Override
-    public void addSpecies(final Species species) {
+    public void addSpecies(final SpeciesOptions species) {
         speciesManager.addSpecies(species);
+        this.initialState.addSpecies(species);
     }
 
     @Override
@@ -141,7 +140,8 @@ public class SimulatorEnvironment implements Environment {
 
     @Override
     public void addNewTypeOfFood(final Food food) {
-        this.manager.addFood(food);
+        this.foodManager.addFood(food);
+        this.initialState.addFood(food);
     }
 
     @Override
@@ -153,4 +153,28 @@ public class SimulatorEnvironment implements Environment {
     public boolean isSimulationOver() {
         return getState().getBacteriaState().isEmpty();
     }
+
+    @Override
+    public void initialize() {
+        try {
+            Logger.getInstance().info("Environment", "Simulator initialized");
+            if (this.initialState.hasState()) {
+                state = Optional.of(initialState.getState().reconstructState(
+                        s -> this.speciesManager.getSpeciesByName(s.getName()), () -> INITIAL_ENERGY));
+                state.get().getFoodsState().forEach((position, food) -> this.foodEnv.addFood(food, position));
+                this.bactManager.populate(Optional.of(this.state.get().getBacteriaState()));
+            } else {
+                this.bactManager.populate(Optional.empty());
+            }
+            this.initialState.setState(getState());
+        } catch (NoSuchElementException e) {
+            throw new IllegalStateException();
+        }
+    }
+
+    @Override
+    public InitialState getInitialState() {
+        return this.initialState;
+    }
+
 }

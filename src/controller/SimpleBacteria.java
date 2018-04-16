@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 import model.bacteria.Bacteria;
+import model.bacteria.species.SpeciesOptions;
 import model.geneticcode.NucleicAcid;
-import view.model.bacteria.ViewSpecies;
 
 /**
  * Simplification of a Bacteria object that maintains only useful information
@@ -15,7 +15,7 @@ public class SimpleBacteria {
     private final int id;
     private final double radius;
     private final double perceptionRadius;
-    private final ViewSpecies species;
+    private final SpeciesOptions species;
     private final List<NucleicAcid> code;
 
     /**
@@ -28,7 +28,7 @@ public class SimpleBacteria {
      * @param species
      *            a view representation of the bacteria's species.
      */
-    public SimpleBacteria(final Bacteria bacteria, final ViewSpecies species) {
+    public SimpleBacteria(final Bacteria bacteria, final SpeciesOptions species) {
         this.id = bacteria.getId();
         this.radius = bacteria.getRadius();
         this.perceptionRadius = bacteria.getPerceptionRadius();
@@ -60,7 +60,7 @@ public class SimpleBacteria {
     /**
      * @return the view representation of the species of the bacteria.
      */
-    public ViewSpecies getSpecies() {
+    public SpeciesOptions getSpecies() {
         return species;
     }
 

@@ -3,12 +3,12 @@ package controller;
 import java.util.List;
 import java.util.Set;
 
+import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
 import view.model.food.CreationViewFoodImpl;
 import view.model.food.ViewFood;
 import view.model.ViewState;
-import view.model.bacteria.ViewSpecies;
 
 /**
  * Interface of the EnvironmentController, it deals with the management of
@@ -49,7 +49,7 @@ public interface EnvironmentController {
      * 
      * @return an unmodifiable list with all types of food.
      */
-    List<CreationViewFoodImpl> getExistingViewFoods();
+    List<ViewFood> getExistingViewFoods();
 
     /**
      * Transforms the State and returns it as ViewState.
@@ -71,7 +71,7 @@ public interface EnvironmentController {
      * @throws AlreadyExistingSpeciesExeption
      *             if a species with that name already exists.
      */
-    void addSpecies(ViewSpecies species);
+    void addSpecies(SpeciesOptions species);
 
     /**
      * Set the maximum view dimension.
@@ -98,17 +98,9 @@ public interface EnvironmentController {
     void setDistributionStrategy(DistributionStrategy strategy);
 
     /**
-     * Update the current state of the simulation.
-     * 
-     * @param state
-     *            the state that the simulation'll assume.
-     */
-    void updateCurrentState(SimulationState state);
-
-    /**
      * @return a set containing all the species currently present in the simulation.
      */
-    Set<ViewSpecies> getSpecies();
+    Set<SpeciesOptions> getSpecies();
 
     /**
      * Reset all information of the simulation and prepare the controller to create

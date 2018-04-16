@@ -13,7 +13,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import model.bacteria.Bacteria;
-import model.bacteria.Species;
+import model.bacteria.species.Species;
 
 /**
  * 

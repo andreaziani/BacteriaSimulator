@@ -14,18 +14,18 @@ import model.Energy;
 import model.Position;
 import model.PositionImpl;
 import model.State;
-import model.bacteria.Species;
+import model.bacteria.species.Species;
+import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
-import view.model.bacteria.ViewSpecies;
-import view.model.food.CreationViewFoodImpl;
+import model.food.FoodImpl;
 
 /**
  * Represents all the information needed for a simulation to start.
  */
 public class InitialState {
     private Optional<SimpleState> state;
-    private final List<CreationViewFoodImpl> existingFood;
-    private final Set<ViewSpecies> species;
+    private final List<FoodImpl> existingFood;
+    private final Set<SpeciesOptions> species;
     private final double maxX;
     private final double maxY;
 
@@ -87,8 +87,8 @@ public class InitialState {
      *            a food to be added to the set that contains all the foods created
      *            by the user.
      */
-    public void addFood(final CreationViewFoodImpl food) {
-        existingFood.add(food);
+    public void addFood(final Food food) {
+        existingFood.add((FoodImpl) food);
     }
 
     /**
@@ -96,7 +96,7 @@ public class InitialState {
      *            a species to be added to the set that contains all the species
      *            created by the user.
      */
-    public void addSpecies(final ViewSpecies species) {
+    public void addSpecies(final SpeciesOptions species) {
         this.species.add(species);
     }
 
@@ -122,14 +122,14 @@ public class InitialState {
     /**
      * @return all the foods created by the user.
      */
-    public List<CreationViewFoodImpl> getExistingFood() {
+    public List<? extends Food> getExistingFood() {
         return existingFood;
     }
 
     /**
      * @return all the species created by the users.
      */
-    public Set<ViewSpecies> getSpecies() {
+    public Set<SpeciesOptions> getSpecies() {
         return species;
     }
 
@@ -165,7 +165,7 @@ public class InitialState {
      * @throws IllegalStateException
      *             if the state has not been set.
      */
-    public State reconstructState(final Function<ViewSpecies, Species> speciesMapper,
+    public State reconstructState(final Function<SpeciesOptions, Species> speciesMapper,
             final Supplier<Energy> startingEnergy) {
         return getStateOrIllegalState().reconstructState(speciesMapper, startingEnergy);
     }

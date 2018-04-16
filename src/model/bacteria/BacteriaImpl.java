@@ -5,6 +5,7 @@ import java.util.Objects;
 import model.Energy;
 import model.EnergyImpl;
 import model.action.Action;
+import model.bacteria.species.Species;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.geneticcode.GeneticCode;

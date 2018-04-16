@@ -11,12 +11,12 @@ import controller.Controller;
 import controller.SimulationState;
 import model.Analysis;
 import model.action.ActionType;
+import model.bacteria.species.SpeciesOptions;
 import model.food.Nutrient;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
-import view.model.bacteria.ViewSpecies;
 import view.model.bacteria.ViewSpeciesFactory;
 import view.model.food.ViewFood;
 
@@ -162,7 +162,7 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public Set<ViewSpecies> getSpecies() {
+    public Set<SpeciesOptions> getSpecies() {
         return this.controller.getSpecies();
     }
 

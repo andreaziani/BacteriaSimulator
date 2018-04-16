@@ -14,13 +14,13 @@ import model.PositionImpl;
 import model.State;
 import model.StateImpl;
 import model.bacteria.BacteriaImpl;
-import model.bacteria.Species;
+import model.bacteria.species.Species;
+import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.FoodImpl;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCodeImpl;
 import utils.Pair;
-import view.model.bacteria.ViewSpecies;
 
 /**
  * Simplification of a SimpleState object that maintains only useful information
@@ -33,17 +33,17 @@ public class SimpleState {
     /**
      * @param state
      *            a State to represent in this object.
-     * @param viewSpecies
+     * @param speciesOptions
      *            a set of view representations of species.
      * @throws IllegalArgumentException
      *             if the elements in state do not match with the elements of
      *             viewFood and viewSpecies.
      */
-    public SimpleState(final State state, final Set<ViewSpecies> viewSpecies) {
+    public SimpleState(final State state, final Set<SpeciesOptions> speciesOptions) {
         try {
             bacterias = state.getBacteriaState().entrySet().stream()
                     .collect(Collectors.toMap(x -> (PositionImpl) x.getKey(), x -> new SimpleBacteria(x.getValue(),
-                            viewSpecies.stream().filter(s -> s.getName().equals(x.getValue().getSpecies().getName()))
+                            speciesOptions.stream().filter(s -> s.getName().equals(x.getValue().getSpecies().getName()))
                                     .findFirst().get())))
                     .entrySet().stream().map(x -> new Pair<>(x.getKey(), x.getValue())).collect(Collectors.toSet());
             foods = state.getFoodsState().entrySet().stream()
@@ -81,7 +81,7 @@ public class SimpleState {
      * @return a new State representing this object in the way it should be
      *         represented in the model.
      */
-    public State reconstructState(final Function<ViewSpecies, Species> speciesMapper,
+    public State reconstructState(final Function<SpeciesOptions, Species> speciesMapper,
             final Supplier<Energy> startingEnergy) {
         return new StateImpl(getFoodMap(), getBacteriaMap().entrySet().stream()
                 .collect(

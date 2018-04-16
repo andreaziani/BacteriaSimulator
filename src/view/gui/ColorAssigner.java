@@ -2,7 +2,7 @@ package view.gui;
 
 import java.awt.Color;
 
-import view.model.bacteria.ViewSpecies;
+import model.bacteria.species.SpeciesOptions;
 import view.model.food.ViewProvision;
 
 /**
@@ -26,5 +26,5 @@ public interface ColorAssigner {
      *            a species.
      * @return a color assigned to that species.
      */
-    Color getColorFromSpecies(ViewSpecies species);
+    Color getColorFromSpecies(SpeciesOptions species);
 }

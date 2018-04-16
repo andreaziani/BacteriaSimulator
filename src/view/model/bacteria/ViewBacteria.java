@@ -2,6 +2,7 @@ package view.model.bacteria;
 
 
 
+import model.bacteria.species.SpeciesOptions;
 import view.Radius;
 
 /**
@@ -17,5 +18,5 @@ public interface ViewBacteria {
     /**
      * @return the Species of the Bacteria.
      */
-    ViewSpecies getSpecies();
+    SpeciesOptions getSpecies();
 }
