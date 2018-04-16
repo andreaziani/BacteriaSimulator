@@ -67,7 +67,7 @@ public interface Controller extends EnvironmentController {
      * @throws IOException
      *             if any problem writing in the file occurred.
      */
-    void saveAnalisys(String path) throws IOException;
+    void saveAnalysis(String path) throws IOException;
 
     /**
      * Set the view of the simulation.
