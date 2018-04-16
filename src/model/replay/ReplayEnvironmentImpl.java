@@ -7,9 +7,7 @@ import java.util.Optional;
 import model.Analysis;
 import model.EnergyImpl;
 import model.bacteria.species.SpeciesBuilder;
-import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
-import model.food.insertionstrategy.position.DistributionStrategy;
 import model.state.InitialState;
 import model.state.Position;
 import model.state.State;
@@ -38,12 +36,11 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
                                     s -> new SpeciesBuilder(s.getName()).build(), () -> EnergyImpl.ZERO))
                             .iterator();
         this.analysis = replay.getAnalysis();
-        update();
     }
 
     @Override
-    public void addFood(final Food food, final Position position) {
-        throw new UnsupportedOperationException();
+    public void initialize() {
+        update();
     }
 
     @Override
@@ -64,20 +61,9 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     public Analysis getAnalysis() {
         return this.analysis;
     }
-
-    @Override
-    public void addSpecies(final SpeciesOptions species) {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public Position getMaxPosition() {
         return initialState.getMaxPosition();
-    }
-
-    @Override
-    public void addNewTypeOfFood(final Food food) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -86,17 +72,8 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public void setFoodDistributionStrategy(final DistributionStrategy strategy) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean isSimulationOver() {
         return !states.hasNext();
-    }
-
-    @Override
-    public void initialize() {
     }
 
     @Override

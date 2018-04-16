@@ -8,6 +8,7 @@ import controller.food.FoodController;
 import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.Environment;
+import model.InteractiveEnvironment;
 import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.replay.Replay;
@@ -202,7 +203,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
             if (this.currentState == SimulationState.NOT_READY && !this.getExistingViewFoods().isEmpty()) {
                 this.updateCurrentState(SimulationState.READY);
             }
-            environment.addSpecies(species);
+            getEnvironmentAsInteractive().addSpecies(species);
         } catch (IllegalStateException e) {
             throw new InvalidSpeciesExeption();
         }
@@ -223,7 +224,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public void setDistributionStrategy(final DistributionStrategy strategy) {
-        this.environment.setFoodDistributionStrategy(strategy);
+        this.getEnvironmentAsInteractive().setFoodDistributionStrategy(strategy);
     }
 
     /**
@@ -239,5 +240,13 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     @Override
     public Set<SpeciesOptions> getSpecies() {
         return this.getInitialState().getSpecies();
+    }
+
+    private InteractiveEnvironment getEnvironmentAsInteractive() {
+        if (!(this.environment instanceof InteractiveEnvironment)) {
+            throw new IllegalStateException();
+        }
+        InteractiveEnvironment environment = (InteractiveEnvironment) this.environment;
+        return environment;
     }
 }

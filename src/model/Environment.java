@@ -2,9 +2,7 @@ package model;
 
 import java.util.List;
 
-import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
-import model.food.insertionstrategy.position.DistributionStrategy;
 import model.state.InitialState;
 import model.state.Position;
 import model.state.State;
@@ -15,27 +13,15 @@ import model.state.State;
  *
  */
 public interface Environment {
-    /**
-     * Add a food in a position.
-     * 
-     * @param food
-     *            to insert.
-     * @param position
-     *            of the food in the environment.
-     * @throws PositionAlreadyOccupiedException
-     *             if the position is already occupied by another food.
-     */
-    void addFood(Food food, Position position);
 
     /**
-     * Add a new type of food in the ExistingFoodManager.
+     * Initialize the environment inserting elements if none are present.
      * 
-     * @param food
-     *            the new type of food.
-     * @throws AlreadyExistingFoodException
-     *             if the food already exist.
+     * @throws IllegalStateException
+     *             if the initial state of the environment in inconsistent with the
+     *             species added to the environment.
      */
-    void addNewTypeOfFood(Food food);
+    void initialize();
 
     /**
      * Get all the existing foods.
@@ -64,12 +50,6 @@ public interface Environment {
     Analysis getAnalysis();
 
     /**
-     * @param species
-     *            add a Species to the simulation.
-     */
-    void addSpecies(SpeciesOptions species);
-
-    /**
      * Get the maximum position in the environment.
      * 
      * @return the maximum position.
@@ -77,27 +57,9 @@ public interface Environment {
     Position getMaxPosition();
 
     /**
-     * Set the distribution strategy for foods. The strategy is Uniform distribution
-     * by default.
-     * 
-     * @param strategy
-     *            the strategy chosen.
-     */
-    void setFoodDistributionStrategy(DistributionStrategy strategy);
-
-    /**
      * @return if the simulation is over.
      */
     boolean isSimulationOver();
-
-    /**
-     * Initialize the environment inserting elements if none are present.
-     * 
-     * @throws IllegalStateException
-     *             if the initial state of the environment in inconsistent with the
-     *             species added to the environment.
-     */
-    void initialize();
 
     /**
      * @return the initial state of the environment.

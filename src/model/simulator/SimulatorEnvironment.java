@@ -10,7 +10,7 @@ import model.Analysis;
 import model.AnalysisImpl;
 import model.Energy;
 import model.EnergyImpl;
-import model.Environment;
+import model.InteractiveEnvironment;
 import model.MutationManager;
 import model.MutationManagerImpl;
 import model.bacteria.species.SpeciesManager;
@@ -33,7 +33,7 @@ import utils.Logger;
  * implementation of Environment.
  *
  */
-public final class SimulatorEnvironment implements Environment {
+public final class SimulatorEnvironment implements InteractiveEnvironment {
     private static final Energy INITIAL_ENERGY = new EnergyImpl(1000.0);
     private static final int FOOD_PER_ROUND = 2;
     private static final double DEFAULT_HEIGHT = 1000.0;
