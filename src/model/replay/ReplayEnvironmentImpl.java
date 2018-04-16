@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import controller.InitialState;
 import model.Analysis;
 import model.EnergyImpl;
 import model.bacteria.species.SpeciesBuilder;
 import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.state.InitialState;
 import model.state.Position;
 import model.state.State;
 

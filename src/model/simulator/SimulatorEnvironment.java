@@ -6,7 +6,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import controller.InitialState;
 import model.Analysis;
 import model.AnalysisImpl;
 import model.Energy;
@@ -23,6 +22,7 @@ import model.food.Food;
 import model.food.FoodEnvironment;
 import model.food.FoodEnvironmentImpl;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.state.InitialState;
 import model.state.Position;
 import model.state.PositionImpl;
 import model.state.State;

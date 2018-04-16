@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import controller.InitialState;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.bacteria.behavior.BehaviorDecoratorOption;
@@ -28,6 +27,7 @@ import model.food.Nutrient;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCodeImpl;
 import model.replay.Replay;
+import model.state.InitialState;
 import model.state.Position;
 import model.state.PositionImpl;
 import model.state.SimpleState;
