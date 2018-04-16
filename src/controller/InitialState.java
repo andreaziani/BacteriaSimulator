@@ -15,9 +15,9 @@ import model.Position;
 import model.PositionImpl;
 import model.State;
 import model.bacteria.Species;
+import model.food.Food;
 import view.model.bacteria.ViewSpecies;
 import view.model.food.CreationViewFoodImpl;
-import view.model.food.SimulationViewFood;
 
 /**
  * Represents all the information needed for a simulation to start.
@@ -106,7 +106,7 @@ public class InitialState {
      * @throws IllegalStateException
      *             if the state has not been set.
      */
-    public Map<PositionImpl, SimpleBacteria> getBacteriaMap() {
+    public Map<Position, SimpleBacteria> getBacteriaMap() {
         return getStateOrIllegalState().getBacteriaMap();
     }
 
@@ -115,7 +115,7 @@ public class InitialState {
      * @throws IllegalStateException
      *             if the state has not been set.
      */
-    public Map<PositionImpl, SimulationViewFood> getFoodMap() {
+    public Map<Position, Food> getFoodMap() {
         return getStateOrIllegalState().getFoodMap();
     }
 
