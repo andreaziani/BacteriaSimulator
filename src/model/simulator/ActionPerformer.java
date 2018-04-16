@@ -3,8 +3,8 @@ package model.simulator;
 import java.util.Optional;
 
 import model.Direction;
-import model.Position;
 import model.bacteria.Bacteria;
+import model.state.Position;
 
 /**
  * Interface whose task is to make each Bacteria perform an Action.
@@ -21,8 +21,9 @@ public interface ActionPerformer {
     /**
      * Perform the action MOVE.
      * @param moveDirection the direction in which the bacteria should move
+     * @param moveDistance the maximum distance the bacteria should move of
      */
-    void move(Direction moveDirection);
+    void move(Direction moveDirection, double moveDistance);
 
     /**
      * Perform the action EAT on the food in given position.

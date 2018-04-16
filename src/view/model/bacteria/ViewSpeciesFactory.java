@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import model.action.ActionType;
 import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.bacteria.species.SpeciesOptions;
 
 /**
  * A class that encapsulate the process of creating a Species from the View
@@ -56,7 +57,7 @@ public class ViewSpeciesFactory {
      *            the decision makers associated with each ActionType.
      * @param decorators
      *            the behavior decorators independent from the action types.
-     * @return a ViewSpecies create from the given parameters.
+     * @return a SpeciesOptions create from the given parameters.
      * @throws SimulationAlreadyStartedExeption
      *             - if the simulation is already started.
      * @throws InvalidSpeciesExeption
@@ -64,9 +65,9 @@ public class ViewSpeciesFactory {
      * @throws AlreadyExistingSpeciesExeption
      *             if a species with that name already exists.
      */
-    public ViewSpecies createSpecies(final String name,
+    public SpeciesOptions createSpecies(final String name,
             final Map<ActionType, Integer> decisionOptions, final List<Boolean> decorators) {
-        return new ViewSpecies(name,
+        return new SpeciesOptions(name,
                 decisionOptions.entrySet().stream().map(x -> decisionOptionsMap.get(x.getKey()).get(x.getValue()))
                         .collect(Collectors.toSet()),
                 decoratorOptionsList.stream().filter(x -> decorators.get(decoratorOptionsList.indexOf(x)))

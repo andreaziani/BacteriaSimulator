@@ -4,13 +4,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import controller.InitialState;
 import model.Analysis;
-import model.Position;
-import model.State;
-import model.bacteria.Species;
+import model.EnergyImpl;
+import model.bacteria.species.SpeciesBuilder;
+import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.state.InitialState;
+import model.state.Position;
+import model.state.State;
 
 /**
  * implementation of ReplayEnvironment.
@@ -24,21 +26,18 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     private Optional<State> currentState;
 
     /**
-     * Creates an environment that returns every states specified by the iterator.
+     * Creates an environment that reproduce an other environment described by a replay.
      * 
-     * @param initialState
-     *            the initial state of the simulation.
-     * @param states
-     *            an iterator of states representing the states of the simulation to
-     *            replay.
-     * @param analysis
-     *            the analysis of the simulation.
+     * @param replay a replay of the simulation.
      */
-    public ReplayEnvironmentImpl(final InitialState initialState, final Iterator<State> states,
-            final Analysis analysis) {
-        this.initialState = initialState;
-        this.states = states;
-        this.analysis = analysis;
+    public ReplayEnvironmentImpl(final Replay replay) {
+        this.initialState = replay.getInitialState();
+        this.states = replay.getStateList()
+                            .stream()
+                            .map(x -> x.reconstructState(
+                                    s -> new SpeciesBuilder(s.getName()).build(), () -> EnergyImpl.ZERO))
+                            .iterator();
+        this.analysis = replay.getAnalysis();
         update();
     }
 
@@ -50,10 +49,6 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     @Override
     public State getState() {
         return currentState.orElseThrow(() -> new IllegalStateException());
-    }
-
-    @Override
-    public void init(final Optional<InitialState> initialState) {
     }
 
     @Override
@@ -71,7 +66,7 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     }
 
     @Override
-    public void addSpecies(final Species species) {
+    public void addSpecies(final SpeciesOptions species) {
         throw new UnsupportedOperationException();
     }
 
@@ -100,4 +95,12 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
         return !states.hasNext();
     }
 
+    @Override
+    public void initialize() {
+    }
+
+    @Override
+    public InitialState getInitialState() {
+        return this.initialState;
+    }
 }

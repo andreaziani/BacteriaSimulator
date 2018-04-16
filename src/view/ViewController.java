@@ -8,9 +8,9 @@ import java.util.Set;
 
 import model.Analysis;
 import model.action.ActionType;
+import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
-import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
 
 /**
@@ -204,7 +204,7 @@ public interface ViewController {
     /**
      * @return a set containing all the species currently present in the simulation.
      */
-    Set<ViewSpecies> getSpecies();
+    Set<SpeciesOptions> getSpecies();
 
     /**
      * Request a reset of the application to its initial state.

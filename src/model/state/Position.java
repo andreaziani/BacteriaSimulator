@@ -1,4 +1,4 @@
-package model;
+package model.state;
 
 /**
  * Interface to manage the coordinates of bacteria and food in the model.

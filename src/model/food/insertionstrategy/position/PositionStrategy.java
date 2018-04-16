@@ -1,6 +1,6 @@
 package model.food.insertionstrategy.position;
 
-import model.Position;
+import model.state.Position;
 
 /**
  * Interface to take a position randomly.

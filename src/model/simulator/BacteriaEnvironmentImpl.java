@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import model.Position;
 import model.bacteria.Bacteria;
+import model.state.Position;
 import utils.EnvironmentUtil;
 
 /**
@@ -102,6 +102,11 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     @Override
     public void markPosition(final Position position, final Bacteria bacteria) {
         this.setPosition(position, bacteria, true);
+    }
+
+    @Override
+    public int getNumberOfBacteria() {
+        return this.bacteria.size();
     }
 
 }

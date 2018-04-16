@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import model.Environment;
-import model.Position;
+import model.state.Position;
 import utils.ConversionsUtil;
 import view.model.food.ViewFood;
 

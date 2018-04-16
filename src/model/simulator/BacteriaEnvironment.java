@@ -4,8 +4,8 @@ import java.util.Map.Entry;
 import java.util.Map;
 import java.util.Set;
 
-import model.Position;
 import model.bacteria.Bacteria;
+import model.state.Position;
 
 /**
  * Interface that represent all Bacteria in the simulation, provide method for its update.
@@ -81,4 +81,6 @@ public interface BacteriaEnvironment {
      * @param bacteria the Bacteria of which clear the position
      */
     void markPosition(Position position, Bacteria bacteria);
+
+    int getNumberOfBacteria();
 }

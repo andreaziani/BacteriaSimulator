@@ -1,4 +1,4 @@
-package model.bacteria;
+package model.bacteria.species;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,11 +24,14 @@ public class SpeciesManagerImpl implements SpeciesManager {
     }
 
     @Override
-    public void addSpecies(final Species species) {
+    public void addSpecies(final SpeciesOptions species) {
         if (speciesMap.containsKey(species.getName())) {
             throw new AlreadyExistingSpeciesExeption();
         }
-        speciesMap.put(species.getName(), species);
+        final SpeciesBuilder builder = new SpeciesBuilder(species.getName());
+        species.getDecisionOptions().forEach(builder::addDecisionMaker);
+        species.getDecoratorOptions().forEach(builder::addDecisionBehaiorDecorator);
+        speciesMap.put(species.getName(), builder.build());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package model;
+package model.state;
 
 import java.util.Collections;
 import java.util.Map;
@@ -13,8 +13,9 @@ import model.food.Food;
  *
  */
 public class StateImpl implements State {
-    private final Map<Position, Food> foodState;
-    private final Map<Position, Bacteria> bacteriaState;
+    private final Map<? extends Position, ? extends Food> foodState;
+    private final Map<? extends Position, ? extends Bacteria> bacteriaState;
+
     /**
      * 
      * @param foodState
@@ -22,7 +23,8 @@ public class StateImpl implements State {
      * @param bacteriaState
      *            the state of bacteria in the environment.
      */
-    public StateImpl(final Map<Position, Food> foodState, final Map<Position, Bacteria> bacteriaState) {
+    public StateImpl(final Map<? extends Position, ? extends Food> foodState,
+            final Map<? extends Position, ? extends Bacteria> bacteriaState) {
         this.foodState = foodState;
         this.bacteriaState = bacteriaState;
     }
@@ -36,7 +38,7 @@ public class StateImpl implements State {
     public Map<Position, Bacteria> getBacteriaState() {
         return Collections.unmodifiableMap(this.bacteriaState);
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(bacteriaState, foodState);

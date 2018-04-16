@@ -2,8 +2,8 @@ package model.food.insertionstrategy.position;
 
 import org.apache.commons.math3.distribution.GeometricDistribution;
 
-import model.Position;
-import model.PositionImpl;
+import model.state.Position;
+import model.state.PositionImpl;
 
 /**
  * Implementation of the strategy that uses a geometric distribution for the

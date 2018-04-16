@@ -1,4 +1,4 @@
-package model.bacteria;
+package model.bacteria.species;
 
 import java.util.Set;
 
@@ -11,12 +11,12 @@ public interface SpeciesManager {
      * Add a Species to the manager.
      * 
      * @param species
-     *            a Species to be added.
+     *            a SpeciesOptions describing Species to be added.
      * @throws AlreadyExistingSpeciesExeption
      *             if the name given to the Species is already associated to another
      *             Species.
      */
-    void addSpecies(Species species);
+    void addSpecies(SpeciesOptions species);
 
     /**
      * @return a Set containing all the Species added to the manager.

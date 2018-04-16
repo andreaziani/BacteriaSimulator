@@ -21,8 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import controller.SimulationState;
+import model.bacteria.species.SpeciesOptions;
 import view.ViewController;
-import view.model.bacteria.ViewSpecies;
 import view.model.food.ViewFood;
 import view.model.food.ViewProvision;
 
@@ -112,7 +112,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     }
 
     @Override
-    public Color getColorFromSpecies(final ViewSpecies species) {
+    public Color getColorFromSpecies(final SpeciesOptions species) {
         return getColorFromColorable(species, speciesColors);
     }
 
@@ -131,7 +131,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      */
     public void update() {
         final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
-        final Set<ViewSpecies> species = viewController.getSpecies();
+        final Set<SpeciesOptions> species = viewController.getSpecies();
         JPanel legendPanel;
         resetContainer();
         legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));

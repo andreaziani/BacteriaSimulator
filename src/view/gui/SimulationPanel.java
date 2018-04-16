@@ -12,7 +12,8 @@ import java.awt.geom.Ellipse2D;
 import java.util.Optional;
 
 import javax.swing.JPanel;
-import utils.Logger;
+
+import view.Radius;
 import view.model.ViewState;
 
 /**
@@ -53,24 +54,24 @@ public class SimulationPanel extends JPanel {
         if (state.isPresent()) {
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
                 g.setColor(colorAssigner.getColorFromFood(e.getValue()));
-                g.fillRect((int) e.getKey().getX(), (int) e.getKey().getY(), e.getValue().getRadius().getXRadius(),
-                        e.getValue().getRadius().getYRadius());
+                final Radius radius = e.getValue().getRadius();
+                g.fillRect((int) e.getKey().getX() - radius.getXRadius(), (int) e.getKey().getY() - radius.getYRadius(), 2 * radius.getXRadius(),
+                        2 * radius.getYRadius());
             });
 
             state.get().getBacteriaState().entrySet().stream().forEach(e -> {
                 // TODO probably there is a better way
                 final Graphics2D g2d = (Graphics2D) g;
-                final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX(), (int) e.getKey().getY(),
-                        e.getValue().getRadius().getXRadius(), e.getValue().getRadius().getYRadius());
+                final Radius radius = e.getValue().getRadius();
+                final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX() - radius.getXRadius(), 
+                        (int) e.getKey().getY() - radius.getYRadius(),
+                        2 * radius.getXRadius(), 2 * radius.getYRadius());
                 g.setColor(colorAssigner.getColorFromSpecies(e.getValue().getSpecies()));
                 g2d.fill(circle);
                 // g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(),
                 // e.getValue().getRadius().getXRadius() + 5,
                 // e.getValue().getRadius().getYRadius() + 5);
             });
-
-            Logger.getLog().info("Bacteria size = " + state.get().getBacteriaState().size());
-            Logger.getLog().info("Food size = " + state.get().getFoodsState().size());
         }
     }
 

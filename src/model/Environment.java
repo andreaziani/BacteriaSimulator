@@ -1,12 +1,13 @@
 package model;
 
 import java.util.List;
-import java.util.Optional;
 
-import controller.InitialState;
-import model.bacteria.Species;
+import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.state.InitialState;
+import model.state.Position;
+import model.state.State;
 
 /**
  * Environment of the simulation, deals with all the actions in the simulation.
@@ -51,14 +52,6 @@ public interface Environment {
     State getState();
 
     /**
-     * Initialize environment.
-     * 
-     * @param initialState
-     *            optional initialState used to initialize the simulation
-     */
-    void init(Optional<InitialState> initialState);
-
-    /**
      * update environment.
      */
     void update();
@@ -74,7 +67,7 @@ public interface Environment {
      * @param species
      *            add a Species to the simulation.
      */
-    void addSpecies(Species species);
+    void addSpecies(SpeciesOptions species);
 
     /**
      * Get the maximum position in the environment.
@@ -96,4 +89,18 @@ public interface Environment {
      * @return if the simulation is over.
      */
     boolean isSimulationOver();
+
+    /**
+     * Initialize the environment inserting elements if none are present.
+     * 
+     * @throws IllegalStateException
+     *             if the initial state of the environment in inconsistent with the
+     *             species added to the environment.
+     */
+    void initialize();
+
+    /**
+     * @return the initial state of the environment.
+     */
+    InitialState getInitialState();
 }

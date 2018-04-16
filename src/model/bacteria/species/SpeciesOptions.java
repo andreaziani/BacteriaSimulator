@@ -1,4 +1,4 @@
-package view.model.bacteria;
+package model.bacteria.species;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,25 +12,25 @@ import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import view.gui.Colorable;
 
 /**
- * Representation of a Species for the View.
+ * Wrapper of options for the creation of a species.
  */
-public class ViewSpecies implements Colorable {
+public class SpeciesOptions implements Colorable {
     private final String name;
     private Set<DecisionMakerOption> decisionOptions = Collections.emptySet();
     private List<BehaviorDecoratorOption> decoratorOptions = Collections.emptyList();
 
     /**
-     * Create a new ViewSpecies, assigning a name and a color.
+     * Create a new SpeciesOptions, assigning a name and a color.
      * 
      * @param name
      *            the name of the species.
      */
-    public ViewSpecies(final String name) {
+    public SpeciesOptions(final String name) {
         this.name = name;
     }
 
     /**
-     * Create a new ViewSpecies, assigning name, color and the components of the
+     * Create a new SpeciesOptions, assigning name, color and the components of the
      * behavior.
      * 
      * @param name
@@ -40,7 +40,7 @@ public class ViewSpecies implements Colorable {
      * @param decoratorOptions
      *            the BehaviorDecorator options.
      */
-    public ViewSpecies(final String name, final Set<DecisionMakerOption> decisionOptions,
+    public SpeciesOptions(final String name, final Set<DecisionMakerOption> decisionOptions,
             final List<BehaviorDecoratorOption> decoratorOptions) {
         this(name);
         this.decisionOptions = new HashSet<>(decisionOptions);
@@ -76,7 +76,7 @@ public class ViewSpecies implements Colorable {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final ViewSpecies other = (ViewSpecies) obj;
+        final SpeciesOptions other = (SpeciesOptions) obj;
         return Objects.equals(this.name, other.name)
                 && this.decisionOptions.containsAll(other.decisionOptions)
                 && other.decisionOptions.containsAll(this.decisionOptions)

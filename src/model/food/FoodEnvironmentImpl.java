@@ -6,13 +6,13 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import model.Position;
 import model.food.insertionstrategy.RandomFoodStrategy;
 import model.food.insertionstrategy.RandomFoodStrategyImpl;
 import model.food.insertionstrategy.position.GeometricDistributionStrategy;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.food.insertionstrategy.position.PositionStrategy;
 import model.food.insertionstrategy.position.RandomPositionStrategy;
+import model.state.Position;
 import utils.EnvironmentUtil;
 import utils.exceptions.PositionAlreadyOccupiedException;
 

@@ -5,6 +5,7 @@ import java.util.Objects;
 import model.Energy;
 import model.EnergyImpl;
 import model.action.Action;
+import model.bacteria.species.Species;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.geneticcode.GeneticCode;
@@ -19,12 +20,12 @@ public class BacteriaImpl implements Bacteria {
     private final int bacteriaId;
     private final GeneticCode geneticCode;
     private final Species species;
-    private final EnergyStorage energyStorage;
+    private final NutrientStorage nutrientStorage;
     private final BacteriaKnowledge knowledge;
 
     /**
      * Construct a Bacteria from a Behavior strategy and a genetic code. This
-     * constructor use a nutrientStorage as a default EnergyStorage strategy.
+     * constructor use a nutrientStorage as a default NutrientStorage strategy.
      * 
      * @param id
      *            a numerical identifier that distinguish each Bacteria present in a
@@ -41,7 +42,7 @@ public class BacteriaImpl implements Bacteria {
         this.bacteriaId = id;
         this.species = species;
         this.geneticCode = initialGeneticCode;
-        this.energyStorage = new NutrientStorage(startingEnergy, this.geneticCode::getEnergyFromNutrient);
+        this.nutrientStorage = new NutrientStorageImpl(startingEnergy, this.geneticCode::getEnergyFromNutrient);
         knowledge = new BacteriaKnowledge(this.geneticCode::getEnergyFromNutrient, this::getActionCost, this::getEnergy,
                 geneticCode::getSpeed);
     }
@@ -103,7 +104,7 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public Energy getEnergy() {
-        return this.energyStorage.getEnergyStored();
+        return this.nutrientStorage.getEnergyStored();
     }
 
     @Override
@@ -113,21 +114,17 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public void spendEnergy(final Energy amount) {
-        this.energyStorage.takeEnergy(amount);
+        this.nutrientStorage.takeEnergy(amount);
     }
 
     @Override
     public void addFood(final Food food) {
-        this.energyStorage.storeFood(food);
+        this.nutrientStorage.storeFood(food);
     }
 
     @Override
     public Food getInternalFood(final FoodFactory factory) {
-        if (this.energyStorage.getClass() != NutrientStorage.class) {
-            throw new IllegalStateException();
-        }
-        final NutrientStorage storage = (NutrientStorage) this.energyStorage;
-        return factory.createFoodFromNutrients(storage.getNutrients());
+        return factory.createFoodFromNutrients(nutrientStorage.getNutrients());
     }
 
     @Override
