@@ -20,6 +20,7 @@ public class AnalysisDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
     public AnalysisDialog(MainFrame mainframe, ViewController controller) {
+        super(mainframe, true);
         Analysis analysis = controller.getController().getAnalysis();
         JPanel pAnalysis = new JPanel();
         pAnalysis.setBackground(Color.WHITE);
@@ -37,6 +38,8 @@ public class AnalysisDialog extends JDialog {
                 }
             }
         });
+        this.add(pAnalysis);
+        pAnalysis.add(bt);
         this.pack();
         this.setVisible(true);
     }
