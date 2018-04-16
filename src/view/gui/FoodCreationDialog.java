@@ -80,7 +80,7 @@ public class FoodCreationDialog extends JDialog {
 
         this.createFood.addActionListener(e -> {
             try {
-                view.addNewTypeOfFood(this.builder.build());
+                view.getController().addNewTypeOfFood(this.builder.build());
                 JOptionPane.showMessageDialog(this, "Successful creation");
                 this.dispose();
                 superPanel.updateFoods();

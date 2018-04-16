@@ -69,7 +69,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         loadSimulation.addActionListener(e -> {
             if (simulationChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
-                    view.loadSimulation(simulationChooser.getSelectedFile().getPath());
+                    view.getController().loadInitialState(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the simulation");
                 } catch (IllegalExtensionExeption ex) {
@@ -82,7 +82,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         saveSimulation.addActionListener(e -> {
             if (simulationChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
-                    view.saveSimulation(simulationChooser.getSelectedFile().getPath());
+                    view.getController().saveInitialState(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to save the simulation");
                 }
@@ -98,7 +98,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         loadReplay.addActionListener(e -> {
             if (replayChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
-                    view.loadReplay(replayChooser.getSelectedFile().getPath());
+                    view.getController().loadReplay(replayChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the replay");
                 } catch (IllegalExtensionExeption ex) {
@@ -111,7 +111,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         saveReplay.addActionListener(e -> {
             if (replayChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
-                    view.saveReplay(replayChooser.getSelectedFile().getPath());
+                    view.getController().saveReplay(replayChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the replay");
                 }
