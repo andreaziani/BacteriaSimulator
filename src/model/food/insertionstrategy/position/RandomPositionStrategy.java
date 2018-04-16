@@ -2,8 +2,8 @@ package model.food.insertionstrategy.position;
 
 import java.util.Random;
 
-import model.Position;
-import model.PositionImpl;
+import model.state.Position;
+import model.state.PositionImpl;
 
 /**
  * Implementation of the strategy that use uniform distribution for the random

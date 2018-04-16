@@ -12,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 import model.Analysis;
+import model.replay.Replay;
 import utils.exceptions.FileFormatException;
 import utils.exceptions.IllegalExtensionExeption;
 

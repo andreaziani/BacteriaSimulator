@@ -3,8 +3,8 @@ package model.simulator;
 import java.util.Optional;
 
 import model.Direction;
-import model.Position;
 import model.bacteria.Bacteria;
+import model.state.Position;
 
 /**
  * Interface whose task is to make each Bacteria perform an Action.

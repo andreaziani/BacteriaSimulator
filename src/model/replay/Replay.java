@@ -1,4 +1,4 @@
-package controller;
+package model.replay;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import controller.InitialState;
 import model.Analysis;
 import model.AnalysisImpl;
-import model.State;
+import model.state.SimpleState;
+import model.state.State;
 
 /**
  * Replay of a simulation, contains a list of serializable states that can be

@@ -6,9 +6,9 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import model.Direction;
-import model.Position;
-import model.PositionImpl;
 import model.simulator.Collidable;
+import model.state.Position;
+import model.state.PositionImpl;
 
 /**
  * 

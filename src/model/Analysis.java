@@ -1,5 +1,7 @@
 package model;
 
+import model.state.State;
+
 /** Final analysis.
  * Interface of Analysis.
  * 

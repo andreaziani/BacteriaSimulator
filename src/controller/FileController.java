@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import model.Analysis;
+import model.replay.Replay;
 
 /**
  * FileController.

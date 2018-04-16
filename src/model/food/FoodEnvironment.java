@@ -2,8 +2,8 @@ package model.food;
 
 import java.util.Map;
 
-import model.Position;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.state.Position;
 
 /**
  * Environment that deals with food operations, allows to enter new food or

@@ -11,8 +11,6 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Position;
-import model.PositionImpl;
 import model.food.ExistingFoodManager;
 import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
@@ -21,6 +19,8 @@ import model.food.FoodEnvironmentImpl;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import model.food.Nutrient;
+import model.state.Position;
+import model.state.PositionImpl;
 import utils.exceptions.AlreadyExistingFoodException;
 import utils.exceptions.PositionAlreadyOccupiedException;
 /**

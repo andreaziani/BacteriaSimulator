@@ -2,7 +2,7 @@ package controller.food;
 
 import java.util.List;
 
-import model.Position;
+import model.state.Position;
 import view.model.food.ViewFood;
 
 /**

@@ -9,12 +9,13 @@ import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.EnergyImpl;
 import model.Environment;
-import model.State;
 import model.bacteria.species.SpeciesBuilder;
 import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.replay.Replay;
 import model.replay.ReplayEnvironmentImpl;
 import model.simulator.SimulatorEnvironment;
+import model.state.State;
 import utils.ConversionsUtil;
 import utils.Logger;
 import utils.exceptions.InvalidSpeciesExeption;
@@ -160,11 +161,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      *            a replay from which to construct a ReplayEnvironment.
      */
     protected void startReplay(final Replay replay) {
-        environment = new ReplayEnvironmentImpl(replay.getInitialState(),
-                replay.getStateList().stream().map(
-                        x -> x.reconstructState(s -> new SpeciesBuilder(s.getName()).build(), () -> EnergyImpl.ZERO))
-                        .iterator(),
-                replay.getAnalysis());
+        environment = new ReplayEnvironmentImpl(replay);
         start();
     }
 

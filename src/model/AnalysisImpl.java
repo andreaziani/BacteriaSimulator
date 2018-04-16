@@ -14,6 +14,8 @@ import java.util.TreeMap;
 
 import model.bacteria.Bacteria;
 import model.bacteria.species.Species;
+import model.state.Position;
+import model.state.State;
 
 /**
  * 

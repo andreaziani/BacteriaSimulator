@@ -1,4 +1,4 @@
-package controller;
+package model.state;
 
 import java.util.List;
 import java.util.Objects;

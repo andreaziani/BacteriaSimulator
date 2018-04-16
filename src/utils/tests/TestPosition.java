@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
 
-import model.Position;
-import model.PositionImpl;
+import model.state.Position;
+import model.state.PositionImpl;
 /**
  * Test Class for position.
  * 

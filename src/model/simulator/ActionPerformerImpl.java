@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import model.Direction;
 import model.Energy;
-import model.Position;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.food.Food;
@@ -12,6 +11,7 @@ import model.food.FoodEnvironment;
 import model.geneticcode.CopyFactory;
 import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;
+import model.state.Position;
 import utils.EnvironmentUtil;
 
 /**

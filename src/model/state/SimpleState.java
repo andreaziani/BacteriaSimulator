@@ -1,4 +1,4 @@
-package controller;
+package model.state;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -9,10 +9,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import model.Energy;
-import model.Position;
-import model.PositionImpl;
-import model.State;
-import model.StateImpl;
 import model.bacteria.BacteriaImpl;
 import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesOptions;

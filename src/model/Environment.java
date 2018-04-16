@@ -7,6 +7,8 @@ import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.state.Position;
+import model.state.State;
 
 /**
  * Environment of the simulation, deals with all the actions in the simulation.

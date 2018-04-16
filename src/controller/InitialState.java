@@ -11,13 +11,15 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import model.Energy;
-import model.Position;
-import model.PositionImpl;
-import model.State;
 import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.FoodImpl;
+import model.state.Position;
+import model.state.PositionImpl;
+import model.state.SimpleBacteria;
+import model.state.SimpleState;
+import model.state.State;
 
 /**
  * Represents all the information needed for a simulation to start.
