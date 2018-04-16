@@ -37,14 +37,14 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
             // if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
-            view.startSimulation();
+            view.getController().start();
             // } else {
             // JOptionPane.showMessageDialog(this, "You must insert one species and one type
             // of food");
             // }
         });
         this.resetSimulation.addActionListener(e -> {
-            view.reset();
+            view.getController().resetSimulation();
             main.notifyUpdate();
         });
         this.add(this.resetSimulation);

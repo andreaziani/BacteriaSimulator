@@ -49,9 +49,9 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
         this.simulationPanel = new SimulationPanel(width, height, legendPanel);
         this.simulationPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
-                if (!view.getFoodsType().isEmpty() && isSimulationRunning) {
+                if (!view.getFoodTypes().isEmpty() && isSimulationRunning) {
                     try {
-                        view.addFood(view.getFoodsType().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
+                        view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
                         JOptionPane.showMessageDialog(simulationPanel, "You have already inserted a food in this position.");
                     }

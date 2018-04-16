@@ -48,7 +48,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         this.foods.setEnabled(false);
         this.view = view;
         this.setStrategy.addActionListener(e -> {
-            view.setDistributionStrategy(this.getSelectedStrategy());
+            view.getController().setDistributionStrategy(this.getSelectedStrategy());
         });
         view.getAvailableDistributionStrategies().forEach(d -> this.strategies.addItem(d));
         this.createSpecies.addActionListener(e -> {
@@ -81,12 +81,12 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
      */
     public void updateFoods() {
         this.foods.removeAllItems();
-        if (view.getFoodsType().isEmpty()) {
+        if (view.getFoodTypes().isEmpty()) {
             this.foods.addItem("Select a Food");
             this.setEnabled(false);
         } else {
             this.foods.setEnabled(true);
-            view.getFoodsName().forEach(f -> this.foods.addItem(f));
+            view.getFoodNames().forEach(f -> this.foods.addItem(f));
         }
         mainFrame.notifyUpdate();
     }

@@ -130,8 +130,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      * method is not thread safe.
      */
     public void update() {
-        final Set<ViewFood> foods = viewController.getFoodsType().stream().collect(Collectors.toSet());
-        final Set<SpeciesOptions> species = viewController.getSpecies();
+        final Set<ViewFood> foods = viewController.getFoodTypes().stream().collect(Collectors.toSet());
+        final Set<SpeciesOptions> species = viewController.getController().getSpecies();
         JPanel legendPanel;
         resetContainer();
         legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
