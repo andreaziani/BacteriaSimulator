@@ -33,8 +33,8 @@ import utils.Logger;
  * implementation of Environment.
  *
  */
+
 public final class SimulatorEnvironment extends AbstractEnvironment implements InteractiveEnvironment {
-    private static final Energy INITIAL_ENERGY = new EnergyImpl(1000.0);
     private static final int FOOD_PER_ROUND = 2;
     private static final double DEFAULT_HEIGHT = 1000.0;
     private static final double DEFAULT_WIDTH = 1000.0;
@@ -42,10 +42,14 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
     private final MutationManager mutManager = new MutationManagerImpl();
     private final ExistingFoodManager foodManager = new ExistingFoodManagerImpl();
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
-    private FoodEnvironment foodEnv = new FoodEnvironmentImpl(this.foodManager, this.getMaxPosition());
-    private BacteriaManager bactManager = new BacteriaManagerImpl(this.foodEnv, this.foodManager, this.getMaxPosition(), this.speciesManager);
+    private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(this.foodManager, this.getMaxPosition());
+    private final BacteriaManager bactManager = new BacteriaManagerImpl(this.foodEnv, this.foodManager, this.getMaxPosition(), this.speciesManager);
     private Optional<State> state;
 
+    /**
+     * The amount of energy a Bacteria should have when created.
+     */
+    public static final Energy INITIAL_ENERGY = new EnergyImpl(700.0);
     /**
      * Create an empty environment.
      */
