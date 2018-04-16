@@ -77,8 +77,8 @@ public class AnalysisImpl implements Analysis {
         return sp;
     }
 
-    private SortedMap<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
-        final SortedMap<Species, Integer> smap = new TreeMap<>();
+    private Map<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
+        final Map<Species, Integer> smap = new HashMap<>();
         for (final Species sp : species) {
             for (final Bacteria bt : bacteria) {
                 if (sp.equals(bt.getSpecies())) {
@@ -101,7 +101,7 @@ public class AnalysisImpl implements Analysis {
     }
 
     private Map<Species, Integer> win(final Set<Species> species, final List<Bacteria> bacteria) {
-        final SortedMap<Species, Integer> smap = numberBySpecies(species, bacteria);
+        final Map<Species, Integer> smap = numberBySpecies(species, bacteria);
         final Map<Species, Integer> wins = new HashMap<>();
         if (!bacteria.isEmpty()) {
             int value = smap.get(bacteria.get(0).getSpecies());
@@ -156,7 +156,7 @@ public class AnalysisImpl implements Analysis {
     }
 
     private String resultNByS() {
-        final SortedMap<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
+        final Map<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
         return toString(nByS);
     }
 
