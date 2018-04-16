@@ -75,7 +75,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                 } catch (IllegalExtensionExeption ex) {
                     JOptionPane.showMessageDialog(this, "The extension of the file was not correct");
                 } catch (FileFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "The selected file does not contain a replay, has been corrupted or use an uoutdated format");
+                    JOptionPane.showMessageDialog(this, "The selected file does not contain a replay, has been corrupted or use an outdated format");
                 }
             }
         });
@@ -104,7 +104,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                 } catch (IllegalExtensionExeption ex) {
                     JOptionPane.showMessageDialog(this, "The extension of the file was not correct");
                 } catch (FileFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "The selected file does not contain a replay, has been corrupted or use an uoutdated format");
+                    JOptionPane.showMessageDialog(this, "The selected file does not contain a replay, has been corrupted or use an outdated format");
                 }
             }
         });
