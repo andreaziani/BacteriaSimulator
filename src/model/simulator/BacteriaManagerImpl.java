@@ -44,6 +44,7 @@ import utils.exceptions.PositionAlreadyOccupiedException;
  *
  */
 public class BacteriaManagerImpl implements BacteriaManager {
+    //private static final int MAX_BACTERIA = 1000;
     private static final Energy INITIAL_ENERGY = new EnergyImpl(10000.0);
     private static final double COST_OF_LIVING = 1.5;
     private static final int BACTERIA_PER_SPECIES = 50;
@@ -59,22 +60,18 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private Optional<Double> maxFoodRadius;
     private Optional<Position> foodPosition;
     private int bacteriaCounter;
-    private long action = 0;
-    private long perception = 0;
 
     /**
      * Constructor.
      * 
-     * @param bacteriaMap
-     *            optional Map used to initialize the environment.
-     * @param species
-     *            existing species used to create the Bacteria
      * @param foodEnv
      *            used to update food environment according to bacteria actions
      * @param manager
      *            food manager used to fast retrieve all kind of food in simulation
      * @param maxPosition
      *            contains information about the maximum position in the simulation
+     * @param speciesManager
+     *            species manager containing information about existing species
      */
     public BacteriaManagerImpl(final FoodEnvironment foodEnv, final ExistingFoodManager manager, final Position maxPosition, final SpeciesManager speciesManager) {
         this.bacteriaCounter = 0;
@@ -88,12 +85,10 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
     @Override
     public void populate(final Optional<Map<Position, Bacteria>> bacteriaState) {
-        Logger.getInstance().info("Bacteria Manager", "Populating simulation...");
+        Logger.getInstance().info("Bacteria Manager", "Populating simulation");
         if (bacteriaState.isPresent()) {
-            Logger.getInstance().info("Bacteria Manager", "Populating from MAP");
             bacteriaState.get().entrySet().stream().forEach(entry -> this.bacteriaEnv.insertBacteria(entry.getKey(), entry.getValue()));
         } else {
-            Logger.getInstance().info("Bacteria Manager", "Populating RANDOM");
             this.speciesManager.getSpecies().stream().forEach(specie -> {
                 final Gene gene = new GeneImpl();
                 IntStream.range(0, BACTERIA_PER_SPECIES)
@@ -108,7 +103,6 @@ public class BacteriaManagerImpl implements BacteriaManager {
                         });
             });
         }
-        Logger.getInstance().info("Bacteria Manager", "Bacteria SIZE = " + this.bacteriaEnv.getBacteriaState().size());
     }
 
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos,
@@ -144,18 +138,15 @@ public class BacteriaManagerImpl implements BacteriaManager {
     }
 
     private Perception createPerception(final Position bacteriaPos, final Map<Position, Food> foodsState) {
-        final long t1 = System.nanoTime();
         this.foodPosition = collidingFood(bacteriaPos, foodsState);
         final Optional<Food> foodInPosition = this.foodPosition.isPresent()
                 ? Optional.of(foodsState.get(this.foodPosition.get()))
                 : Optional.empty();
         final Map<Direction, Double> distsToFood = closestFoodDistances(bacteriaPos, foodsState);
-        this.perception += (System.nanoTime() - t1);
         return new PerceptionImpl(foodInPosition, distsToFood);
     }
 
     private void performAction(final Position bacteriaPos, final Bacteria bacteria) {
-        final long t1 = System.nanoTime();
         actionPerformer.setStatus(bacteriaPos, bacteria);
         final Action action = bacteria.getAction();
         final ActionType actionType = action.getType();
@@ -182,7 +173,6 @@ public class BacteriaManagerImpl implements BacteriaManager {
         } catch (NotEnounghEnergyException e) {
             bacteria.spendEnergy(bacteria.getEnergy());
         }
-        this.action += (System.nanoTime() - t1);
     }
 
     private void costOfLiving(final Bacteria bacteria) {
@@ -227,9 +217,6 @@ public class BacteriaManagerImpl implements BacteriaManager {
      */
     @Override
     public void updateBacteria() {
-        Logger.getInstance().info("BacteriaManager", "Perception " + (this.perception / 1e6) + " ms");
-        Logger.getInstance().info("BacteriaManager", "ActionPerformer " + (this.action / 1e6) + " ms");
-        this.perception = 0; this.action = 0;
         this.updateDeadBacteria();
         this.updateAliveBacteria();
     }
