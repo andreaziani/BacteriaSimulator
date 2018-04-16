@@ -1,16 +1,11 @@
 package view;
 
 import java.awt.Dimension;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import model.Analysis;
+import controller.Controller;
 import model.action.ActionType;
-import model.bacteria.species.SpeciesOptions;
-import model.food.insertionstrategy.position.DistributionStrategy;
-import view.model.ViewPosition;
 import view.model.food.ViewFood;
 
 /**
@@ -19,40 +14,16 @@ import view.model.food.ViewFood;
  */
 public interface ViewController {
     /**
-     * Insert a type of food to a specific location.
-     * 
-     * @param food
-     *            the food to insert.
-     * @param position
-     *            the position of the food.
-     * @throws PositionAlreadyOccupiedException
-     *             if the position is already occupied from another food.
+     * @return the controller of the application that is associated to this View.
      */
-    void addFood(ViewFood food, ViewPosition position);
-
-    /**
-     * Add a new type of food to the types of foods that already exist.
-     * 
-     * @param food
-     *            the new type of food to add.
-     * @throws AlreadyExistingFoodException
-     *             if the food is already created.
-     */
-    void addNewTypeOfFood(ViewFood food);
-
-    /**
-     * Get all types of already existing food.
-     * 
-     * @return all the type of foods created.
-     */
-    List<ViewFood> getFoodsType();
+    Controller getController();
 
     /**
      * Get all names of all types of already existing food.
      * 
      * @return the list of names of all the type of foods created.
      */
-    List<String> getFoodsName();
+    List<String> getFoodNames();
 
     /**
      * Get all types of existing nutrients.
@@ -62,12 +33,11 @@ public interface ViewController {
     List<String> getNutrients();
 
     /**
-     * Show analisys.
+     * Get all types of already existing food.
      * 
-     * @param analysis
-     *            to show.
+     * @return all the type of foods created.
      */
-    void showAnalisys(Analysis analysis);
+    List<ViewFood> getFoodTypes();
 
     /**
      * @return a map associating each ActionType to a list of options for the
@@ -108,77 +78,6 @@ public interface ViewController {
     void setDimension(Dimension dimension);
 
     /**
-     * Try loading a simulation.
-     * 
-     * @param path
-     *            the path of the file to load.
-     * @throws IOException
-     *             in case of a problem.
-     * @throws IllegalExtensionExeption
-     *             if the extension of the file was not valid.
-     * @throws FileFormatException
-     *             if the extension of the file was not valid.
-     */
-    void loadSimulation(String path) throws IOException;
-
-    /**
-     * Save a simulation.
-     * 
-     * @param path
-     *            the path of the file to save into.
-     * @throws IOException
-     *             in case of a problem.
-     */
-    void saveSimulation(String path) throws IOException;
-
-    /**
-     * Load a replay.
-     * 
-     * @param path
-     *            the path of the file to load.
-     * @throws IOException
-     *             in case of a problem.
-     * @throws IllegalExtensionExeption
-     *             if the extension of the file was not valid.
-     * @throws FileFormatException
-     *             if the extension of the file was not valid.
-     */
-    void loadReplay(String path) throws IOException;
-
-    /**
-     * Save a replay.
-     * 
-     * @param path
-     *            the path of the file to save into.
-     * @throws IOException
-     *             in case of a problem.
-     */
-    void saveReplay(String path) throws IOException;
-
-    /**
-     * Save an Analysis.
-     * 
-     * @param path
-     *            the path of the file to save into.
-     * @throws IOException
-     *             in case of a problem.
-     */
-    void saveAnalysis(String path) throws IOException;
-
-    /**
-     * Start the simulation.
-     */
-    void startSimulation();
-
-    /**
-     * Return if the user has not yet entered the species.
-     * 
-     * @return true if the user has not yet entered the species, false in other
-     *         case.
-     */
-    boolean isSpeciesEmpty();
-
-    /**
      * Set the userInterface.
      * 
      * @param userInterface
@@ -192,22 +91,4 @@ public interface ViewController {
      * @return the list of available strategies.
      */
     List<String> getAvailableDistributionStrategies();
-
-    /**
-     * Set the distribution strategy for foods.
-     * 
-     * @param strategy
-     *            the strategy chosen.
-     */
-    void setDistributionStrategy(DistributionStrategy strategy);
-
-    /**
-     * @return a set containing all the species currently present in the simulation.
-     */
-    Set<SpeciesOptions> getSpecies();
-
-    /**
-     * Request a reset of the application to its initial state.
-     */
-    void reset();
 }

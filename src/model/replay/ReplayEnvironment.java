@@ -9,3 +9,4 @@ import model.Environment;
 public interface ReplayEnvironment extends Environment {
 
 }
+//TODO cambia anche i nomi delle eccezioni e le classi finali!
