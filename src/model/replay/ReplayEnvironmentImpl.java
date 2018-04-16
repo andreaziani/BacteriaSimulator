@@ -3,6 +3,7 @@ package model.replay;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import model.Analysis;
 import model.EnergyImpl;
@@ -68,7 +69,7 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
 
     @Override
     public List<Food> getExistingFoods() {
-        throw new UnsupportedOperationException();
+        return initialState.getExistingFood().stream().map(x -> (Food) x).collect(Collectors.toList());
     }
 
     @Override
