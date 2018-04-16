@@ -44,7 +44,7 @@ import utils.exceptions.PositionAlreadyOccupiedException;
  *
  */
 public class BacteriaManagerImpl implements BacteriaManager {
-    private static final Energy INITIAL_ENERGY = new EnergyImpl(1000.0);
+    private static final Energy INITIAL_ENERGY = new EnergyImpl(10000.0);
     private static final double COST_OF_LIVING = 1.5;
     private static final int BACTERIA_PER_SPECIES = 50;
     private final Position simulationMaxPosition;
@@ -100,7 +100,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                         .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()),
                                 rand.nextInt((int) this.simulationMaxPosition.getY())))
                         .forEach(position -> {
-                            final GeneticCode genCode = new GeneticCodeImpl(gene, 10.0, 25.0);
+                            final GeneticCode genCode = new GeneticCodeImpl(gene, 5.0, 25.0);
                             final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode,
                                     INITIAL_ENERGY);
                             bacteriaCounter++;
