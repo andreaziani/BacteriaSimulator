@@ -154,7 +154,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     /**
      * @return the analysis of the simulation.
      */
-    protected Analysis getAnalysis() {
+    public Analysis getAnalysis() {
         return environment.getAnalysis();
     }
 

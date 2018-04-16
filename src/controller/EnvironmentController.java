@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 import java.util.Set;
 
+import model.Analysis;
 import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
@@ -106,4 +107,9 @@ public interface EnvironmentController {
      * a new one.
      */
     void resetSimulation();
+
+    /**
+     * @return analysis of simulation.
+     */
+    Analysis getAnalysis();
 }

@@ -53,7 +53,7 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     }
 
     @Override
-    public synchronized void saveAnalisys(final String path) throws IOException {
+    public synchronized void saveAnalysis(final String path) throws IOException {
         this.fileController.saveAnalysis(path, this.getAnalysis());
     }
     @Override

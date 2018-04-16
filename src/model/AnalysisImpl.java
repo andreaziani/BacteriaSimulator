@@ -77,8 +77,8 @@ public class AnalysisImpl implements Analysis {
         return sp;
     }
 
-    private SortedMap<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
-        final SortedMap<Species, Integer> smap = new TreeMap<>();
+    private Map<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
+        final Map<Species, Integer> smap = new HashMap<>();
         for (final Species sp : species) {
             for (final Bacteria bt : bacteria) {
                 if (sp.equals(bt.getSpecies())) {
@@ -101,7 +101,7 @@ public class AnalysisImpl implements Analysis {
     }
 
     private Map<Species, Integer> win(final Set<Species> species, final List<Bacteria> bacteria) {
-        final SortedMap<Species, Integer> smap = numberBySpecies(species, bacteria);
+        final Map<Species, Integer> smap = numberBySpecies(species, bacteria);
         final Map<Species, Integer> wins = new HashMap<>();
         if (!bacteria.isEmpty()) {
             int value = smap.get(bacteria.get(0).getSpecies());
@@ -134,17 +134,17 @@ public class AnalysisImpl implements Analysis {
             this.speciesA = speciesOfBacteria(this.lafter);
     }
 
-    private String toString(final Map<Species, Integer> mapBacteria) {
+    private <X> String toString(final Set<X> bacteria) {
         final StringBuilder sb = new StringBuilder();
-        final Iterator<Entry<Species, Integer>> iter = mapBacteria.entrySet().iterator();
+        final Iterator<X> iter = bacteria.iterator();
         while (iter.hasNext()) {
-            final Entry<Species, Integer> entry = iter.next();
-            sb.append(entry.getKey());
-            sb.append(':');
-            sb.append(entry.getValue());
+            sb.append(iter.next());
             if (iter.hasNext()) {
                 sb.append(',').append('\n');
             }
+        }
+        if (bacteria.isEmpty()) {
+            sb.append("None");
         }
         return sb.toString();
 
@@ -152,17 +152,17 @@ public class AnalysisImpl implements Analysis {
 
     private String resultWins() {
         final Map<Species, Integer> wins = win(this.speciesB, this.lafter);
-        return toString(wins);
+        return toString(wins.entrySet());
     }
 
     private String resultNByS() {
-        final SortedMap<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
-        return toString(nByS);
+        final Map<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
+        return toString(nByS.entrySet());
     }
 
     private String resultDead() {
         final Set<Species> dead = dead(this.speciesB, this.speciesA);
-        return dead.toString();
+        return toString(dead);
     }
 
     private String resultBactMutated() {
@@ -171,7 +171,7 @@ public class AnalysisImpl implements Analysis {
             bactMutated = listOfBacteriaMutated(this.mutManager.getMutation());
         }
         final Map<Species, Integer> mt = numberBySpecies(this.speciesB, bactMutated);
-        return toString(mt);
+        return toString(mt.entrySet());
     }
 
     @Override
