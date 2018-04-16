@@ -56,6 +56,7 @@ public class ViewImpl implements View, ViewController {
     @Override
     public void showAnalisys(final Analysis analysis) {
         // TODO Auto-generated method stub
+        // TODO new ViewAnalysis();
 
     }
 
