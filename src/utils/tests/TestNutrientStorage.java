@@ -13,7 +13,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import model.EnergyImpl;
-import model.bacteria.NutrientStorage;
+import model.bacteria.NutrientStorageImpl;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
@@ -21,7 +21,7 @@ import model.food.Nutrient;
 import utils.exceptions.NotEnounghEnergyException;
 
 /**
- * Unit test for the NutrientStorage class.
+ * Unit test for the NutrientStorageImpl class.
  */
 public class TestNutrientStorage {
     /**
@@ -30,7 +30,7 @@ public class TestNutrientStorage {
      */
     @Test
     public void testEmpty() {
-        final NutrientStorage storage = new NutrientStorage(n -> (new EnergyImpl(1)));
+        final NutrientStorageImpl storage = new NutrientStorageImpl(n -> (new EnergyImpl(1)));
         assertEquals("The storage should not have energy", 0, storage.getEnergyStored().getAmount(),
                 TestUtils.getDoubleCompareDelta());
         assertTrue("The storage should be empty", storage.getNutrients().isEmpty());
@@ -48,7 +48,7 @@ public class TestNutrientStorage {
      */
     @Test
     public void testStartingEnergy() {
-        final NutrientStorage storage = new NutrientStorage(TestUtils.getLargeEnergy(), TestUtils.allNutrientGood());
+        final NutrientStorageImpl storage = new NutrientStorageImpl(TestUtils.getLargeEnergy(), TestUtils.allNutrientGood());
         assertEquals(TestUtils.getLargeEnergy().getAmount(), storage.getEnergyStored().getAmount(),
                 TestUtils.getDoubleCompareDelta());
         assertEquals("The storage should not have energy equals to " + TestUtils.getLargeEnergy(),
@@ -61,7 +61,7 @@ public class TestNutrientStorage {
      */
     @Test
     public void testNoEnergy() {
-        final NutrientStorage storage = new NutrientStorage(n -> (EnergyImpl.ZERO));
+        final NutrientStorageImpl storage = new NutrientStorageImpl(n -> (EnergyImpl.ZERO));
         storage.storeFood(TestUtils.getAFood());
         assertFalse("The storage should be empty", storage.getNutrients().isEmpty());
         assertEquals("The storage should not have energy", 0, storage.getEnergyStored().getAmount(),
@@ -81,7 +81,7 @@ public class TestNutrientStorage {
      */
     @Test
     public void testStoreFood() {
-        final NutrientStorage storage = new NutrientStorage(n -> (EnergyImpl.ZERO));
+        final NutrientStorageImpl storage = new NutrientStorageImpl(n -> (EnergyImpl.ZERO));
         storage.storeFood(TestUtils.getAFood());
         assertEquals("Food stored should be the same that has been inserted", TestUtils.getAFood(),
                 new FoodFactoryImpl().createFoodFromNutrients(storage.getNutrients()));
@@ -105,7 +105,7 @@ public class TestNutrientStorage {
         nutrients.put(Nutrient.INORGANIC_SALT, 1.0);
         final Food food3 = factory.createFoodFromNutrients(nutrients);
 
-        final NutrientStorage storage = new NutrientStorage(n -> (new EnergyImpl(n.ordinal())));
+        final NutrientStorageImpl storage = new NutrientStorageImpl(n -> (new EnergyImpl(n.ordinal())));
         storage.storeFood(food3);
         assertEquals("Energy stored should corrispond to the energy given",
                 Nutrient.WATER.ordinal() + Nutrient.INORGANIC_SALT.ordinal(), storage.getEnergyStored().getAmount(),
