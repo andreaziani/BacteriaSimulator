@@ -29,16 +29,19 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
      * 
      * @param view
      *            the view controller on which to handle the interactions.
+     * @param main
+     *            the main frame of the application.
      */
     public ChoicesPanel(final ViewController view, final MainFrame main) {
         super();
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
-            //if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
-                view.startSimulation();
-            //} else {
-                //JOptionPane.showMessageDialog(this, "You must insert one species and one type of food");
-            //}
+            // if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
+            view.startSimulation();
+            // } else {
+            // JOptionPane.showMessageDialog(this, "You must insert one species and one type
+            // of food");
+            // }
         });
         this.resetSimulation.addActionListener(e -> {
             view.reset();
@@ -63,19 +66,22 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
                 startSimulation.setEnabled(false);
                 stopSimulation.setEnabled(true);
                 pauseSimulation.setEnabled(true);
+                resetSimulation.setEnabled(false);
                 break;
-            case READY: 
+            case READY:
             case PAUSED:
                 startSimulation.setEnabled(true);
                 pauseSimulation.setEnabled(false);
                 stopSimulation.setEnabled(false);
+                resetSimulation.setEnabled(true);
                 break;
             default:
                 startSimulation.setEnabled(false);
                 stopSimulation.setEnabled(false);
                 pauseSimulation.setEnabled(false);
+                resetSimulation.setEnabled(true);
                 break;
             }
-        }); 
+        });
     }
 }
