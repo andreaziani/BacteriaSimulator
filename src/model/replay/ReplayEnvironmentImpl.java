@@ -101,19 +101,19 @@ public final class ReplayEnvironmentImpl implements ReplayEnvironment {
     @Override
     public void initialize() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setSimulationParameter(Set<Food> existingFood, Set<Species> existingSpecies) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setSimulationState(SimpleState simulationState, Position maxPosition) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

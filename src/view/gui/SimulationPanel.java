@@ -12,7 +12,6 @@ import java.awt.geom.Ellipse2D;
 import java.util.Optional;
 
 import javax.swing.JPanel;
-import utils.Logger;
 import view.model.ViewState;
 
 /**
