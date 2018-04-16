@@ -165,7 +165,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
             switch (actionType) {
             case MOVE:
                 final DirectionalAction moveAction = (DirectionalActionImpl) action;
-                actionPerformer.move(moveAction.getDirection());
+                actionPerformer.move(moveAction.getDirection(), moveAction.getDistance());
                 break;
             case EAT:
                 actionPerformer.eat(this.foodPosition);

@@ -48,12 +48,13 @@ public class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void move(final Direction moveDirection) {
-        final double movement = this.bacterium.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
+    public void move(final Direction moveDirection, final double moveDistance) {
+        final double maximumDistance = this.bacterium.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
+        final double distance = Math.min(moveDistance, maximumDistance);
         this.bactEnv.clearPosition(this.currentPosition, this.bacterium);
 
         final Optional<Position> newPosition = EnvironmentUtil
-                .positionStream((int) Math.ceil(movement), currentPosition, this.simulationMaxPosition)
+                .positionStream((int) Math.ceil(distance), currentPosition, this.simulationMaxPosition)
                 .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(currentPosition, position))
                         .equals(moveDirection))
                 .filter(position -> {
