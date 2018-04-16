@@ -17,10 +17,12 @@ import view.ViewController;
  *
  */
 public class AnalysisDialog extends JDialog {
+
     /**
-     * 
+     * Automatically generated.
      */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 7438374778430885270L;
+
     /**
      * 
      * @param mainframe the MainFrame.
@@ -44,7 +46,7 @@ public class AnalysisDialog extends JDialog {
                 try {
                     controller.getController().saveAnalysis(analysisChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "An error occurred trying to save the analysis ");
+                    JOptionPane.showMessageDialog(this, "An error occurred trying to save the analysis");
                 }
             }
         });

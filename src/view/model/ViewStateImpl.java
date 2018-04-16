@@ -10,7 +10,7 @@ import view.model.food.ViewProvision;
  * Implementation of ViewState.
  *
  */
-public class ViewStateImpl implements ViewState {
+public final class ViewStateImpl implements ViewState {
     private final Map<ViewPosition, ViewProvision> foodsState;
     private final Map<ViewPosition, ViewBacteria> bacteriaState;
 
