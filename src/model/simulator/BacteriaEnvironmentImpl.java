@@ -104,4 +104,9 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
         this.setPosition(position, bacteria, true);
     }
 
+    @Override
+    public int getNumberOfBacteria() {
+        return this.bacteria.size();
+    }
+
 }

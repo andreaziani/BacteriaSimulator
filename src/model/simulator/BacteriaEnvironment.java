@@ -81,4 +81,6 @@ public interface BacteriaEnvironment {
      * @param bacteria the Bacteria of which clear the position
      */
     void markPosition(Position position, Bacteria bacteria);
+
+    int getNumberOfBacteria();
 }
