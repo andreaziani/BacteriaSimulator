@@ -33,8 +33,6 @@ import model.state.PositionImpl;
 import model.state.SimpleState;
 import model.state.State;
 import model.state.StateImpl;
-import view.model.food.CreationViewFoodImpl;
-import view.model.food.CreationViewFoodImpl.ViewFoodBuilder;
 
 /**
  * Tests InitialState, SimpleState and Replay.
