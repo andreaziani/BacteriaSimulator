@@ -42,9 +42,11 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
         initialize();
         this.loop = new SimulationLoop() {
+            private boolean condition;
+
             @Override
             public void run() {
-                boolean condition = true;
+                condition = true;
                 while (condition) {
                     final long start = System.currentTimeMillis();
                     State simulationState;
@@ -70,6 +72,11 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
                 }
                 updateCurrentState(SimulationState.ENDED);
                 replay.setAnalysis(environment.getAnalysis());
+            }
+
+            @Override
+            public void stop() {
+                condition = false;
             }
         };
     }
