@@ -70,6 +70,8 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
         initialState.getSpecies().forEach(this.speciesManager::addSpecies);
         if (initialState.hasState()) {
             initialize();
+        } else {
+            state = Optional.empty();
         }
     }
 
