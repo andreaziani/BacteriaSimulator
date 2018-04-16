@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 import model.AbstractEnvironment;
@@ -132,7 +131,7 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
 
     @Override
     public boolean isSimulationOver() {
-        return getState().getBacteriaState().isEmpty() || new Random().nextBoolean();
+        return getState().getBacteriaState().isEmpty();
     }
 
     @Override

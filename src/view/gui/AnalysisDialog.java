@@ -27,7 +27,7 @@ public class AnalysisDialog extends JDialog {
         pAnalysis.setBackground(Color.WHITE);
         pAnalysis.add(jTextArea);
         jTextArea.setText(analysis.getDescription());
-        jTextArea.setEnabled(false);
+        jTextArea.setEditable(false);
         JButton bt = new JButton("Save Analysis");
         bt.addActionListener(e -> {
             final JFileChooser analysisChooser = new JFileChooser();

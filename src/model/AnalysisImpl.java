@@ -134,17 +134,17 @@ public class AnalysisImpl implements Analysis {
             this.speciesA = speciesOfBacteria(this.lafter);
     }
 
-    private String toString(final Map<Species, Integer> mapBacteria) {
+    private <X> String toString(final Set<X> bacteria) {
         final StringBuilder sb = new StringBuilder();
-        final Iterator<Entry<Species, Integer>> iter = mapBacteria.entrySet().iterator();
+        final Iterator<X> iter = bacteria.iterator();
         while (iter.hasNext()) {
-            final Entry<Species, Integer> entry = iter.next();
-            sb.append(entry.getKey());
-            sb.append(':');
-            sb.append(entry.getValue());
+            sb.append(iter.next());
             if (iter.hasNext()) {
                 sb.append(',').append('\n');
             }
+        }
+        if (bacteria.isEmpty()) {
+            sb.append("None");
         }
         return sb.toString();
 
@@ -152,17 +152,17 @@ public class AnalysisImpl implements Analysis {
 
     private String resultWins() {
         final Map<Species, Integer> wins = win(this.speciesB, this.lafter);
-        return toString(wins);
+        return toString(wins.entrySet());
     }
 
     private String resultNByS() {
         final Map<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
-        return toString(nByS);
+        return toString(nByS.entrySet());
     }
 
     private String resultDead() {
         final Set<Species> dead = dead(this.speciesB, this.speciesA);
-        return dead.toString();
+        return toString(dead);
     }
 
     private String resultBactMutated() {
@@ -171,7 +171,7 @@ public class AnalysisImpl implements Analysis {
             bactMutated = listOfBacteriaMutated(this.mutManager.getMutation());
         }
         final Map<Species, Integer> mt = numberBySpecies(this.speciesB, bactMutated);
-        return toString(mt);
+        return toString(mt.entrySet());
     }
 
     @Override
