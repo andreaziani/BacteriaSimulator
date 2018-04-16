@@ -33,7 +33,7 @@ import utils.Logger;
  *
  */
 public class SimulatorEnvironment implements Environment {
-    private static final int FOOD_PER_ROUND = 2;
+    private static final int FOOD_PER_ROUND = 3;
     // pass on Constructor
     private final ExistingFoodManager manager = new ExistingFoodManagerImpl();
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();

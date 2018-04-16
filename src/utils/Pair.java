@@ -14,8 +14,8 @@ public class Pair<X, Y> {
     private final Y elem2;
     /**
      * 
-     * @param elem1 first elem of the pair.
-     * @param elem2 second elem of the pair.
+     * @param elem1 first element of the pair.
+     * @param elem2 second element of the pair.
      */
     public Pair(final X elem1, final Y elem2) {
         this.elem1 = elem1;

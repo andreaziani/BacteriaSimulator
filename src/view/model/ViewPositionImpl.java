@@ -2,7 +2,8 @@ package view.model;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.tuple.Pair;
+import utils.Pair;
+
 
 
 /**
@@ -21,17 +22,17 @@ public final class ViewPositionImpl implements ViewPosition {
      *            the second coordinate.
      */
     public ViewPositionImpl(final double x, final double y) {
-        this.coordinates = Pair.of(x, y);
+        this.coordinates = new Pair<>(x, y);
     }
 
     @Override
     public double getX() {
-        return this.coordinates.getLeft();
+        return this.coordinates.getFirst();
     }
 
     @Override
     public double getY() {
-        return this.coordinates.getRight();
+        return this.coordinates.getSecond();
     }
 
     @Override
@@ -53,7 +54,7 @@ public final class ViewPositionImpl implements ViewPosition {
 
     @Override
     public String toString() {
-        return " position coordinates= (" + coordinates.getLeft() + " " + coordinates.getRight() + ") ";
+        return " position coordinates= (" + coordinates.getFirst() + " " + coordinates.getSecond() + ") ";
     }
 
 }
