@@ -6,7 +6,6 @@ import java.util.Set;
 import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPosition;
-import view.model.food.CreationViewFoodImpl;
 import view.model.food.ViewFood;
 import view.model.ViewState;
 

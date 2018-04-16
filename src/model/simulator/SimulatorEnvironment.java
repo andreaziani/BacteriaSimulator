@@ -2,10 +2,8 @@ package model.simulator;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 import controller.InitialState;
@@ -16,9 +14,6 @@ import model.EnergyImpl;
 import model.Environment;
 import model.MutationManager;
 import model.MutationManagerImpl;
-import model.bacteria.Bacteria;
-import model.bacteria.species.Species;
-import model.bacteria.species.SpeciesBuilder;
 import model.bacteria.species.SpeciesManager;
 import model.bacteria.species.SpeciesManagerImpl;
 import model.bacteria.species.SpeciesOptions;
@@ -30,17 +25,15 @@ import model.food.FoodEnvironmentImpl;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.state.Position;
 import model.state.PositionImpl;
-import model.state.SimpleState;
 import model.state.State;
 import model.state.StateImpl;
-import utils.ConversionsUtil;
 import utils.Logger;
 
 /**
  * implementation of Environment.
  *
  */
-public class SimulatorEnvironment implements Environment {
+public final class SimulatorEnvironment implements Environment {
     private static final Energy INITIAL_ENERGY = new EnergyImpl(1000.0);
     private static final int FOOD_PER_ROUND = 2;
     private static final double DEFAULT_HEIGHT = 1000.0;
@@ -52,8 +45,8 @@ public class SimulatorEnvironment implements Environment {
     private final Analysis analysis = new AnalysisImpl();
     private final FoodEnvironment foodEnv;
     private BacteriaManager bactManager;
-    private Position maxPosition = new PositionImpl(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    private InitialState initialState;
+    private final Position maxPosition = new PositionImpl(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    private InitialState initialState = new InitialState(this.maxPosition.getX(), this.maxPosition.getY());
     private Optional<State> state;
 
     /**
@@ -62,7 +55,6 @@ public class SimulatorEnvironment implements Environment {
     public SimulatorEnvironment() {
         this.foodEnv = new FoodEnvironmentImpl(this.foodManager, this.maxPosition);
         this.bactManager = new BacteriaManagerImpl(this.foodEnv, this.foodManager, this.maxPosition, this.speciesManager);
-        initialState = new InitialState(this.maxPosition.getX(), this.maxPosition.getY());
         state = Optional.empty();
     }
 

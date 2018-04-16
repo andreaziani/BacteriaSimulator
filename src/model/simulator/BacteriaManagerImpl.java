@@ -20,9 +20,7 @@ import model.action.DirectionalAction;
 import model.action.DirectionalActionImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
-import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesManager;
-import model.bacteria.species.SpeciesManagerImpl;
 import model.food.ExistingFoodManager;
 import model.food.Food;
 import model.food.FoodEnvironment;
@@ -61,7 +59,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private Optional<Double> maxFoodRadius;
     private Optional<Position> foodPosition;
     private int bacteriaCounter;
-    private long action = 0, perception = 0;
+    private long action = 0;
+    private long perception = 0;
 
     /**
      * Constructor.
