@@ -92,7 +92,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
     }
 
     private DistributionStrategy getSelectedStrategy() {
-        return DistributionStrategy.valueOf((String) this.strategies.getSelectedItem());
+        return DistributionStrategy.values()[this.strategies.getSelectedIndex()];
     }
 
     @Override

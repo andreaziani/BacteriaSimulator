@@ -6,11 +6,19 @@ package model.food.insertionstrategy.position;
  */
 public enum DistributionStrategy {
     /**
-     * Geometric distribution strategy.
-     */
-    GEOMETRIC_DISTRIBUTION,
-    /**
      * Uniform distribution strategy.
      */
-    UNIFORM_DISTRIBUTION;
+    UNIFORM_DISTRIBUTION("Uniform distribution"),
+    /**
+     * Geometric distribution strategy.
+     */
+    GEOMETRIC_DISTRIBUTION("Geometric distribution");
+    private final String name;
+    DistributionStrategy(final String name) {
+        this.name = name;
+    }
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

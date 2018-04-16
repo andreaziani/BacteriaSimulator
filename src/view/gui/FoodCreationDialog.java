@@ -123,6 +123,6 @@ public class FoodCreationDialog extends JDialog {
     }
 
     private Nutrient getSelectedNutrient() {
-        return Nutrient.valueOf((String) this.nutrients.getSelectedItem());
+        return Nutrient.values()[this.nutrients.getSelectedIndex()];
     }
 }

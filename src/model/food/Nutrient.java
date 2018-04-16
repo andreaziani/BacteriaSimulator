@@ -8,33 +8,29 @@ public enum Nutrient {
     /**
      * Water.
      */
-    WATER,
+    WATER("Water"),
     /**
      * Carbohydrates.
      */
-    CARBOHYDRATES,
+    CARBOHYDRATES("Carbohydrates"),
     /**
      * Peptones.
      */
-    PEPTONES,
+    PEPTONES("Peptones"),
     /**
      * Hydrolysates.
      */
-    HYDROLYSATES,
+    HYDROLYSATES("Hydrolysates"),
     /**
      * Inorganic salt.
      */
-    INORGANIC_SALT;
-//    /**
-//     * Vitamines.
-//     */
-//    VITAMINES,
-//    /**
-//     * Minerals.
-//     */
-//    MINERALS,
-//    /**
-//     * Proteins.
-//     */
-//    PROTEINS;
+    INORGANIC_SALT("Inorganic salt");
+    private final String name;
+    Nutrient(final String name) {
+        this.name = name;
+    }
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
