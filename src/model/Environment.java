@@ -3,7 +3,6 @@ package model;
 import java.util.List;
 
 import controller.InitialState;
-import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesOptions;
 import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
