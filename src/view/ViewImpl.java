@@ -1,20 +1,15 @@
 package view;
 
 import java.awt.Dimension;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import controller.Controller;
 import controller.SimulationState;
-import model.Analysis;
 import model.action.ActionType;
-import model.bacteria.species.SpeciesOptions;
 import model.food.Nutrient;
 import model.food.insertionstrategy.position.DistributionStrategy;
-import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
 import view.model.bacteria.ViewSpeciesFactory;
@@ -43,30 +38,17 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
+    public Controller getController() {
+        return this.controller;
+    }
+
+    @Override
     public void update(final ViewState state) {
         this.userInterface.update(state);
     }
 
     @Override
-    public void addFood(final ViewFood food, final ViewPosition position) {
-        this.controller.addFoodFromView(food, position);
-
-    }
-
-    @Override
-    public void showAnalisys(final Analysis analysis) {
-        // TODO Auto-generated method stub
-        // TODO new ViewAnalysis();
-
-    }
-
-    @Override
-    public void addNewTypeOfFood(final ViewFood food) {
-        this.controller.addNewTypeOfFood(food);
-    }
-
-    @Override
-    public List<ViewFood> getFoodsType() {
+    public List<ViewFood> getFoodTypes() {
         return this.controller.getExistingViewFoods().stream().collect(Collectors.toList());
     }
 
@@ -87,8 +69,8 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public List<String> getFoodsName() {
-        return this.getFoodsType().stream().map(f -> f.getName()).collect(Collectors.toList());
+    public List<String> getFoodNames() {
+        return this.getFoodTypes().stream().map(f -> f.getName()).collect(Collectors.toList());
     }
 
     @Override
@@ -99,41 +81,6 @@ public class ViewImpl implements View, ViewController {
     @Override
     public void setDimension(final Dimension dimension) {
         this.controller.setMaxViewDimension(new ViewPositionImpl(dimension.width, dimension.height));
-    }
-
-    @Override
-    public void loadSimulation(final String path) throws IOException {
-        controller.loadInitialState(path);
-    }
-
-    @Override
-    public void saveSimulation(final String path) throws IOException {
-        controller.saveInitialState(path);
-    }
-
-    @Override
-    public void loadReplay(final String path) throws IOException {
-        controller.loadReplay(path);
-    }
-
-    @Override
-    public void saveReplay(final String path) throws IOException {
-        controller.saveReplay(path);
-    }
-
-    @Override
-    public void saveAnalysis(final String path) throws IOException {
-        controller.saveAnalisys(path);
-    }
-
-    @Override
-    public void startSimulation() {
-        this.controller.start();
-    }
-
-    @Override
-    public boolean isSpeciesEmpty() {
-        return this.controller.isSpeciesEmpty();
     }
 
     @Override
@@ -153,22 +100,7 @@ public class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void setDistributionStrategy(final DistributionStrategy strategy) {
-        this.controller.setDistributionStrategy(strategy);
-    }
-
-    @Override
     public void updateSimulationState(final SimulationState state) {
         this.userInterface.updateSimulationState(state);
-    }
-
-    @Override
-    public Set<SpeciesOptions> getSpecies() {
-        return this.controller.getSpecies();
-    }
-
-    @Override
-    public void reset() {
-        this.controller.resetSimulation();
     }
 }

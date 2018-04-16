@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import model.Environment;
+import model.InteractiveEnvironment;
 import model.state.Position;
 import utils.ConversionsUtil;
 import view.model.food.ViewFood;
@@ -29,7 +30,8 @@ public final class FoodControllerImpl implements FoodController {
 
     @Override
     public void addFoodFromViewToModel(final ViewFood food, final Position position) {
-        this.env.addFood(ConversionsUtil.viewFoodToFood(food), position);
+        InteractiveEnvironment env = (InteractiveEnvironment) this.env;
+        env.addFood(ConversionsUtil.viewFoodToFood(food), position);
     }
 
     @Override
@@ -41,6 +43,7 @@ public final class FoodControllerImpl implements FoodController {
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
-        this.env.addNewTypeOfFood(ConversionsUtil.viewFoodToFood(food));
+        InteractiveEnvironment env = (InteractiveEnvironment) this.env;
+        env.addNewTypeOfFood(ConversionsUtil.viewFoodToFood(food));
     }
 }
