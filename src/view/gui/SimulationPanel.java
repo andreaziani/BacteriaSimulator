@@ -21,7 +21,7 @@ import view.model.ViewState;
  * Panel that represent the running simulation.
  *
  */
-public class SimulationPanel extends JPanel implements SimulationStateUpdatable {
+public final class SimulationPanel extends JPanel implements SimulationStateUpdatable {
     // private static final int RADIUS = 15;
     // private final Map<Point, Color> foods = new HashMap<>();
     /**
@@ -51,7 +51,7 @@ public class SimulationPanel extends JPanel implements SimulationStateUpdatable 
     }
 
     @Override
-    protected final void paintComponent(final Graphics g) {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         if (state.isPresent() && this.simState != SimulationState.NOT_READY) {
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
