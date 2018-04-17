@@ -13,12 +13,22 @@ import javax.swing.JTextArea;
 import model.Analysis;
 import view.ViewController;
 
+/**
+ * 
+ * @author Gloria
+ *
+ */
+
 public class AnalysisDialog extends JDialog {
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-
+/**
+ * 
+ * @param mainframe
+ * @param controller
+ */
     public AnalysisDialog(MainFrame mainframe, ViewController controller) {
         super(mainframe, true);
         JTextArea jTextArea = new JTextArea();
