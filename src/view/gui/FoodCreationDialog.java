@@ -1,6 +1,8 @@
 package view.gui;
 
 import java.awt.BorderLayout;
+import java.util.Locale;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -100,7 +102,8 @@ public class FoodCreationDialog extends JDialog {
         this.quantity.setEnabled(false);
         this.name.setText("Food1");
         this.quantity.setText("10.00");
-        view.getNutrients().forEach(n -> nutrients.addItem(n));
+        view.getNutrients().forEach(n -> nutrients
+                .addItem(n.substring(0, 1) + n.replaceAll("_", " ").substring(1).toLowerCase(Locale.getDefault())));
     }
 
     private void finalSettings() {

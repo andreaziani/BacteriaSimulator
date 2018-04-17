@@ -2,6 +2,7 @@ package view.model.food;
 
 
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -17,7 +18,7 @@ import model.food.Nutrient;
  */
 public final class CreationViewFoodImpl implements ViewFood {
     private final String name;
-    private final Map<Nutrient, Double> nutrients = new HashMap<>();
+    private final Map<Nutrient, Double> nutrients = new EnumMap<>(Nutrient.class);
 
     /**
      * Constructor package private. A ViewFood can be built only using
