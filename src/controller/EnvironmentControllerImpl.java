@@ -12,7 +12,7 @@ import model.InteractiveEnvironment;
 import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.replay.Replay;
-import model.replay.ReplayEnvironmentImpl;
+import model.replay.ReplayEnvironment;
 import model.simulator.SimulatorEnvironment;
 import model.state.InitialState;
 import model.state.State;
@@ -168,7 +168,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      *            a replay from which to construct a ReplayEnvironment.
      */
     protected void startReplay(final Replay replay) {
-        environment = new ReplayEnvironmentImpl(replay);
+        environment = new ReplayEnvironment(replay);
         start();
     }
 
