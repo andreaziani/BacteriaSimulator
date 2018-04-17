@@ -1,5 +1,4 @@
 package view.gui;
-
 import java.awt.Color;
 import java.io.IOException;
 
@@ -13,32 +12,33 @@ import javax.swing.JTextArea;
 import model.Analysis;
 import view.ViewController;
 
-/**
- * 
- * @author Gloria
- *
- */
-
 public class AnalysisDialog extends JDialog {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
 /**
  * 
  * @param mainframe
  * @param controller
  */
-    public AnalysisDialog(MainFrame mainframe, ViewController controller) {
+public AnalysisDialog(MainFrame mainframe, ViewController controller) {
+
+    private static final long serialVersionUID = 7438374778430885270L;
+
+    /**
+     * 
+     * @param mainframe the MainFrame.
+     * @param controller the ViewController.
+     */
+    public AnalysisDialog(final MainFrame mainframe, final ViewController controller) {
         super(mainframe, true);
-        JTextArea jTextArea = new JTextArea();
-        Analysis analysis = controller.getController().getAnalysis();
-        JPanel pAnalysis = new JPanel();
+        final JTextArea jTextArea = new JTextArea();
+        final Analysis analysis = controller.getController().getAnalysis();
+        final JPanel pAnalysis = new JPanel();
         pAnalysis.setBackground(Color.WHITE);
         pAnalysis.add(jTextArea);
         jTextArea.setText(analysis.getDescription());
         jTextArea.setEditable(false);
-        JButton bt = new JButton("Save Analysis");
+        final JButton bt = new JButton("Save Analysis");
         bt.addActionListener(e -> {
             final JFileChooser analysisChooser = new JFileChooser();
             analysisChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -47,7 +47,7 @@ public class AnalysisDialog extends JDialog {
                 try {
                     controller.getController().saveAnalysis(analysisChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "...");
+                    JOptionPane.showMessageDialog(this, "An error occurred trying to save the analysis");
                 }
             }
         });

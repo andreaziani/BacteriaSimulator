@@ -30,7 +30,7 @@ public final class FoodControllerImpl implements FoodController {
 
     @Override
     public void addFoodFromViewToModel(final ViewFood food, final Position position) {
-        InteractiveEnvironment env = (InteractiveEnvironment) this.env;
+        final InteractiveEnvironment env = (InteractiveEnvironment) this.env;
         env.addFood(ConversionsUtil.viewFoodToFood(food), position);
     }
 
@@ -43,7 +43,7 @@ public final class FoodControllerImpl implements FoodController {
 
     @Override
     public void addNewTypeOfFood(final ViewFood food) {
-        InteractiveEnvironment env = (InteractiveEnvironment) this.env;
+        final InteractiveEnvironment env = (InteractiveEnvironment) this.env;
         env.addNewTypeOfFood(ConversionsUtil.viewFoodToFood(food));
     }
 }

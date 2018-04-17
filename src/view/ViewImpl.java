@@ -20,7 +20,7 @@ import view.model.food.ViewFood;
  * point for the Simulation's Controller.
  *
  */
-public class ViewImpl implements View, ViewController {
+public final class ViewImpl implements View, ViewController {
     private final Controller controller;
     private final ViewSpeciesFactory speciesManager;
     private View userInterface;

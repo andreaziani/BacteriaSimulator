@@ -246,7 +246,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         if (!(this.environment instanceof InteractiveEnvironment)) {
             throw new IllegalStateException();
         }
-        InteractiveEnvironment environment = (InteractiveEnvironment) this.environment;
-        return environment;
+//        InteractiveEnvironment environment = (InteractiveEnvironment) this.environment;
+        return (InteractiveEnvironment) environment;
     }
 }
