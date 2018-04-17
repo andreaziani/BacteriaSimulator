@@ -15,7 +15,7 @@ import utils.exceptions.MissingPerceptionExeption;
 /**
  * Implementation of interface Bacteria.
  */
-public class BacteriaImpl implements Bacteria {
+public final class BacteriaImpl implements Bacteria {
 
     private final int bacteriaId;
     private final GeneticCode geneticCode;

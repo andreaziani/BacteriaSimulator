@@ -12,7 +12,7 @@ import model.food.Food;
 public class PerceptionImpl implements Perception {
     private final Optional<Food> foodInPosition;
     private final Map<Direction, Double> distsToFood;
-    
+
     /**
      * Constructor for the Perception class.
      * @param foodInPosition Optional<Food> that indicate whether a food is present in the given Position

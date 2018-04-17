@@ -9,7 +9,7 @@ import view.Radius;
 /**
  * Implementation of ViewBacteria that uses a SpeciesOptions.
  */
-public class ViewBacteriaImpl implements ViewBacteria {
+public final class ViewBacteriaImpl implements ViewBacteria {
     private final Radius radius;
     private final SpeciesOptions species;
 

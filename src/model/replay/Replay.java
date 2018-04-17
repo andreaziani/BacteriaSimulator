@@ -16,7 +16,7 @@ import model.state.State;
  * Replay of a simulation, contains a list of serializable states that can be
  * used to reconstruct an environment for additional visualization.
  */
-public class Replay {
+public final class Replay {
     private final InitialState initialState;
     private final List<SimpleState> stateList;
     private Optional<AnalysisImpl> analysis;

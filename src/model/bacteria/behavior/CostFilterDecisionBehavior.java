@@ -9,7 +9,7 @@ import model.bacteria.BacteriaKnowledge;
  * A behavior that filters all decisions taken and keeps only the ones the
  * bacteria can execute.
  */
-public class CostFilterDecisionBehavior extends DecisionBehaviorDecorator {
+public final class CostFilterDecisionBehavior extends DecisionBehaviorDecorator {
     /**
      * Construct a new NearFoodMovementDecisionBehavior by taking a delegate. It
      * implements the decorator pattern.

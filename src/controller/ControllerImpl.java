@@ -9,7 +9,7 @@ import view.ViewImpl;
  * Controller implementation.
  *
  */
-public class ControllerImpl extends EnvironmentControllerImpl implements Controller {
+public final class ControllerImpl extends EnvironmentControllerImpl implements Controller {
     private final FileController fileController;
     private View view;
 

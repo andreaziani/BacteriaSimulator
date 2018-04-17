@@ -22,7 +22,7 @@ public abstract class AbstractAction implements Action {
     }
 
     @Override
-    public ActionType getType() {
+    public final ActionType getType() {
         return this.type;
     }
 

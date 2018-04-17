@@ -11,7 +11,7 @@ import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 /**
  * A behavior that moves randomly if the bacteria has no food to move to.
  */
-public class ExplorerDecisionBehavior extends DecisionBehaviorDecorator {
+public final class ExplorerDecisionBehavior extends DecisionBehaviorDecorator {
     /**
      * Construct a new EplorerDecisionBehavior by taking a delegate. It implements
      * the decorator pattern.

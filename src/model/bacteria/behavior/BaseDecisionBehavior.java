@@ -14,7 +14,7 @@ import model.bacteria.behavior.decisionmaker.DecisionMaker;
  * Base implementation of AbstractDecisionBehavior that does not change the
  * decisions taken by its strategies.
  */
-public class BaseDecisionBehavior extends AbstractDecisionBehavior {
+public final class BaseDecisionBehavior extends AbstractDecisionBehavior {
 
     private final Set<DecisionMaker> decisionStrategies;
 

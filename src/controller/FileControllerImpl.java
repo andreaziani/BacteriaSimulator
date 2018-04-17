@@ -20,7 +20,7 @@ import utils.exceptions.IllegalExtensionExeption;
 /**
  * Implementation of FileController.
  */
-public class FileControllerImpl implements FileController {
+public final class FileControllerImpl implements FileController {
 
     private final Gson gson = new Gson();
 

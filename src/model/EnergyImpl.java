@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Implementation of Energy as a wrapper of a double.
  */
-public class EnergyImpl implements Energy {
+public final class EnergyImpl implements Energy {
     /**
      * The Zero Energy.
      */

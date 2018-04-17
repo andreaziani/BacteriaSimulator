@@ -12,7 +12,7 @@ import model.bacteria.BacteriaKnowledge;
  * means that only other preferred actions can compete compete with an action
  * incremented by this class.
  */
-public class PreferentialDecisionBehavior extends DecisionBehaviorDecorator {
+public final class PreferentialDecisionBehavior extends DecisionBehaviorDecorator {
 
     private final ActionType preferred;
 

@@ -31,12 +31,12 @@ public abstract class DecisionBehaviorDecorator extends AbstractDecisionBehavior
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(delegate);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
