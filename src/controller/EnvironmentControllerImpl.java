@@ -180,7 +180,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     @Override
     public synchronized void addNewTypeOfFood(final ViewFood food) {
         this.foodController.addNewTypeOfFood(food);
-        
+
         if (this.currentState == SimulationState.NOT_READY && !this.isSpeciesEmpty()) {
             this.updateCurrentState(SimulationState.READY);
         }
