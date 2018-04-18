@@ -104,7 +104,10 @@ public final class Replay {
             return false;
         }
         final Replay other = (Replay) obj;
-        return Objects.equals(this.initialState, other.initialState) && Objects.equals(this.analysis, other.analysis)
+        return Objects.equals(this.initialState, other.initialState)
+                && ((this.analysis.isPresent() && other.analysis.isPresent())
+                        || (!this.analysis.isPresent() && !other.analysis.isPresent()))
+                && Objects.equals(this.analysis.get().getDescription(), other.analysis.get().getDescription())
                 && this.stateList.equals(other.stateList);
     }
 }
