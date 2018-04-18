@@ -1,6 +1,7 @@
 package model.state;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,8 +26,8 @@ public class StateImpl implements State {
      */
     public StateImpl(final Map<? extends Position, ? extends Food> foodState,
             final Map<? extends Position, ? extends Bacteria> bacteriaState) {
-        this.foodState = foodState;
-        this.bacteriaState = bacteriaState;
+        this.foodState = new HashMap<>(foodState);
+        this.bacteriaState = new HashMap<>(bacteriaState);
     }
 
     @Override
