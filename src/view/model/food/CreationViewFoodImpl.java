@@ -1,6 +1,5 @@
 package view.model.food;
 
-
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -22,8 +21,7 @@ public final class CreationViewFoodImpl implements ViewFood {
     private Map<Nutrient, Double> nutrients = new EnumMap<>(Nutrient.class);
 
     /**
-     * Constructor private. A ViewFood can be built by the user only using
-     * ViewFoodBuilder.
+     * Constructor for food created by users.
      * 
      * @param builder
      *            from which take informations.
@@ -32,7 +30,9 @@ public final class CreationViewFoodImpl implements ViewFood {
         this.name = Optional.of(builder.name);
         builder.nutrients.keySet().stream().forEach(k -> this.nutrients.put(k, builder.nutrients.get(k)));
     }
+
     /**
+     * Constructor for food with possible empty name.
      * 
      * @param name
      *            an optional containing the name of the food.
