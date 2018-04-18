@@ -71,6 +71,9 @@ public final class FileControllerImpl implements FileController {
 
     @Override
     public Replay loadReplay(final String path) throws IOException {
+        if (!isPathCorrect(path, REPLAY_EXTENTION)) {
+            throw new IllegalExtensionExeption();
+        }
         try (JsonReader reader = gson.newJsonReader(new BufferedReader(new FileReader(path)))) {
             reader.beginObject();
             reader.nextName();
@@ -90,7 +93,7 @@ public final class FileControllerImpl implements FileController {
 
     @Override
     public void saveReplay(final String path, final Replay replay) throws IOException {
-        try (JsonWriter writer = gson.newJsonWriter(new BufferedWriter(new FileWriter(path)))) {
+        try (JsonWriter writer = gson.newJsonWriter(new BufferedWriter(new FileWriter(getCorrectedPath(path, REPLAY_EXTENTION))))) {
             writer.beginObject();
             writer.name("initialState");
             gson.toJson(replay.getInitialState(), replay.getInitialState().getClass(), writer);
