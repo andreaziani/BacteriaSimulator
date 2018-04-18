@@ -27,15 +27,19 @@ public final class FileControllerImpl implements FileController {
 
     private final Gson gson = new Gson();
 
-    private <T> T loadFromJsonFile(final String path, final Class<T> objectClass, final String extension) throws IOException {
-        if (!path.endsWith(extension)) {
-            throw new IllegalExtensionExeption();
+    private String getFullExtension(final String extension) {
+        return "." + extension;
+    }
+    private boolean isPathCorrect(final String path, final String extension) {
+        return path.endsWith(getFullExtension(extension));
+    }
+
+    private String getCorrectedPath(final String path, final String extension) {
+        String result = path;
+        if (isPathCorrect(path, extension)) {
+            result += getFullExtension(extension);
         }
-        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
-            return gson.fromJson(reader, objectClass);
-        } catch (JsonIOException | JsonSyntaxException e) {
-            throw new FileFormatException();
-        }
+        return result;
     }
 
     private void saveToTextFile(final String path, final String text) throws IOException {
@@ -44,26 +48,25 @@ public final class FileControllerImpl implements FileController {
         }
     }
 
-    private void saveToJsonFile(final String path, final Object object, final String extension) throws IOException {
-        String correctPath = path;
-        if (!path.endsWith(extension)) {
-            correctPath = path + extension;
-        }
-        try {
-            saveToTextFile(correctPath, gson.toJson(object));
-        } catch (JsonIOException | JsonSyntaxException e) {
-            throw new IOException();
-        }
-    }
-
     @Override
     public InitialState loadInitialState(final String path) throws IOException {
-        return loadFromJsonFile(path, InitialState.class, "." + SIMULATION_EXTENTION);
+        if (!isPathCorrect(path, SIMULATION_EXTENTION)) {
+            throw new IllegalExtensionExeption();
+        }
+        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
+            return gson.fromJson(reader, InitialState.class);
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new FileFormatException();
+        }
     }
 
     @Override
     public void saveInitialState(final String path, final InitialState initialState) throws IOException {
-        saveToJsonFile(path, initialState, "." + SIMULATION_EXTENTION);
+        try {
+            saveToTextFile(getCorrectedPath(path, SIMULATION_EXTENTION), gson.toJson(initialState));
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new IOException();
+        }
     }
 
     @Override
@@ -83,7 +86,6 @@ public final class FileControllerImpl implements FileController {
             reader.endObject();
             return result;
         }
-        //return loadFromJsonFile(path, Replay.class, "." + REPLAY_EXTENTION);
     }
 
     @Override
@@ -100,7 +102,6 @@ public final class FileControllerImpl implements FileController {
             writer.endArray();
             writer.endObject();
         }
-        //saveToJsonFile(path, replay, "." + REPLAY_EXTENTION);
     }
 
     @Override
