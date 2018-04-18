@@ -69,13 +69,18 @@ public final class FileControllerImpl implements FileController {
     @Override
     public Replay loadReplay(final String path) throws IOException {
         try (JsonReader reader = gson.newJsonReader(new BufferedReader(new FileReader(path)))) {
+            reader.beginObject();
+            reader.nextName();
             final Replay result = new Replay(gson.fromJson(reader, InitialState.class));
+            reader.nextName();
             result.setAnalysis(gson.fromJson(reader, AnalysisImpl.class));
+            reader.nextName();
             reader.beginArray();
             while (reader.hasNext()) {
                 result.addSimpleState(gson.fromJson(reader, SimpleState.class));
             }
             reader.endArray();
+            reader.endObject();
             return result;
         }
         //return loadFromJsonFile(path, Replay.class, "." + REPLAY_EXTENTION);
@@ -84,11 +89,16 @@ public final class FileControllerImpl implements FileController {
     @Override
     public void saveReplay(final String path, final Replay replay) throws IOException {
         try (JsonWriter writer = gson.newJsonWriter(new BufferedWriter(new FileWriter(path)))) {
+            writer.beginObject();
+            writer.name("initialState");
             gson.toJson(replay.getInitialState(), replay.getInitialState().getClass(), writer);
+            writer.name("analysis");
             gson.toJson(replay.getAnalysis(), replay.getAnalysis().getClass(), writer);
+            writer.name("stateList");
             writer.beginArray();
             replay.getStateList().forEach(s -> gson.toJson(s, s.getClass(), writer));
-            writer.beginArray();
+            writer.endArray();
+            writer.endObject();
         }
         //saveToJsonFile(path, replay, "." + REPLAY_EXTENTION);
     }

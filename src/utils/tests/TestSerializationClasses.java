@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import model.Analysis;
 import model.AnalysisImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
