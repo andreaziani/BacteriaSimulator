@@ -28,7 +28,7 @@ public class AnalysisDialog extends JDialog {
      * @param mainframe the MainFrame.
      * @param controller the ViewController.
      */
-    public AnalysisDialog(final MainFrame mainframe, final ViewController controller) {
+    public AnalysisDialog(final UserInterface mainframe, final ViewController controller) {
         super(mainframe, true);
         final JTextArea jTextArea = new JTextArea();
         final Analysis analysis = controller.getController().getAnalysis();

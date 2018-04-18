@@ -32,7 +32,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
      * @param main
      *            the main frame of the application.
      */
-    public ChoicesPanel(final ViewController view, final MainFrame main) {
+    public ChoicesPanel(final ViewController view, final UserInterface main) {
         super();
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {

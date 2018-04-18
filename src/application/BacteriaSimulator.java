@@ -3,7 +3,7 @@ package application;
 import controller.Controller;
 import controller.ControllerImpl;
 import view.ViewImpl;
-import view.gui.MainFrame;
+import view.gui.UserInterface;
 
 /**
  *test main class.
@@ -19,7 +19,7 @@ public final class BacteriaSimulator {
     }
 
     private void start() {
-        final MainFrame frame = new MainFrame(view);
+        final UserInterface frame = new UserInterface(view);
         this.view.setUserInterface(frame);
     }
 

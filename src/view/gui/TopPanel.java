@@ -48,7 +48,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
      * @param main
      *            frame that's call this panel.
      */
-    public TopPanel(final ViewController view, final MainFrame main) {
+    public TopPanel(final ViewController view, final UserInterface main) {
         super(new BorderLayout());
         this.help.addActionListener(e -> {
             new HelpDialog(main);

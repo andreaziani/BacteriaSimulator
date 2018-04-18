@@ -47,7 +47,7 @@ public class SpeciesCreationDialog extends JDialog {
      * @param main
      *            the JFrame that will be blocked by this dialog.
      */
-    public SpeciesCreationDialog(final ViewController view, final MainFrame main) {
+    public SpeciesCreationDialog(final ViewController view, final UserInterface main) {
         super(main, true);
         this.setTitle("Create a Species");
         this.view = view;
@@ -99,7 +99,7 @@ public class SpeciesCreationDialog extends JDialog {
         this.setVisible(true);
     }
 
-    private void createSpecies(final MainFrame main) {
+    private void createSpecies(final UserInterface main) {
         try {
             if (txtName.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Name not valid");

@@ -22,9 +22,9 @@ import view.model.ViewState;
 
 /**
  * 
- * Main Frame of GUI.
+ * Represent the Main Frame of GUI and the entry-point for the user.
  */
-public class MainFrame extends JFrame implements View, SimulationStateUpdatable {
+public class UserInterface extends JFrame implements View, SimulationStateUpdatable {
     /**
      * Automatically generated.
      */
@@ -37,11 +37,14 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     private final SimulationPanel simulationPanel;
     private final TopPanel topPanel;
     private final ViewController view;
+
     /**
      * Constructor the MainFrame by passing a View.
-     * @param view the View with which to interact.
+     * 
+     * @param view
+     *            the View with which to interact.
      */
-    public MainFrame(final ViewController view) {
+    public UserInterface(final ViewController view) {
         super("Bacteria Simulator");
         this.view = view;
         topPanel = new TopPanel(this.view, this);
@@ -51,9 +54,11 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
             public void mouseClicked(final MouseEvent e) {
                 if (!view.getFoodTypes().isEmpty() && isSimulationRunning) {
                     try {
-                        view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
+                        view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()),
+                                new ViewPositionImpl(e.getX(), e.getY()));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
-                        JOptionPane.showMessageDialog(simulationPanel, "You have already inserted a food in this position.");
+                        JOptionPane.showMessageDialog(simulationPanel,
+                                "You have already inserted a food in this position.");
                     }
                 }
 
@@ -78,6 +83,7 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     public final void updateExistingFoods() {
         this.topPanel.updateFoods();
     }
+
     private void viewSettings() {
         this.setSize(width, height);
         this.view.setDimension(this.simulationPanel.getSize());
