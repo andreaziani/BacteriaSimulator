@@ -36,7 +36,7 @@ public final class FileControllerImpl implements FileController {
 
     private String getCorrectedPath(final String path, final String extension) {
         String result = path;
-        if (isPathCorrect(path, extension)) {
+        if (!isPathCorrect(path, extension)) {
             result += getFullExtension(extension);
         }
         return result;
