@@ -18,7 +18,7 @@ import model.state.State;
  */
 public final class Replay {
     private final InitialState initialState;
-    private final List<SimpleState> stateList;
+    private final transient List<SimpleState> stateList;
     private Optional<AnalysisImpl> analysis;
 
     /**
@@ -33,10 +33,8 @@ public final class Replay {
     public Replay(final InitialState initialState) {
         this.initialState = initialState;
         this.stateList = new ArrayList<>();
-        try {
+        if (initialState.hasState()) {
             stateList.add(initialState.getState());
-        } catch (IllegalStateException e) {
-            throw new IllegalArgumentException();
         }
     }
 
@@ -55,6 +53,17 @@ public final class Replay {
      */
     public void addState(final State state) {
         stateList.add(new SimpleState(state, initialState.getSpecies()));
+    }
+
+    /**
+     * @param state
+     *            a simple state to be inserted as the next element of the replay.
+     *            No check is made to assert that this state is compatible with the
+     *            initial state of this replay. This method is used by a
+     *            deserializer.
+     */
+    public void addSimpleState(final SimpleState state) {
+        stateList.add(state);
     }
 
     /**
@@ -95,6 +104,7 @@ public final class Replay {
             return false;
         }
         final Replay other = (Replay) obj;
-        return Objects.equals(this.initialState, other.initialState) && Objects.equals(this.analysis, other.analysis) && this.stateList.equals(other.stateList);
+        return Objects.equals(this.initialState, other.initialState) && Objects.equals(this.analysis, other.analysis)
+                && this.stateList.equals(other.stateList);
     }
 }
