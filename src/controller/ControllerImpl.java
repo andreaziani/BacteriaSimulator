@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 
 import view.View;
-import view.ViewImpl;
 
 /**
  * Controller implementation.
@@ -27,7 +26,7 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     }
 
     @Override
-    public synchronized void setView(final ViewImpl view) {
+    public synchronized void setView(final View view) {
         this.view = view;
     }
 

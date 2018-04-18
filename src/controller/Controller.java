@@ -2,7 +2,7 @@ package controller;
 
 import java.io.IOException;
 
-import view.ViewImpl;
+import view.View;
 
 /**
  * Controller.
@@ -75,5 +75,5 @@ public interface Controller extends EnvironmentController {
      * @param view
      *            the view to be linked to the controller
      */
-    void setView(ViewImpl view);
+    void setView(View view);
 }
