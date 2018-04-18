@@ -18,7 +18,7 @@ import model.state.State;
  */
 public final class Replay {
     private final InitialState initialState;
-    private final transient List<SimpleState> stateList;
+    private final List<SimpleState> stateList;
     private Optional<AnalysisImpl> analysis;
 
     /**
