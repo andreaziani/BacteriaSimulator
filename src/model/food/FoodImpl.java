@@ -13,7 +13,7 @@ import java.util.Set;
  *
  */
 public final class FoodImpl implements Food {
-    private static final double RADIUS = 3.5;
+    private static final double RADIUS = 4.0;
     private final Optional<String> name;
     private final Map<Nutrient, Double> nutrients;
 
@@ -25,19 +25,8 @@ public final class FoodImpl implements Food {
      * @param nutrients
      *            the nutrients of the food.
      */
-    public FoodImpl(final String name, final Map<Nutrient, Double> nutrients) {
-        this.name = Optional.of(name);
-        this.nutrients = nutrients;
-    }
-
-    /**
-     * Constructor of food from nutrients.
-     * 
-     * @param nutrients
-     *            the nutrients of the food.
-     */
-    public FoodImpl(final Map<Nutrient, Double> nutrients) {
-        this.name = Optional.empty();
+    public FoodImpl(final Optional<String> name, final Map<Nutrient, Double> nutrients) {
+        this.name = name;
         this.nutrients = nutrients;
     }
 
