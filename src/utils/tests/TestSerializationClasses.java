@@ -2,9 +2,11 @@ package utils.tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -14,6 +16,7 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
+import model.AnalysisImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.bacteria.behavior.BehaviorDecoratorOption;
@@ -38,6 +41,7 @@ import model.state.StateImpl;
  * Tests InitialState, SimpleState and Replay.
  */
 public class TestSerializationClasses {
+    private static final int NUM_STATES_IN_REPLAY = 100;
     private static final String SPECIES_NAME2 = "Other species name";
     private static final String SPECIES_NAME1 = "SpeciesName";
 
@@ -98,27 +102,52 @@ public class TestSerializationClasses {
     public void testJsonSerialization() {
         final Gson gson = new Gson();
         String json = gson.toJson(new SimpleState(state, fullInitialState.getSpecies()));
-        assertEquals("state constructed from json should equals to the original",
+        assertEquals("state constructed from json should equals the original",
                 new SimpleState(state, fullInitialState.getSpecies()), gson.fromJson(json, SimpleState.class));
 
         json = gson.toJson(noStateInitialState);
-        assertEquals("initial state constructed from json should equals to the original", noStateInitialState,
+        assertEquals("initial state constructed from json should equals the original", noStateInitialState,
                 gson.fromJson(json, InitialState.class));
 
         json = gson.toJson(noStateInitialState);
-        assertEquals("initial state constructed from json should equals to the original", noStateInitialState,
+        assertEquals("initial state constructed from json should equals the original", noStateInitialState,
                 gson.fromJson(json, InitialState.class));
 
         final Replay replay = new Replay(fullInitialState);
+        replay.setAnalysis(new AnalysisImpl("analysis result"));
         json = gson.toJson(replay);
-        assertEquals("replay constructed from json should equals to the original", replay,
+        assertEquals("replay constructed from json should equals the original", replay,
                 gson.fromJson(json, Replay.class));
         replay.addState(state);
         json = gson.toJson(replay);
-        assertEquals("replay constructed from json should equals to the original", replay,
+        assertEquals("replay constructed from json should equals the original", replay,
                 gson.fromJson(json, Replay.class));
     }
 
+    /**
+     * Test of an alternative way of serializing a replay that can be done without explicitly constructing the json string of the entire replay.
+     */
+    @Test
+    public void testReplaySerialization() {
+        final Gson gson = new Gson();
+        final Replay replay = new Replay(fullInitialState);
+        for (int i = 0; i < NUM_STATES_IN_REPLAY; i++) {
+            replay.addState(state);
+        }
+        replay.setAnalysis(new AnalysisImpl("analysis result"));
+        final List<String> strings = new ArrayList<>();
+        strings.add(gson.toJson(replay.getInitialState(), replay.getInitialState().getClass()));
+        strings.add(gson.toJson(replay.getAnalysis(), replay.getAnalysis().getClass()));
+        replay.getStateList().forEach(s -> strings.add(gson.toJson(s, s.getClass())));
+
+        final Replay reconstructed = new Replay(gson.fromJson(strings.get(0), InitialState.class));
+        reconstructed.setAnalysis(gson.fromJson(strings.get(1), AnalysisImpl.class));
+        for (int i = 0; i < NUM_STATES_IN_REPLAY; i++) {
+            reconstructed.addSimpleState(gson.fromJson(strings.get(i + 2), SimpleState.class));
+        }
+        assertEquals("replay reconstructed should equals the original", replay,
+                reconstructed);
+    }
     /**
      * Tests that a conversion from a state into a SimpleState has no loss of
      * informations and tests that an InitialState does the conversion correctly.
