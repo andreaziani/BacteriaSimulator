@@ -22,7 +22,7 @@ import view.model.ViewState;
 import view.model.ViewStateImpl;
 import view.model.bacteria.ViewBacteria;
 import view.model.bacteria.ViewBacteriaImpl;
-import view.model.food.SimulationViewFood;
+import view.model.food.CreationViewFoodImpl;
 import view.model.food.ViewFood;
 import view.model.food.ViewProvision;
 import view.model.food.ViewProvisionImpl;
@@ -45,7 +45,7 @@ public final class ConversionsUtil {
     public static ViewFood foodToViewFood(final Food food) {
         final Map<Nutrient, Double> nutrients = new HashMap<>();
         food.getNutrients().forEach(n -> nutrients.put(n, food.getQuantityFromNutrient(n)));
-        return new SimulationViewFood(Optional.ofNullable(food.getName()), nutrients);
+        return new CreationViewFoodImpl(Optional.ofNullable(food.getName()), nutrients);
     }
 
     /**
