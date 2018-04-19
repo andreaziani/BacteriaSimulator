@@ -1,8 +1,9 @@
-package model;
+package model.bacteria;
 /**
  *An exception representing a failure in spending a required amount of energy. 
+ *Enough 
  */
-public class NotEnounghEnergyException extends RuntimeException {
+public class NotEnoughEnergyException extends RuntimeException {
 
     /**
      * Automatically generated.

@@ -38,8 +38,8 @@ public interface Energy extends Comparable<Energy> {
     Energy multiply(double amount);
 
     /**
-     * @return a new Energy which amount is equals to additive inverse of this
+     * @return a new Energy which amount is equals to the opposite of this
      *         object's amount.
      */
-    Energy invert();
+    Energy opposite();
 }

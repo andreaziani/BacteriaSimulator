@@ -1,4 +1,4 @@
-package model;
+package model.bacteria;
 
 /**
  * Exeption signaling the absence of a Perception for a Bacteria when asked to

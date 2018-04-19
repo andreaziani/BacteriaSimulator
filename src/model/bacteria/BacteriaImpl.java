@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import model.Energy;
 import model.EnergyImpl;
-import model.MissingPerceptionExeption;
 import model.action.Action;
 import model.bacteria.species.Species;
 import model.food.Food;
@@ -143,8 +142,8 @@ public final class BacteriaImpl implements Bacteria {
 
     @Override
     public String toString() {
-        return "Bacteria:[ID = " + this.bacteriaId + ", Specie = " + this.species.getName() + ", Energy = "
-                + this.getEnergy().toString() + "]";
+        return "ID = " + this.bacteriaId + ", Species = " + this.species.getName() + ", Energy = "
+                + this.getEnergy().toString();
     }
 
 }

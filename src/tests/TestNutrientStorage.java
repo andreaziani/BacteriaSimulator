@@ -1,4 +1,4 @@
-package utils.tests;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,7 +13,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import model.EnergyImpl;
-import model.NotEnounghEnergyException;
+import model.bacteria.NotEnoughEnergyException;
 import model.bacteria.NutrientStorage;
 import model.bacteria.NutrientStorageImpl;
 import model.food.Food;
@@ -35,7 +35,7 @@ public class TestNutrientStorage {
         assertEquals("The storage should not have energy", 0, storage.getEnergyStored().getAmount(),
                 TestUtils.getDoubleCompareDelta());
         assertTrue("The storage should be empty", storage.getNutrients().isEmpty());
-        assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
+        assertThrows(NotEnoughEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
         try {
             storage.takeEnergy(EnergyImpl.ZERO);
         } catch (Exception e) {
@@ -67,13 +67,13 @@ public class TestNutrientStorage {
         assertFalse("The storage should be empty", storage.getNutrients().isEmpty());
         assertEquals("The storage should not have energy", 0, storage.getEnergyStored().getAmount(),
                 TestUtils.getDoubleCompareDelta());
-        assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
+        assertThrows(NotEnoughEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
 
         storage.storeFood(TestUtils.getNotEqualFood(TestUtils.getAFood()));
         assertFalse("The storage should not be empty", storage.getNutrients().isEmpty());
         assertEquals("The storage should not have energy", 0, storage.getEnergyStored().getAmount(),
                 TestUtils.getDoubleCompareDelta());
-        assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
+        assertThrows(NotEnoughEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
     }
 
     /**
@@ -126,6 +126,6 @@ public class TestNutrientStorage {
         }
         assertEquals("Energy stored should be zero", 0, storage.getEnergyStored().getAmount(),
                 TestUtils.getDoubleCompareDelta());
-        assertThrows(NotEnounghEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
+        assertThrows(NotEnoughEnergyException.class, () -> storage.takeEnergy(new EnergyImpl(1)));
     }
 }
