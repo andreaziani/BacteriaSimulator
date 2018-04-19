@@ -11,6 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.FileController;
@@ -151,10 +152,12 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     public final void updateSimulationState(final SimulationState state) {
         this.speciesAndFood.updateSimulationState(state);
         this.choicesPanel.updateSimulationState(state);
-        if (state == SimulationState.ENDED) {
-            this.saveReplay.setEnabled(true);
-        } else {
-            this.saveReplay.setEnabled(false);
-        }
+        SwingUtilities.invokeLater(() -> {
+            if (state == SimulationState.ENDED) {
+                this.saveReplay.setEnabled(true);
+            } else {
+                this.saveReplay.setEnabled(false);
+            } 
+        });
     }
 }

@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import controller.SimulationState;
 import model.PositionAlreadyOccupiedException;
@@ -104,7 +105,7 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
         this.isSimulationRunning = (state == SimulationState.RUNNING);
 
         if (state == SimulationState.ENDED) {
-            new AnalysisDialog(this, this.view);
+            SwingUtilities.invokeLater(() -> new AnalysisDialog(this, this.view));
         }
     }
 
