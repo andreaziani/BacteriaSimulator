@@ -48,6 +48,7 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
         this.setLayout(new FlowLayout());
         this.setOpaque(true);
         this.setBackground(Color.WHITE);
+        this.setVisible(true);
     }
 
     @Override
@@ -57,17 +58,17 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
                 g.setColor(colorAssigner.getColorFromFood(e.getValue()));
                 final Radius radius = e.getValue().getRadius();
-                g.fillRect((int) e.getKey().getX() - radius.getXRadius(), (int) e.getKey().getY() - radius.getYRadius(), 2 * radius.getXRadius(),
-                        2 * radius.getYRadius());
+                g.fillRect((int) e.getKey().getX() - radius.getXRadius(), (int) e.getKey().getY() - radius.getYRadius(),
+                        2 * radius.getXRadius(), 2 * radius.getYRadius());
             });
 
             state.get().getBacteriaState().entrySet().stream().forEach(e -> {
                 // TODO probably there is a better way
                 final Graphics2D g2d = (Graphics2D) g;
                 final Radius radius = e.getValue().getRadius();
-                final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX() - radius.getXRadius(), 
-                        (int) e.getKey().getY() - radius.getYRadius(),
-                        2 * radius.getXRadius(), 2 * radius.getYRadius());
+                final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX() - radius.getXRadius(),
+                        (int) e.getKey().getY() - radius.getYRadius(), 2 * radius.getXRadius(),
+                        2 * radius.getYRadius());
                 g.setColor(colorAssigner.getColorFromSpecies(e.getValue().getSpecies()));
                 g2d.fill(circle);
                 // g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(),
@@ -83,8 +84,8 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
      * @param state
      *            the state of the objects in the simulation.
      */
-    public void setState(final ViewState state) {
-        this.state = Optional.of(state);
+    public void setState(final Optional<ViewState> state) {
+        this.state = state;
     }
 
     @Override
