@@ -19,7 +19,7 @@ import model.food.FoodImpl;
 /**
  * Represents all the information needed for a simulation to start.
  */
-public class InitialState {
+public final class InitialState {
     private Optional<SimpleState> state;
     private final List<FoodImpl> existingFood;
     private final Set<SpeciesOptions> species;

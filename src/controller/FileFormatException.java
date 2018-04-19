@@ -1,4 +1,4 @@
-package utils.exceptions;
+package controller;
 
 /**
  * Exception that represents an attempt to read an object of a specific class

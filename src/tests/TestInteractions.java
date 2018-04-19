@@ -1,4 +1,4 @@
-package utils.tests;
+package tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -9,9 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import controller.Controller;
 import controller.ControllerImpl;
+import model.AlreadyExistingFoodException;
+import model.PositionAlreadyOccupiedException;
 import model.food.Nutrient;
-import utils.exceptions.AlreadyExistingFoodException;
-import utils.exceptions.PositionAlreadyOccupiedException;
 import view.ViewController;
 import view.ViewImpl;
 import view.model.ViewPosition;

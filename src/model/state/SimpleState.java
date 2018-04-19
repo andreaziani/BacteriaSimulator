@@ -22,7 +22,7 @@ import utils.Pair;
  * Simplification of a SimpleState object that maintains only useful information
  * for saving and loading simulations and is easily serializable via json.
  */
-public class SimpleState {
+public final class SimpleState {
     private final Set<Pair<PositionImpl, SimpleBacteria>> bacterias;
     private final Set<Pair<PositionImpl, FoodImpl>> foods;
 

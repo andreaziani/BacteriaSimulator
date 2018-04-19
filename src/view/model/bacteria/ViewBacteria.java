@@ -7,7 +7,6 @@ import view.Radius;
 
 /**
  * Representation of a Bacteria for the View.
- *
  */
 public interface ViewBacteria {
     /**

@@ -1,14 +1,15 @@
 package view.gui;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
 
 /**
  * 
@@ -20,10 +21,9 @@ public class HelpDialog extends JDialog {
      * Automatically generated.
      */
     private static final long serialVersionUID = -8816763436346148360L;
-    private final File file = new File("help.txt");
     private final JPanel panel = new JPanel();
     private final JTextArea text = new JTextArea();
-
+    private final InputStream url = Thread.currentThread().getContextClassLoader().getResourceAsStream("help.txt");
     /**
      * 
      * @param main
@@ -31,7 +31,7 @@ public class HelpDialog extends JDialog {
      */
     public HelpDialog(final JFrame main) {
         super(main, "Help", true);
-        try (BufferedReader br = new BufferedReader(new FileReader(this.file))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(url, StandardCharsets.UTF_8))) {
             this.text.read(br, "jTextArea1");
             this.text.requestFocus();
         } catch (Exception e) {

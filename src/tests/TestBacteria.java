@@ -1,4 +1,4 @@
-package utils.tests;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -18,6 +18,7 @@ import model.action.DirectionalActionImpl;
 import model.action.SimpleAction;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
+import model.bacteria.MissingPerceptionExeption;
 import model.bacteria.behavior.Behavior;
 import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesBuilder;
@@ -27,7 +28,6 @@ import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCode;
 import model.geneticcode.GeneticCodeImpl;
 import model.perception.PerceptionImpl;
-import utils.exceptions.MissingPerceptionExeption;
 
 /**
  * Unit test for Bacteria.

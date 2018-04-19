@@ -1,0 +1,46 @@
+Welcome to Bacteria Simulator!
+
+Before starting:
+- create at least one new species of bacteria by pressing the "Create Species" button.
+- create at least one new type of food by pressing the "Create food" button.
+- set the distribution strategy for foods.
+
+Creation of species:
+during the creation of the species you will have to choose between different behaviors that the species can assume and set the name of the species.
+
+Creation of food:
+during the creation of food you will have to set the name of the type of food and add the nutrients of the food by setting their quantity.
+
+After the creation a legend will appear on the right, The legend allows you to choose the colors that will represent foods and bacteria
+Once you have created at least one species and a food, you can start the simulation by pressing the "Start" button.
+During the simulation you can add food manually by choosing it from the list of existing foods and clicking on the simulation area where you want to add food. 
+Food will also be added following the chosen distribution at each turn, furthermore during the simulation dead bacteria will transform in food "Unnamed food", 
+this types of food has by default black color.
+After the simulation you can view the analysis of the species and understand the behavior of the species in the environment.
+
+Set Distribution:
+Set the distribution strategy by choosing it from the multiple choice box and then press the button "Set Distribution" to confirm.
+if you do not choose anything the distribution will be uniform.
+
+
+What the buttons do?
+"Set Distribution": Set the distribution strategy chosen in the multiple choice box.
+"Create food": create a new type of food.
+"Create Species": create a new type of species.
+"Reset": reset the simulation.
+"Start": start the simulation.
+"Pause": pause the simulation.
+"Stop": stop the simulation.
+
+What's on the file menu?
+"Load Simulation": Allows to load a previously saved simulation.
+"Save Simulation": Allows to save the initial state (Species and Food created) of your simulation.
+"Load Replay": Allows to load a previously saved replay.
+"Save Replay": Allows to save the replay of the entire simulation.
+
+
+Authors: 
+Barbaro Simone
+Mengozzi Federico
+Semprini Gloria
+Ziani Andrea

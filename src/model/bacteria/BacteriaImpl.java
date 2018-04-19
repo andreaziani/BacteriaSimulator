@@ -10,12 +10,11 @@ import model.food.Food;
 import model.food.FoodFactory;
 import model.geneticcode.GeneticCode;
 import model.perception.Perception;
-import utils.exceptions.MissingPerceptionExeption;
 
 /**
  * Implementation of interface Bacteria.
  */
-public class BacteriaImpl implements Bacteria {
+public final class BacteriaImpl implements Bacteria {
 
     private final int bacteriaId;
     private final GeneticCode geneticCode;
@@ -143,8 +142,8 @@ public class BacteriaImpl implements Bacteria {
 
     @Override
     public String toString() {
-        return "Bacteria:[ID = " + this.bacteriaId + ", Specie = " + this.species.getName() + ", Energy = "
-                + this.getEnergy().toString() + "]";
+        return "ID = " + this.bacteriaId + ", Species = " + this.species.getName() + ", Energy = "
+                + this.getEnergy().toString();
     }
 
 }

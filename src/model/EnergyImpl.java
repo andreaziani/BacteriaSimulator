@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Implementation of Energy as a wrapper of a double.
  */
-public class EnergyImpl implements Energy {
+public final class EnergyImpl implements Energy {
     /**
      * The Zero Energy.
      */
@@ -40,7 +40,7 @@ public class EnergyImpl implements Energy {
 
     @Override
     public Energy subtract(final Energy other) {
-        return this.add(other.invert());
+        return this.add(other.opposite());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class EnergyImpl implements Energy {
     }
 
     @Override
-    public Energy invert() {
+    public Energy opposite() {
         return new EnergyImpl(this.amount * -1);
     }
 

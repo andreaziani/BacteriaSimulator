@@ -3,13 +3,12 @@ package controller;
 import java.io.IOException;
 
 import view.View;
-import view.ViewImpl;
 
 /**
  * Controller implementation.
  *
  */
-public class ControllerImpl extends EnvironmentControllerImpl implements Controller {
+public final class ControllerImpl extends EnvironmentControllerImpl implements Controller {
     private final FileController fileController;
     private View view;
 
@@ -22,12 +21,12 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     }
 
     @Override
-    protected void simulationLoop() {
+    public void simulationLoop() {
         this.view.update(this.getState());
     }
 
     @Override
-    public synchronized void setView(final ViewImpl view) {
+    public synchronized void setView(final View view) {
         this.view = view;
     }
 
@@ -56,8 +55,9 @@ public class ControllerImpl extends EnvironmentControllerImpl implements Control
     public synchronized void saveAnalysis(final String path) throws IOException {
         this.fileController.saveAnalysis(path, this.getAnalysis());
     }
+
     @Override
-    public void updateCurrentState(final SimulationState state) {
+    public synchronized void updateCurrentState(final SimulationState state) {
         super.updateCurrentState(state);
         this.view.updateSimulationState(state);
     }

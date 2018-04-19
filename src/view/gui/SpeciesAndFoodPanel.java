@@ -26,7 +26,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
     private final JComboBox<String> foods = new JComboBox<>();
     private final JComboBox<String> strategies = new JComboBox<>();
     private final ViewController view;
-    private final MainFrame mainFrame;
+    private final UserInterface mainFrame;
     /**
      * Automatically generated.
      */
@@ -40,7 +40,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
      * @param main
      *            frame that's call this panel.
      */
-    public SpeciesAndFoodPanel(final ViewController view, final MainFrame main) {
+    public SpeciesAndFoodPanel(final ViewController view, final UserInterface main) {
         super();
         this.mainFrame = main;
         this.setLayout(new FlowLayout());

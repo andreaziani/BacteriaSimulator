@@ -8,13 +8,15 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import controller.SimulationState;
-import utils.exceptions.PositionAlreadyOccupiedException;
+import model.PositionAlreadyOccupiedException;
 import view.View;
 import view.ViewController;
 import view.model.ViewPositionImpl;
@@ -22,9 +24,9 @@ import view.model.ViewState;
 
 /**
  * 
- * Main Frame of GUI.
+ * Represent the Main Frame of GUI and the entry-point for the user.
  */
-public class MainFrame extends JFrame implements View, SimulationStateUpdatable {
+public class UserInterface extends JFrame implements View, SimulationStateUpdatable {
     /**
      * Automatically generated.
      */
@@ -37,11 +39,14 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
     private final SimulationPanel simulationPanel;
     private final TopPanel topPanel;
     private final ViewController view;
+
     /**
      * Constructor the MainFrame by passing a View.
-     * @param view the View with which to interact.
+     * 
+     * @param view
+     *            the View with which to interact.
      */
-    public MainFrame(final ViewController view) {
+    public UserInterface(final ViewController view) {
         super("Bacteria Simulator");
         this.view = view;
         topPanel = new TopPanel(this.view, this);
@@ -51,9 +56,11 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
             public void mouseClicked(final MouseEvent e) {
                 if (!view.getFoodTypes().isEmpty() && isSimulationRunning) {
                     try {
-                        view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()), new ViewPositionImpl(e.getX(), e.getY()));
+                        view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()),
+                                new ViewPositionImpl(e.getX(), e.getY()));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
-                        JOptionPane.showMessageDialog(simulationPanel, "You have already inserted a food in this position.");
+                        JOptionPane.showMessageDialog(simulationPanel,
+                                "You have already inserted a food in this position.");
                     }
                 }
 
@@ -70,23 +77,25 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
 
     @Override
     public final void update(final ViewState state) {
-        this.simulationPanel.setState(state);
-        simulationPanel.repaint();
+        this.simulationPanel.setState(Optional.of(state));
+        SwingUtilities.invokeLater(() -> simulationPanel.repaint());
+        SwingUtilities.invokeLater(() -> simulationPanel.updateUI());
     }
 
     @Override
     public final void updateExistingFoods() {
         this.topPanel.updateFoods();
     }
+
     private void viewSettings() {
-        this.setSize(width, height);
         this.view.setDimension(this.simulationPanel.getSize());
-        this.legendPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+        this.setSize(width, height);
         this.getContentPane().setBackground(Color.WHITE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.legendPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
         this.add(topPanel, BorderLayout.NORTH);
         this.add(simulationPanel, BorderLayout.CENTER);
         this.add(legendPanel, BorderLayout.EAST);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 
@@ -95,10 +104,13 @@ public class MainFrame extends JFrame implements View, SimulationStateUpdatable 
         this.legendPanel.updateSimulationState(state);
         this.topPanel.updateSimulationState(state);
         this.simulationPanel.updateSimulationState(state);
-        this.isSimulationRunning = state == SimulationState.RUNNING;
+        this.isSimulationRunning = (state == SimulationState.RUNNING);
 
         if (state == SimulationState.ENDED) {
-            new AnalysisDialog(this, this.view);
+            // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL, 
+            this.simulationPanel.setState(Optional.empty());
+            SwingUtilities.invokeLater(() -> simulationPanel.repaint());
+            SwingUtilities.invokeLater(() -> new AnalysisDialog(this, this.view));
         }
     }
 

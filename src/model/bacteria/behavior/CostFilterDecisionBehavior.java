@@ -9,7 +9,7 @@ import model.bacteria.BacteriaKnowledge;
  * A behavior that filters all decisions taken and keeps only the ones the
  * bacteria can execute.
  */
-public class CostFilterDecisionBehavior extends DecisionBehaviorDecorator {
+public final class CostFilterDecisionBehavior extends DecisionBehaviorDecorator {
     /**
      * Construct a new NearFoodMovementDecisionBehavior by taking a delegate. It
      * implements the decorator pattern.
@@ -22,9 +22,11 @@ public class CostFilterDecisionBehavior extends DecisionBehaviorDecorator {
     }
 
     @Override
-    protected void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
-        super.updateDecisions(decisions, knowledge);
-        this.cleanActionDecisions(a -> knowledge.getActionCost(a).compareTo(knowledge.getBacteriaEnergy()) > 0,
-                decisions);
+    protected void addDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
+        decisions.forEach((a, v) -> {
+            if (knowledge.getActionCost(a).compareTo(knowledge.getBacteriaEnergy()) > 0) {
+                decisions.put(a, 0.0);
+            }
+        });
     }
 }

@@ -10,29 +10,34 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import model.Analysis;
+import model.AnalysisImpl;
 import model.replay.Replay;
 import model.state.InitialState;
-import utils.exceptions.FileFormatException;
-import utils.exceptions.IllegalExtensionExeption;
+import model.state.SimpleState;
 
 /**
  * Implementation of FileController.
  */
-public class FileControllerImpl implements FileController {
+public final class FileControllerImpl implements FileController {
 
     private final Gson gson = new Gson();
 
-    private <T> T loadFromJsonFile(final String path, final Class<T> objectClass, final String extension) throws IOException {
-        if (!path.endsWith(extension)) {
-            throw new IllegalExtensionExeption();
+    private String getFullExtension(final String extension) {
+        return "." + extension;
+    }
+    private boolean isPathCorrect(final String path, final String extension) {
+        return path.endsWith(getFullExtension(extension));
+    }
+
+    private String getCorrectedPath(final String path, final String extension) {
+        String result = path;
+        if (!isPathCorrect(path, extension)) {
+            result += getFullExtension(extension);
         }
-        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
-            return gson.fromJson(reader, objectClass);
-        } catch (JsonIOException | JsonSyntaxException e) {
-            throw new FileFormatException();
-        }
+        return result;
     }
 
     private void saveToTextFile(final String path, final String text) throws IOException {
@@ -41,36 +46,63 @@ public class FileControllerImpl implements FileController {
         }
     }
 
-    private void saveToJsonFile(final String path, final Object object, final String extension) throws IOException {
-        String correctPath = path;
-        if (!path.endsWith(extension)) {
-            correctPath = path + extension;
+    @Override
+    public InitialState loadInitialState(final String path) throws IOException {
+        if (!isPathCorrect(path, SIMULATION_EXTENTION)) {
+            throw new IllegalExtensionException();
         }
+        try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
+            return gson.fromJson(reader, InitialState.class);
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new FileFormatException();
+        }
+    }
+
+    @Override
+    public void saveInitialState(final String path, final InitialState initialState) throws IOException {
         try {
-            saveToTextFile(correctPath, gson.toJson(object));
+            saveToTextFile(getCorrectedPath(path, SIMULATION_EXTENTION), gson.toJson(initialState));
         } catch (JsonIOException | JsonSyntaxException e) {
             throw new IOException();
         }
     }
 
     @Override
-    public InitialState loadInitialState(final String path) throws IOException {
-        return loadFromJsonFile(path, InitialState.class, "." + SIMULATION_EXTENTION);
-    }
-
-    @Override
-    public void saveInitialState(final String path, final InitialState initialState) throws IOException {
-        saveToJsonFile(path, initialState, "." + SIMULATION_EXTENTION);
-    }
-
-    @Override
     public Replay loadReplay(final String path) throws IOException {
-        return loadFromJsonFile(path, Replay.class, "." + REPLAY_EXTENTION);
+        if (!isPathCorrect(path, REPLAY_EXTENTION)) {
+            throw new IllegalExtensionException();
+        }
+        try (JsonReader reader = gson.newJsonReader(new BufferedReader(new FileReader(path)))) {
+            reader.beginObject();
+            reader.nextName();
+            final Replay result = new Replay(gson.fromJson(reader, InitialState.class));
+            reader.nextName();
+            result.setAnalysis(gson.fromJson(reader, AnalysisImpl.class));
+            reader.nextName();
+            reader.beginArray();
+            while (reader.hasNext()) {
+                result.addSimpleState(gson.fromJson(reader, SimpleState.class));
+            }
+            reader.endArray();
+            reader.endObject();
+            return result;
+        }
     }
 
     @Override
     public void saveReplay(final String path, final Replay replay) throws IOException {
-        saveToJsonFile(path, replay, "." + REPLAY_EXTENTION);
+        try (JsonWriter writer = gson.newJsonWriter(new BufferedWriter(new FileWriter(getCorrectedPath(path, REPLAY_EXTENTION))))) {
+            writer.beginObject();
+            writer.name("initialState");
+            gson.toJson(replay.getInitialState(), replay.getInitialState().getClass(), writer);
+            writer.name("analysis");
+            gson.toJson(replay.getAnalysis(), replay.getAnalysis().getClass(), writer);
+            writer.name("stateList");
+            writer.beginArray();
+            replay.getStateList().forEach(s -> gson.toJson(s, s.getClass(), writer));
+            writer.endArray();
+            writer.endObject();
+        }
     }
 
     @Override

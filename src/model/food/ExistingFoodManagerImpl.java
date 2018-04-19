@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import utils.exceptions.AlreadyExistingFoodException;
+import model.AlreadyExistingFoodException;
 
 /**
  * Manager that contains all the existing types of food.

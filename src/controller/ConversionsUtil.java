@@ -1,11 +1,9 @@
-package utils;
+package controller;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import controller.food.FoodController;
 import model.bacteria.Bacteria;
 import model.food.Food;
 import model.food.FoodFactory;
@@ -22,7 +20,7 @@ import view.model.ViewState;
 import view.model.ViewStateImpl;
 import view.model.bacteria.ViewBacteria;
 import view.model.bacteria.ViewBacteriaImpl;
-import view.model.food.SimulationViewFood;
+import view.model.food.CreationViewFoodImpl;
 import view.model.food.ViewFood;
 import view.model.food.ViewProvision;
 import view.model.food.ViewProvisionImpl;
@@ -45,7 +43,7 @@ public final class ConversionsUtil {
     public static ViewFood foodToViewFood(final Food food) {
         final Map<Nutrient, Double> nutrients = new HashMap<>();
         food.getNutrients().forEach(n -> nutrients.put(n, food.getQuantityFromNutrient(n)));
-        return new SimulationViewFood(Optional.ofNullable(food.getName()), nutrients);
+        return new CreationViewFoodImpl(Optional.ofNullable(food.getName()), nutrients);
     }
 
     /**
@@ -84,8 +82,6 @@ public final class ConversionsUtil {
      * 
      * @param state
      *            the state to convert.
-     * @param fcontroller
-     *            FoodController that contains color for each food.
      * @param maxPosition
      *            the maximum position in the environment.
      * @param maxViewPosition
@@ -96,18 +92,16 @@ public final class ConversionsUtil {
      *             if the Bacteria species is not present in the initialState.
      * @return the converted state.
      */
-    public static ViewState stateToViewState(final State state, final FoodController fcontroller,
-            final Position maxPosition, final ViewPosition maxViewPosition, final InitialState initialState) {
+    public static ViewState stateToViewState(final State state, final Position maxPosition,
+            final ViewPosition maxViewPosition, final InitialState initialState) {
         final Map<ViewPosition, ViewProvision> foodState = state.getFoodsState().entrySet().stream()
-                .collect(Collectors.toMap(
-                        p -> positionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
+                .collect(Collectors.toMap(p -> positionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
                         p -> new ViewProvisionImpl(
                                 radiusToViewRadius(p.getValue().getRadius(), maxPosition, maxViewPosition),
                                 foodToViewFood(state.getFoodsState().get(p.getKey())))));
 
         final Map<ViewPosition, ViewBacteria> bacteriaState = state.getBacteriaState().entrySet().stream()
-                .collect(Collectors.toMap(
-                        p -> positionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
+                .collect(Collectors.toMap(p -> positionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
                         p -> bacteriaToViewBacteria(p.getValue(),
                                 radiusToViewRadius(p.getValue().getRadius(), maxPosition, maxViewPosition),
                                 initialState)));

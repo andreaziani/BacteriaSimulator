@@ -1,10 +1,11 @@
 package view.model.food;
 
-
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -16,24 +17,36 @@ import model.food.Nutrient;
  *
  */
 public final class CreationViewFoodImpl implements ViewFood {
-    private final String name;
-    private final Map<Nutrient, Double> nutrients = new HashMap<>();
+    private final Optional<String> name;
+    private Map<Nutrient, Double> nutrients = new EnumMap<>(Nutrient.class);
 
     /**
-     * Constructor package private. A ViewFood can be built only using
-     * ViewFoodBuilder.
+     * Constructor for food created by users.
      * 
      * @param builder
      *            from which take informations.
      */
     private CreationViewFoodImpl(final ViewFoodBuilder builder) {
-        this.name = builder.name;
+        this.name = Optional.of(builder.name);
         builder.nutrients.keySet().stream().forEach(k -> this.nutrients.put(k, builder.nutrients.get(k)));
+    }
+
+    /**
+     * Constructor for food with possible empty name.
+     * 
+     * @param name
+     *            an optional containing the name of the food.
+     * @param nutrients
+     *            the nutrients in the food in their quantity.
+     */
+    public CreationViewFoodImpl(final Optional<String> name, final Map<Nutrient, Double> nutrients) {
+        this.name = name;
+        this.nutrients = nutrients;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return this.name.orElse(null);
     }
 
     @Override

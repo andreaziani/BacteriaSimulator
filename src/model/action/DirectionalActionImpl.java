@@ -8,7 +8,7 @@ import model.Direction;
  * An implementation of action that has a direction associated. Can only be used
  * with Move action types.
  */
-public class DirectionalActionImpl extends AbstractAction implements DirectionalAction {
+public final class DirectionalActionImpl extends AbstractAction implements DirectionalAction {
 
     private final Direction dir;
     private final double distance;

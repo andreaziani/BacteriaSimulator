@@ -11,7 +11,7 @@ import model.geneticcode.NucleicAcid;
  * Simplification of a Bacteria object that maintains only useful information
  * for saving and loading simulations and is easily serializable via json.
  */
-public class SimpleBacteria {
+public final class SimpleBacteria {
     private final int id;
     private final double radius;
     private final double perceptionRadius;

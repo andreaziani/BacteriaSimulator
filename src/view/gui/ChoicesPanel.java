@@ -15,8 +15,8 @@ import view.ViewController;
  *
  */
 public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
-    private final JButton resetSimulation = new JButton("Reset");
     private final JButton startSimulation = new JButton("Start");
+    private final JButton resetSimulation = new JButton("Reset");
     private final JButton stopSimulation = new JButton("Stop");
     private final JButton pauseSimulation = new JButton("Pause");
     /**
@@ -32,12 +32,16 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
      * @param main
      *            the main frame of the application.
      */
-    public ChoicesPanel(final ViewController view, final MainFrame main) {
+    public ChoicesPanel(final ViewController view, final UserInterface main) {
         super();
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
             // if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
-            view.getController().start();
+            if (view.getController().getCurrentState() != SimulationState.PAUSED) { 
+                view.getController().start();
+            } else {
+                view.getController().resume();
+            }
             // } else {
             // JOptionPane.showMessageDialog(this, "You must insert one species and one type
             // of food");
@@ -46,7 +50,16 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.resetSimulation.addActionListener(e -> {
             view.getController().resetSimulation();
             main.notifyUpdate();
+            this.startSimulation.setText("Start");
         });
+        this.stopSimulation.addActionListener(e -> {
+            view.getController().stop();
+        });
+        this.pauseSimulation.addActionListener(e -> {
+            view.getController().pause();
+            this.startSimulation.setText("Resume");
+        });
+
         this.add(this.resetSimulation);
         this.add(this.startSimulation);
         this.add(this.pauseSimulation);
@@ -72,7 +85,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
             case PAUSED:
                 startSimulation.setEnabled(true);
                 pauseSimulation.setEnabled(false);
-                stopSimulation.setEnabled(false);
+                stopSimulation.setEnabled(true);
                 resetSimulation.setEnabled(true);
                 break;
             default:

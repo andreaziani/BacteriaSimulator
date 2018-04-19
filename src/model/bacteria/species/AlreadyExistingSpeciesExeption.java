@@ -1,4 +1,4 @@
-package utils.exceptions;
+package model.bacteria.species;
 
 /**
  * An exception signaling an insertion of a Species with repeated name.

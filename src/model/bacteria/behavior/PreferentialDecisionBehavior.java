@@ -12,7 +12,7 @@ import model.bacteria.BacteriaKnowledge;
  * means that only other preferred actions can compete compete with an action
  * incremented by this class.
  */
-public class PreferentialDecisionBehavior extends DecisionBehaviorDecorator {
+public final class PreferentialDecisionBehavior extends DecisionBehaviorDecorator {
 
     private final ActionType preferred;
 
@@ -33,8 +33,7 @@ public class PreferentialDecisionBehavior extends DecisionBehaviorDecorator {
     }
 
     @Override
-    protected void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
-        super.updateDecisions(decisions, knowledge);
+    protected void addDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
         decisions.keySet().stream().filter(a -> a.getType().equals(preferred))
                 .forEach(k -> decisions.put(k, decisions.get(k) + 1));
     }

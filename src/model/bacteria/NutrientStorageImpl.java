@@ -12,12 +12,11 @@ import model.Energy;
 import model.EnergyImpl;
 import model.food.Food;
 import model.food.Nutrient;
-import utils.exceptions.NotEnounghEnergyException;
 
 /**
  * This class implement a NutrientStorage.
  */
-public class NutrientStorageImpl implements NutrientStorage {
+public final class NutrientStorageImpl implements NutrientStorage {
 
     private final Map<Nutrient, Double> store;
     private Energy reserve;
@@ -67,7 +66,7 @@ public class NutrientStorageImpl implements NutrientStorage {
     @Override
     public void takeEnergy(final Energy energy) {
         if (this.getEnergyStored().getAmount() < energy.getAmount()) {
-            throw new NotEnounghEnergyException();
+            throw new NotEnoughEnergyException();
         }
         if (energy.compareTo(this.reserve) <= 0) {
             this.reserve = this.reserve.subtract(energy);

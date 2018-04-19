@@ -14,7 +14,7 @@ import view.gui.Colorable;
 /**
  * Wrapper of options for the creation of a species.
  */
-public class SpeciesOptions implements Colorable {
+public final class SpeciesOptions implements Colorable {
     private final String name;
     private Set<DecisionMakerOption> decisionOptions = Collections.emptySet();
     private List<BehaviorDecoratorOption> decoratorOptions = Collections.emptyList();

@@ -11,12 +11,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.FileController;
+import controller.FileFormatException;
+import controller.IllegalExtensionException;
 import controller.SimulationState;
-import utils.exceptions.FileFormatException;
-import utils.exceptions.IllegalExtensionExeption;
 import view.ViewController;
 
 /**
@@ -48,7 +49,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
      * @param main
      *            frame that's call this panel.
      */
-    public TopPanel(final ViewController view, final MainFrame main) {
+    public TopPanel(final ViewController view, final UserInterface main) {
         super(new BorderLayout());
         this.help.addActionListener(e -> {
             new HelpDialog(main);
@@ -72,7 +73,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                     view.getController().loadInitialState(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the simulation");
-                } catch (IllegalExtensionExeption ex) {
+                } catch (IllegalExtensionException ex) {
                     JOptionPane.showMessageDialog(this, "The extension of the file was not correct");
                 } catch (FileFormatException ex) {
                     JOptionPane.showMessageDialog(this, "The selected file does not contain a replay, has been corrupted or use an outdated format");
@@ -101,7 +102,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                     view.getController().loadReplay(replayChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "An error occurred trying to load the replay");
-                } catch (IllegalExtensionExeption ex) {
+                } catch (IllegalExtensionException ex) {
                     JOptionPane.showMessageDialog(this, "The extension of the file was not correct");
                 } catch (FileFormatException ex) {
                     JOptionPane.showMessageDialog(this, "The selected file does not contain a replay, has been corrupted or use an outdated format");
@@ -151,10 +152,12 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     public final void updateSimulationState(final SimulationState state) {
         this.speciesAndFood.updateSimulationState(state);
         this.choicesPanel.updateSimulationState(state);
-        if (state == SimulationState.ENDED) {
-            this.saveReplay.setEnabled(true);
-        } else {
-            this.saveReplay.setEnabled(false);
-        }
+        SwingUtilities.invokeLater(() -> {
+            if (state == SimulationState.ENDED) {
+                this.saveReplay.setEnabled(true);
+            } else {
+                this.saveReplay.setEnabled(false);
+            } 
+        });
     }
 }

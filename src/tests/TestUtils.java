@@ -1,4 +1,4 @@
-package utils.tests;
+package tests;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -158,7 +158,7 @@ public final class TestUtils {
      * @return a function that assign a negative small value to all the nutrients.
      */
     public static Function<Nutrient, Energy> allNutrientsBad() {
-        return x -> SMALL_ENERGY.invert();
+        return x -> SMALL_ENERGY.opposite();
     }
 
     /**

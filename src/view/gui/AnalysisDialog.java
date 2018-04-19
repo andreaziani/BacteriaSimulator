@@ -23,6 +23,7 @@ public class AnalysisDialog extends JDialog {
     /**
      * 
      */
+<<<<<<< HEAD
     private static final long serialVersionUID = 1L;
 /**
  * View of the Analysis.
@@ -32,6 +33,9 @@ public class AnalysisDialog extends JDialog {
  *              where get analysis.
  */
     public AnalysisDialog(final MainFrame mainframe, final ViewController controller) {
+=======
+    public AnalysisDialog(final UserInterface mainframe, final ViewController controller) {
+>>>>>>> a3adf6849589fa00698ad4b72b7d22c442f5fb76
         super(mainframe, true);
         final JTextArea jTextArea = new JTextArea();
         final Analysis analysis = controller.getController().getAnalysis();

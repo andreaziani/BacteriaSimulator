@@ -1,4 +1,4 @@
-package utils.tests;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -14,12 +14,12 @@ import org.junit.Test;
 import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.CostFilterDecisionBehavior;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.bacteria.species.AlreadyExistingSpeciesExeption;
 import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesBuilder;
 import model.bacteria.species.SpeciesManager;
 import model.bacteria.species.SpeciesManagerImpl;
 import model.bacteria.species.SpeciesOptions;
-import utils.exceptions.AlreadyExistingSpeciesExeption;
 
 /**
  * Unit test for the Species building and storing in the manager.
@@ -45,7 +45,8 @@ public class TestSpecies {
 
         species = builder.reset(NAME_1)
                          .addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER)
-                         .addDecisionMaker(DecisionMakerOption.ALWAYS_EAT).addDecisionMaker(DecisionMakerOption.NO_MOVEMENT)
+                         .addDecisionMaker(DecisionMakerOption.ALWAYS_EAT)
+                         .addDecisionMaker(DecisionMakerOption.NO_MOVEMENT)
                          .addDecisionMaker(DecisionMakerOption.NO_REPLICATION).build();
 
         assertEquals(
@@ -78,12 +79,12 @@ public class TestSpecies {
         assertEquals("The name of the only species in the manager should be " + NAME_1, NAME_1,
                 manager.getSpecies().stream().findFirst().get().getName());
 
-        assertThrows(AlreadyExistingSpeciesExeption.class,
-                () -> manager.addSpecies(new SpeciesOptions(NAME_1)));
+        assertThrows(AlreadyExistingSpeciesExeption.class, () -> manager.addSpecies(new SpeciesOptions(NAME_1)));
         assertEquals("The manager should have one species", 1, manager.getSpecies().size());
 
         assertThrows(AlreadyExistingSpeciesExeption.class,
-                () -> manager.addSpecies(new SpeciesOptions(NAME_1, Collections.singleton(DecisionMakerOption.ALWAYS_EAT),
+                () -> manager.addSpecies(new SpeciesOptions(NAME_1, 
+                        Collections.singleton(DecisionMakerOption.ALWAYS_EAT),
                         Collections.singletonList(BehaviorDecoratorOption.COST_FILTER))));
         assertEquals("The manager should have one species", 1, manager.getSpecies().size());
 

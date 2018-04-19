@@ -1,6 +1,5 @@
 package view.model.bacteria;
 
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -13,30 +12,30 @@ import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import model.bacteria.species.SpeciesOptions;
 
 /**
- * A class that encapsulate the process of creating a Species from the View
- * perspective.
+ * A static factory that encapsulate the process of creating a Species from the
+ * View perspective. This utility class interprets selected options of the View
+ * and build an object that will be used to build a species in the model.
  */
-public class ViewSpeciesFactory {
-    private final Map<ActionType, List<DecisionMakerOption>> decisionOptionsMap;
-    private final List<BehaviorDecoratorOption> decoratorOptionsList;
+public final class SpeciesOptionsFactory {
+    private static final Map<ActionType, List<DecisionMakerOption>> DECISION_OPTIONS_MAP;
+    private static final List<BehaviorDecoratorOption> DECORATOR_OPTIONS_LIST;
 
-    /**
-     * Create a new ViewSpeciesFactory that take information for the View from the
-     * enums of the model.
-     */
-    public ViewSpeciesFactory() {
-        decisionOptionsMap = Arrays.asList(ActionType.values()).stream()
+    static {
+        DECISION_OPTIONS_MAP = Arrays.asList(ActionType.values()).stream()
                 .collect(Collectors.toMap(Function.identity(), a -> Arrays.asList(DecisionMakerOption.values()).stream()
                         .filter(x -> x.getType().equals(a)).collect(Collectors.toList())));
-        decoratorOptionsList = Arrays.asList(BehaviorDecoratorOption.values());
+        DECORATOR_OPTIONS_LIST = Arrays.asList(BehaviorDecoratorOption.values());
+    }
+
+    private SpeciesOptionsFactory() {
     }
 
     /**
      * @return a map associating each ActionType to a list of options for the
      *         BehaviorDecorators.
      */
-    public Map<ActionType, List<String>> getDecisionOptions() {
-        return decisionOptionsMap.entrySet().stream().collect(Collectors.toMap(x -> x.getKey(),
+    public static Map<ActionType, List<String>> getDecisionOptions() {
+        return DECISION_OPTIONS_MAP.entrySet().stream().collect(Collectors.toMap(x -> x.getKey(),
                 x -> x.getValue().stream().map(d -> d.toString()).collect(Collectors.toList())));
     }
 
@@ -44,12 +43,12 @@ public class ViewSpeciesFactory {
      * @return a map associating each ActionType to a list of options for the
      *         DecisionMakers.
      */
-    public List<String> getDecoratorOptions() {
-        return decoratorOptionsList.stream().map(x -> x.toString()).collect(Collectors.toList());
+    public static List<String> getDecoratorOptions() {
+        return DECORATOR_OPTIONS_LIST.stream().map(x -> x.toString()).collect(Collectors.toList());
     }
 
     /**
-     * Create a species from the options given by the user.
+     * Create a wrapper for the options given by the user for a species.
      * 
      * @param name
      *            the name of the Species.
@@ -65,12 +64,12 @@ public class ViewSpeciesFactory {
      * @throws AlreadyExistingSpeciesExeption
      *             if a species with that name already exists.
      */
-    public SpeciesOptions createSpecies(final String name,
-            final Map<ActionType, Integer> decisionOptions, final List<Boolean> decorators) {
+    public static SpeciesOptions createSpecies(final String name, final Map<ActionType, Integer> decisionOptions,
+            final List<Boolean> decorators) {
         return new SpeciesOptions(name,
-                decisionOptions.entrySet().stream().map(x -> decisionOptionsMap.get(x.getKey()).get(x.getValue()))
+                decisionOptions.entrySet().stream().map(x -> DECISION_OPTIONS_MAP.get(x.getKey()).get(x.getValue()))
                         .collect(Collectors.toSet()),
-                decoratorOptionsList.stream().filter(x -> decorators.get(decoratorOptionsList.indexOf(x)))
+                DECORATOR_OPTIONS_LIST.stream().filter(x -> decorators.get(DECORATOR_OPTIONS_LIST.indexOf(x)))
                         .collect(Collectors.toList()));
     }
 }

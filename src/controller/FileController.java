@@ -30,7 +30,7 @@ public interface FileController {
      * @return the initial state loaded.
      * @throws IOException
      *             if any problem reading the file occurred.
-     * @throws IllegalExtensionExeption
+     * @throws IllegalExtensionException
      *             if the extension of the file was not valid.
      * @throws FileFormatException
      *             if the extension of the file was not valid.
@@ -57,7 +57,7 @@ public interface FileController {
      * @return the replay loaded.
      * @throws IOException
      *             if any problem reading the file occurred.
-     * @throws IllegalExtensionExeption
+     * @throws IllegalExtensionException
      *             if the extension of the file was not valid.
      * @throws FileFormatException
      *             if the extension of the file was not valid.

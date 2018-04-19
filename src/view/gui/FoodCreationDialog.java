@@ -1,6 +1,8 @@
 package view.gui;
 
 import java.awt.BorderLayout;
+import java.util.Locale;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -12,8 +14,8 @@ import javax.swing.JTextField;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import model.AlreadyExistingFoodException;
 import model.food.Nutrient;
-import utils.exceptions.AlreadyExistingFoodException;
 import view.ViewController;
 import view.model.food.CreationViewFoodImpl.ViewFoodBuilder;
 
@@ -99,8 +101,9 @@ public class FoodCreationDialog extends JDialog {
         this.nutrients.setEnabled(false);
         this.quantity.setEnabled(false);
         this.name.setText("Food1");
-        this.quantity.setText("10.00");
-        view.getNutrients().forEach(n -> nutrients.addItem(n));
+        this.quantity.setText("5.0");
+        view.getNutrients().forEach(n -> nutrients
+                .addItem(n.substring(0, 1) + n.replaceAll("_", " ").substring(1).toLowerCase(Locale.getDefault())));
     }
 
     private void finalSettings() {

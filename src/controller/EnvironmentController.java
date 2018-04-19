@@ -6,6 +6,7 @@ import java.util.Set;
 import model.Analysis;
 import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import model.state.State;
 import view.model.ViewPosition;
 import view.model.food.ViewFood;
 import view.model.ViewState;
@@ -33,6 +34,21 @@ public interface EnvironmentController {
      * Start the simulation.
      */
     void start();
+
+    /**
+     * Stop the simulation.
+     */
+    void stop();
+
+    /**
+     * Pause the simulation.
+     */
+    void pause();
+
+    /**
+     * Resume the simulation from pause.
+     */
+    void resume();
 
     /**
      * Add a new type of food to the types of foods that already exist.
@@ -112,4 +128,24 @@ public interface EnvironmentController {
      * @return analysis of simulation.
      */
     Analysis getAnalysis();
+
+    /**
+     * Update simulation state inside the controller. 
+     */
+    void updateCurrentState(SimulationState state);
+
+    /**
+     * Retrieve simulation state from the controller.
+     */
+    SimulationState getCurrentState();
+
+    /**
+     * Add a new state updated to the Replay.
+     */
+    void addReplayState(State currentState);
+    /**
+     * Method used to perform the operations that need to 
+     * be executed at every iteration of the simulation loop.
+     */
+    void simulationLoop();
 }
