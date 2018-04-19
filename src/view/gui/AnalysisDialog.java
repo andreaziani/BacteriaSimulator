@@ -23,19 +23,15 @@ public class AnalysisDialog extends JDialog {
     /**
      * 
      */
-<<<<<<< HEAD
     private static final long serialVersionUID = 1L;
 /**
  * View of the Analysis.
  * @param mainframe
- *              Main frame of the bacteria simulator.
+ *              interface of the bacteria simulator.
  * @param controller
- *              where get analysis.
+ *              view controller that contains analysis of bacteria.
  */
-    public AnalysisDialog(final MainFrame mainframe, final ViewController controller) {
-=======
     public AnalysisDialog(final UserInterface mainframe, final ViewController controller) {
->>>>>>> a3adf6849589fa00698ad4b72b7d22c442f5fb76
         super(mainframe, true);
         final JTextArea jTextArea = new JTextArea();
         final Analysis analysis = controller.getController().getAnalysis();
