@@ -99,7 +99,7 @@ public interface Bacteria extends Collidable {
     /**
      * @param amount
      *            an amount of energy that the bacteria must spend from his reserve.
-     * @throws NotEnounghEnergyException
+     * @throws NotEnoughEnergyException
      *             if the bacteria would have less that 0 energy after spending the
      *             given amount.
      */

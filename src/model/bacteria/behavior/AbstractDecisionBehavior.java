@@ -2,7 +2,6 @@ package model.bacteria.behavior;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import model.action.Action;
 import model.action.ActionType;
@@ -14,23 +13,6 @@ import model.bacteria.BacteriaKnowledge;
  * score to each of them and choose the one with the best score.
  */
 public abstract class AbstractDecisionBehavior implements Behavior {
-
-    /**
-     * Search the decisions of the behavior and set to zero the value of all actions
-     * that satisfy the Predicate.
-     * 
-     * @param cond
-     *            a condition for each Action.
-     * @param decisions
-     *            the collection of decisions taken until now.
-     */
-    protected void cleanActionDecisions(final Predicate<Action> cond, final Map<Action, Double> decisions) {
-        decisions.forEach((a, b) -> {
-            if (cond.test(a)) {
-                decisions.put(a, 0.0);
-            }
-        });
-    }
 
     /**
      * Modify the decisions already taken to adjust them accordingly to this

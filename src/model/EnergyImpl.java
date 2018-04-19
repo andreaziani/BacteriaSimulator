@@ -40,7 +40,7 @@ public final class EnergyImpl implements Energy {
 
     @Override
     public Energy subtract(final Energy other) {
-        return this.add(other.invert());
+        return this.add(other.opposite());
     }
 
     @Override
@@ -49,7 +49,7 @@ public final class EnergyImpl implements Energy {
     }
 
     @Override
-    public Energy invert() {
+    public Energy opposite() {
         return new EnergyImpl(this.amount * -1);
     }
 
