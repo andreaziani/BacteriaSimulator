@@ -21,7 +21,7 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     }
 
     @Override
-    protected void simulationLoop() {
+    public void simulationLoop() {
         this.view.update(this.getState());
     }
 
@@ -55,8 +55,9 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     public synchronized void saveAnalysis(final String path) throws IOException {
         this.fileController.saveAnalysis(path, this.getAnalysis());
     }
+
     @Override
-    public void updateCurrentState(final SimulationState state) {
+    public synchronized void updateCurrentState(final SimulationState state) {
         super.updateCurrentState(state);
         this.view.updateSimulationState(state);
     }
