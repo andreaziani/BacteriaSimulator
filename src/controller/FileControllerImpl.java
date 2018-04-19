@@ -18,7 +18,7 @@ import model.replay.Replay;
 import model.state.InitialState;
 import model.state.SimpleState;
 import utils.exceptions.FileFormatException;
-import utils.exceptions.IllegalExtensionExeption;
+import utils.exceptions.IllegalExtensionException;
 
 /**
  * Implementation of FileController.
@@ -51,7 +51,7 @@ public final class FileControllerImpl implements FileController {
     @Override
     public InitialState loadInitialState(final String path) throws IOException {
         if (!isPathCorrect(path, SIMULATION_EXTENTION)) {
-            throw new IllegalExtensionExeption();
+            throw new IllegalExtensionException();
         }
         try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
             return gson.fromJson(reader, InitialState.class);
@@ -72,7 +72,7 @@ public final class FileControllerImpl implements FileController {
     @Override
     public Replay loadReplay(final String path) throws IOException {
         if (!isPathCorrect(path, REPLAY_EXTENTION)) {
-            throw new IllegalExtensionExeption();
+            throw new IllegalExtensionException();
         }
         try (JsonReader reader = gson.newJsonReader(new BufferedReader(new FileReader(path)))) {
             reader.beginObject();

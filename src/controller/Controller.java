@@ -18,7 +18,7 @@ public interface Controller extends EnvironmentController {
      *            the path of the file to load.
      * @throws IOException
      *             if any problem reading the file occurred.
-     * @throws IllegalExtensionExeption
+     * @throws IllegalExtensionException
      *             if the extension of the file was not valid.
      * @throws FileFormatException
      *             if the extension of the file was not valid.
@@ -42,7 +42,7 @@ public interface Controller extends EnvironmentController {
      *            the path of the file to load.
      * @throws IOException
      *             if any problem reading the file occurred.
-     * @throws IllegalExtensionExeption
+     * @throws IllegalExtensionException
      *             if the extension of the file was not valid.
      * @throws FileFormatException
      *             if the extension of the file was not valid.
