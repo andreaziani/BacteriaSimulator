@@ -150,8 +150,7 @@ public class SpeciesBuilder {
         controlIsBuilt(false);
         AbstractDecisionBehavior behavior = new BaseDecisionBehavior(
                 decisionMakers.values().stream().collect(Collectors.toSet()));
-        decorators = decorators.stream().sorted().collect(Collectors.toList());
-        for (final BehaviorDecoratorOption d : decorators) {
+        for (final BehaviorDecoratorOption d : decorators.stream().sorted().collect(Collectors.toList())) {
             behavior = BehaviorDecoratorFactory.createDecorator(d, behavior);
         }
         built = true;

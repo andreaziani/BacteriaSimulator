@@ -12,7 +12,7 @@ import model.food.Nutrient;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
-import view.model.bacteria.ViewSpeciesFactory;
+import view.model.bacteria.SpeciesOptionsFactory;
 import view.model.food.ViewFood;
 
 /**
@@ -22,7 +22,6 @@ import view.model.food.ViewFood;
  */
 public final class ViewImpl implements View, ViewController {
     private final Controller controller;
-    private final ViewSpeciesFactory speciesManager;
     private View userInterface;
 
     /**
@@ -34,7 +33,6 @@ public final class ViewImpl implements View, ViewController {
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
-        speciesManager = new ViewSpeciesFactory();
     }
 
     @Override
@@ -54,18 +52,18 @@ public final class ViewImpl implements View, ViewController {
 
     @Override
     public Map<ActionType, List<String>> getDecisionOptions() {
-        return speciesManager.getDecisionOptions();
+        return SpeciesOptionsFactory.getDecisionOptions();
     }
 
     @Override
     public List<String> getDecoratorOptions() {
-        return speciesManager.getDecoratorOptions();
+        return SpeciesOptionsFactory.getDecoratorOptions();
     }
 
     @Override
     public void createSpecies(final String name, final Map<ActionType, Integer> decisionOptions,
             final List<Boolean> decorators) {
-        controller.addSpecies(speciesManager.createSpecies(name, decisionOptions, decorators));
+        controller.addSpecies(SpeciesOptionsFactory.createSpecies(name, decisionOptions, decorators));
     }
 
     @Override

@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import model.Energy;
 import model.EnergyImpl;
-import model.NotEnounghEnergyException;
 import model.food.Food;
 import model.food.Nutrient;
 
@@ -67,7 +66,7 @@ public final class NutrientStorageImpl implements NutrientStorage {
     @Override
     public void takeEnergy(final Energy energy) {
         if (this.getEnergyStored().getAmount() < energy.getAmount()) {
-            throw new NotEnounghEnergyException();
+            throw new NotEnoughEnergyException();
         }
         if (energy.compareTo(this.reserve) <= 0) {
             this.reserve = this.reserve.subtract(energy);

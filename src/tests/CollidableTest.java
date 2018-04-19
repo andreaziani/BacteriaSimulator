@@ -1,4 +1,4 @@
-package utils.tests;
+package tests;
 
 import model.simulator.Collidable;
 

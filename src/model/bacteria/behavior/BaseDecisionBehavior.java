@@ -28,7 +28,6 @@ public final class BaseDecisionBehavior extends AbstractDecisionBehavior {
      *             if decisionStrategies is null.
      */
     public BaseDecisionBehavior(final Set<DecisionMaker> decisionStrategies) {
-        super();
         if (decisionStrategies == null) {
             throw new IllegalArgumentException();
         }

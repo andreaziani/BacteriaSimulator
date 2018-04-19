@@ -20,9 +20,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import model.AlreadyExistingSpeciesExeption;
-import model.InvalidSpeciesExeption;
+import controller.InvalidSpeciesExeption;
 import model.action.ActionType;
+import model.bacteria.species.AlreadyExistingSpeciesExeption;
 import view.ViewController;
 
 /**
