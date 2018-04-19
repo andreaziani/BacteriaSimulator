@@ -8,6 +8,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -76,8 +77,9 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
 
     @Override
     public final void update(final ViewState state) {
-        this.simulationPanel.setState(state);
-        simulationPanel.repaint();
+        this.simulationPanel.setState(Optional.of(state));
+        SwingUtilities.invokeLater(() -> simulationPanel.repaint());
+        SwingUtilities.invokeLater(() -> simulationPanel.updateUI());
     }
 
     @Override
@@ -86,14 +88,14 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
     }
 
     private void viewSettings() {
-        this.setSize(width, height);
         this.view.setDimension(this.simulationPanel.getSize());
-        this.legendPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+        this.setSize(width, height);
         this.getContentPane().setBackground(Color.WHITE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.legendPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
         this.add(topPanel, BorderLayout.NORTH);
         this.add(simulationPanel, BorderLayout.CENTER);
         this.add(legendPanel, BorderLayout.EAST);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 
@@ -105,6 +107,9 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
         this.isSimulationRunning = (state == SimulationState.RUNNING);
 
         if (state == SimulationState.ENDED) {
+            // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL, 
+            this.simulationPanel.setState(Optional.empty());
+            SwingUtilities.invokeLater(() -> simulationPanel.repaint());
             SwingUtilities.invokeLater(() -> new AnalysisDialog(this, this.view));
         }
     }
