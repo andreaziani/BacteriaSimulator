@@ -1,4 +1,4 @@
-package utils.exceptions;
+package controller;
 
 /**
  * Signal that the simulation is started so a method of the controller is no

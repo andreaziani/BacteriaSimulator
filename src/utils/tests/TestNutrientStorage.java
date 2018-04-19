@@ -13,13 +13,13 @@ import java.util.Map;
 import org.junit.Test;
 
 import model.EnergyImpl;
+import model.NotEnounghEnergyException;
 import model.bacteria.NutrientStorage;
 import model.bacteria.NutrientStorageImpl;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import model.food.Nutrient;
-import utils.exceptions.NotEnounghEnergyException;
 
 /**
  * Unit test for the NutrientStorageImpl class.

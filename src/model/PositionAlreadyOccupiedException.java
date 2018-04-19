@@ -1,4 +1,4 @@
-package utils.exceptions;
+package model;
 /**
  * Exception indicating that something is already present in that position.
  * 

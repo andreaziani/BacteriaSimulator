@@ -11,6 +11,7 @@ import java.util.Collections;
 
 import org.junit.Test;
 
+import model.AlreadyExistingSpeciesExeption;
 import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.CostFilterDecisionBehavior;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
@@ -19,7 +20,6 @@ import model.bacteria.species.SpeciesBuilder;
 import model.bacteria.species.SpeciesManager;
 import model.bacteria.species.SpeciesManagerImpl;
 import model.bacteria.species.SpeciesOptions;
-import utils.exceptions.AlreadyExistingSpeciesExeption;
 
 /**
  * Unit test for the Species building and storing in the manager.

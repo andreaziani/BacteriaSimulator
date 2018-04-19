@@ -14,6 +14,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import model.Direction;
 import model.Energy;
 import model.EnergyImpl;
+import model.NotEnounghEnergyException;
+import model.PositionAlreadyOccupiedException;
 import model.action.Action;
 import model.action.ActionType;
 import model.action.DirectionalAction;
@@ -36,8 +38,6 @@ import model.state.Position;
 import model.state.PositionImpl;
 import utils.EnvironmentUtil;
 import utils.Logger;
-import utils.exceptions.NotEnounghEnergyException;
-import utils.exceptions.PositionAlreadyOccupiedException;
 
 /**
  * Implementation of BacteriaManager.

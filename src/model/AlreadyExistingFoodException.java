@@ -1,4 +1,4 @@
-package utils.exceptions;
+package model;
 
 /**
  * Exception representing an insertion of a food that already exist.

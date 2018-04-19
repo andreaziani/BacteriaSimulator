@@ -1,4 +1,4 @@
-package utils.exceptions;
+package model;
 /**
  *An exception representing a failure in spending a required amount of energy. 
  */
