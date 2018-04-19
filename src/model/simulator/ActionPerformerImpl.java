@@ -58,10 +58,9 @@ public class ActionPerformerImpl implements ActionPerformer {
                 .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(currentPosition, position))
                         .equals(moveDirection))
                 .filter(position -> {
-                        return !EnvironmentUtil.positionStream((int) Math.ceil(this.bacterium.getRadius()), position,
-                                this.simulationMaxPosition).anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
-                })
-                .max((p1, p2) -> Double.compare(EnvironmentUtil.distance(currentPosition, p1),
+                    return !EnvironmentUtil.positionStream((int) Math.ceil(this.bacterium.getRadius()), position,
+                            this.simulationMaxPosition).anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
+                }).max((p1, p2) -> Double.compare(EnvironmentUtil.distance(currentPosition, p1),
                         EnvironmentUtil.distance(currentPosition, p2)));
 
         if (newPosition.isPresent()) {
@@ -82,6 +81,7 @@ public class ActionPerformerImpl implements ActionPerformer {
         if (foodInPosition.isPresent()) {
             this.bacterium.addFood(foodInPosition.get());
             this.foodEnv.removeFood(foodInPosition.get(), foodPosition.get());
+
         }
     }
 
@@ -92,10 +92,9 @@ public class ActionPerformerImpl implements ActionPerformer {
         final Optional<Position> freePosition = EnvironmentUtil
                 .positionStream((int) Math.ceil(bacteriaRadius * 2), this.currentPosition, this.simulationMaxPosition)
                 .filter(position -> {
-                        return !EnvironmentUtil.positionStream((int) Math.ceil(this.bacterium.getRadius()), position,
-                                this.simulationMaxPosition).anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
-                })
-                .findAny();
+                    return !EnvironmentUtil.positionStream((int) Math.ceil(this.bacterium.getRadius()), position,
+                            this.simulationMaxPosition).anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
+                }).findAny();
 
         if (freePosition.isPresent()) {
             final GeneticCode clonedGenCode = this.geneFactory.copyGene(this.bacterium.getGeneticCode());
@@ -111,6 +110,5 @@ public class ActionPerformerImpl implements ActionPerformer {
 
     @Override
     public void doNothing() {
-        // TODO Auto-generated method stub
     }
 }
