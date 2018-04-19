@@ -87,12 +87,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.environment = new SimulatorEnvironment();
         this.foodController = new FoodControllerImpl(this.environment);
     }
-    /**
-     * Start the simulation from the initialState saved in this controller.
-     */
-    protected void startFromState() {
-        this.startLoop();
-    }
 
     @Override
     public synchronized void start() {
