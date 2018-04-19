@@ -23,7 +23,10 @@ public final class CostFilterDecisionBehavior extends DecisionBehaviorDecorator 
 
     @Override
     protected void addDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
-        this.cleanActionDecisions(a -> knowledge.getActionCost(a).compareTo(knowledge.getBacteriaEnergy()) > 0,
-                decisions);
+        decisions.forEach((a, v) -> {
+            if (knowledge.getActionCost(a).compareTo(knowledge.getBacteriaEnergy()) > 0) {
+                decisions.put(a, 0.0);
+            }
+        });
     }
 }
