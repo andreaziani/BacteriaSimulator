@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import controller.SimulationState;
-import utils.exceptions.PositionAlreadyOccupiedException;
+import model.PositionAlreadyOccupiedException;
 import view.View;
 import view.ViewController;
 import view.model.ViewPositionImpl;

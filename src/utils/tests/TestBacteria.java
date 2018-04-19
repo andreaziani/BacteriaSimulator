@@ -12,6 +12,7 @@ import org.junit.Test;
 import model.Direction;
 import model.Energy;
 import model.EnergyImpl;
+import model.MissingPerceptionExeption;
 import model.action.Action;
 import model.action.ActionType;
 import model.action.DirectionalActionImpl;
@@ -27,7 +28,6 @@ import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCode;
 import model.geneticcode.GeneticCodeImpl;
 import model.perception.PerceptionImpl;
-import utils.exceptions.MissingPerceptionExeption;
 
 /**
  * Unit test for Bacteria.

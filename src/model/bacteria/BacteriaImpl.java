@@ -4,13 +4,13 @@ import java.util.Objects;
 
 import model.Energy;
 import model.EnergyImpl;
+import model.MissingPerceptionExeption;
 import model.action.Action;
 import model.bacteria.species.Species;
 import model.food.Food;
 import model.food.FoodFactory;
 import model.geneticcode.GeneticCode;
 import model.perception.Perception;
-import utils.exceptions.MissingPerceptionExeption;
 
 /**
  * Implementation of interface Bacteria.

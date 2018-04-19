@@ -14,8 +14,8 @@ import javax.swing.JTextField;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import model.AlreadyExistingFoodException;
 import model.food.Nutrient;
-import utils.exceptions.AlreadyExistingFoodException;
 import view.ViewController;
 import view.model.food.CreationViewFoodImpl.ViewFoodBuilder;
 

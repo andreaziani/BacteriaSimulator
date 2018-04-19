@@ -1,4 +1,4 @@
-package utils.exceptions;
+package controller;
 /**
  * Exception that represent a request to use a file with an inappropriate extension.
  */

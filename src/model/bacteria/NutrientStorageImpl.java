@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 import model.Energy;
 import model.EnergyImpl;
+import model.NotEnounghEnergyException;
 import model.food.Food;
 import model.food.Nutrient;
-import utils.exceptions.NotEnounghEnergyException;
 
 /**
  * This class implement a NutrientStorage.

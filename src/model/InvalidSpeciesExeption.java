@@ -1,4 +1,4 @@
-package utils.exceptions;
+package model;
 
 /**
  * An exception signaling the attempt to create an invalid Species.

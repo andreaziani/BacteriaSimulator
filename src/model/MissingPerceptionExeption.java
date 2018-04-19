@@ -1,4 +1,4 @@
-package utils.exceptions;
+package model;
 
 /**
  * Exeption signaling the absence of a Perception for a Bacteria when asked to
