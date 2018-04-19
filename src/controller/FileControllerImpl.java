@@ -17,6 +17,8 @@ import model.AnalysisImpl;
 import model.replay.Replay;
 import model.state.InitialState;
 import model.state.SimpleState;
+import utils.exceptions.FileFormatException;
+import utils.exceptions.IllegalExtensionException;
 
 /**
  * Implementation of FileController.
