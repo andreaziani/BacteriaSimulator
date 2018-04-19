@@ -14,7 +14,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import model.Direction;
 import model.Energy;
 import model.EnergyImpl;
-import model.NotEnounghEnergyException;
+import model.NotEnoughEnergyException;
 import model.PositionAlreadyOccupiedException;
 import model.action.Action;
 import model.action.ActionType;
@@ -169,7 +169,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
                 actionPerformer.doNothing();
                 break;
             }
-        } catch (NotEnounghEnergyException e) {
+        } catch (NotEnoughEnergyException e) {
             bacteria.spendEnergy(bacteria.getEnergy());
         }
     }
@@ -177,7 +177,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private void costOfLiving(final Bacteria bacteria) {
         try {
             bacteria.spendEnergy(this.energyForLiving);
-        } catch (NotEnounghEnergyException e) {
+        } catch (NotEnoughEnergyException e) {
             bacteria.spendEnergy(bacteria.getEnergy());
         }
     }
