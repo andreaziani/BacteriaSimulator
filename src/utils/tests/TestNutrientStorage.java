@@ -13,7 +13,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import model.EnergyImpl;
-import model.NotEnoughEnergyException;
+import model.bacteria.NotEnoughEnergyException;
 import model.bacteria.NutrientStorage;
 import model.bacteria.NutrientStorageImpl;
 import model.food.Food;

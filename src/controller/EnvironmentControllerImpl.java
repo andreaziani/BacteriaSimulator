@@ -9,7 +9,6 @@ import controller.food.FoodControllerImpl;
 import model.Analysis;
 import model.Environment;
 import model.InteractiveEnvironment;
-import model.InvalidSpeciesExeption;
 import model.bacteria.species.SpeciesOptions;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.replay.Replay;

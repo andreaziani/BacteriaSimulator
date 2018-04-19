@@ -1,4 +1,4 @@
-package model;
+package model.bacteria;
 /**
  *An exception representing a failure in spending a required amount of energy. 
  *Enough 

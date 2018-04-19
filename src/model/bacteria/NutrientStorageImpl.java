@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import model.Energy;
 import model.EnergyImpl;
-import model.NotEnoughEnergyException;
 import model.food.Food;
 import model.food.Nutrient;
 

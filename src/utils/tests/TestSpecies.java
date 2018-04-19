@@ -11,10 +11,10 @@ import java.util.Collections;
 
 import org.junit.Test;
 
-import model.AlreadyExistingSpeciesExeption;
 import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.CostFilterDecisionBehavior;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.bacteria.species.AlreadyExistingSpeciesExeption;
 import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesBuilder;
 import model.bacteria.species.SpeciesManager;
