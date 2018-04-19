@@ -70,9 +70,6 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
                         2 * radius.getXRadius(), 2 * radius.getYRadius());
                 g.setColor(colorAssigner.getColorFromSpecies(e.getValue().getSpecies()));
                 g2d.fill(circle);
-                // g.drawOval((int) e.getKey().getX(), (int) e.getKey().getY(),
-                // e.getValue().getRadius().getXRadius() + 5,
-                // e.getValue().getRadius().getYRadius() + 5);
             });
         }
     }
