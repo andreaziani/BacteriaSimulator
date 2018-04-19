@@ -35,7 +35,7 @@ public final class RandomPositionStrategy extends AbstractPositionStrategy {
     @Override
     protected Position distributedPosition() {
         final Random rand = new Random();
-        return new PositionImpl(rand.nextInt() % this.maxPosition.getX(), rand.nextInt() % this.maxPosition.getY());
+        return new PositionImpl(rand.nextInt((int) maxPosition.getX()), rand.nextInt((int) maxPosition.getY()));
     }
 
 }

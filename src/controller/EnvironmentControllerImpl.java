@@ -3,7 +3,7 @@ package controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import controller.food.FoodControllerUtils;
+
 import model.Analysis;
 import model.Environment;
 import model.InteractiveEnvironment;
@@ -15,7 +15,6 @@ import model.replay.ReplayEnvironment;
 import model.simulator.SimulatorEnvironment;
 import model.state.InitialState;
 import model.state.State;
-import utils.ConversionsUtil;
 import utils.Logger;
 import view.model.ViewPosition;
 import view.model.ViewState;

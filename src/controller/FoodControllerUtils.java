@@ -1,4 +1,4 @@
-package controller.food;
+package controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import model.Environment;
 import model.InteractiveEnvironment;
 import model.state.Position;
-import utils.ConversionsUtil;
 import view.model.food.ViewFood;
 
 /**
