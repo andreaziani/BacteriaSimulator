@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.FileController;
+import controller.FileFormatException;
+import controller.IllegalExtensionException;
 import controller.SimulationState;
-import utils.exceptions.FileFormatException;
-import utils.exceptions.IllegalExtensionException;
 import view.ViewController;
 
 /**
