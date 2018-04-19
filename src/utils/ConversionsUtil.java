@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import controller.food.FoodController;
 import model.bacteria.Bacteria;
 import model.food.Food;
 import model.food.FoodFactory;
@@ -84,8 +82,6 @@ public final class ConversionsUtil {
      * 
      * @param state
      *            the state to convert.
-     * @param fcontroller
-     *            FoodController that contains color for each food.
      * @param maxPosition
      *            the maximum position in the environment.
      * @param maxViewPosition
@@ -96,18 +92,16 @@ public final class ConversionsUtil {
      *             if the Bacteria species is not present in the initialState.
      * @return the converted state.
      */
-    public static ViewState stateToViewState(final State state, final FoodController fcontroller,
-            final Position maxPosition, final ViewPosition maxViewPosition, final InitialState initialState) {
+    public static ViewState stateToViewState(final State state, final Position maxPosition,
+            final ViewPosition maxViewPosition, final InitialState initialState) {
         final Map<ViewPosition, ViewProvision> foodState = state.getFoodsState().entrySet().stream()
-                .collect(Collectors.toMap(
-                        p -> positionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
+                .collect(Collectors.toMap(p -> positionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
                         p -> new ViewProvisionImpl(
                                 radiusToViewRadius(p.getValue().getRadius(), maxPosition, maxViewPosition),
                                 foodToViewFood(state.getFoodsState().get(p.getKey())))));
 
         final Map<ViewPosition, ViewBacteria> bacteriaState = state.getBacteriaState().entrySet().stream()
-                .collect(Collectors.toMap(
-                        p -> positionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
+                .collect(Collectors.toMap(p -> positionToViewPosition(p.getKey(), maxPosition, maxViewPosition),
                         p -> bacteriaToViewBacteria(p.getValue(),
                                 radiusToViewRadius(p.getValue().getRadius(), maxPosition, maxViewPosition),
                                 initialState)));

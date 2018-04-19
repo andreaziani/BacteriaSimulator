@@ -3,9 +3,7 @@ package controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import controller.food.FoodController;
-import controller.food.FoodControllerImpl;
+import controller.food.FoodControllerUtils;
 import model.Analysis;
 import model.Environment;
 import model.InteractiveEnvironment;
@@ -30,7 +28,6 @@ import view.model.food.ViewFood;
 public abstract class EnvironmentControllerImpl implements EnvironmentController {
     private static final long PERIOD = 125L;
     private Environment environment;
-    private FoodController foodController;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
     private Replay replay;
     private SimulationState currentState;
@@ -85,7 +82,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     private void initialize() {
         this.currentState = SimulationState.NOT_READY;
         this.environment = new SimulatorEnvironment();
-        this.foodController = new FoodControllerImpl(this.environment);
     }
 
     @Override
@@ -120,10 +116,9 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     protected void setInitialState(final InitialState initialState) {
         this.resetSimulation();
         environment = new SimulatorEnvironment(initialState);
-        foodController = new FoodControllerImpl(environment);
         if (initialState.getExistingFood().isEmpty() || initialState.getSpecies().isEmpty()) {
             this.updateCurrentState(SimulationState.NOT_READY);
-        } else if (initialState.hasState()) { //Better to set in PAUSED
+        } else if (initialState.hasState()) { // Better to set in PAUSED
             this.start();
         } else {
             this.updateCurrentState(SimulationState.READY);
@@ -167,12 +162,13 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized void addFoodFromView(final ViewFood food, final ViewPosition position) {
-        this.foodController.addFoodFromViewToModel(food, ConversionsUtil.viewPositionToPosition(position, environment.getMaxPosition(), maxViewPosition.get()));
+        FoodControllerUtils.addFoodFromViewToModel(this.getEnvironmentAsInteractive(), food,
+                ConversionsUtil.viewPositionToPosition(position, environment.getMaxPosition(), maxViewPosition.get()));
     }
 
     @Override
     public synchronized void addNewTypeOfFood(final ViewFood food) {
-        this.foodController.addNewTypeOfFood(food);
+        FoodControllerUtils.addNewTypeOfFood(this.getEnvironmentAsInteractive(), food);
 
         if (this.currentState == SimulationState.NOT_READY && !this.isSpeciesEmpty()) {
             this.updateCurrentState(SimulationState.READY);
@@ -181,13 +177,13 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized List<ViewFood> getExistingViewFoods() {
-        return this.foodController.getExistingViewFoods();
+        return FoodControllerUtils.getExistingViewFoods(this.environment);
     }
 
     @Override
     public synchronized ViewState getState() {
-        return ConversionsUtil.stateToViewState(this.environment.getState(), foodController,
-                this.environment.getMaxPosition(), this.maxViewPosition.get(), environment.getInitialState());
+        return ConversionsUtil.stateToViewState(this.environment.getState(), this.environment.getMaxPosition(),
+                this.maxViewPosition.get(), environment.getInitialState());
     }
 
     @Override
@@ -239,7 +235,8 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         if (!(this.environment instanceof InteractiveEnvironment)) {
             throw new IllegalStateException();
         }
-//        InteractiveEnvironment environment = (InteractiveEnvironment) this.environment;
+        // InteractiveEnvironment environment = (InteractiveEnvironment)
+        // this.environment;
         return (InteractiveEnvironment) environment;
     }
 }
