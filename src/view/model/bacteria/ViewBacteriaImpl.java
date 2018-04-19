@@ -7,7 +7,7 @@ import model.bacteria.species.SpeciesOptions;
 import view.Radius;
 
 /**
- * Implementation of ViewBacteria that uses a SpeciesOptions.
+ * Implementation of ViewBacteria.
  */
 public final class ViewBacteriaImpl implements ViewBacteria {
     private final Radius radius;
