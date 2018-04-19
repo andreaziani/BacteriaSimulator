@@ -25,9 +25,23 @@ public abstract class DecisionBehaviorDecorator extends AbstractDecisionBehavior
         this.delegate = delegate;
     }
 
+    /**
+     * Abstract method used in the template method updateDecisions that must be
+     * implemented by the subclassed of DecisionBehaviorDecorator as if it was
+     * updateDecisions of AbstractDecisionBehavior.
+     * 
+     * @param decisions
+     *            the collection of decisions taken until now by the delegated of
+     *            the decorator.
+     * @param knowledge
+     *            the current knowledge of the bacteria making this decisions.
+     */
+    protected abstract void addDecisions(Map<Action, Double> decisions, BacteriaKnowledge knowledge);
+
     @Override
-    protected void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
+    protected final void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
         this.delegate.updateDecisions(decisions, knowledge);
+        this.addDecisions(decisions, knowledge);
     }
 
     @Override

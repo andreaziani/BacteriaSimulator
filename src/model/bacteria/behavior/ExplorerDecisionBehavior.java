@@ -24,8 +24,7 @@ public final class ExplorerDecisionBehavior extends DecisionBehaviorDecorator {
     }
 
     @Override
-    protected void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
-        super.updateDecisions(decisions, knowledge);
+    protected void addDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
         if (decisions.entrySet().stream().anyMatch(e -> e.getKey().getType().equals(ActionType.MOVE))
                 && decisions.entrySet().stream().filter(e -> e.getKey().getType().equals(ActionType.MOVE))
                         .noneMatch(e -> e.getValue() > 0)) {

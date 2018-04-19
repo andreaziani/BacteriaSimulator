@@ -17,7 +17,7 @@ import utils.exceptions.NotEnounghEnergyException;
 /**
  * This class implement a NutrientStorage.
  */
-public class NutrientStorageImpl implements NutrientStorage {
+public final class NutrientStorageImpl implements NutrientStorage {
 
     private final Map<Nutrient, Double> store;
     private Energy reserve;

@@ -33,8 +33,7 @@ public final class PreferentialDecisionBehavior extends DecisionBehaviorDecorato
     }
 
     @Override
-    protected void updateDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
-        super.updateDecisions(decisions, knowledge);
+    protected void addDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
         decisions.keySet().stream().filter(a -> a.getType().equals(preferred))
                 .forEach(k -> decisions.put(k, decisions.get(k) + 1));
     }
