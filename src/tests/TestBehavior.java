@@ -5,11 +5,16 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.junit.Test;
 
 import model.Direction;
+import model.Energy;
+import model.action.Action;
 import model.action.ActionType;
 import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
@@ -18,6 +23,7 @@ import model.bacteria.behavior.CostFilterDecisionBehavior;
 import model.bacteria.behavior.ExplorerDecisionBehavior;
 import model.bacteria.behavior.PreferentialDecisionBehavior;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.food.Nutrient;
 import model.perception.PerceptionImpl;
 
 /**
@@ -25,15 +31,40 @@ import model.perception.PerceptionImpl;
  */
 public class TestBehavior {
 
+    private class KnowledgeBuilder {
+        private Function<Nutrient, Energy> nutrientToEnergyConverter = TestUtils.allNutrientGood();
+        private Function<Action, Energy> actionCostFunction = x -> TestUtils.getSmallEnergy();
+        private Supplier<Energy> bacteriaEnergy = () -> TestUtils.getSmallEnergy();
+        private Supplier<Double> bacteriaSpeed = () -> 0.0;
+        private Map<Direction, Double> perceptionDirections = Collections.emptyMap();
+
+        KnowledgeBuilder setNutrientsBad() {
+            nutrientToEnergyConverter = TestUtils.allNutrientsBad();
+            return this;
+        }
+        KnowledgeBuilder setActionCostFunction(final Function<Action, Energy> function) {
+            actionCostFunction = function;
+            return this;
+        }
+        KnowledgeBuilder setPerceptionDirections(final Map<Direction, Double> perceptionDirections) {
+            this.perceptionDirections = perceptionDirections;
+            return this;
+        }
+        BacteriaKnowledge build() {
+            final BacteriaKnowledge result = new BacteriaKnowledge(
+                    new PerceptionImpl(Optional.of(TestUtils.getAFood()), perceptionDirections),
+                    nutrientToEnergyConverter, actionCostFunction, bacteriaEnergy, bacteriaSpeed);
+            return result;
+        }
+    }
+
     /**
      * Test DecisionMakers.
      */
     @Test
     public void testDecisionMakers() {
-        final BacteriaKnowledge knowledge = new BacteriaKnowledge(
-                new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
-                TestUtils.allNutrientsBad(), x -> TestUtils.getSmallEnergy(), () -> TestUtils.getSmallEnergy(),
-                () -> 0.0);
+        final BacteriaKnowledge knowledge = new KnowledgeBuilder()
+                .setPerceptionDirections(TestUtils.bestDirection(Direction.NORTH)).setNutrientsBad().build();
         AbstractDecisionBehavior behavior = TestUtils.baseBehaviorFromOptions(Collections.emptyList());
         assertEquals("Behavior should choose to do nothing", ActionType.NOTHING, behavior.chooseAction(knowledge).getType());
         behavior = TestUtils.baseBehaviorFromOptions(
@@ -53,10 +84,9 @@ public class TestBehavior {
      */
     @Test
     public void testCostFilterBehavior() {
-        final BacteriaKnowledge knowledge = new BacteriaKnowledge(
-                new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
-                TestUtils.allNutrientGood(), TestUtils.singleLowCostActionType(ActionType.MOVE),
-                () -> TestUtils.getSmallEnergy(), () -> 0.0);
+        final BacteriaKnowledge knowledge = new KnowledgeBuilder()
+                .setPerceptionDirections(TestUtils.bestDirection(Direction.NORTH))
+                .setActionCostFunction(TestUtils.singleLowCostActionType(ActionType.MOVE)).build();
         AbstractDecisionBehavior behavior = TestUtils
                 .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.ALWAYS_EAT,
                         DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.ALWAYS_REPLICATE));
@@ -72,10 +102,9 @@ public class TestBehavior {
      */
     @Test
     public void testPreferentialBehavior() {
-        final BacteriaKnowledge knowledge = new BacteriaKnowledge(
-                new PerceptionImpl(Optional.of(TestUtils.getAFood()), TestUtils.bestDirection(Direction.NORTH)),
-                TestUtils.allNutrientGood(), TestUtils.singleLargeCostActionType(ActionType.REPLICATE),
-                () -> TestUtils.getSmallEnergy(), () -> 0.0);
+        final BacteriaKnowledge knowledge = new KnowledgeBuilder()
+                .setPerceptionDirections(TestUtils.bestDirection(Direction.NORTH))
+                .setActionCostFunction(TestUtils.singleLargeCostActionType(ActionType.REPLICATE)).build();
         AbstractDecisionBehavior behavior = TestUtils
                 .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING,
                         DecisionMakerOption.NEAR_FOOD_MOVEMENT, DecisionMakerOption.ALWAYS_REPLICATE));
@@ -92,12 +121,10 @@ public class TestBehavior {
      */
     @Test
     public void testExplorer() {
-        final BacteriaKnowledge knowledge = new BacteriaKnowledge(
-                new PerceptionImpl(Optional.of(TestUtils.getAFood()), Collections.emptyMap()),
-                TestUtils.allNutrientGood(), TestUtils.singleLargeCostActionType(ActionType.REPLICATE),
-                () -> TestUtils.getSmallEnergy(), () -> 0.0);
+        final BacteriaKnowledge knowledge = new KnowledgeBuilder()
+                .setActionCostFunction(TestUtils.singleLargeCostActionType(ActionType.REPLICATE)).build();
         AbstractDecisionBehavior behavior = TestUtils
-                .baseBehaviorFromOptions(Arrays.asList(DecisionMakerOption.NEAR_FOOD_MOVEMENT));
+                .baseBehaviorFromOptions(Collections.singletonList(DecisionMakerOption.NEAR_FOOD_MOVEMENT));
         assertEquals("Behavior should choose NOTHING because it can't see foods",
                 ActionType.NOTHING, behavior.chooseAction(knowledge).getType());
         behavior = new ExplorerDecisionBehavior(behavior);
