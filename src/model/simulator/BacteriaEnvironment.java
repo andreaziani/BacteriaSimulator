@@ -114,5 +114,15 @@ public interface BacteriaEnvironment {
      */
     void markPosition(Position position, Bacteria bacteria);
 
+    /**
+     * Return the current number of Bacteria in the simulation.
+     * @return the number of Bacteria
+     */
     int getNumberOfBacteria();
+
+    /**
+     * Get the maximum Position in the simulation, useful when updating positions.
+     * @return such max position.
+     */
+    Position getMaxPosition();
 }

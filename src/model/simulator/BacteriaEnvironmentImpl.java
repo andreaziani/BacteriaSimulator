@@ -30,6 +30,13 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
                 .forEach(pos -> this.occupiedPosition.set(this.positionToBitSetIndex(pos), value));
     }
 
+    /**
+     * Constructor for a Bacteria environment.
+     * 
+     * @param maxPosition
+     *            the maximumPosition in the simulation used as limit for the
+     *            positions
+     */
     public BacteriaEnvironmentImpl(final Position maxPosition) {
         this.maxPosition = maxPosition;
     }
@@ -109,4 +116,8 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
         return this.bacteria.size();
     }
 
+    @Override
+    public Position getMaxPosition() {
+        return this.maxPosition;
+    }
 }

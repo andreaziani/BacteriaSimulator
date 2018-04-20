@@ -32,7 +32,7 @@ import utils.EnvironmentUtil;
 public class ActionManager extends RecursiveAction {
 
     private static final long serialVersionUID = -4627517274471842922L;
-    private static final int THRESHOLD = 2;
+    private static final int THRESHOLD = 4;
     private final List<Position> positions;
     private final BacteriaEnvironment bacteriaEnv;
     private final Map<Position, Food> foodsState;
@@ -50,21 +50,19 @@ public class ActionManager extends RecursiveAction {
      *            _
      * @param foodsState
      *            _
-     * @param maxPosition
-     *            _
      * @param maxRadius
      *            _
      * @param actionPerf
      *            _
      */
     public ActionManager(final List<Position> positions, final BacteriaEnvironment bacteriaEnv,
-            final Map<Position, Food> foodsState, final Position maxPosition, final Optional<Double> maxRadius,
+            final Map<Position, Food> foodsState, final Optional<Double> maxRadius,
             final ActionPerformer actionPerf) {
         super();
         this.positions = positions;
         this.bacteriaEnv = bacteriaEnv;
         this.foodsState = foodsState;
-        this.maxPosition = maxPosition;
+        this.maxPosition = this.bacteriaEnv.getMaxPosition();
         this.maxFoodRadius = maxRadius;
         this.actionPerformer = actionPerf;
     }
@@ -165,14 +163,14 @@ public class ActionManager extends RecursiveAction {
         final List<Position> fHalf = positions.stream().limit(halfSize).collect(Collectors.toList());
         final List<Position> sHalf = positions.stream().skip(halfSize).collect(Collectors.toList());
 
-        subtask.add(new ActionManager(fHalf, bacteriaEnv, foodsState, maxPosition, maxFoodRadius, actionPerformer));
-        subtask.add(new ActionManager(sHalf, bacteriaEnv, foodsState, maxPosition, maxFoodRadius, actionPerformer));
+        subtask.add(new ActionManager(fHalf, bacteriaEnv, foodsState, maxFoodRadius, actionPerformer));
+        subtask.add(new ActionManager(sHalf, bacteriaEnv, foodsState, maxFoodRadius, actionPerformer));
 
         return subtask;
     }
 
     private void solveBaseCase(final List<Position> positions) {
-        positions.stream().forEach(position -> {
+        positions.parallelStream().forEach(position -> {
             final Bacteria bacteria = this.bacteriaEnv.getBacteria(position);
             bacteria.setPerception(createPerception(position));
             costOfLiving(bacteria);

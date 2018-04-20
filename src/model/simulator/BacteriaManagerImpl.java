@@ -9,6 +9,8 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.time.StopWatch;
+
 import model.Energy;
 import model.EnergyImpl;
 import model.PositionAlreadyOccupiedException;
@@ -36,16 +38,15 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private static final double COST_OF_LIVING = 1.5;
     private static final int BACTERIA_PER_SPECIES = 100;
     private static final double BACTERIA_RADIUS = 5.0;
-    private static final double PERCEPTION_RADIUS = 25.0;
+    private static final double PERCEPTION_RADIUS = 40.0;
     private final Position simulationMaxPosition;
-    private final ExistingFoodManager manager;
     private final FoodEnvironment foodEnv;
     private final FoodFactory factory = new FoodFactoryImpl();
     private final SpeciesManager speciesManager;
     private final BacteriaEnvironment bacteriaEnv;
     private final ActionPerformer actionPerformer;
     private final Random rand = new Random();
-    private int bacteriaCounter;
+    private final Optional<Double> maxFoodRadius;
 
     private final ForkJoinPool commonPool = new ForkJoinPool();
 
@@ -59,8 +60,6 @@ public class BacteriaManagerImpl implements BacteriaManager {
      * 
      * @param foodEnv
      *            used to update food environment according to bacteria actions
-     * @param manager
-     *            food manager used to fast retrieve all kind of food in simulation
      * @param maxPosition
      *            contains information about the maximum position in the simulation
      * @param speciesManager
@@ -68,13 +67,13 @@ public class BacteriaManagerImpl implements BacteriaManager {
      */
     public BacteriaManagerImpl(final FoodEnvironment foodEnv, final ExistingFoodManager manager,
             final Position maxPosition, final SpeciesManager speciesManager) {
-        this.bacteriaCounter = 0;
         this.foodEnv = foodEnv;
-        this.manager = manager;
         this.simulationMaxPosition = maxPosition;
         this.speciesManager = speciesManager;
         this.bacteriaEnv = new BacteriaEnvironmentImpl(maxPosition);
         this.actionPerformer = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
+        this.maxFoodRadius = manager.getExistingFoodsSet().stream().map(food -> food.getRadius())
+                .max((r1, r2) -> Double.compare(r1, r2));
     }
 
     @Override
@@ -91,9 +90,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
                                 rand.nextInt((int) this.simulationMaxPosition.getY())))
                         .forEach(position -> {
                             final GeneticCode genCode = new GeneticCodeImpl(gene, BACTERIA_RADIUS, PERCEPTION_RADIUS);
-                            final Bacteria bacteria = new BacteriaImpl(bacteriaCounter, specie, genCode,
+                            final int nextBacteriaID = this.bacteriaEnv.getNumberOfBacteria();
+                            final Bacteria bacteria = new BacteriaImpl(nextBacteriaID, specie, genCode,
                                     SimulatorEnvironment.INITIAL_ENERGY);
-                            bacteriaCounter++;
                             this.bacteriaEnv.insertBacteria(position, bacteria);
                         });
             });
@@ -102,14 +101,11 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
     private void updateAliveBacteria() {
         this.bacteriaEnv.updateOccupiedPositions();
-        final Optional<Double> maxFoodRadius = this.manager.getExistingFoodsSet().stream().map(food -> food.getRadius())
-                .max((r1, r2) -> Double.compare(r1, r2));
 
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
         final List<Position> positions = this.bacteriaEnv.activePosition().stream().collect(Collectors.toList());
 
-        commonPool.invoke(new ActionManager(positions, bacteriaEnv, foodsState, simulationMaxPosition,
-                maxFoodRadius, actionPerformer));
+        commonPool.invoke(new ActionManager(positions, bacteriaEnv, foodsState, this.maxFoodRadius, actionPerformer));
     }
 
     private void updateDeadBacteria() {
@@ -131,7 +127,11 @@ public class BacteriaManagerImpl implements BacteriaManager {
     @Override
     public void updateBacteria() {
         this.updateDeadBacteria();
+        final StopWatch st = new StopWatch();
+        st.start();
         this.updateAliveBacteria();
+        st.stop();
+        Logger.getInstance().info("Living Bacteria", "" + st.getNanoTime() / 1_000_000);
     }
 
     /**
