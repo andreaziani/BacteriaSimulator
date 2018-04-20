@@ -26,8 +26,7 @@ import model.state.Position;
 import utils.EnvironmentUtil;
 
 /**
- * 
- *
+ * RecursiveAction to perform action for each Bacteria in parallel.
  */
 public class ActionManager extends RecursiveAction {
 
@@ -42,18 +41,18 @@ public class ActionManager extends RecursiveAction {
     private final Map<Position, Optional<Position>> foodsPosition = new HashMap<>();
 
     /**
-     * _.
+     * Constructor for ActionManager.
      * 
      * @param positions
-     *            _
+     *            The Positions of each Bacteria
      * @param bacteriaEnv
-     *            _
+     *            The environment on which perform the action
      * @param foodsState
-     *            _
+     *            The food status used to create the perception
      * @param maxRadius
-     *            _
+     *            The the max radius of the food in the simulation
      * @param actionPerf
-     *            _
+     *            the Object used to actually perform the action
      */
     public ActionManager(final List<Position> positions, final BacteriaEnvironment bacteriaEnv,
             final Map<Position, Food> foodsState, final Optional<Double> maxRadius,
