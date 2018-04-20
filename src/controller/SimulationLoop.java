@@ -15,7 +15,7 @@ public class SimulationLoop implements Runnable {
     private final Environment environment;
     private SimulationState state = SimulationState.NOT_READY;
 
-    private volatile boolean isPaused;
+    private volatile boolean setPaused;
 
     /**
      * Constructor for SimulationLoop.
@@ -25,7 +25,7 @@ public class SimulationLoop implements Runnable {
     public SimulationLoop(final EnvironmentController controller, final Environment environment) {
         this.controller = controller;
         this.environment = environment;
-        this.isPaused = false;
+        this.setPaused = false;
     }
 
     @Override
@@ -49,7 +49,10 @@ public class SimulationLoop implements Runnable {
 
             try {
                 synchronized (this) {
-                    while (this.isPaused) {
+                    while (this.setPaused) {
+                        if (this.state != SimulationState.PAUSED) {
+                            this.updateState(SimulationState.PAUSED);
+                        }
                         wait();
                     }
                 }
@@ -83,7 +86,7 @@ public class SimulationLoop implements Runnable {
      */
     public synchronized void stop() {
         this.updateState(SimulationState.ENDED);
-        if (this.isPaused) {
+        if (this.setPaused) {
             notifyAll();
         }
     }
@@ -92,8 +95,8 @@ public class SimulationLoop implements Runnable {
      * Pause the simulation.
      */
     public synchronized void pause() {
-        if (!this.isPaused) {
-            this.isPaused = true;
+        if (!this.setPaused) {
+            this.setPaused = true;
             this.updateState(SimulationState.PAUSED);
         }
     }
@@ -102,8 +105,8 @@ public class SimulationLoop implements Runnable {
      * Resume the simulation.
      */
     public synchronized void resume() {
-        if (this.isPaused) {
-            this.isPaused = false;
+        if (this.setPaused) {
+            this.setPaused = false;
             this.updateState(SimulationState.RUNNING);
             notifyAll();
         }
