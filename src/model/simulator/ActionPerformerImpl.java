@@ -13,6 +13,7 @@ import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;
 import model.state.Position;
 import utils.EnvironmentUtil;
+import utils.Mutex;
 
 /**
  * Implementation of ActionPerformer interface.
@@ -23,8 +24,9 @@ public class ActionPerformerImpl implements ActionPerformer {
     private final BacteriaEnvironment bactEnv;
     private final FoodEnvironment foodEnv;
     private final Position simulationMaxPosition;
-    private Position currentPosition;
-    private Bacteria bacterium;
+
+    private final Mutex bacteriaEnvMutex = new Mutex();
+    private final Mutex foodEnvMutex = new Mutex();
 
     /**
      * Constructor of ActionPerformerImpl.
@@ -44,71 +46,96 @@ public class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void setStatus(final Position bacteriumPos, final Bacteria bacterium) {
-        this.currentPosition = bacteriumPos;
-        this.bacterium = bacterium;
-    }
+    public void move(final Position bacteriaPos, final Bacteria bacteria, final Direction moveDirection,
+            final double moveDistance) {
+        try {
+            this.bacteriaEnvMutex.acquire();
+            try {
+                final double maximumDistance = bacteria.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
+                final double distance = Math.min(moveDistance, maximumDistance);
+                this.bactEnv.clearPosition(bacteriaPos, bacteria);
 
-    @Override
-    public void move(final Direction moveDirection, final double moveDistance) {
-        final double maximumDistance = this.bacterium.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
-        final double distance = Math.min(moveDistance, maximumDistance);
-        this.bactEnv.clearPosition(this.currentPosition, this.bacterium);
+                final Optional<Position> newPosition = EnvironmentUtil
+                        .positionStream((int) Math.ceil(distance), bacteriaPos, this.simulationMaxPosition)
+                        .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(bacteriaPos, position))
+                                .equals(moveDirection))
+                        .filter(position -> {
+                            return !EnvironmentUtil
+                                    .positionStream((int) Math.ceil(bacteria.getRadius()), position,
+                                            this.simulationMaxPosition)
+                                    .anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
+                        }).max((p1, p2) -> Double.compare(EnvironmentUtil.distance(bacteriaPos, p1),
+                                EnvironmentUtil.distance(bacteriaPos, p2)));
 
-        final Optional<Position> newPosition = EnvironmentUtil
-                .positionStream((int) Math.ceil(distance), currentPosition, this.simulationMaxPosition)
-                .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(currentPosition, position))
-                        .equals(moveDirection))
-                .filter(position -> {
-                    return !EnvironmentUtil.positionStream((int) Math.ceil(this.bacterium.getRadius()), position,
-                            this.simulationMaxPosition).anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
-                }).max((p1, p2) -> Double.compare(EnvironmentUtil.distance(currentPosition, p1),
-                        EnvironmentUtil.distance(currentPosition, p2)));
-
-        if (newPosition.isPresent()) {
-            this.bactEnv.changeBacteriaPosition(this.currentPosition, newPosition.get());
-            this.bactEnv.markPosition(newPosition.get(), this.bacterium);
-        } else {
-            this.bactEnv.markPosition(this.currentPosition, this.bacterium);
+                if (newPosition.isPresent()) {
+                    this.bactEnv.changeBacteriaPosition(bacteriaPos, newPosition.get());
+                    this.bactEnv.markPosition(newPosition.get(), bacteria);
+                } else {
+                    this.bactEnv.markPosition(bacteriaPos, bacteria);
+                }
+            } finally {
+                this.bacteriaEnvMutex.release();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void eat(final Optional<Position> foodPosition) {
-        Optional<Food> foodInPosition = Optional.empty();
-        if (foodPosition.isPresent() && this.foodEnv.getFoodsState().containsKey(foodPosition.get())) {
-            foodInPosition = Optional.of(this.foodEnv.getFoodsState().get(foodPosition.get()));
-        }
+    public void eat(final Position bacteriaPos, final Bacteria bacteria, final Optional<Position> foodPosition) {
+        try {
+            this.foodEnvMutex.acquire();
+            try {
+                Optional<Food> foodInPosition = Optional.empty();
+                if (foodPosition.isPresent() && this.foodEnv.getFoodsState().containsKey(foodPosition.get())) {
+                    foodInPosition = Optional.of(this.foodEnv.getFoodsState().get(foodPosition.get()));
+                }
 
-        if (foodInPosition.isPresent()) {
-            this.bacterium.addFood(foodInPosition.get());
-            this.foodEnv.removeFood(foodInPosition.get(), foodPosition.get());
-
-        }
-    }
-
-    @Override
-    public void replicate(final int bacteriaCounter) {
-        final double bacteriaRadius = this.bacterium.getRadius();
-
-        final Optional<Position> freePosition = EnvironmentUtil
-                .positionStream((int) Math.ceil(bacteriaRadius * 2), this.currentPosition, this.simulationMaxPosition)
-                .filter(position -> {
-                    return !EnvironmentUtil.positionStream((int) Math.ceil(this.bacterium.getRadius()), position,
-                            this.simulationMaxPosition).anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
-                }).findAny();
-
-        if (freePosition.isPresent()) {
-            final GeneticCode clonedGenCode = this.geneFactory.copyGene(this.bacterium.getGeneticCode());
-            final Energy halfEnergy = this.bacterium.getEnergy().multiply(0.5);
-            this.bacterium.spendEnergy(halfEnergy);
-            final Bacteria newBacteria = new BacteriaImpl(bacteriaCounter, this.bacterium.getSpecies(), clonedGenCode,
-                    halfEnergy);
-            this.bactEnv.insertBacteria(freePosition.get(), newBacteria);
+                if (foodInPosition.isPresent()) {
+                    System.err.println("BActeria eat");
+                    bacteria.addFood(foodInPosition.get());
+                    this.foodEnv.removeFood(foodInPosition.get(), foodPosition.get());
+                }
+            } finally {
+                this.foodEnvMutex.release();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void doNothing() {
+    public void replicate(final Position bacteriaPos, final Bacteria bacteria, final int bacteriaCounter) {
+        try {
+            this.bacteriaEnvMutex.acquire();
+            try {
+                final double bacteriaRadius = bacteria.getRadius();
+
+                final Optional<Position> freePosition = EnvironmentUtil
+                        .positionStream((int) Math.ceil(bacteriaRadius * 2), bacteriaPos, this.simulationMaxPosition)
+                        .filter(position -> {
+                            return !EnvironmentUtil
+                                    .positionStream((int) Math.ceil(bacteria.getRadius()), position, this.simulationMaxPosition)
+                                    .anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
+                        }).findAny();
+
+                if (freePosition.isPresent()) {
+                    final GeneticCode clonedGenCode = this.geneFactory.copyGene(bacteria.getGeneticCode());
+                    final Energy halfEnergy = bacteria.getEnergy().multiply(0.5);
+                    bacteria.spendEnergy(halfEnergy);
+                    final Bacteria newBacteria = new BacteriaImpl(bacteriaCounter, bacteria.getSpecies(), clonedGenCode,
+                            halfEnergy);
+                    this.bactEnv.insertBacteria(freePosition.get(), newBacteria);
+                }
+            } finally {
+                this.bacteriaEnvMutex.release();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void doNothing(final Position bacteriaPos, final Bacteria bacteriat) {
     }
 }
