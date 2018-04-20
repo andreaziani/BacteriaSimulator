@@ -20,6 +20,7 @@ public final class BacteriaKnowledge {
     private final Supplier<Energy> bacteriaEnergy;
     private final Supplier<Double> bacteriaSpeed;
     private Optional<Action> action;
+    private boolean replicatingState;
 
     /**
      * Create a new BacteriaKnowledge taking all the informations it stores from the
@@ -144,5 +145,20 @@ public final class BacteriaKnowledge {
      */
     public double getSpeed() {
         return bacteriaSpeed.get();
+    }
+
+    /**
+     * @return the replicating state of the bacteria.
+     */
+    public boolean isReplicating() {
+        return replicatingState;
+    }
+
+    /**
+     * @param replicatingState
+     *            the replicating state of the bacteria to be set.
+     */
+    public void setReplicatingState(boolean replicatingState) {
+        this.replicatingState = replicatingState;
     }
 }

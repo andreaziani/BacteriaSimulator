@@ -104,4 +104,21 @@ public interface Bacteria extends Collidable {
      *             given amount.
      */
     void spendEnergy(Energy amount);
+
+    /**
+     * Put this bacteria in the replicating state, informing it that other
+     * replication actions will not work.
+     */
+    void enterReplicating();
+
+    /**
+     * Remove this bacteria from the replicating state, informing that it now can
+     * try to replicate again.
+     */
+    void exitReplicating();
+
+    /**
+     * @return if this bacteria is replicating.
+     */
+    boolean isReplicating();
 }
