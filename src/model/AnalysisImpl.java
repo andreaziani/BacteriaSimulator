@@ -147,7 +147,7 @@ public class AnalysisImpl implements Analysis {
         while (iter.hasNext()) {
             sb.append(iter.next());
             if (iter.hasNext()) {
-                sb.append(',').append('\n');
+                sb.append('\n');
             }
         }
         if (bacteria.isEmpty()) {
