@@ -113,38 +113,33 @@ public class ActionManager extends RecursiveAction {
         }
     }
 
-    private void performAction(final Position bacteriaPos, final Bacteria bacteria) {
-        // TODO remove
-        synchronized (this.actionPerformer) {
-            actionPerformer.setStatus(bacteriaPos, bacteria);
-            final Action action = bacteria.getAction();
+    private void performAction(final Position pos, final Bacteria bact) {
+            final Action action = bact.getAction();
             final ActionType actionType = action.getType();
-
             try {
-                bacteria.spendEnergy(bacteria.getActionCost(action));
+                bact.spendEnergy(bact.getActionCost(action));
                 switch (actionType) {
                 case MOVE:
                     // TODO mutex for action that modify bacteriaEnv
                     final DirectionalAction moveAction = (DirectionalActionImpl) action;
-                    actionPerformer.move(moveAction.getDirection(), moveAction.getDistance());
+                    actionPerformer.move(pos, bact, moveAction.getDirection(), moveAction.getDistance());
                     break;
                 case EAT:
                     // TODO mutex for action that modify foodEnv
-                    actionPerformer.eat(this.foodsPosition.get(bacteriaPos));
+                    actionPerformer.eat(pos, bact, this.foodsPosition.get(pos));
                     break;
                 case REPLICATE:
                     // TODO mutex for action that modify bacteriaEnv
                     final int numberOfBacteria = this.bacteriaEnv.getNumberOfBacteria();
-                    actionPerformer.replicate(numberOfBacteria);
+                    actionPerformer.replicate(pos, bact, numberOfBacteria);
                     break;
                 default:
-                    actionPerformer.doNothing();
+                    actionPerformer.doNothing(pos, bact);
                     break;
                 }
             } catch (NotEnoughEnergyException e) {
-                bacteria.spendEnergy(bacteria.getEnergy());
+                bact.spendEnergy(bact.getEnergy());
             }
-        }
     }
 
     @Override
