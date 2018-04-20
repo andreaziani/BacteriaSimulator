@@ -70,7 +70,9 @@ public class FoodCreationDialog extends JDialog {
                 this.quantity.setEnabled(true);
                 this.nutrients.setEnabled(true);
             } catch (Exception exception) {
-                JOptionPane.showMessageDialog(this, "Food should have a name!");
+                final JLabel message = new JLabel("Food should have a name!");
+                message.setFont(font);
+                JOptionPane.showMessageDialog(this, message);
             }
         });
 
@@ -79,9 +81,11 @@ public class FoodCreationDialog extends JDialog {
                 this.builder.addNutrient(Pair.of(getSelectedNutrient(), Double.parseDouble(this.quantity.getText())));
                 this.createFood.setEnabled(true);
             } catch (Exception exception1) {
-                exception1.printStackTrace();
-                JOptionPane.showMessageDialog(this, "ATTENTION SOMETHING'S WRONG!" + "\n"
+                final JLabel message = new JLabel("ATTENTION SOMETHING'S WRONG!" + "\n"
                         + "-Check that you have entered numbers in quantity like 10.00");
+                message.setFont(font);
+                JOptionPane.showMessageDialog(this, message);
+                this.dispose();
             }
         });
 
@@ -92,8 +96,11 @@ public class FoodCreationDialog extends JDialog {
                 message.setFont(font);
                 JOptionPane.showMessageDialog(this, message);
                 superPanel.updateFoods();
+                this.dispose();
             } catch (AlreadyExistingFoodException exception2) {
-                JOptionPane.showMessageDialog(this, "INSERTION FAILED" + "\n" + "This food already exist!");
+                final JLabel message = new JLabel("INSERTION FAILED" + "\n" + "This food already exist!");
+                message.setFont(font);
+                JOptionPane.showMessageDialog(this, message);
                 this.dispose();
             }
         });
