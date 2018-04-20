@@ -1,6 +1,7 @@
 package view.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -29,7 +30,9 @@ public class AnalysisDialog extends JDialog {
 
     private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
     private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
-
+    private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+    private final int height = dim.height * 3 / 5;
+    private final int width = dim.width * 3 / 5;
     private final Font font = new Font("Arial", Font.PLAIN, fontSize);
 /**
  * View of the Analysis.
@@ -49,6 +52,11 @@ public class AnalysisDialog extends JDialog {
         final JTextArea survived = new JTextArea();
         final JTextArea jTextArea = new JTextArea();
         jTextArea.setFont(font);
+        wins.setFont(font);
+        nByS.setFont(font);
+        dead.setFont(font);
+        bactMutated.setFont(font);
+        survived.setFont(font);
         final Analysis analysis = controller.getController().getAnalysis();
         final JPanel pAnalysis = new JPanel();
         final JButton bt = new JButton("Save Analysis");
@@ -78,6 +86,7 @@ public class AnalysisDialog extends JDialog {
 
         bt.addActionListener(e -> {
             final JFileChooser analysisChooser = new JFileChooser();
+            analysisChooser.setPreferredSize(new Dimension(width, height));
             analysisChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             analysisChooser.setDialogTitle("Choose a file");
             if (analysisChooser.showSaveDialog(mainframe) == JFileChooser.APPROVE_OPTION) {
