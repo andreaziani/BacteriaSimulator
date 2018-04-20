@@ -132,16 +132,16 @@ public final class TestUtils {
     /**
      * @param dir
      *            a Direction.
-     * @return a map from directions to double that associates a large value to the
-     *         given direction and a small value to all the others.
+     * @return a map from directions to double that associates a small distance to
+     *         the given direction and a large one to all the others.
      */
     public static Map<Direction, Double> bestDirection(final Direction dir) {
         final Map<Direction, Double> result = new EnumMap<>(Direction.class);
         for (final Direction d : Direction.values()) {
             if (d.equals(dir)) {
-                result.put(d, LARGE_DOUBLE);
-            } else {
                 result.put(d, SMALL_DOUBLE);
+            } else {
+                result.put(d, LARGE_DOUBLE);
             }
         }
         return result;
