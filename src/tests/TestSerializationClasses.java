@@ -78,7 +78,7 @@ public class TestSerializationClasses {
         final Species species1 = new SpeciesBuilder(SPECIES_NAME1).build();
         bacteriaState.put(new PositionImpl(TestUtils.getSmallDouble(), TestUtils.getSmallDouble()),
                 new BacteriaImpl(0, species1,
-                        new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(), TestUtils.getSmallDouble()),
+                        new GeneticCodeImpl(new GeneImpl(), TestUtils.getSmallDouble(), TestUtils.getLargeDouble()),
                         TestUtils.getSmallEnergy()));
         final Species species2 = new SpeciesBuilder(SPECIES_NAME2)
                 .addDecisionBehaiorDecorator(BehaviorDecoratorOption.COST_FILTER)
