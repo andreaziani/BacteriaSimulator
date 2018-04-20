@@ -1,7 +1,7 @@
 package model.food.insertionstrategy;
 
+import model.food.ExistingFoodManager;
 import model.food.Food;
-import model.simulator.ExistingFoodManager;
 
 /**
  * Interface for adding foods randomly taken from existing foods.

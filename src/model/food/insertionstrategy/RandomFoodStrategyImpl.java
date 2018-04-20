@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import model.food.ExistingFoodManager;
 import model.food.Food;
-import model.simulator.ExistingFoodManager;
 
 /**
  * Implementation of the strategy that uses a uniform distribution for the

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import model.PositionAlreadyOccupiedException;
+import model.food.ExistingFoodManager;
 import model.food.Food;
 import model.food.insertionstrategy.RandomFoodStrategy;
 import model.food.insertionstrategy.RandomFoodStrategyImpl;

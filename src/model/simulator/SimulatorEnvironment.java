@@ -16,6 +16,8 @@ import model.MutationManagerImpl;
 import model.bacteria.species.SpeciesManager;
 import model.bacteria.species.SpeciesManagerImpl;
 import model.bacteria.species.SpeciesOptions;
+import model.food.ExistingFoodManager;
+import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.state.InitialState;
