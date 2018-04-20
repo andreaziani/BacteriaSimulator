@@ -40,6 +40,13 @@ public class AnalysisDialog extends JDialog {
  */
     public AnalysisDialog(final UserInterface mainframe, final ViewController controller) {
         super(mainframe, true);
+
+        //final JTextArea jTextArea = new JTextArea();
+        final JTextArea wins = new JTextArea();
+        final JTextArea nByS = new JTextArea();
+        final JTextArea dead = new JTextArea();
+        final JTextArea bactMutated = new JTextArea();
+        final JTextArea survived = new JTextArea();
         final JTextArea jTextArea = new JTextArea();
         jTextArea.setFont(font);
         final Analysis analysis = controller.getController().getAnalysis();
@@ -47,9 +54,28 @@ public class AnalysisDialog extends JDialog {
         final JButton bt = new JButton("Save Analysis");
         bt.setFont(font);
         pAnalysis.setBackground(Color.WHITE);
-        pAnalysis.add(jTextArea);
-        jTextArea.setText(analysis.getDescription());
-        jTextArea.setEditable(false);
+
+        //pAnalysis.add(jTextArea);
+        pAnalysis.add(wins);
+        pAnalysis.add(nByS);
+        pAnalysis.add(dead);
+        pAnalysis.add(bactMutated);
+        pAnalysis.add(survived);
+
+        //jTextArea.setText(analysis.getDescription());
+        wins.setText("Predominant Species:" + "\n" + analysis.resultPredominant());
+        nByS.setText("Quantity of bacteria per Species:" + "\n" + analysis.numberBySpecies());
+        dead.setText("Species are dead:" + "\n" + analysis.resultDead());
+        bactMutated.setText("Quantity of bacteria mutated per Species:" + "\n" + analysis.resultBactMutated());
+        survived.setText("Species are survived:" + "\n" + analysis.resultSurvived());
+
+        //jTextArea.setEditable(false);
+        wins.setEditable(false);
+        nByS.setEditable(false);
+        dead.setEditable(false);
+        bactMutated.setEditable(false);
+        survived.setEditable(false);
+
         bt.addActionListener(e -> {
             final JFileChooser analysisChooser = new JFileChooser();
             analysisChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
