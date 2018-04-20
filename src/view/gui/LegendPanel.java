@@ -79,6 +79,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         foodLabel = new JLabel("Food colors:");
         speciesLabel = new JLabel("Species colors:");
         init();
+        this.foodLabel.setFont(font);
+        this.speciesLabel.setFont(font);
     }
 
     private void init() {
@@ -168,6 +170,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         updateColor(nameLabel, map, name, color);
         legendEntryPanel.add(nameLabel);
         final JButton btn = new JButton("Change");
+        btn.setFont(font);
+        nameLabel.setFont(font);
         btn.addActionListener(ev -> {
             final Color nextColor = JColorChooser.showDialog(LegendPanel.this, "Choose new color", color);
             updateColor(nameLabel, map, name, nextColor);

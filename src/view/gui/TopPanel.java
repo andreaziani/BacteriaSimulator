@@ -2,6 +2,7 @@ package view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -29,6 +30,9 @@ import view.ViewController;
  */
 public class TopPanel extends JPanel implements SimulationStateUpdatable {
     private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+    private final int height = dim.height * 3 / 5;
+    private final int width = dim.width * 3 / 5;
     private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
     private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private final JMenuBar menuBar = new JMenuBar();
@@ -68,12 +72,12 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.componentsSettings();
 
         final JFileChooser simulationChooser = new JFileChooser();
+        simulationChooser.setSize(width, height);
         simulationChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         simulationChooser.setDialogTitle("Choose a file");
         simulationChooser.setFileFilter(new FileNameExtensionFilter("*." + FileController.SIMULATION_EXTENTION,
                 FileController.SIMULATION_EXTENTION));
         simulationChooser.setAcceptAllFileFilterUsed(false);
-
         loadSimulation.addActionListener(e -> {
             if (simulationChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
                 try {
