@@ -3,7 +3,6 @@ package view.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.io.IOException;
 
@@ -29,12 +28,9 @@ import view.ViewController;
  *
  */
 public class TopPanel extends JPanel implements SimulationStateUpdatable {
-    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private final int height = dim.height * 3 / 5;
     private final int width = dim.width * 3 / 5;
-    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
-    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu fileMenu = new JMenu("File");
     private final JMenu helpMenu = new JMenu("Help");
@@ -84,16 +80,16 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                     view.getController().loadInitialState(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     final JLabel message = new JLabel("An error occurred trying to load the simulation");
-                    message.setFont(font);
+                    message.setFont(GuiUtils.FONT);
                     JOptionPane.showMessageDialog(this, message);
                 } catch (IllegalExtensionException ex) {
                     final JLabel message = new JLabel("The extension of the file was not correct");
-                    message.setFont(font);
+                    message.setFont(GuiUtils.FONT);
                     JOptionPane.showMessageDialog(this, message);
                 } catch (FileFormatException ex) {
                     final JLabel message = new JLabel(
                             "The selected file does not contain a replay, has been corrupted or use an outdated format");
-                    message.setFont(font);
+                    message.setFont(GuiUtils.FONT);
                     JOptionPane.showMessageDialog(this, message);
                 }
             }
@@ -104,7 +100,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                     view.getController().saveInitialState(simulationChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     final JLabel message = new JLabel("An error occurred trying to save the simulation");
-                    message.setFont(font);
+                    message.setFont(GuiUtils.FONT);
                     JOptionPane.showMessageDialog(this, message);
                 }
             }
@@ -123,16 +119,16 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                     view.getController().loadReplay(replayChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     final JLabel message = new JLabel("An error occurred trying to load the simulation");
-                    message.setFont(font);
+                    message.setFont(GuiUtils.FONT);
                     JOptionPane.showMessageDialog(this, message);
                 } catch (IllegalExtensionException ex) {
                     final JLabel message = new JLabel("The extension of the file was not correct");
-                    message.setFont(font);
+                    message.setFont(GuiUtils.FONT);
                     JOptionPane.showMessageDialog(this, message);
                 } catch (FileFormatException ex) {
                     final JLabel message = new JLabel(
                             "The selected file does not contain a replay, has been corrupted or use an outdated format");
-                    message.setFont(font);
+                    message.setFont(GuiUtils.FONT);
                     JOptionPane.showMessageDialog(this, message);
                 }
             }
@@ -143,7 +139,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
                     view.getController().saveReplay(replayChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
                     final JLabel message = new JLabel("An error occurred trying to load the replay");
-                    message.setFont(font);
+                    message.setFont(GuiUtils.FONT);
                     JOptionPane.showMessageDialog(this, message);
                 }
             }
@@ -181,14 +177,14 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     }
 
     private void setFont() {
-        this.fileMenu.setFont(font);
-        this.helpMenu.setFont(font);
-        this.menuBar.setFont(font);
-        this.loadSimulation.setFont(font);
-        this.saveReplay.setFont(font);
-        this.help.setFont(font);
-        this.saveSimulation.setFont(font);
-        this.loadReplay.setFont(font);
+        this.fileMenu.setFont(GuiUtils.FONT);
+        this.helpMenu.setFont(GuiUtils.FONT);
+        this.menuBar.setFont(GuiUtils.FONT);
+        this.loadSimulation.setFont(GuiUtils.FONT);
+        this.saveReplay.setFont(GuiUtils.FONT);
+        this.help.setFont(GuiUtils.FONT);
+        this.saveSimulation.setFont(GuiUtils.FONT);
+        this.loadReplay.setFont(GuiUtils.FONT);
     }
 
     @Override

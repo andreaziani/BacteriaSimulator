@@ -1,8 +1,6 @@
 package view.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.Toolkit;
 import java.util.Locale;
 
 import javax.swing.JButton;
@@ -30,9 +28,6 @@ public class FoodCreationDialog extends JDialog {
      * Automatically generated.
      */
     private static final long serialVersionUID = 82976646298898908L;
-    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
-    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
-    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private ViewFoodBuilder builder;
     private final JPanel top = new JPanel();
     private final JPanel center = new JPanel();
@@ -71,7 +66,7 @@ public class FoodCreationDialog extends JDialog {
                 this.nutrients.setEnabled(true);
             } catch (Exception exception) {
                 final JLabel message = new JLabel("Food should have a name!");
-                message.setFont(font);
+                message.setFont(GuiUtils.FONT);
                 JOptionPane.showMessageDialog(this, message);
             }
         });
@@ -83,7 +78,7 @@ public class FoodCreationDialog extends JDialog {
             } catch (Exception exception1) {
                 final JLabel message = new JLabel("ATTENTION SOMETHING'S WRONG!" + "\n"
                         + "-Check that you have entered numbers in quantity like 10.00");
-                message.setFont(font);
+                message.setFont(GuiUtils.FONT);
                 JOptionPane.showMessageDialog(this, message);
                 this.dispose();
             }
@@ -93,13 +88,13 @@ public class FoodCreationDialog extends JDialog {
             try {
                 view.getController().addNewTypeOfFood(this.builder.build());
                 final JLabel message = new JLabel("Successful creation");
-                message.setFont(font);
+                message.setFont(GuiUtils.FONT);
                 JOptionPane.showMessageDialog(this, message);
                 superPanel.updateFoods();
                 this.dispose();
             } catch (AlreadyExistingFoodException exception2) {
                 final JLabel message = new JLabel("INSERTION FAILED" + "\n" + "This food already exist!");
-                message.setFont(font);
+                message.setFont(GuiUtils.FONT);
                 JOptionPane.showMessageDialog(this, message);
                 this.dispose();
             }
@@ -132,15 +127,15 @@ public class FoodCreationDialog extends JDialog {
         this.add(this.top, BorderLayout.NORTH);
         this.add(this.center, BorderLayout.CENTER);
         this.add(this.bot, BorderLayout.SOUTH);
-        this.setName.setFont(font);
-        this.name.setFont(font);
-        this.selectNutrient.setFont(font);
-        this.nutrients.setFont(font);
-        this.setQuantity.setFont(font);
-        this.quantity.setFont(font);
-        this.addName.setFont(font);
-        this.addNutrient.setFont(font);
-        this.createFood.setFont(font);
+        this.setName.setFont(GuiUtils.FONT);
+        this.name.setFont(GuiUtils.FONT);
+        this.selectNutrient.setFont(GuiUtils.FONT);
+        this.nutrients.setFont(GuiUtils.FONT);
+        this.setQuantity.setFont(GuiUtils.FONT);
+        this.quantity.setFont(GuiUtils.FONT);
+        this.addName.setFont(GuiUtils.FONT);
+        this.addNutrient.setFont(GuiUtils.FONT);
+        this.createFood.setFont(GuiUtils.FONT);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.pack();
         this.setVisible(true);

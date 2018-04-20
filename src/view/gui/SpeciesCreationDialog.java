@@ -2,9 +2,7 @@ package view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -40,9 +38,6 @@ public class SpeciesCreationDialog extends JDialog {
     private final Map<ActionType, JComboBox<String>> comboBoxes;
     private final List<JCheckBox> checkBoxList;
     private final ViewController view;
-    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
-    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
-    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
 
     /**
      * Create a new SpeciesCreationDialog.
@@ -58,15 +53,15 @@ public class SpeciesCreationDialog extends JDialog {
         this.view = view;
         this.setLayout(new BorderLayout());
         final JLabel txtLabel = new JLabel("Set the name of the Species");
-        txtLabel.setFont(font);
+        txtLabel.setFont(GuiUtils.FONT);
         txtName = new JTextField(INITIAL_TXT_SIZE);
-        txtName.setFont(font);
+        txtName.setFont(GuiUtils.FONT);
 
         comboBoxes = new EnumMap<>(ActionType.class);
         Arrays.asList(ActionType.values()).stream().forEach(a -> {
             if (a != ActionType.NOTHING) {
                 final JComboBox<String> comboBox = new JComboBox<>();
-                comboBox.setFont(font);
+                comboBox.setFont(GuiUtils.FONT);
                 comboBoxes.put(a, comboBox);
             }
         });
@@ -74,25 +69,25 @@ public class SpeciesCreationDialog extends JDialog {
                 .forEach(x -> x.getValue().stream().forEach(s -> comboBoxes.get(x.getKey()).addItem(s)));
         checkBoxList = new ArrayList<>();
         view.getDecoratorOptions().stream().map(x -> new JCheckBox(x))
-                .peek(checkBox -> checkBox.setFont(font))
+                .peek(checkBox -> checkBox.setFont(GuiUtils.FONT))
                 .forEach(checkBoxList::add);
 
         final JButton btnCreate = new JButton("create Species");
-        btnCreate.setFont(font);
+        btnCreate.setFont(GuiUtils.FONT);
         btnCreate.addActionListener(e -> createSpecies(main));
 
         final JPanel comboPanel = new JPanel(new GridLayout(comboBoxes.size() * 2, 1));
         for (final ActionType type : ActionType.values()) {
             if (type != ActionType.NOTHING) {
                 final JLabel label = new JLabel(type.toString().toLowerCase(Locale.ENGLISH));
-                label.setFont(font);
+                label.setFont(GuiUtils.FONT);
                 comboPanel.add(label);
                 comboPanel.add(comboBoxes.get(type));
             }
         }
 
         final JPanel checkPanel = new JPanel(new GridLayout(checkBoxList.size(), 1));
-        checkPanel.setFont(font);
+        checkPanel.setFont(GuiUtils.FONT);
         checkBoxList.forEach(checkPanel::add);
         final JPanel behaviorPanel = new JPanel();
         behaviorPanel.add(comboPanel);
@@ -107,20 +102,20 @@ public class SpeciesCreationDialog extends JDialog {
         centerPanel.add(behaviorPanel);
         centerPanel.add(txtPanel);
         final JPanel centerPanelContainer = new JPanel(new FlowLayout());
-        centerPanelContainer.setFont(font);
+        centerPanelContainer.setFont(GuiUtils.FONT);
         centerPanelContainer.add(centerPanel);
         this.add(centerPanelContainer, BorderLayout.CENTER);
         this.add(createPanel, BorderLayout.SOUTH);
         this.pack();
         this.setVisible(true);
-        this.txtName.setFont(font);
+        this.txtName.setFont(GuiUtils.FONT);
     }
 
     private void createSpecies(final UserInterface main) {
         try {
             if (txtName.getText().isEmpty()) {
                 final JLabel label = new JLabel("Name not valid");
-                label.setFont(font);
+                label.setFont(GuiUtils.FONT);
                 JOptionPane.showMessageDialog(this, label);
             } else {
                 view.createSpecies(txtName.getText(),
@@ -128,7 +123,7 @@ public class SpeciesCreationDialog extends JDialog {
                                 .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue().getSelectedIndex())),
                         checkBoxList.stream().map(x -> x.isSelected()).collect(Collectors.toList()));
                 final JLabel label = new JLabel("Species " + txtName.getText() + " added succesfully");
-                label.setFont(font);
+                label.setFont(GuiUtils.FONT);
                 JOptionPane.showMessageDialog(this, label);
                 main.notifyUpdate();
                 this.setVisible(false);
@@ -136,11 +131,11 @@ public class SpeciesCreationDialog extends JDialog {
             }
         } catch (InvalidSpeciesExeption e) {
             final JLabel label = new JLabel("Can't create the Species correctly");
-            label.setFont(font);
+            label.setFont(GuiUtils.FONT);
             JOptionPane.showMessageDialog(this, label);
         } catch (AlreadyExistingSpeciesExeption e) {
             final JLabel label = new JLabel("A species with that name already exists");
-            label.setFont(font);
+            label.setFont(GuiUtils.FONT);
             JOptionPane.showMessageDialog(this, label);
         }
     }

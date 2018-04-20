@@ -1,8 +1,6 @@
 package view.gui;
 
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,9 +15,6 @@ import view.ViewController;
  *
  */
 public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
-    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
-    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
-    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private final JButton startSimulation = new JButton("Start");
     private final JButton resetSimulation = new JButton("Reset");
     private final JButton stopSimulation = new JButton("Stop");
@@ -73,10 +68,10 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.stopSimulation.setEnabled(false);
         this.pauseSimulation.setEnabled(false);
         this.setOpaque(true);
-        this.startSimulation.setFont(font);
-        this.resetSimulation.setFont(font);
-        this.stopSimulation.setFont(font);
-        this.pauseSimulation.setFont(font);
+        this.startSimulation.setFont(GuiUtils.FONT);
+        this.resetSimulation.setFont(GuiUtils.FONT);
+        this.stopSimulation.setFont(GuiUtils.FONT);
+        this.pauseSimulation.setFont(GuiUtils.FONT);
     }
 
     @Override

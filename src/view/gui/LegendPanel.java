@@ -1,9 +1,7 @@
 package view.gui;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,9 +36,6 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      */
     private static final long serialVersionUID = -8989135061384289871L;
     private static final String UNNAMED_FOOD = "Unnamed Food";
-    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
-    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
-    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private final ViewController viewController;
     private Optional<JPanel> legendContainer;
     private final List<Color> candidateFoodsColors;
@@ -79,8 +74,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         foodLabel = new JLabel("Food colors:");
         speciesLabel = new JLabel("Species colors:");
         init();
-        this.foodLabel.setFont(font);
-        this.speciesLabel.setFont(font);
+        this.foodLabel.setFont(GuiUtils.FONT);
+        this.speciesLabel.setFont(GuiUtils.FONT);
     }
 
     private void init() {
@@ -170,8 +165,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         updateColor(nameLabel, map, name, color);
         legendEntryPanel.add(nameLabel);
         final JButton btn = new JButton("Change");
-        btn.setFont(font);
-        nameLabel.setFont(font);
+        btn.setFont(GuiUtils.FONT);
+        nameLabel.setFont(GuiUtils.FONT);
         btn.addActionListener(ev -> {
             final Color nextColor = JColorChooser.showDialog(LegendPanel.this, "Choose new color", color);
             updateColor(nameLabel, map, name, nextColor);
