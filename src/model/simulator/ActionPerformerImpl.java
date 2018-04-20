@@ -92,7 +92,6 @@ public class ActionPerformerImpl implements ActionPerformer {
                 }
 
                 if (foodInPosition.isPresent()) {
-                    System.err.println("BActeria eat");
                     bacteria.addFood(foodInPosition.get());
                     this.foodEnv.removeFood(foodInPosition.get(), foodPosition.get());
                 }

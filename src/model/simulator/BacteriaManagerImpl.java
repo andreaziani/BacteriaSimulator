@@ -129,11 +129,13 @@ public class BacteriaManagerImpl implements BacteriaManager {
     @Override
     public void updateBacteria() {
         this.updateDeadBacteria();
+        // TODO remove after DEBUGGING
         final StopWatch st = new StopWatch();
+        final int millis = 1_000_000;
         st.start();
         this.updateAliveBacteria();
         st.stop();
-        Logger.getInstance().info("Living Bacteria", "" + st.getNanoTime() / 1_000_000);
+        Logger.getInstance().info("Living Bacteria", ((Long) (st.getNanoTime() / millis)).toString());
     }
 
     /**

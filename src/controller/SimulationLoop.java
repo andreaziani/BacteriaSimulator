@@ -4,6 +4,10 @@ import model.Environment;
 import model.state.State;
 import utils.Logger;
 
+/**
+ * SimulationLoop is responsible for running the simulation.
+ *
+ */
 public class SimulationLoop implements Runnable {
     private static final long PERIOD = 125L;
 
@@ -13,6 +17,11 @@ public class SimulationLoop implements Runnable {
 
     private volatile boolean isPaused;
 
+    /**
+     * Constructor for SimulationLoop.
+     * @param controller the controller that the simulation will use to update the application
+     * @param environment the environment on which execture the updates
+     */
     public SimulationLoop(final EnvironmentController controller, final Environment environment) {
         this.controller = controller;
         this.environment = environment;
@@ -63,6 +72,9 @@ public class SimulationLoop implements Runnable {
         this.controller.updateCurrentState(state);
     }
 
+    /**
+     * Stop the simulation.
+     */
     public synchronized void stop() {
         this.updateState(SimulationState.ENDED);
         if (this.isPaused) {
@@ -70,6 +82,9 @@ public class SimulationLoop implements Runnable {
         }
     }
 
+    /**
+     * Pause the simulation.
+     */
     public synchronized void pause() {
         if (!this.isPaused) {
             this.updateState(SimulationState.PAUSED);
@@ -77,6 +92,9 @@ public class SimulationLoop implements Runnable {
         }
     }
 
+    /**
+     * Resume the simulation.
+     */
     public synchronized void resume() {
         if (this.isPaused) {
             this.updateState(SimulationState.RUNNING);
