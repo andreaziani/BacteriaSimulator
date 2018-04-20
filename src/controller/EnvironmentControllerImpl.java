@@ -88,8 +88,9 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.initialize(Optional.of(initialState));
         if (initialState.getExistingFood().isEmpty() || initialState.getSpecies().isEmpty()) {
             this.updateCurrentState(SimulationState.NOT_READY);
-        } else if (initialState.hasState()) { // Better to set in PAUSED
+        } else if (initialState.hasState()) {
             this.start();
+            this.pause();
         } else {
             this.updateCurrentState(SimulationState.READY);
         }
@@ -128,7 +129,8 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     protected void startReplay(final Replay replay) {
         this.environment = new ReplayEnvironment(replay);
         this.simLoop = new SimulationLoop(this, this.environment);
-        start();
+        this.start();
+        this.pause();
     }
     /**
      * Add a type of food from the view to a specific location.
