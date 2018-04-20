@@ -115,6 +115,16 @@ public class AnalysisImpl implements Analysis {
         return wins;
     }
 
+    private Set<Species> survived(final Set<Species> speciesB, final Set<Species> speciesA) {
+        final Set<Species> survived = new HashSet<>();
+        for (final Species sp : speciesB) {
+            if (speciesA.contains(sp)) {
+                survived.add(sp);
+            }
+        }
+        return survived;
+    }
+
     @Override
     public void addState(final State state) {
         this.lstate.add(state);
@@ -171,13 +181,18 @@ public class AnalysisImpl implements Analysis {
         return toString(mt.entrySet());
     }
 
+    private String resultSurvived() {
+        final Set<Species> sur = survived(this.speciesB, this.speciesA);
+        return toString(sur);
+    }
+
     @Override
     public String getDescription() {
         if (!cachedDescription.isPresent()) {
             before();
             after();
-            cachedDescription = Optional.of(("Species survived: \n" + resultWins() + "\n" + "Species dead: \n" + resultDead() + "\n"
-                    + "Number by Species: \n" + resultNByS() + "\n" + "Species mutated: \n" + resultBactMutated()));
+            cachedDescription = Optional.of(("Species win: \n" + resultWins() + "\n" + "Species dead: \n" + resultDead() + "\n"
+                    + "Number by Species: \n" + resultNByS() + "\n" + "Species mutated: \n" + resultBactMutated() + "\n" + "Species survived: \n" + resultSurvived()));
         }
         return cachedDescription.get();
     }
