@@ -34,10 +34,9 @@ public interface ActionPerformer {
     /**
      * 
      * @param bacteriaCounter
-     *            the next id of the bacteria.
-     * @return if the bacteria has been added.
+     *            the id of the next bacteria.
      */
-    boolean replicate(int bacteriaCounter);
+    void replicate(int bacteriaCounter);
 
     /**
      * Perform the action NOTHING.

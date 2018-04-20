@@ -75,7 +75,7 @@ public class ActionPerformerImpl implements ActionPerformer {
     public void eat(final Optional<Position> foodPosition) {
         Optional<Food> foodInPosition = Optional.empty();
         if (foodPosition.isPresent() && this.foodEnv.getFoodsState().containsKey(foodPosition.get())) {
-            foodInPosition = Optional.of(foodEnv.getFoodsState().get(foodPosition.get()));
+            foodInPosition = Optional.of(this.foodEnv.getFoodsState().get(foodPosition.get()));
         }
 
         if (foodInPosition.isPresent()) {
@@ -86,7 +86,7 @@ public class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public boolean replicate(final int bacteriaCounter) {
+    public void replicate(final int bacteriaCounter) {
         final double bacteriaRadius = this.bacterium.getRadius();
 
         final Optional<Position> freePosition = EnvironmentUtil
@@ -103,9 +103,7 @@ public class ActionPerformerImpl implements ActionPerformer {
             final Bacteria newBacteria = new BacteriaImpl(bacteriaCounter, this.bacterium.getSpecies(), clonedGenCode,
                     halfEnergy);
             this.bactEnv.insertBacteria(freePosition.get(), newBacteria);
-            return true;
         }
-        return false;
     }
 
     @Override
