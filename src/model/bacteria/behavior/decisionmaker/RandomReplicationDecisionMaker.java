@@ -9,10 +9,10 @@ import model.action.ActionType;
 import model.action.SimpleAction;
 import model.bacteria.BacteriaKnowledge;
 
-class RandomReplicationDecisionMaker implements DecisionMaker {
+class RandomReplicationDecisionMaker extends AbstractReplicationDecisionMaker {
 
     @Override
-    public Map<Action, Double> getDecision(final BacteriaKnowledge knowledge) {
+    protected Map<Action, Double> decide(BacteriaKnowledge knowledge) {
         final Map<Action, Double> result = new HashMap<>();
         final Random rand = new Random();
         if (rand.nextBoolean()) {
