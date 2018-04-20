@@ -27,8 +27,8 @@ public class AnalysisDialog extends JDialog {
      */
     private static final long serialVersionUID = 1L;
 
-    private int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
-    private int fontSize = (int) Math.round(12.0 * screenRes / 72.0);
+    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
 
     private final Font font = new Font("Arial", Font.PLAIN, fontSize);
 /**

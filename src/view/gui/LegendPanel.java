@@ -1,7 +1,9 @@
 package view.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,7 +38,9 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      */
     private static final long serialVersionUID = -8989135061384289871L;
     private static final String UNNAMED_FOOD = "Unnamed Food";
-
+    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
+    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private final ViewController viewController;
     private Optional<JPanel> legendContainer;
     private final List<Color> candidateFoodsColors;

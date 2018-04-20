@@ -1,6 +1,8 @@
 package view.gui;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,6 +20,9 @@ import view.ViewController;
  *
  */
 public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdatable {
+    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
+    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private final JButton createFood = new JButton("Create Food");
     private final JButton createSpecies = new JButton("Create Species");
     private final JButton setStrategy = new JButton("Set Strategy");
@@ -65,6 +70,13 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         this.add(this.createFood);
         this.add(this.createSpecies);
         this.setOpaque(true);
+        this.createFood.setFont(font);
+        this.createSpecies.setFont(font);
+        this.foods.setFont(font);
+        this.setStrategy.setFont(font);
+        this.strategies.setFont(font);
+        this.selectFood.setFont(font);
+        this.selectStrategy.setFont(font);
     }
 
     /**

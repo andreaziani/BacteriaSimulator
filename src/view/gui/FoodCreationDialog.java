@@ -1,6 +1,8 @@
 package view.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.Locale;
 
 import javax.swing.JButton;
@@ -28,6 +30,9 @@ public class FoodCreationDialog extends JDialog {
      * Automatically generated.
      */
     private static final long serialVersionUID = 82976646298898908L;
+    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
+    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private ViewFoodBuilder builder;
     private final JPanel top = new JPanel();
     private final JPanel center = new JPanel();
@@ -119,7 +124,15 @@ public class FoodCreationDialog extends JDialog {
         this.add(this.top, BorderLayout.NORTH);
         this.add(this.center, BorderLayout.CENTER);
         this.add(this.bot, BorderLayout.SOUTH);
-
+        this.setName.setFont(font);
+        this.name.setFont(font);
+        this.selectNutrient.setFont(font);
+        this.nutrients.setFont(font);
+        this.setQuantity.setFont(font);
+        this.quantity.setFont(font);
+        this.addName.setFont(font);
+        this.addNutrient.setFont(font);
+        this.createFood.setFont(font);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.pack();
         this.setVisible(true);

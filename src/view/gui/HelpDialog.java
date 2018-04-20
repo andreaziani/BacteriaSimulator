@@ -1,5 +1,7 @@
 package view.gui;
 
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +23,9 @@ public class HelpDialog extends JDialog {
      * Automatically generated.
      */
     private static final long serialVersionUID = -8816763436346148360L;
+    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
+    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private final JPanel panel = new JPanel();
     private final JTextArea text = new JTextArea();
     private final InputStream url = Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/help.txt");
@@ -41,6 +46,7 @@ public class HelpDialog extends JDialog {
         this.text.setEditable(false);
         this.add(panel);
         this.pack();
+        this.text.setFont(font);
         this.setVisible(true);
     }
 }
