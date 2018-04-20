@@ -33,7 +33,7 @@ public class SimulationLoop implements Runnable {
         this.updateState(SimulationState.RUNNING);
         // FOR DEBUGGING
         State currentState;
-        while (this.state == SimulationState.RUNNING) {
+        while (this.state != SimulationState.ENDED) {
             final long start = System.currentTimeMillis();
             synchronized (this.controller) {
                 environment.update();
@@ -46,6 +46,17 @@ public class SimulationLoop implements Runnable {
                     this.updateState(SimulationState.ENDED);
                 }
             }
+
+            try {
+                synchronized (this) {
+                    while (this.isPaused) {
+                        wait();
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             final long elapsed = System.currentTimeMillis() - start;
             // DUBUGGING INFO
             Logger.getInstance().info("GameLoop",
@@ -55,11 +66,6 @@ public class SimulationLoop implements Runnable {
             if (elapsed < PERIOD) {
                 try {
                     Thread.sleep(PERIOD - elapsed);
-                    synchronized (this) {
-                        while (isPaused) {
-                            wait();
-                        }
-                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -87,8 +93,8 @@ public class SimulationLoop implements Runnable {
      */
     public synchronized void pause() {
         if (!this.isPaused) {
-            this.updateState(SimulationState.PAUSED);
             this.isPaused = true;
+            this.updateState(SimulationState.PAUSED);
         }
     }
 
@@ -97,8 +103,8 @@ public class SimulationLoop implements Runnable {
      */
     public synchronized void resume() {
         if (this.isPaused) {
-            this.updateState(SimulationState.RUNNING);
             this.isPaused = false;
+            this.updateState(SimulationState.RUNNING);
             notifyAll();
         }
     }
