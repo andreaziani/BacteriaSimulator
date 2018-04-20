@@ -50,14 +50,12 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.resetSimulation.addActionListener(e -> {
             view.getController().resetSimulation();
             main.notifyUpdate();
-            this.startSimulation.setText("Start");
         });
         this.stopSimulation.addActionListener(e -> {
             view.getController().stop();
         });
         this.pauseSimulation.addActionListener(e -> {
             view.getController().pause();
-            this.startSimulation.setText("Resume");
         });
 
         this.add(this.resetSimulation);
@@ -73,6 +71,11 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
     @Override
     public final void updateSimulationState(final SimulationState state) {
         SwingUtilities.invokeLater(() -> {
+            if (state == SimulationState.PAUSED) {
+                this.startSimulation.setText("Resume");
+            } else {
+                this.startSimulation.setText("Start");
+            }
             switch (state) {
             case RUNNING:
             case REPLAY:
