@@ -162,7 +162,8 @@ public final class EnvironmentUtil {
      */
     public static Stream<Position> positionStream(final int distance, final Position bacteriaPos,
             final Position maxPosition) {
-        return positionStream(-distance, distance, bacteriaPos, maxPosition);
+        return positionStream(-distance, distance, bacteriaPos, maxPosition)
+                .filter(position -> EnvironmentUtil.distance(bacteriaPos, position) <= distance);
     }
 
     /**
