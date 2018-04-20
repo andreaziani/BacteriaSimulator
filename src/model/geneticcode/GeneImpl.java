@@ -11,6 +11,9 @@ public class GeneImpl implements Gene {
 
     private List<NucleicAcid> code = new ArrayList<>();
     private static final int DNA_NUMBER = 12;
+    private static final int FIRST = 10;
+    private static final int SECOND = 5;
+    private static final int THIRD = 7;
 
     /**
      * Construct a Gene of GeneticCode.
@@ -52,7 +55,7 @@ public class GeneImpl implements Gene {
 
     @Override
     public Double interpret(final List<Integer> list, final int var) {
-        return (singleNaCode(list, 0) + singleNaCode(list, 1) + singleNaCode(list, 2)) % var;
+        return ((singleNaCode(list, 0) * FIRST) + (singleNaCode(list, 1) * SECOND) + (singleNaCode(list, 2) * THIRD)) % var;
     }
 
 }

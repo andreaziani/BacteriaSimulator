@@ -53,8 +53,8 @@ public class AnalysisDialog extends JDialog {
         pAnalysis.add(survived);
 
         //jTextArea.setText(analysis.getDescription());
-        wins.setText("Predominant Species:" + "\n" + analysis.resultWins());
-        nByS.setText("Quantity of bacteria per Species:" + "\n" + analysis.resultNByS());
+        wins.setText("Predominant Species:" + "\n" + analysis.resultPredominant());
+        nByS.setText("Quantity of bacteria per Species:" + "\n" + analysis.numberBySpecies());
         dead.setText("Species are dead:" + "\n" + analysis.resultDead());
         bactMutated.setText("Quantity of bacteria mutated per Species:" + "\n" + analysis.resultBactMutated());
         survived.setText("Species are survived:" + "\n" + analysis.resultSurvived());

@@ -158,13 +158,13 @@ public class AnalysisImpl implements Analysis {
     }
 
     @Override
-    public String resultWins() {
+    public String resultPredominant() {
         final Map<Species, Integer> wins = win(this.speciesB, this.lafter);
         return toString(wins.entrySet());
     }
 
     @Override
-    public String resultNByS() {
+    public String numberBySpecies() {
         final Map<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
         return toString(nByS.entrySet());
     }
@@ -201,8 +201,8 @@ public class AnalysisImpl implements Analysis {
     public String getDescription() {
         if (!cachedDescription.isPresent()) {
             updateAnalysis();
-            cachedDescription = Optional.of(("Species win: \n" + resultWins() + "\n" + "\n" + "Species dead: \n" + resultDead() + "\n" + "\n"
-                    + "Number by Species: \n" + resultNByS() + "\n" + "Species mutated: \n" + resultBactMutated() + "\n" + "Species survived: \n" + resultSurvived()));
+            cachedDescription = Optional.of(("Species win: \n" + resultPredominant() + "\n" + "\n" + "Species dead: \n" + resultDead() + "\n" + "\n"
+                    + "Number by Species: \n" + numberBySpecies() + "\n" + "Species mutated: \n" + resultBactMutated() + "\n" + "Species survived: \n" + resultSurvived()));
         }
         return cachedDescription.get();
     }

@@ -16,16 +16,16 @@ public interface Analysis {
     void addState(State state);
 
     /**
-     * The name of winner species.
-     * @return string of result of winner species.
+     * The name of predominant species.
+     * @return string of result of predominant species.
      */
-    String resultWins();
+    String resultPredominant();
 
     /**
      * Species with his number of alive or dead bacteria. 
      * @return string of map species-quantity.
      */
-    String resultNByS();
+    String numberBySpecies();
 
     /**
      * Species are died during the simulation.
