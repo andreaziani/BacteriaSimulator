@@ -129,13 +129,29 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.simLoop = new SimulationLoop(this, this.environment);
         start();
     }
-
+    /**
+     * Add a type of food from the view to a specific location.
+     * 
+     * @param food
+     *            the type of Food to add.
+     * @param position
+     *            the location of the food in the view.
+     * @throws PositionAlreadyOccupiedException
+     *             if the position is already occupied.
+     */
     @Override
     public synchronized void addFoodFromView(final ViewFood food, final ViewPosition position) {
         FoodControllerUtils.addFoodFromViewToModel(this.getEnvironmentAsInteractive(), food,
                 ConversionsUtil.viewPositionToPosition(position, environment.getMaxPosition(), maxViewPosition.get()));
     }
-
+    /**
+     * Add a new type of food to the types of foods that already exist.
+     * 
+     * @param food
+     *            the new type of food to be added.
+     * @throws AlreadyExistingFoodException
+     *             if the food already exist.
+     */
     @Override
     public synchronized void addNewTypeOfFood(final ViewFood food) {
         FoodControllerUtils.addNewTypeOfFood(this.getEnvironmentAsInteractive(), food);
@@ -144,12 +160,20 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
             this.updateCurrentState(SimulationState.READY);
         }
     }
-
+    /**
+     * Get all types of already existing food.
+     * 
+     * @return an unmodifiable list with all types of food.
+     */
     @Override
     public synchronized List<ViewFood> getExistingViewFoods() {
         return FoodControllerUtils.getExistingViewFoods(this.environment);
     }
-
+    /**
+     * Transforms the State and returns it as ViewState.
+     * 
+     * @return the last ViewState.
+     */
     @Override
     public synchronized ViewState getState() {
         return ConversionsUtil.stateToViewState(this.environment.getState(), this.environment.getMaxPosition(),
@@ -172,7 +196,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public synchronized void setMaxViewDimension(final ViewPosition position) {
+    public final synchronized void setMaxViewDimension(final ViewPosition position) {
         this.maxViewPosition = Optional.of(position);
     }
 
@@ -182,24 +206,24 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public void setDistributionStrategy(final DistributionStrategy strategy) {
+    public final void setDistributionStrategy(final DistributionStrategy strategy) {
         this.getEnvironmentAsInteractive().setFoodDistributionStrategy(strategy);
     }
-
     /**
-     * Update the current state of the simulation.
+     * Update simulation state inside the controller.
      * 
      * @param state
-     *            the state that the simulation'll assume.
+     *            the current Simulation state.
      */
+    @Override 
     public void updateCurrentState(final SimulationState state) {
         this.currentState = state;
         if (this.currentState == SimulationState.ENDED) {
             this.replay.setAnalysis(environment.getAnalysis());
         }
     }
-
-    public SimulationState getCurrentState() {
+    @Override
+    public final SimulationState getCurrentState() {
         return this.currentState;
     }
 

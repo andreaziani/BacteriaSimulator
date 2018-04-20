@@ -13,7 +13,7 @@ import model.food.Food;
  * 
  *
  */
-public class StateImpl implements State {
+public final class StateImpl implements State {
     private final Map<? extends Position, ? extends Food> foodState;
     private final Map<? extends Position, ? extends Bacteria> bacteriaState;
 
