@@ -157,22 +157,26 @@ public class AnalysisImpl implements Analysis {
 
     }
 
-    private String resultWins() {
+    @Override
+    public String resultWins() {
         final Map<Species, Integer> wins = win(this.speciesB, this.lafter);
         return toString(wins.entrySet());
     }
 
-    private String resultNByS() {
+    @Override
+    public String resultNByS() {
         final Map<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
         return toString(nByS.entrySet());
     }
 
-    private String resultDead() {
+    @Override
+    public String resultDead() {
         final Set<Species> dead = dead(this.speciesB, this.speciesA);
         return toString(dead);
     }
 
-    private String resultBactMutated() {
+    @Override
+    public String resultBactMutated() {
         List<Bacteria> bactMutated = new ArrayList<>();
         if (!this.mutManager.getMutation().isEmpty()) {
             bactMutated = listOfBacteriaMutated(this.mutManager.getMutation());
@@ -181,17 +185,23 @@ public class AnalysisImpl implements Analysis {
         return toString(mt.entrySet());
     }
 
-    private String resultSurvived() {
+    @Override
+    public String resultSurvived() {
         final Set<Species> sur = survived(this.speciesB, this.speciesA);
         return toString(sur);
     }
 
     @Override
+    public void updateAnalysis() {
+        before();
+        after();
+    }
+
+    @Override
     public String getDescription() {
         if (!cachedDescription.isPresent()) {
-            before();
-            after();
-            cachedDescription = Optional.of(("Species win: \n" + resultWins() + "\n" + "Species dead: \n" + resultDead() + "\n"
+            updateAnalysis();
+            cachedDescription = Optional.of(("Species win: \n" + resultWins() + "\n" + "\n" + "Species dead: \n" + resultDead() + "\n" + "\n"
                     + "Number by Species: \n" + resultNByS() + "\n" + "Species mutated: \n" + resultBactMutated() + "\n" + "Species survived: \n" + resultSurvived()));
         }
         return cachedDescription.get();
