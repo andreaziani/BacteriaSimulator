@@ -33,6 +33,8 @@ public class ActionPerformerImpl implements ActionPerformer {
      *            the environment representing bacteria
      * @param foodEnv
      *            the environment representing foods
+     * @param maxPosition
+     *            the environment maxPosition
      */
     public ActionPerformerImpl(final BacteriaEnvironment bactEnv, final FoodEnvironment foodEnv,
             final Position maxPosition) {

@@ -117,6 +117,8 @@ public final class EnvironmentUtil {
      *            the end value for the Y coordinate
      * @param bacteriaPos
      *            the original Position of the Bacteria
+     * @param maxPosition
+     *            the maxiumPosition representing a limit for each position
      * @return a stream of Position in the given range excluding the same Position
      */
     public static Stream<Position> positionStream(final int startX, final int endX, final int startY, final int endY,

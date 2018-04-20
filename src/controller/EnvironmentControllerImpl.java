@@ -35,11 +35,9 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      */
     public EnvironmentControllerImpl() {
         initialize(Optional.empty());
-        // this.simLoop = new SimulationLoop(this, this.environment);
     }
 
     private void initialize(final Optional<InitialState> initialState) {
-        // this.currentState = SimulationState.NOT_READY;
         if (initialState.isPresent()) {
             this.environment = new SimulatorEnvironment(initialState.get());
         } else {
@@ -51,7 +49,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized void start() {
-        // this.updateCurrentState(SimulationState.RUNNING);
         this.environment.initialize();
         replay = new Replay(this.environment.getInitialState());
         final Thread mainThread = new Thread(this.simLoop);
@@ -220,8 +217,6 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         if (!(this.environment instanceof InteractiveEnvironment)) {
             throw new IllegalStateException();
         }
-        // InteractiveEnvironment environment = (InteractiveEnvironment)
-        // this.environment;
         return (InteractiveEnvironment) environment;
     }
 }
