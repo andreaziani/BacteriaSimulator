@@ -23,7 +23,7 @@ public class HelpDialog extends JDialog {
     private static final long serialVersionUID = -8816763436346148360L;
     private final JPanel panel = new JPanel();
     private final JTextArea text = new JTextArea();
-    private final InputStream url = Thread.currentThread().getContextClassLoader().getResourceAsStream("help.txt");
+    private final InputStream url = Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/help.txt");
     /**
      * 
      * @param main

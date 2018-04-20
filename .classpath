@@ -5,7 +5,7 @@
 			<accessrule kind="accessible" pattern="javafx/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry excluding="res/|res/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.7-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.7.jar">
