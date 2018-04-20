@@ -11,7 +11,7 @@ import model.bacteria.BacteriaKnowledge;
  */
 public final class CostFilterDecisionBehavior extends DecisionBehaviorDecorator {
     /**
-     * Construct a new NearFoodMovementDecisionBehavior by taking a delegate. It
+     * Construct a new CostFilterDecisionBehavior by taking a delegate. It
      * implements the decorator pattern.
      * 
      * @param delegate
