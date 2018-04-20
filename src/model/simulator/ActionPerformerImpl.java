@@ -7,7 +7,6 @@ import model.Energy;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.food.Food;
-import model.food.FoodEnvironment;
 import model.geneticcode.CopyFactory;
 import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;

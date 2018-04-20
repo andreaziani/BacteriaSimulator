@@ -1,4 +1,4 @@
-package model.food;
+package model.simulator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import model.AlreadyExistingFoodException;
+import model.food.Food;
 
 /**
  * Manager that contains all the existing types of food.

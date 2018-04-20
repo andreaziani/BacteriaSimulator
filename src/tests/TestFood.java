@@ -13,14 +13,14 @@ import org.junit.Test;
 
 import model.AlreadyExistingFoodException;
 import model.PositionAlreadyOccupiedException;
-import model.food.ExistingFoodManager;
-import model.food.ExistingFoodManagerImpl;
 import model.food.Food;
-import model.food.FoodEnvironment;
-import model.food.FoodEnvironmentImpl;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import model.food.Nutrient;
+import model.simulator.ExistingFoodManager;
+import model.simulator.ExistingFoodManagerImpl;
+import model.simulator.FoodEnvironment;
+import model.simulator.FoodEnvironmentImpl;
 import model.state.Position;
 import model.state.PositionImpl;
 /**

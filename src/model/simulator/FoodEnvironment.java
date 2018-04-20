@@ -1,7 +1,8 @@
-package model.food;
+package model.simulator;
 
 import java.util.Map;
 
+import model.food.Food;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.state.Position;
 

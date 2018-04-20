@@ -1,6 +1,8 @@
-package model.food;
+package model.simulator;
 
 import java.util.List;
+
+import model.food.Food;
 
 
 /**
