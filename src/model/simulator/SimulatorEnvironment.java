@@ -41,7 +41,8 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
     private final ExistingFoodManager foodManager = new ExistingFoodManagerImpl();
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(this.foodManager, this.getMaxPosition());
-    private final BacteriaManager bactManager = new BacteriaManagerImpl(this.foodEnv, this.foodManager, this.getMaxPosition(), this.speciesManager);
+    private final BacteriaManager bactManager = new BacteriaManagerImpl(this.foodEnv, this.foodManager,
+            this.getMaxPosition(), this.speciesManager);
     private Optional<State> state;
     private int iterations;
 
@@ -49,6 +50,7 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
      * The amount of energy a Bacteria should have when created.
      */
     public static final Energy INITIAL_ENERGY = new EnergyImpl(700.0);
+
     /**
      * Create an empty environment.
      */
@@ -87,10 +89,9 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
 
     @Override
     public State getState() {
-        if (!this.state.isPresent()) {
-            this.state = Optional.of(new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState()));
-        }
-        return this.state.get();
+        // since the env is not only modified by the .update() method, the state MUST be
+        // created at every request
+        return new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
     }
 
     private void updateFood() {
@@ -110,8 +111,9 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
         this.updateBacteria();
         this.updateFood();
         this.updateMutation();
-        this.state = Optional.of(new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState()));
-        this.getAnalysis().addState(state.get());
+        // this.state = Optional.of(new StateImpl(this.foodEnv.getFoodsState(),
+        // this.bactManager.getBacteriaState()));
+        this.getAnalysis().addState(this.getState());
         ++this.iterations;
     }
 

@@ -38,9 +38,9 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.startSimulation.addActionListener(e -> {
             // if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
             if (view.getController().getCurrentState() != SimulationState.PAUSED) { 
-                view.getController().start();
+                SwingUtilities.invokeLater(() -> view.getController().start());
             } else {
-                view.getController().resume();
+                SwingUtilities.invokeLater(() -> view.getController().resume());
             }
             // } else {
             // JOptionPane.showMessageDialog(this, "You must insert one species and one type
@@ -48,14 +48,16 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
             // }
         });
         this.resetSimulation.addActionListener(e -> {
-            view.getController().resetSimulation();
-            main.notifyUpdate();
+            SwingUtilities.invokeLater(() -> {
+                view.getController().resetSimulation();
+                main.notifyUpdate();                
+            });
         });
         this.stopSimulation.addActionListener(e -> {
-            view.getController().stop();
+            SwingUtilities.invokeLater(() -> view.getController().stop());
         });
         this.pauseSimulation.addActionListener(e -> {
-            view.getController().pause();
+            SwingUtilities.invokeLater(() -> view.getController().pause());
         });
 
         this.add(this.resetSimulation);
