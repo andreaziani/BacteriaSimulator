@@ -15,7 +15,7 @@ import view.ViewController;
 
 /**
  * 
- * @author Gloria
+ * View of the Analysis.
  *
  */
 

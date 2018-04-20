@@ -76,6 +76,7 @@ public class AnalysisImpl implements Analysis {
     private Map<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
         final Map<Species, Integer> smap = new HashMap<>();
         for (final Species sp : species) {
+            smap.put(sp, 0);
             for (final Bacteria bt : bacteria) {
                 if (sp.equals(bt.getSpecies())) {
                     final int count = smap.containsKey(sp) ? smap.get(sp) : 0;
