@@ -45,8 +45,8 @@ public class HelpDialog extends JDialog {
         this.panel.add(this.text);
         this.text.setEditable(false);
         this.add(panel);
-        this.pack();
         this.text.setFont(font);
+        this.pack();
         this.setVisible(true);
     }
 }

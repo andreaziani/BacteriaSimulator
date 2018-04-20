@@ -88,8 +88,9 @@ public class FoodCreationDialog extends JDialog {
         this.createFood.addActionListener(e -> {
             try {
                 view.getController().addNewTypeOfFood(this.builder.build());
-                JOptionPane.showMessageDialog(this, "Successful creation");
-                this.dispose();
+                final JLabel message = new JLabel("Successful creation");
+                message.setFont(font);
+                JOptionPane.showMessageDialog(this, message);
                 superPanel.updateFoods();
             } catch (AlreadyExistingFoodException exception2) {
                 JOptionPane.showMessageDialog(this, "INSERTION FAILED" + "\n" + "This food already exist!");
