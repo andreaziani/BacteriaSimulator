@@ -2,6 +2,8 @@ package view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -25,6 +27,9 @@ import view.ViewController;
  *
  */
 public class TopPanel extends JPanel implements SimulationStateUpdatable {
+    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
+    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu fileMenu = new JMenu("File");
     private final JMenu helpMenu = new JMenu("Help");
@@ -136,6 +141,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     }
 
     private void componentsSettings() {
+        this.setFont();
         this.fileMenu.setActionCommand("File");
         this.fileMenu.add(loadSimulation);
         this.fileMenu.add(this.saveSimulation);
@@ -148,6 +154,16 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.choicesPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
     }
 
+    private void setFont() {
+        this.fileMenu.setFont(font);
+        this.helpMenu.setFont(font);
+        this.menuBar.setFont(font);
+        this.loadSimulation.setFont(font);
+        this.saveReplay.setFont(font);
+        this.help.setFont(font);
+        this.saveSimulation.setFont(font);
+        this.loadReplay.setFont(font);
+    }
     @Override
     public final void updateSimulationState(final SimulationState state) {
         this.speciesAndFood.updateSimulationState(state);

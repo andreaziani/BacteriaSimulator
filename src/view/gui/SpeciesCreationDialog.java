@@ -2,7 +2,9 @@ package view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -38,7 +40,9 @@ public class SpeciesCreationDialog extends JDialog {
     private final Map<ActionType, JComboBox<String>> comboBoxes;
     private final List<JCheckBox> checkBoxList;
     private final ViewController view;
-
+    private final int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private final int fontSize = (int) Math.round(12.0 * screenRes / 100.0);
+    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
     /**
      * Create a new SpeciesCreationDialog.
      * 
@@ -52,7 +56,6 @@ public class SpeciesCreationDialog extends JDialog {
         this.setTitle("Create a Species");
         this.view = view;
         this.setLayout(new BorderLayout());
-
         final JLabel txtLabel = new JLabel("Set the name of the Species");
         txtName = new JTextField(INITIAL_TXT_SIZE);
 
@@ -97,6 +100,7 @@ public class SpeciesCreationDialog extends JDialog {
         this.add(createPanel, BorderLayout.SOUTH);
         this.pack();
         this.setVisible(true);
+        this.txtName.setFont(font);
     }
 
     private void createSpecies(final UserInterface main) {
