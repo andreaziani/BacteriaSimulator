@@ -6,9 +6,6 @@ import utils.Logger;
 
 public class SimulationLoop implements Runnable {
     private static final long PERIOD = 125L;
-    private static final long ITER_PER_SEC = 1000 / PERIOD;
-    private static final long MAX_DURATION = 30L;
-    private static final long MAX_ITERATIONS = MAX_DURATION * ITER_PER_SEC;
 
     private final EnvironmentController controller;
     private final Environment environment;
@@ -25,8 +22,7 @@ public class SimulationLoop implements Runnable {
     @Override
     public void run() {
         this.updateState(SimulationState.RUNNING);
-        long iteration = 0; 
-        // FOR DEBUGGING 
+        // FOR DEBUGGING
         State currentState;
         while (this.state == SimulationState.RUNNING) {
             final long start = System.currentTimeMillis();
@@ -37,16 +33,15 @@ public class SimulationLoop implements Runnable {
                 this.controller.addReplayState(currentState);
                 this.controller.simulationLoop();
 
-                if (environment.isSimulationOver() || iteration > MAX_ITERATIONS) {
+                if (environment.isSimulationOver()) {
                     this.updateState(SimulationState.ENDED);
                 }
-                ++iteration;
             }
             final long elapsed = System.currentTimeMillis() - start;
             // DUBUGGING INFO
-            Logger.getInstance().info("GameLoop #" + iteration, "Elapsed: " + elapsed + " ms\t" 
-                                    + "Bact size: " + currentState.getBacteriaState().size()
-                                    + "\tFood size: " + currentState.getFoodsState().size() + "\n");
+            Logger.getInstance().info("GameLoop",
+                    "Elapsed: " + elapsed + " ms\t" + "Bact size: " + currentState.getBacteriaState().size()
+                            + "\tFood size: " + currentState.getFoodsState().size() + "\n");
 
             if (elapsed < PERIOD) {
                 try {

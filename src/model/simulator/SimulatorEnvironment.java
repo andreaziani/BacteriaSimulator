@@ -34,16 +34,18 @@ import utils.Logger;
  */
 
 public final class SimulatorEnvironment extends AbstractEnvironment implements InteractiveEnvironment {
+    private static final int MAX_ITERATIONS = 240;
     private static final int FOOD_PER_ROUND = 2;
     private static final double DEFAULT_HEIGHT = 1000.0;
     private static final double DEFAULT_WIDTH = 1000.0;
-    // pass on Constructor
+
     private final MutationManager mutManager = new MutationManagerImpl();
     private final ExistingFoodManager foodManager = new ExistingFoodManagerImpl();
     private final SpeciesManager speciesManager = new SpeciesManagerImpl();
     private final FoodEnvironment foodEnv = new FoodEnvironmentImpl(this.foodManager, this.getMaxPosition());
     private final BacteriaManager bactManager = new BacteriaManagerImpl(this.foodEnv, this.foodManager, this.getMaxPosition(), this.speciesManager);
     private Optional<State> state;
+    private int iterations;
 
     /**
      * The amount of energy a Bacteria should have when created.
@@ -112,6 +114,7 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
         this.updateMutation();
         this.state = Optional.of(new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState()));
         this.getAnalysis().addState(state.get());
+        ++this.iterations;
     }
 
     @Override
@@ -133,7 +136,7 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
 
     @Override
     public boolean isSimulationOver() {
-        return getState().getBacteriaState().isEmpty();
+        return getState().getBacteriaState().isEmpty() || this.iterations == MAX_ITERATIONS;
     }
 
     @Override
