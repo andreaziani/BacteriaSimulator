@@ -11,7 +11,7 @@ import model.state.PositionImpl;
  * 
  *
  */
-public final class RandomPositionStrategy extends AbstractPositionStrategy {
+public final class RandomPositionStrategy implements PositionStrategy {
     private final Position maxPosition;
 
     /**
@@ -33,7 +33,7 @@ public final class RandomPositionStrategy extends AbstractPositionStrategy {
     }
 
     @Override
-    protected Position distributedPosition() {
+    public Position getPosition() {
         final Random rand = new Random();
         return new PositionImpl(rand.nextInt((int) maxPosition.getX()), rand.nextInt((int) maxPosition.getY()));
     }

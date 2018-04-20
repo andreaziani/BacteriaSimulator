@@ -9,7 +9,7 @@ import model.state.PositionImpl;
  * Implementation of the strategy that uses a geometric distribution for the
  * random choice.
  */
-public final class GeometricDistributionStrategy extends AbstractPositionStrategy {
+public final class GeometricDistributionStrategy implements PositionStrategy {
     private static final double PROBABILITY = 0.01;
     private final Position maxPosition;
 
@@ -32,7 +32,7 @@ public final class GeometricDistributionStrategy extends AbstractPositionStrateg
     }
 
     @Override
-    protected Position distributedPosition() {
+    public Position getPosition() {
         final GeometricDistribution dist = new GeometricDistribution(PROBABILITY);
         return new PositionImpl(dist.sample() % maxPosition.getX(), dist.sample() % maxPosition.getY());
     }
