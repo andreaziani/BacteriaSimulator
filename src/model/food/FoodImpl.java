@@ -10,7 +10,6 @@ import java.util.Set;
  * Implementation of Food. A "Food" is composed by a name and contains the
  * nutrients in their quantity.
  *
- *
  */
 public final class FoodImpl implements Food {
     private static final double RADIUS = 4.0;

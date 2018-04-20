@@ -32,6 +32,7 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
      */
     private static final long serialVersionUID = -6602885048333089318L;
     private boolean isSimulationRunning;
+    private boolean isSimulationPaused;
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private final int height = dim.height * 4 / 5;
     private final int width = dim.width * 4 / 5;
@@ -54,10 +55,10 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
         this.simulationPanel = new SimulationPanel(width, height, legendPanel);
         this.simulationPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
-                if (!view.getFoodTypes().isEmpty() && isSimulationRunning) {
+                if (!view.getFoodTypes().isEmpty() && (isSimulationRunning || isSimulationPaused)) {
                     try {
-                        view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()),
-                                new ViewPositionImpl(e.getX(), e.getY()));
+                        SwingUtilities.invokeLater(() -> view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()),
+                                new ViewPositionImpl(e.getX(), e.getY())));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
                         JOptionPane.showMessageDialog(simulationPanel,
                                 "You have already inserted a food in this position.");
@@ -69,7 +70,7 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(final ComponentEvent arg0) {
-                view.setDimension(simulationPanel.getSize());
+                SwingUtilities.invokeLater(() -> view.setDimension(simulationPanel.getSize()));
             }
         });
         this.viewSettings();
@@ -105,6 +106,7 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
         this.topPanel.updateSimulationState(state);
         this.simulationPanel.updateSimulationState(state);
         this.isSimulationRunning = (state == SimulationState.RUNNING);
+        this.isSimulationPaused = (state == SimulationState.PAUSED);
 
         if (state == SimulationState.ENDED) {
             // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL, 

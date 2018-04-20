@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import controller.util.ConversionsUtil;
 import model.Analysis;
 import model.Environment;
 import model.InteractiveEnvironment;
