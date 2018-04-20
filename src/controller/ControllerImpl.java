@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 
 import view.View;
+import view.model.ViewPosition;
+import view.model.food.ViewFood;
 
 /**
  * Controller implementation.
@@ -60,5 +62,11 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     public synchronized void updateCurrentState(final SimulationState state) {
         super.updateCurrentState(state);
         this.view.updateSimulationState(state);
+    }
+
+    @Override
+    public void addFoodFromView(final ViewFood food, final ViewPosition position) {
+        super.addFoodFromView(food, position);
+        this.view.update(this.getState());
     }
 }

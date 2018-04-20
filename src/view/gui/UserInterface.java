@@ -14,8 +14,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 import controller.SimulationState;
 import model.PositionAlreadyOccupiedException;
 import view.View;
@@ -58,8 +56,8 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
             public void mouseClicked(final MouseEvent e) {
                 if (!view.getFoodTypes().isEmpty() && (isSimulationRunning || isSimulationPaused)) {
                     try {
-                        SwingUtilities.invokeLater(() -> view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()),
-                                new ViewPositionImpl(e.getX(), e.getY())));
+                        view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()),
+                                new ViewPositionImpl(e.getX(), e.getY()));
                     } catch (PositionAlreadyOccupiedException positionOccupied) {
                         JOptionPane.showMessageDialog(simulationPanel,
                                 "You have already inserted a food in this position.");
@@ -71,7 +69,7 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(final ComponentEvent arg0) {
-                SwingUtilities.invokeLater(() -> view.setDimension(simulationPanel.getSize()));
+                view.setDimension(simulationPanel.getSize());
             }
         });
         this.viewSettings();
@@ -110,7 +108,7 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
         this.isSimulationPaused = (state == SimulationState.PAUSED);
 
         if (state == SimulationState.ENDED) {
-            // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL, 
+            // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL,
             this.simulationPanel.setState(Optional.empty());
             SwingUtilities.invokeLater(() -> simulationPanel.repaint());
             SwingUtilities.invokeLater(() -> new AnalysisDialog(this, this.view));

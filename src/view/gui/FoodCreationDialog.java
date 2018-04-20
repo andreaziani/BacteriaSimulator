@@ -101,7 +101,7 @@ public class FoodCreationDialog extends JDialog {
         this.nutrients.setEnabled(false);
         this.quantity.setEnabled(false);
         this.name.setText("Food1");
-        this.quantity.setText("5.0");
+        this.quantity.setText("300.00");
         view.getNutrients().forEach(n -> nutrients
                 .addItem(n.substring(0, 1) + n.replaceAll("_", " ").substring(1).toLowerCase(Locale.getDefault())));
     }

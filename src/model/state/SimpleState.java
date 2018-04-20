@@ -85,7 +85,7 @@ public final class SimpleState {
                                 x -> new BacteriaImpl(x.getValue().getId(),
                                         speciesMapper.apply(x.getValue().getSpecies()),
                                         new GeneticCodeImpl(new GeneImpl(x.getValue().getCode()),
-                                                x.getValue().getRadius(), x.getValue().getRadius()),
+                                                x.getValue().getRadius(), x.getValue().getPerceptionRadius()),
                                         startingEnergy.get()))));
     }
 

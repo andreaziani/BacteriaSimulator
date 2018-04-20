@@ -1,6 +1,8 @@
 package view.gui;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -24,6 +26,11 @@ public class AnalysisDialog extends JDialog {
      * 
      */
     private static final long serialVersionUID = 1L;
+
+    private int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
+    private int fontSize = (int) Math.round(12.0 * screenRes / 72.0);
+
+    private final Font font = new Font("Arial", Font.PLAIN, fontSize);
 /**
  * View of the Analysis.
  * @param mainframe
@@ -40,9 +47,12 @@ public class AnalysisDialog extends JDialog {
         final JTextArea dead = new JTextArea();
         final JTextArea bactMutated = new JTextArea();
         final JTextArea survived = new JTextArea();
+        final JTextArea jTextArea = new JTextArea();
+        jTextArea.setFont(font);
         final Analysis analysis = controller.getController().getAnalysis();
         final JPanel pAnalysis = new JPanel();
         final JButton bt = new JButton("Save Analysis");
+        bt.setFont(font);
         pAnalysis.setBackground(Color.WHITE);
 
         //pAnalysis.add(jTextArea);

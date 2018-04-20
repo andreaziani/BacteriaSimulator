@@ -38,9 +38,9 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.startSimulation.addActionListener(e -> {
             // if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
             if (view.getController().getCurrentState() != SimulationState.PAUSED) { 
-                view.getController().start();
+                SwingUtilities.invokeLater(() -> view.getController().start());
             } else {
-                view.getController().resume();
+                SwingUtilities.invokeLater(() -> view.getController().resume());
             }
             // } else {
             // JOptionPane.showMessageDialog(this, "You must insert one species and one type
@@ -48,14 +48,16 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
             // }
         });
         this.resetSimulation.addActionListener(e -> {
-            view.getController().resetSimulation();
-            main.notifyUpdate();
+            SwingUtilities.invokeLater(() -> {
+                view.getController().resetSimulation();
+                main.notifyUpdate();                
+            });
         });
         this.stopSimulation.addActionListener(e -> {
-            view.getController().stop();
+            SwingUtilities.invokeLater(() -> view.getController().stop());
         });
         this.pauseSimulation.addActionListener(e -> {
-            view.getController().pause();
+            SwingUtilities.invokeLater(() -> view.getController().pause());
         });
 
         this.add(this.resetSimulation);
@@ -71,11 +73,6 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
     @Override
     public final void updateSimulationState(final SimulationState state) {
         SwingUtilities.invokeLater(() -> {
-            if (state == SimulationState.PAUSED) {
-                this.startSimulation.setText("Resume");
-            } else {
-                this.startSimulation.setText("Start");
-            }
             switch (state) {
             case RUNNING:
             case REPLAY:
@@ -88,7 +85,6 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
             case PAUSED:
                 startSimulation.setEnabled(true);
                 pauseSimulation.setEnabled(false);
-                stopSimulation.setEnabled(true);
                 resetSimulation.setEnabled(true);
                 break;
             default:
@@ -97,6 +93,12 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
                 pauseSimulation.setEnabled(false);
                 resetSimulation.setEnabled(true);
                 break;
+            }
+            if (state == SimulationState.PAUSED) {
+                this.startSimulation.setText("Resume");
+                stopSimulation.setEnabled(true);
+            } else {
+                this.startSimulation.setText("Start");
             }
         });
     }
