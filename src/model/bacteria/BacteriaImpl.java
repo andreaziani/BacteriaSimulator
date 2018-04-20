@@ -146,4 +146,19 @@ public final class BacteriaImpl implements Bacteria {
                 + this.getEnergy().toString();
     }
 
+    @Override
+    public void enterReplicating() {
+        this.knowledge.setReplicatingState(true);
+    }
+
+    @Override
+    public void exitReplicating() {
+        this.knowledge.setReplicatingState(false);
+    }
+
+    @Override
+    public boolean isReplicating() {
+        return this.knowledge.isReplicating();
+    }
+
 }

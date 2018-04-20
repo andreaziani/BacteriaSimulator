@@ -11,7 +11,7 @@ import model.bacteria.BacteriaKnowledge;
  */
 public final class CostFilterDecisionBehavior extends DecisionBehaviorDecorator {
     /**
-     * Construct a new NearFoodMovementDecisionBehavior by taking a delegate. It
+     * Construct a new CostFilterDecisionBehavior by taking a delegate. It
      * implements the decorator pattern.
      * 
      * @param delegate
@@ -23,10 +23,8 @@ public final class CostFilterDecisionBehavior extends DecisionBehaviorDecorator 
 
     @Override
     protected void addDecisions(final Map<Action, Double> decisions, final BacteriaKnowledge knowledge) {
-        decisions.forEach((a, v) -> {
-            if (knowledge.getActionCost(a).compareTo(knowledge.getBacteriaEnergy()) > 0) {
-                decisions.put(a, 0.0);
-            }
-        });
+        decisions.keySet().stream()
+                          .filter(a -> knowledge.getActionCost(a).compareTo(knowledge.getBacteriaEnergy()) > 0)
+                          .forEach(a -> decisions.put(a, 0.0));
     }
 }
