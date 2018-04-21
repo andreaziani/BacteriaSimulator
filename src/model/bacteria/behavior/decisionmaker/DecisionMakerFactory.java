@@ -35,38 +35,6 @@ public final class DecisionMakerFactory {
      * @return a new DecisionMaker of the type indicated by option.
      */
     public static DecisionMaker createDecisionMaker(final DecisionMakerOption option) {
-//        if (!instances.containsKey(option)) {
-//            instances.put(option, createNewDecisionMaker(option));
-//        }
         return instances.get(option);
     }
-//
-//    private static DecisionMaker createNewDecisionMaker(final DecisionMakerOption option) {
-//        DecisionMaker result = null;
-//        switch (option) {
-//        case ALWAYS_EAT:
-//            result = new AlwaysEatDecisionMaker();
-//            break;
-//        case ALWAYS_REPLICATE:
-//            result = new AlwaysReplicateDecisionMaker();
-//            break;
-//        case NEAR_FOOD_MOVEMENT:
-//            result = new NearFoodMovementDecisionMaker();
-//            break;
-//        case PREFERENTIAL_EATING:
-//            result = new PreferentialEatingDecisionMaker();
-//            break;
-//        case RANDOM_MOVEMENT:
-//            result = new RandomMovementDecisionMaker();
-//            break;
-//        case RANDOM_REPLICATION:
-//            result = new RandomReplicationDecisionMaker();
-//            break;
-//        default:
-//            result = new VoidDecisionMaker();
-//            break;
-//        }
-//        return result;
-//    }
-
 }
