@@ -1,5 +1,6 @@
 package model.simulator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -81,7 +82,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
             bacteriaState.get().entrySet().stream()
                     .forEach(entry -> this.bacteriaEnv.insertBacteria(entry.getKey(), entry.getValue()));
         } else {
-            final int bacteriaPerSpecies = (int) Math.ceil((double) TOTAL_BACTERIA / this.speciesManager.getSpecies().size());
+            final int bacteriaPerSpecies = (int) Math
+                    .ceil((double) TOTAL_BACTERIA / this.speciesManager.getSpecies().size());
             this.speciesManager.getSpecies().stream().forEach(specie -> {
                 final Gene gene = new GeneImpl();
                 IntStream.range(0, bacteriaPerSpecies)
@@ -135,7 +137,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
         st.start();
         this.updateAliveBacteria();
         st.stop();
-        Logger.getInstance().info("Living Bacteria", "Took " + ((Long) (st.getNanoTime() / millis)).toString() + " to compute");
+        Logger.getInstance().info("Living Bacteria",
+                "Took " + ((Long) (st.getNanoTime() / millis)).toString() + " to compute");
     }
 
     /**
@@ -148,6 +151,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
     @Override
     public List<Bacteria> getAliveBacteria() {
-        return this.bacteriaEnv.getAliveBacteria();
+        return this.bacteriaEnv.getBacteriaState().values().stream().filter(bacteria -> !bacteria.isDead())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }
