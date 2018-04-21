@@ -164,7 +164,7 @@ public class ActionManager extends RecursiveAction {
     }
 
     private void solveBaseCase(final List<Position> positions) {
-        positions.parallelStream().forEach(position -> {
+        positions.forEach(position -> {
             final Bacteria bacteria = this.bacteriaEnv.getBacteria(position);
             bacteria.setPerception(createPerception(position));
             costOfLiving(bacteria);
