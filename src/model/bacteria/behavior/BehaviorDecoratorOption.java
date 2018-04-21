@@ -11,7 +11,7 @@ public enum BehaviorDecoratorOption {
     /**
      * Represents a CostFilterDecisionBehavior.
      */
-    COST_FILTER("Don't tries actions if has not enough energy to perform them"),
+    COST_FILTER("Doesn't try actions if has not enough energy to perform them"),
     /**
      * Represents a PreferentialDecisionBehavior relative to the ActionType MOVE.
      */
