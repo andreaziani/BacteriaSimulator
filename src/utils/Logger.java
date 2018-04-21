@@ -23,6 +23,6 @@ public final class Logger {
      * @param msg the message that have to be logged
      */
     public void info(final String src, final String msg) {
-        System.out.println(src + ": " + msg);
+        System.out.println("[" + src + "] : " + msg);
     }
 }

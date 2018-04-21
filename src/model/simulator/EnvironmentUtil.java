@@ -1,12 +1,12 @@
-package utils;
+package model.simulator;
 
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import model.Direction;
-import model.simulator.Collidable;
 import model.state.Position;
 import model.state.PositionImpl;
 
@@ -202,5 +202,11 @@ public final class EnvironmentUtil {
             final Pair<Position, ? extends Collidable> entry2) {
         final double distance = distance(entry1.getLeft(), entry2.getLeft());
         return (distance <= entry1.getRight().getRadius() + entry2.getRight().getRadius());
+    }
+
+    public static boolean causeCollision(final Position position, final double radius, final Position maxPosition,
+            final Predicate<Position> collide) {
+        return EnvironmentUtil.circularPositionStream((int) Math.ceil(radius), position, maxPosition)
+                .noneMatch(pos -> collide.test(pos));
     }
 }

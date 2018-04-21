@@ -23,7 +23,6 @@ import model.food.Food;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
 import model.state.Position;
-import utils.EnvironmentUtil;
 
 /**
  * RecursiveAction to perform action for each Bacteria in parallel.

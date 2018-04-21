@@ -9,7 +9,6 @@ import java.util.Set;
 
 import model.bacteria.Bacteria;
 import model.state.Position;
-import utils.EnvironmentUtil;
 
 /**
  * Implementation of BacteriaEnvironment.
@@ -26,7 +25,6 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
 
     private void setPosition(final Position bacteriaPos, final Bacteria bact, final boolean value) {
         EnvironmentUtil.positionStream((int) Math.ceil(bact.getRadius()), bacteriaPos, this.maxPosition)
-                .filter(pos -> EnvironmentUtil.distance(pos, bacteriaPos) <= bact.getRadius())
                 .forEach(pos -> this.occupiedPosition.set(this.positionToBitSetIndex(pos), value));
     }
 
