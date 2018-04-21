@@ -120,16 +120,13 @@ public class ActionManager extends RecursiveAction {
                 bact.spendEnergy(bact.getActionCost(action));
                 switch (actionType) {
                 case MOVE:
-                    // TODO mutex for action that modify bacteriaEnv
                     final DirectionalAction moveAction = (DirectionalActionImpl) action;
                     actionPerformer.move(pos, bact, moveAction.getDirection(), moveAction.getDistance());
                     break;
                 case EAT:
-                    // TODO mutex for action that modify foodEnv
                     actionPerformer.eat(pos, bact, this.foodsPosition.get(pos));
                     break;
                 case REPLICATE:
-                    // TODO mutex for action that modify bacteriaEnv
                     final int numberOfBacteria = this.bacteriaEnv.getNumberOfBacteria();
                     actionPerformer.replicate(pos, bact, numberOfBacteria);
                     break;
