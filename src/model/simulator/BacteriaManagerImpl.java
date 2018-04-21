@@ -35,7 +35,7 @@ import utils.Logger;
  */
 public class BacteriaManagerImpl implements BacteriaManager {
     private static final double COST_OF_LIVING = 1.5;
-    private static final int TOTAL_BACTERIA = 100;
+    private static final int TOTAL_BACTERIA = 150;
     private static final double BACTERIA_RADIUS = 5.0;
     private static final double PERCEPTION_RADIUS = 40.0;
     private final Position simulationMaxPosition;
@@ -144,5 +144,10 @@ public class BacteriaManagerImpl implements BacteriaManager {
     @Override
     public Map<Position, Bacteria> getBacteriaState() {
         return this.bacteriaEnv.getBacteriaState();
+    }
+
+    @Override
+    public List<Bacteria> getAliveBacteria() {
+        return this.bacteriaEnv.getAliveBacteria();
     }
 }

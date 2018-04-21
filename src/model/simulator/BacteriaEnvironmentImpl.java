@@ -1,11 +1,14 @@
 package model.simulator;
 
 import java.util.Map.Entry;
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import model.bacteria.Bacteria;
 import model.state.Position;
@@ -86,6 +89,11 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     @Override
     public Map<Position, Bacteria> getBacteriaState() {
         return Collections.unmodifiableMap(this.bacteria);
+    }
+
+    @Override
+    public List<Bacteria> getAliveBacteria() {
+        return this.bacteria.values().stream().filter(bacteria -> !bacteria.isDead()).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

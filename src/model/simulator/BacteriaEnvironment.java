@@ -1,6 +1,7 @@
 package model.simulator;
 
 import java.util.Map.Entry;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -79,6 +80,12 @@ public interface BacteriaEnvironment {
      * @return an unmodifiable map represent the state
      */
     Map<Position, Bacteria> getBacteriaState();
+
+    /**
+     * Return the set of bacteria that are alive.
+     * @return such set.
+     */
+    List<Bacteria> getAliveBacteria();
 
     /**
      * Update all Position that a Bacteria occupies within its Radius.
