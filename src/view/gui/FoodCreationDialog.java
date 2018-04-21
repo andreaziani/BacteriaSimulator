@@ -17,7 +17,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import model.AlreadyExistingFoodException;
 import model.food.Nutrient;
 import view.ViewController;
-import view.model.food.CreationViewFoodImpl.ViewFoodBuilder;
+import view.model.food.CreationViewFoodImpl.ConcreteViewFoodBuilder;
+import view.model.food.ViewFoodBuilder;
 
 /**
  * Frame for creation of new type of food.
@@ -28,7 +29,7 @@ public class FoodCreationDialog extends JDialog {
      * Automatically generated.
      */
     private static final long serialVersionUID = 82976646298898908L;
-    private ViewFoodBuilder builder;
+    private transient ViewFoodBuilder builder;
     private final JPanel top = new JPanel();
     private final JPanel center = new JPanel();
     private final JPanel bot = new JPanel();
@@ -58,7 +59,7 @@ public class FoodCreationDialog extends JDialog {
 
         this.addName.addActionListener(e -> {
             try {
-                this.builder = new ViewFoodBuilder(this.name.getText());
+                this.builder = new ConcreteViewFoodBuilder(this.name.getText());
                 this.addNutrient.setEnabled(true);
                 this.name.setEditable(false);
                 this.addName.setEnabled(false);

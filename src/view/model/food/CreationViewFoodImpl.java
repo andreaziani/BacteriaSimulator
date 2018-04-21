@@ -26,7 +26,7 @@ public final class CreationViewFoodImpl implements ViewFood {
      * @param builder
      *            from which take informations.
      */
-    private CreationViewFoodImpl(final ViewFoodBuilder builder) {
+    private CreationViewFoodImpl(final ConcreteViewFoodBuilder builder) {
         this.name = Optional.of(builder.name);
         builder.nutrients.keySet().stream().forEach(k -> this.nutrients.put(k, builder.nutrients.get(k)));
     }
@@ -87,7 +87,7 @@ public final class CreationViewFoodImpl implements ViewFood {
      * nutrients.
      *
      */
-    public static class ViewFoodBuilder {
+    public static class ConcreteViewFoodBuilder implements ViewFoodBuilder {
         // required
         private final String name;
         // optional
@@ -105,7 +105,7 @@ public final class CreationViewFoodImpl implements ViewFood {
          *             if name isn't correct.
          * 
          */
-        public ViewFoodBuilder(final String name) {
+        public ConcreteViewFoodBuilder(final String name) {
             Objects.requireNonNull(name);
             if (name.isEmpty()) {
                 throw new IllegalArgumentException();

@@ -22,8 +22,6 @@ import view.model.ViewState;
  *
  */
 public final class SimulationPanel extends JPanel implements SimulationStateUpdatable {
-    // private static final int RADIUS = 15;
-    // private final Map<Point, Color> foods = new HashMap<>();
     /**
      * Automatically generated.
      */

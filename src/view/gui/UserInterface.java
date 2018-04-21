@@ -97,7 +97,6 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
         this.add(simulationPanel, BorderLayout.CENTER);
         this.add(legendPanel, BorderLayout.EAST);
         this.setVisible(true);
-        System.out.println(this.getComponents().length);
     }
 
     @Override

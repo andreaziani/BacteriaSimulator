@@ -17,7 +17,7 @@ import view.ViewImpl;
 import view.model.ViewPosition;
 import view.model.ViewPositionImpl;
 import view.model.food.ViewFood;
-import view.model.food.CreationViewFoodImpl.ViewFoodBuilder;
+import view.model.food.CreationViewFoodImpl.ConcreteViewFoodBuilder;
 /**
  * TestClass for interaction of the user adding foods.
  *
@@ -31,7 +31,7 @@ public class TestInteractions {
     private final ViewPosition p2 = new ViewPositionImpl(10.0, 20.0);
     private final ViewPosition p3 = new ViewPositionImpl(50.0, 50.0);
     private ViewFood creationOfFood(final String name, final Pair<Nutrient, Double> pair) {
-        return new ViewFoodBuilder(name).addNutrient(pair).build();
+        return new ConcreteViewFoodBuilder(name).addNutrient(pair).build();
     }
 
     /**
