@@ -13,6 +13,7 @@ import model.EnergyImpl;
 import model.InteractiveEnvironment;
 import model.MutationManager;
 import model.MutationManagerImpl;
+import model.PositionAlreadyOccupiedException;
 import model.bacteria.species.SpeciesManager;
 import model.bacteria.species.SpeciesManagerImpl;
 import model.bacteria.species.SpeciesOptions;
@@ -153,7 +154,9 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
             }
             this.getInitialState().setState(getState());
         } catch (NoSuchElementException e) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("The initial state is inconsistent with the species of the environment");
+        } catch (PositionAlreadyOccupiedException e) {
+            throw new IllegalStateException("The initial state cannot be reconstructed correctly");
         }
     }
 }

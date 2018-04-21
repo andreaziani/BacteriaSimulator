@@ -55,8 +55,7 @@ public class ActionManager extends RecursiveAction {
      *            the Object used to actually perform the action
      */
     public ActionManager(final List<Position> positions, final BacteriaEnvironment bacteriaEnv,
-            final Map<Position, Food> foodsState, final Optional<Double> maxRadius,
-            final ActionPerformer actionPerf) {
+            final Map<Position, Food> foodsState, final Optional<Double> maxRadius, final ActionPerformer actionPerf) {
         super();
         this.positions = positions;
         this.bacteriaEnv = bacteriaEnv;
@@ -75,10 +74,8 @@ public class ActionManager extends RecursiveAction {
                     final double angle = EnvironmentUtil.angle(bacteriaPos, pos);
                     final Direction dir = EnvironmentUtil.angleToDir(angle);
                     return Pair.of(dir, EnvironmentUtil.distance(pos, bacteriaPos));
-                })
-                .filter(pairDirDist -> !distsToFood.containsKey(pairDirDist.getLeft())
-                        || pairDirDist.getRight() < distsToFood.get(pairDirDist.getLeft()))
-                .forEach(pairDirDist -> distsToFood.put(pairDirDist.getLeft(), pairDirDist.getRight()));
+                }).filter(dirDist -> dirDist.getRight() < distsToFood.getOrDefault(dirDist.getLeft(), Double.MAX_VALUE))
+                .forEach(dirDist -> distsToFood.compute(dirDist.getLeft(), (k, v) -> dirDist.getRight()));
         return distsToFood;
     }
 
@@ -114,32 +111,28 @@ public class ActionManager extends RecursiveAction {
     }
 
     private void performAction(final Position pos, final Bacteria bact) {
-            final Action action = bact.getAction();
-            final ActionType actionType = action.getType();
-            try {
-                bact.spendEnergy(bact.getActionCost(action));
-                switch (actionType) {
-                case MOVE:
-                    // TODO mutex for action that modify bacteriaEnv
-                    final DirectionalAction moveAction = (DirectionalActionImpl) action;
-                    actionPerformer.move(pos, bact, moveAction.getDirection(), moveAction.getDistance());
-                    break;
-                case EAT:
-                    // TODO mutex for action that modify foodEnv
-                    actionPerformer.eat(pos, bact, this.foodsPosition.get(pos));
-                    break;
-                case REPLICATE:
-                    // TODO mutex for action that modify bacteriaEnv
-                    final int numberOfBacteria = this.bacteriaEnv.getNumberOfBacteria();
-                    actionPerformer.replicate(pos, bact, numberOfBacteria);
-                    break;
-                default:
-                    actionPerformer.doNothing(pos, bact);
-                    break;
-                }
-            } catch (NotEnoughEnergyException e) {
-                bact.spendEnergy(bact.getEnergy());
+        final Action action = bact.getAction();
+        final ActionType actionType = action.getType();
+        try {
+            bact.spendEnergy(bact.getActionCost(action));
+            switch (actionType) {
+            case MOVE:
+                final DirectionalAction moveAction = (DirectionalActionImpl) action;
+                actionPerformer.move(pos, bact, moveAction.getDirection(), moveAction.getDistance());
+                break;
+            case EAT:
+                actionPerformer.eat(pos, bact, this.foodsPosition.get(pos));
+                break;
+            case REPLICATE:
+                actionPerformer.replicate(pos, bact);
+                break;
+            default:
+                actionPerformer.doNothing(pos, bact);
+                break;
             }
+        } catch (NotEnoughEnergyException e) {
+            bact.spendEnergy(bact.getEnergy());
+        }
     }
 
     @Override
@@ -164,7 +157,7 @@ public class ActionManager extends RecursiveAction {
     }
 
     private void solveBaseCase(final List<Position> positions) {
-        positions.parallelStream().forEach(position -> {
+        positions.forEach(position -> {
             final Bacteria bacteria = this.bacteriaEnv.getBacteria(position);
             bacteria.setPerception(createPerception(position));
             costOfLiving(bacteria);

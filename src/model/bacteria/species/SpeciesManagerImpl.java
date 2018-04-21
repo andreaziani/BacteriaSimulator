@@ -42,7 +42,7 @@ public final class SpeciesManagerImpl implements SpeciesManager {
         if (speciesMap.containsKey(name)) {
             return speciesMap.get(name);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("There is no species with that name");
         }
     }
 

@@ -46,11 +46,15 @@ public final class FileControllerImpl implements FileController {
         }
     }
 
+    private void controlExtensionAndThrow(final String path, final String extension) {
+        if (!isPathCorrect(path, extension)) {
+            throw new IllegalExtensionException("The extension of the file must be: " + extension);
+        }
+    }
+
     @Override
     public InitialState loadInitialState(final String path) throws IOException {
-        if (!isPathCorrect(path, SIMULATION_EXTENTION)) {
-            throw new IllegalExtensionException();
-        }
+        controlExtensionAndThrow(path, SIMULATION_EXTENTION);
         try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))) {
             return gson.fromJson(reader, InitialState.class);
         } catch (JsonIOException | JsonSyntaxException e) {
@@ -63,15 +67,13 @@ public final class FileControllerImpl implements FileController {
         try {
             saveToTextFile(getCorrectedPath(path, SIMULATION_EXTENTION), gson.toJson(initialState));
         } catch (JsonIOException | JsonSyntaxException e) {
-            throw new IOException();
+            throw new IOException(e);
         }
     }
 
     @Override
     public Replay loadReplay(final String path) throws IOException {
-        if (!isPathCorrect(path, REPLAY_EXTENTION)) {
-            throw new IllegalExtensionException();
-        }
+        controlExtensionAndThrow(path, REPLAY_EXTENTION);
         try (JsonReader reader = gson.newJsonReader(new BufferedReader(new FileReader(path)))) {
             reader.beginObject();
             reader.nextName();
@@ -102,6 +104,8 @@ public final class FileControllerImpl implements FileController {
             replay.getStateList().forEach(s -> gson.toJson(s, s.getClass(), writer));
             writer.endArray();
             writer.endObject();
+        } catch (JsonIOException | JsonSyntaxException e) {
+            throw new IOException(e);
         }
     }
 

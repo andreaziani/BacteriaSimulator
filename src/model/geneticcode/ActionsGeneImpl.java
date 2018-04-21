@@ -14,7 +14,7 @@ public class ActionsGeneImpl implements ActionsGene {
     private final Gene code;
     private final List<Integer> list;
     private static final int VAR_EAT = 3;
-    private static final int VAR_REPLICATE = 150;
+    private static final int VAR_REPLICATE = 50;
     private static final int VAR_MOVE = 5;
     private static final int VAR_NOTHING = 1;
     private static final int MIN_ZONE = 1;

@@ -77,9 +77,11 @@ public class UserInterface extends JFrame implements View, SimulationStateUpdata
 
     @Override
     public final void update(final ViewState state) {
-        this.simulationPanel.setState(Optional.of(state));
-        SwingUtilities.invokeLater(() -> simulationPanel.repaint());
-        SwingUtilities.invokeLater(() -> simulationPanel.updateUI());
+        SwingUtilities.invokeLater(() -> {
+            this.simulationPanel.setState(Optional.of(state));
+            simulationPanel.repaint();
+            simulationPanel.updateUI();
+        });
     }
 
     @Override

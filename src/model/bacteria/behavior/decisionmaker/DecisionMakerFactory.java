@@ -11,6 +11,18 @@ public final class DecisionMakerFactory {
 
     private static Map<DecisionMakerOption, DecisionMaker> instances = new EnumMap<>(DecisionMakerOption.class);
 
+    static {
+        instances.put(DecisionMakerOption.ALWAYS_EAT, new AlwaysEatDecisionMaker());
+        instances.put(DecisionMakerOption.PREFERENTIAL_EATING, new PreferentialEatingDecisionMaker());
+        instances.put(DecisionMakerOption.RANDOM_MOVEMENT, new RandomMovementDecisionMaker());
+        instances.put(DecisionMakerOption.NEAR_FOOD_MOVEMENT, new NearFoodMovementDecisionMaker());
+        instances.put(DecisionMakerOption.ALWAYS_REPLICATE, new AlwaysReplicateDecisionMaker());
+        instances.put(DecisionMakerOption.RANDOM_REPLICATION, new RandomReplicationDecisionMaker());
+        final VoidDecisionMaker voidDecisionMaker = new VoidDecisionMaker();
+        instances.put(DecisionMakerOption.NO_EATING, voidDecisionMaker);
+        instances.put(DecisionMakerOption.NO_MOVEMENT, voidDecisionMaker);
+        instances.put(DecisionMakerOption.NO_REPLICATION, voidDecisionMaker);
+    }
     private DecisionMakerFactory() {
     }
 
@@ -23,38 +35,38 @@ public final class DecisionMakerFactory {
      * @return a new DecisionMaker of the type indicated by option.
      */
     public static DecisionMaker createDecisionMaker(final DecisionMakerOption option) {
-        if (!instances.containsKey(option)) {
-            instances.put(option, createNewDecisionMaker(option));
-        }
+//        if (!instances.containsKey(option)) {
+//            instances.put(option, createNewDecisionMaker(option));
+//        }
         return instances.get(option);
     }
-
-    private static DecisionMaker createNewDecisionMaker(final DecisionMakerOption option) {
-        DecisionMaker result = null;
-        switch (option) {
-        case ALWAYS_EAT:
-            result = new AlwaysEatDecisionMaker();
-            break;
-        case ALWAYS_REPLICATE:
-            result = new AlwaysReplicateDecisionMaker();
-            break;
-        case NEAR_FOOD_MOVEMENT:
-            result = new NearFoodMovementDecisionMaker();
-            break;
-        case PREFERENTIAL_EATING:
-            result = new PreferentialEatingDecisionMaker();
-            break;
-        case RANDOM_MOVEMENT:
-            result = new RandomMovementDecisionMaker();
-            break;
-        case RANDOM_REPLICATION:
-            result = new RandomReplicationDecisionMaker();
-            break;
-        default:
-            result = new VoidDecisionMaker();
-            break;
-        }
-        return result;
-    }
+//
+//    private static DecisionMaker createNewDecisionMaker(final DecisionMakerOption option) {
+//        DecisionMaker result = null;
+//        switch (option) {
+//        case ALWAYS_EAT:
+//            result = new AlwaysEatDecisionMaker();
+//            break;
+//        case ALWAYS_REPLICATE:
+//            result = new AlwaysReplicateDecisionMaker();
+//            break;
+//        case NEAR_FOOD_MOVEMENT:
+//            result = new NearFoodMovementDecisionMaker();
+//            break;
+//        case PREFERENTIAL_EATING:
+//            result = new PreferentialEatingDecisionMaker();
+//            break;
+//        case RANDOM_MOVEMENT:
+//            result = new RandomMovementDecisionMaker();
+//            break;
+//        case RANDOM_REPLICATION:
+//            result = new RandomReplicationDecisionMaker();
+//            break;
+//        default:
+//            result = new VoidDecisionMaker();
+//            break;
+//        }
+//        return result;
+//    }
 
 }

@@ -79,7 +79,7 @@ public final class BacteriaImpl implements Bacteria {
     @Override
     public Action getAction() {
         if (!this.knowledge.hasPerception()) {
-            throw new MissingPerceptionExeption();
+            throw new MissingPerceptionExeption("The bacteria cannot act if he has not recieved a perception");
         } else if (!knowledge.getAction().isPresent()) {
             knowledge.setAction(this.species.getBehavior().chooseAction(knowledge));
         }

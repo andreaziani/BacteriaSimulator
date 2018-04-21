@@ -74,7 +74,7 @@ public final class InitialState {
      */
     public void setState(final State state) {
         if (species.isEmpty() || existingFood.isEmpty()) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("This InitialState is not ready to add a state");
         }
         this.state = Optional.of(new SimpleState(state, species));
     }
@@ -176,7 +176,7 @@ public final class InitialState {
     }
 
     private SimpleState getStateOrIllegalState() {
-        return this.state.orElseThrow(() -> new IllegalStateException());
+        return this.state.orElseThrow(() -> new IllegalStateException("The state has not been set yet"));
     }
 
     @Override
