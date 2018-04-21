@@ -66,6 +66,8 @@ public class TestBacteria {
 
         assertTrue("Bacteria should be dead with ZERO energy", bacteria.isDead());
 
+        assertFalse("Bacteria should not be replicating", bacteria.isReplicating());
+
         assertEquals("Species should be the same", new SpeciesBuilder("").build(), bacteria.getSpecies());
     }
 
@@ -105,6 +107,11 @@ public class TestBacteria {
                 bacteria.getPerception().getFood().get());
 
         assertEquals("Bacteria should want to eat", new SimpleAction(ActionType.EAT), bacteria.getAction());
+
+        bacteria.enterReplicating();
+        assertTrue("Bacteria should be replicating", bacteria.isReplicating());
+        bacteria.exitReplicating();
+        assertFalse("Bacteria should not be replicating", bacteria.isReplicating());
     }
 
     /**
