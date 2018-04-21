@@ -16,7 +16,6 @@ import model.food.insertionstrategy.position.DistributionStrategy;
 import model.food.insertionstrategy.position.PositionStrategy;
 import model.food.insertionstrategy.position.RandomPositionStrategy;
 import model.state.Position;
-import utils.EnvironmentUtil;
 
 /**
  * Implementation of FoodEnvironment, it contains information about foods.

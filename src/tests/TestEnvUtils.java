@@ -13,9 +13,9 @@ import org.junit.Test;
 
 import model.Direction;
 import model.simulator.Collidable;
+import model.simulator.EnvironmentUtil;
 import model.state.Position;
 import model.state.PositionImpl;
-import utils.EnvironmentUtil;
 
 /**
  * Test class for the EnvUtils class.

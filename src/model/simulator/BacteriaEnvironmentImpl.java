@@ -9,7 +9,6 @@ import java.util.Set;
 
 import model.bacteria.Bacteria;
 import model.state.Position;
-import utils.EnvironmentUtil;
 
 /**
  * Implementation of BacteriaEnvironment.

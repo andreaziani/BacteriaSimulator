@@ -1,4 +1,4 @@
-package utils;
+package model.simulator;
 
 import java.util.concurrent.Semaphore;
 

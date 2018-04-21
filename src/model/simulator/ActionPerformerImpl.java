@@ -16,8 +16,6 @@ import model.geneticcode.CopyFactory;
 import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;
 import model.state.Position;
-import utils.EnvironmentUtil;
-import utils.Mutex;
 
 /**
  * Implementation of ActionPerformer interface.
