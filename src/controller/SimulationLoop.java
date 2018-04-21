@@ -9,7 +9,7 @@ import utils.Logger;
  *
  */
 public class SimulationLoop implements Runnable {
-    private static final long PERIOD = 125L;
+    private static final long PERIOD = 150L;
 
     private final EnvironmentController controller;
     private final Environment environment;
@@ -20,7 +20,7 @@ public class SimulationLoop implements Runnable {
     /**
      * Constructor for SimulationLoop.
      * @param controller the controller that the simulation will use to update the application
-     * @param environment the environment on which execture the updates
+     * @param environment the environment on which execute the updates
      */
     public SimulationLoop(final EnvironmentController controller, final Environment environment) {
         this.controller = controller;
