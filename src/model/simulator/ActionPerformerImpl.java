@@ -22,8 +22,8 @@ import model.state.Position;
  *
  */
 public class ActionPerformerImpl implements ActionPerformer {
-    private static final int REPLICATE_INTERVAL = 15;
-    private static final int MINIMUM_INTERVAL = 5;
+    private static final int REPLICATE_INTERVAL = 20;
+    private static final int MINIMUM_INTERVAL = 10;
     private final CopyFactory geneFactory = new CopyFactoryImpl();
     private final BacteriaEnvironment bactEnv;
     private final FoodEnvironment foodEnv;
