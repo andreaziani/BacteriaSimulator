@@ -10,7 +10,7 @@ import model.bacteria.BacteriaKnowledge;
 
 abstract class ConditionalSimpleActionDecisionMaker implements DecisionMaker {
 
-    private Action simpleAction;
+    private final Action simpleAction;
 
     ConditionalSimpleActionDecisionMaker(final ActionType simpleActionType) {
         this.simpleAction = new SimpleAction(simpleActionType);

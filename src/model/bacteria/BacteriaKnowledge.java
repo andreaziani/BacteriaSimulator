@@ -158,7 +158,7 @@ public final class BacteriaKnowledge {
      * @param replicatingState
      *            the replicating state of the bacteria to be set.
      */
-    public void setReplicatingState(boolean replicatingState) {
+    public void setReplicatingState(final boolean replicatingState) {
         this.replicatingState = replicatingState;
     }
 }
