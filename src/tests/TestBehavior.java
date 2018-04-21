@@ -81,6 +81,13 @@ public class TestBehavior {
         behavior = TestUtils.baseBehaviorFromOptions(
                 Arrays.asList(DecisionMakerOption.ALWAYS_EAT, DecisionMakerOption.NEAR_FOOD_MOVEMENT));
         assertEquals("Behavior should choose to do eat", ActionType.EAT, behavior.chooseAction(knowledge).getType());
+
+        behavior = TestUtils.baseBehaviorFromOptions(Collections.singletonList(DecisionMakerOption.ALWAYS_REPLICATE));
+        assertEquals("Behavior should choose to replicate", ActionType.REPLICATE,
+                behavior.chooseAction(knowledge).getType());
+        knowledge.setReplicatingState(true);
+        assertNotEquals("Behavior should not choose to replicate", ActionType.REPLICATE,
+                behavior.chooseAction(knowledge).getType());
     }
 
     /**
