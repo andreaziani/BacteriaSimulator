@@ -24,5 +24,5 @@ public interface ExistingFoodManager {
      * 
      * @return an unmodifiable copy of the list of existing foods.
      */
-    List<Food> getExistingFoodsSet();
+    List<Food> getExistingFoods();
 }

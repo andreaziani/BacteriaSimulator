@@ -101,7 +101,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
     private void updateAliveBacteria() {
         this.bacteriaEnv.updateOccupiedPositions();
 
-        final Optional<Double> maxFoodRadius = this.manager.getExistingFoodsSet().stream().map(food -> food.getRadius())
+        final Optional<Double> maxFoodRadius = this.manager.getExistingFoods().stream().map(food -> food.getRadius())
                 .max((r1, r2) -> Double.compare(r1, r2));
 
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
