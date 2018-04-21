@@ -9,7 +9,11 @@ import model.bacteria.behavior.decisionmaker.DecisionMakerFactory;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 
 /**
- * A behavior that moves randomly if the bacteria has no food to move to.
+ * A behavior that moves randomly if the bacteria has decided to move nowhere
+ * else. It only works if the behavior has previously decided that it may choose
+ * to move but no direction is good. This is tested by controlling that there is
+ * at least a decision concerning movement and no decision with a score greater
+ * than zero for movement.
  */
 public final class ExplorerDecisionBehavior extends DecisionBehaviorDecorator {
     /**

@@ -34,26 +34,26 @@ public class TestBehavior {
     private class KnowledgeBuilder {
         private Function<Nutrient, Energy> nutrientToEnergyConverter = TestUtils.allNutrientGood();
         private Function<Action, Energy> actionCostFunction = x -> TestUtils.getSmallEnergy();
-        private Supplier<Energy> bacteriaEnergy = () -> TestUtils.getSmallEnergy();
-        private Supplier<Double> bacteriaSpeed = () -> 0.0;
+        private final Supplier<Energy> bacteriaEnergy = () -> TestUtils.getSmallEnergy();
+        private final Supplier<Double> bacteriaSpeed = () -> 0.0;
         private Map<Direction, Double> perceptionDirections = Collections.emptyMap();
 
-        KnowledgeBuilder setNutrientsBad() {
+        private KnowledgeBuilder setNutrientsBad() {
             nutrientToEnergyConverter = TestUtils.allNutrientsBad();
             return this;
         }
 
-        KnowledgeBuilder setActionCostFunction(final Function<Action, Energy> function) {
+        private KnowledgeBuilder setActionCostFunction(final Function<Action, Energy> function) {
             actionCostFunction = function;
             return this;
         }
 
-        KnowledgeBuilder setPerceptionDirections(final Map<Direction, Double> perceptionDirections) {
+        private KnowledgeBuilder setPerceptionDirections(final Map<Direction, Double> perceptionDirections) {
             this.perceptionDirections = perceptionDirections;
             return this;
         }
 
-        BacteriaKnowledge build() {
+        private BacteriaKnowledge build() {
             final BacteriaKnowledge result = new BacteriaKnowledge(
                     new PerceptionImpl(Optional.of(TestUtils.getAFood()), perceptionDirections),
                     nutrientToEnergyConverter, actionCostFunction, bacteriaEnergy, bacteriaSpeed);

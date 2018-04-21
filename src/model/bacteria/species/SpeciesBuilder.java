@@ -93,7 +93,7 @@ public class SpeciesBuilder {
 
     private void controlIsBuilt(final boolean builtState) {
         if (built != builtState) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("This builder has already built");
         }
     }
 
