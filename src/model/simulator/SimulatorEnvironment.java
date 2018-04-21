@@ -101,19 +101,13 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
 
     private void updateBacteria() {
         this.bactManager.updateBacteria();
-    }
-
-    private void updateMutation() {
-        this.mutManager.updateMutation(bactManager.getBacteriaState().values());
+        this.mutManager.updateMutation(this.bactManager.getAliveBacteria());
     }
 
     @Override
     public void update() {
         this.updateBacteria();
         this.updateFood();
-        this.updateMutation();
-        // this.state = Optional.of(new StateImpl(this.foodEnv.getFoodsState(),
-        // this.bactManager.getBacteriaState()));
         this.getAnalysis().addState(this.getState());
         ++this.iterations;
     }
