@@ -34,7 +34,7 @@ import utils.Logger;
 
 public final class SimulatorEnvironment extends AbstractEnvironment implements InteractiveEnvironment {
     private static final int MAX_ITERATIONS = 240;
-    private static final int FOOD_PER_ROUND = 5;
+    private static final int FOOD_PER_ROUND = 2;
     private static final double DEFAULT_HEIGHT = 1000.0;
     private static final double DEFAULT_WIDTH = 1000.0;
 
