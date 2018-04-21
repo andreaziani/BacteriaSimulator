@@ -19,7 +19,8 @@ public final class BaseDecisionBehavior extends AbstractDecisionBehavior {
     private final Set<DecisionMaker> decisionStrategies;
 
     /**
-     * Create a BaseDecisionBehavior.
+     * Create a BaseDecisionBehavior from a set of strategies that will be combined
+     * to make the decisions for this behavior.
      * 
      * @param decisionStrategies
      *            the strategies this Behavior will use to make decisions about each
