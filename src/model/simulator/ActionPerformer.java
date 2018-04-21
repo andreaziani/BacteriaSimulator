@@ -31,10 +31,8 @@ public interface ActionPerformer {
     /**
      * @param position the Position of the Bacteria of which perform the action
      * @param bacterium the Bacteria of which perform the action
-     * @param bacteriaCounter
-     *            the id of the next bacteria.
      */
-    void replicate(Position position, Bacteria bacterium, int bacteriaCounter);
+    void replicate(Position position, Bacteria bacterium);
 
     /**
      * @param position the Position of the Bacteria of which perform the action

@@ -121,7 +121,7 @@ public class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void replicate(final Position bacteriaPos, final Bacteria bacteria, final int bacteriaCounter) {
+    public void replicate(final Position bacteriaPos, final Bacteria bacteria) {
         try {
             this.bacteriaEnvMutex.acquire();
             this.updateStatus(bacteria);
@@ -141,7 +141,8 @@ public class ActionPerformerImpl implements ActionPerformer {
                         final GeneticCode clonedGenCode = this.geneFactory.copyGene(bacteria.getGeneticCode());
                         final Energy halfEnergy = bacteria.getEnergy().multiply(0.5);
                         bacteria.spendEnergy(halfEnergy);
-                        final Bacteria newBacteria = new BacteriaImpl(bacteriaCounter, bacteria.getSpecies(), clonedGenCode,
+                        final int nextBacteriaID = this.bactEnv.getNumberOfBacteria();
+                        final Bacteria newBacteria = new BacteriaImpl(nextBacteriaID, bacteria.getSpecies(), clonedGenCode,
                                 halfEnergy);
                         this.bactEnv.insertBacteria(freePosition.get(), newBacteria);
                     }

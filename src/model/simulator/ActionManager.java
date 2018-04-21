@@ -127,8 +127,7 @@ public class ActionManager extends RecursiveAction {
                     actionPerformer.eat(pos, bact, this.foodsPosition.get(pos));
                     break;
                 case REPLICATE:
-                    final int numberOfBacteria = this.bacteriaEnv.getNumberOfBacteria();
-                    actionPerformer.replicate(pos, bact, numberOfBacteria);
+                actionPerformer.replicate(pos, bact);
                     break;
                 default:
                     actionPerformer.doNothing(pos, bact);
