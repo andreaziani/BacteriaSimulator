@@ -1,4 +1,4 @@
-package model.bacteria.behavior;
+package model.bacteria.species.behavior;
 
 import java.util.Map;
 import java.util.Set;

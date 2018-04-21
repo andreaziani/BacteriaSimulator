@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.bacteria.species.behavior.BehaviorDecoratorOption;
 import view.gui.Colorable;
 
 /**

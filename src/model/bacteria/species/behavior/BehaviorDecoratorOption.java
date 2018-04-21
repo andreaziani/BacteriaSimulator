@@ -1,4 +1,4 @@
-package model.bacteria.behavior;
+package model.bacteria.species.behavior;
 
 /**
  * enumeration representing all types of decorators a behavior can have.
