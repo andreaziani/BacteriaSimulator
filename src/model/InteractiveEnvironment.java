@@ -35,6 +35,9 @@ public interface InteractiveEnvironment extends Environment {
     /**
      * @param species
      *            add a Species to the simulation.
+     * @throws AlreadyExistingSpeciesExeption
+     *             if the name given to the Species is already associated to another
+     *             Species.
      */
     void addSpecies(SpeciesOptions species);
 

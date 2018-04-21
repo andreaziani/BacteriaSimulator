@@ -27,6 +27,8 @@ public interface EnvironmentController {
      *            the location of the food in the view.
      * @throws PositionAlreadyOccupiedException
      *             if the position is already occupied.
+     * @throws IllegalStateException
+     *             if the Environment is not interactive
      */
     void addFoodFromView(ViewFood food, ViewPosition position);
 
@@ -57,6 +59,8 @@ public interface EnvironmentController {
      *            the new type of food to be added.
      * @throws AlreadyExistingFoodException
      *             if the food already exist.
+     * @throws IllegalStateException
+     *             if the Environment is not interactive
      */
     void addNewTypeOfFood(ViewFood food);
 
@@ -82,10 +86,10 @@ public interface EnvironmentController {
      *            the new Species.
      * @throws SimulationAlreadyStartedExeption
      *             if the simulation is already started.
-     * @throws InvalidSpeciesExeption
-     *             if the given Species cannot be added correctly.
      * @throws AlreadyExistingSpeciesExeption
      *             if a species with that name already exists.
+     * @throws IllegalStateException
+     *             if the Environment is not interactive
      */
     void addSpecies(SpeciesOptions species);
 
@@ -110,6 +114,8 @@ public interface EnvironmentController {
      * 
      * @param strategy
      *            the strategy chosen.
+     * @throws IllegalStateException
+     *             if the Environment is not interactive
      */
     void setDistributionStrategy(DistributionStrategy strategy);
 

@@ -11,4 +11,10 @@ public class FileFormatException extends RuntimeException {
      */
     private static final long serialVersionUID = -9160480880215185673L;
 
+    /**
+     * Construct a new FileFormatException with a default error message.
+     */
+    public FileFormatException() {
+        super("The format of the file is not valid for this request");
+    }
 }

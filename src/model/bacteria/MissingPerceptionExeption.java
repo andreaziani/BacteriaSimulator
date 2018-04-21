@@ -11,4 +11,13 @@ public class MissingPerceptionExeption extends RuntimeException {
      */
     private static final long serialVersionUID = 1916327184605950953L;
 
+    /**
+     * Construct a new MissingPerceptionExeption with a given error message.
+     * 
+     * @param message
+     *            the error message.
+     */
+    public MissingPerceptionExeption(final String message) {
+        super(message);
+    }
 }

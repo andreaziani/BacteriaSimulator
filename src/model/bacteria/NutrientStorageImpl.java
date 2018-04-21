@@ -66,7 +66,7 @@ public final class NutrientStorageImpl implements NutrientStorage {
     @Override
     public void takeEnergy(final Energy energy) {
         if (this.getEnergyStored().getAmount() < energy.getAmount()) {
-            throw new NotEnoughEnergyException();
+            throw new NotEnoughEnergyException("Not enough energy stored to satisfy the request");
         }
         if (energy.compareTo(this.reserve) <= 0) {
             this.reserve = this.reserve.subtract(energy);

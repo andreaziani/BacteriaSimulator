@@ -185,14 +185,10 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized void addSpecies(final SpeciesOptions species) {
-        try {
             if (this.currentState == SimulationState.NOT_READY && !this.getExistingViewFoods().isEmpty()) {
                 this.updateCurrentState(SimulationState.READY);
             }
-            getEnvironmentAsInteractive().addSpecies(species);
-        } catch (IllegalStateException e) {
-            throw new InvalidSpeciesExeption();
-        }
+        getEnvironmentAsInteractive().addSpecies(species);
         if (this.currentState != SimulationState.NOT_READY && this.currentState != SimulationState.READY) {
             throw new SimulationAlreadyStartedExeption();
         }
@@ -242,7 +238,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     private InteractiveEnvironment getEnvironmentAsInteractive() {
         if (!(this.environment instanceof InteractiveEnvironment)) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("The environment of the current simulation is not interactive");
         }
         return (InteractiveEnvironment) environment;
     }
