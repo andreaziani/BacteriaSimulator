@@ -2,7 +2,7 @@ package model.simulator;
 
 import org.apache.commons.lang3.mutable.MutableInt;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -30,7 +30,7 @@ public class ActionPerformerImpl implements ActionPerformer {
     private final BacteriaEnvironment bactEnv;
     private final FoodEnvironment foodEnv;
     private final Position simulationMaxPosition;
-    private final Map<Bacteria, MutableInt> replicateCounter = new HashMap<>();
+    private final Map<Bacteria, MutableInt> replicateCounter = new ConcurrentHashMap<>();
     private final Random rand = new Random();
 
     private final Mutex bacteriaEnvMutex = new Mutex();
