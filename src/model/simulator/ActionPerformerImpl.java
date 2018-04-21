@@ -29,7 +29,7 @@ public class ActionPerformerImpl implements ActionPerformer {
     private final CopyFactory geneFactory = new CopyFactoryImpl();
     private final BacteriaEnvironment bactEnv;
     private final FoodEnvironment foodEnv;
-    private final Position simulationMaxPosition;
+    private final Position simMaxPosition;
     private final Map<Bacteria, MutableInt> replicateCounter = new ConcurrentHashMap<>();
     private final Random rand = new Random();
 
@@ -50,12 +50,19 @@ public class ActionPerformerImpl implements ActionPerformer {
             final Position maxPosition) {
         this.bactEnv = bactEnv;
         this.foodEnv = foodEnv;
-        this.simulationMaxPosition = maxPosition;
+        this.simMaxPosition = maxPosition;
+    }
+
+    private int nextTurn() {
+        return rand.nextInt(REPLICATE_INTERVAL) + MINIMUM_INTERVAL;
     }
 
     private void updateStatus(final Bacteria bacteria) {
-        replicateCounter.putIfAbsent(bacteria, new MutableInt(rand.nextInt(REPLICATE_INTERVAL) + MINIMUM_INTERVAL));
+        if (!replicateCounter.containsKey(bacteria)) {
+            replicateCounter.put(bacteria, new MutableInt(nextTurn()));
+        }
         if (replicateCounter.get(bacteria).decrementAndGet() == 0) {
+            replicateCounter.get(bacteria).setValue(nextTurn());
             bacteria.exitReplicating();
         }
     }
@@ -72,15 +79,13 @@ public class ActionPerformerImpl implements ActionPerformer {
                 this.bactEnv.clearPosition(bacteriaPos, bacteria);
 
                 final Optional<Position> newPosition = EnvironmentUtil
-                        .circularPositionStream((int) Math.ceil(distance), bacteriaPos, this.simulationMaxPosition)
-                        .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(bacteriaPos, position))
-                                .equals(moveDirection))
-                        .filter(position -> {
-                            return !EnvironmentUtil
-                                    .circularPositionStream((int) Math.ceil(bacteria.getRadius()), position,
-                                            this.simulationMaxPosition)
-                                    .anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
-                        }).max((p1, p2) -> Double.compare(EnvironmentUtil.distance(bacteriaPos, p1),
+                        .circularPositionStream((int) Math.ceil(distance), bacteriaPos, this.simMaxPosition)
+                        .filter(position -> EnvironmentUtil
+                                .angleToDir(EnvironmentUtil.angle(bacteriaPos, position)) == moveDirection)
+                        .filter(position -> EnvironmentUtil.causeCollision(position,
+                                (int) Math.ceil(bacteria.getRadius()), simMaxPosition,
+                                pos -> this.bactEnv.isPositionOccupied(pos)))
+                        .max((p1, p2) -> Double.compare(EnvironmentUtil.distance(bacteriaPos, p1),
                                 EnvironmentUtil.distance(bacteriaPos, p2)));
 
                 if (newPosition.isPresent()) {
@@ -130,20 +135,19 @@ public class ActionPerformerImpl implements ActionPerformer {
                     bacteria.enterReplicating();
                     final double bacteriaRadius = bacteria.getRadius();
                     final Optional<Position> freePosition = EnvironmentUtil
-                            .circularPositionStream((int) Math.ceil(bacteriaRadius * 2), bacteriaPos, this.simulationMaxPosition)
-                            .filter(position -> {
-                                return !EnvironmentUtil
-                                        .circularPositionStream((int) Math.ceil(bacteria.getRadius()), position, this.simulationMaxPosition)
-                                        .anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
-                            }).findAny();
-                    
+                            .circularPositionStream((int) Math.ceil(bacteriaRadius * 2), bacteriaPos,
+                                    this.simMaxPosition)
+                            .filter(position -> EnvironmentUtil.causeCollision(position, bacteriaRadius, simMaxPosition,
+                                    pos -> this.bactEnv.isPositionOccupied(pos)))
+                            .findAny();
+
                     if (freePosition.isPresent()) {
                         final GeneticCode clonedGenCode = this.geneFactory.copyGene(bacteria.getGeneticCode());
                         final Energy halfEnergy = bacteria.getEnergy().multiply(0.5);
                         bacteria.spendEnergy(halfEnergy);
                         final int nextBacteriaID = this.bactEnv.getNumberOfBacteria();
-                        final Bacteria newBacteria = new BacteriaImpl(nextBacteriaID, bacteria.getSpecies(), clonedGenCode,
-                                halfEnergy);
+                        final Bacteria newBacteria = new BacteriaImpl(nextBacteriaID, bacteria.getSpecies(),
+                                clonedGenCode, halfEnergy);
                         this.bactEnv.insertBacteria(freePosition.get(), newBacteria);
                     }
                 }
