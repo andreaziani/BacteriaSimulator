@@ -105,6 +105,27 @@ public final class EnvironmentUtil {
     }
 
     /**
+     * Generate stream of Position at distance radius from bacteriaPos.
+     * 
+     * @param radius
+     *            the distance to which generate the Position
+     * @param bacteriaPos
+     *            the original Position
+     * @param maxPosition
+     *            the maximum position in the simulation
+     * @return a Stream of Position at distance radius
+     */
+    public static Stream<Position> circularPositionStream(final int radius, final Position bacteriaPos,
+            final Position maxPosition) {
+        return IntStream.range((int) ZERO_DEGREE, (int) ANGLE_PERIOD).mapToObj(angle -> {
+            final int x = (int) (bacteriaPos.getX() + radius * Math.cos(Math.toRadians(angle)));
+            final int y = (int) (bacteriaPos.getY() + radius * Math.sin(Math.toRadians(angle)));
+            return new PositionImpl(x, y);
+        }).map(position -> (Position) position).distinct().filter(position -> position.getX() < maxPosition.getX()
+                && position.getX() > 0 && position.getY() < maxPosition.getY() && position.getY() > 0);
+    }
+
+    /**
      * Generate stream of Position in the range [(startX, startY), (endX, endY)].
      * 
      * @param startX
