@@ -27,7 +27,7 @@ public final class ExistingFoodManagerImpl implements ExistingFoodManager {
     }
 
     @Override
-    public List<Food> getExistingFoodsSet() {
+    public List<Food> getExistingFoods() {
         return Collections.unmodifiableList(this.existingFoods);
     }
 

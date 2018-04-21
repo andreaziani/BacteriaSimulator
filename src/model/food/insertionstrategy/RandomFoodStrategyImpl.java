@@ -17,7 +17,7 @@ public final class RandomFoodStrategyImpl implements RandomFoodStrategy {
     @Override
     public Food getFood(final ExistingFoodManager manager) {
         final Random rand = new Random();
-        final List<Food> list = manager.getExistingFoodsSet().stream().collect(Collectors.toList());
+        final List<Food> list = manager.getExistingFoods().stream().collect(Collectors.toList());
         return list.get(rand.nextInt(list.size()));
     }
 

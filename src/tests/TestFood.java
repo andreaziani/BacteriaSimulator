@@ -98,11 +98,11 @@ public class TestFood {
         assertThrows(AlreadyExistingFoodException.class, () -> manager.addFood(food3));
         modifyNutrients();
         final Food food4 = factory.createFoodFromNameAndNutrients("lampone", nutrients1);
-        assertThrows(UnsupportedOperationException.class, () -> manager.getExistingFoodsSet().add(food4)); // try to add into an unmodifiable copy.
-        assertEquals("Size must be 2", manager.getExistingFoodsSet().size(), 2);
+        assertThrows(UnsupportedOperationException.class, () -> manager.getExistingFoods().add(food4)); // try to add into an unmodifiable copy.
+        assertEquals("Size must be 2", manager.getExistingFoods().size(), 2);
         manager.addFood(food4);
-        assertEquals("Size must be 3", manager.getExistingFoodsSet().size(), 3);
-        assertTrue("names are equals", manager.getExistingFoodsSet().contains(food4));
+        assertEquals("Size must be 3", manager.getExistingFoods().size(), 3);
+        assertTrue("names are equals", manager.getExistingFoods().contains(food4));
     }
     /**
      * Test for FoodEnvironment's methods.

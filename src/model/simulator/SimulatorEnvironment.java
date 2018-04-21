@@ -85,7 +85,7 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
 
     @Override
     public List<Food> getExistingFoods() {
-        return Collections.unmodifiableList(this.foodManager.getExistingFoodsSet());
+        return Collections.unmodifiableList(this.foodManager.getExistingFoods());
     }
 
     @Override
