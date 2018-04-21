@@ -35,7 +35,7 @@ import utils.Logger;
  */
 public class BacteriaManagerImpl implements BacteriaManager {
     private static final double COST_OF_LIVING = 1.5;
-    private static final int BACTERIA_PER_SPECIES = 70;
+    private static final int TOTAL_BACTERIA = 100;
     private static final double BACTERIA_RADIUS = 5.0;
     private static final double PERCEPTION_RADIUS = 40.0;
     private final Position simulationMaxPosition;
@@ -81,9 +81,10 @@ public class BacteriaManagerImpl implements BacteriaManager {
             bacteriaState.get().entrySet().stream()
                     .forEach(entry -> this.bacteriaEnv.insertBacteria(entry.getKey(), entry.getValue()));
         } else {
+            final int bacteriaPerSpecies = (int) Math.ceil((double) TOTAL_BACTERIA / this.speciesManager.getSpecies().size());
             this.speciesManager.getSpecies().stream().forEach(specie -> {
                 final Gene gene = new GeneImpl();
-                IntStream.range(0, BACTERIA_PER_SPECIES)
+                IntStream.range(0, bacteriaPerSpecies)
                         .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()),
                                 rand.nextInt((int) this.simulationMaxPosition.getY())))
                         .forEach(position -> {
@@ -134,7 +135,7 @@ public class BacteriaManagerImpl implements BacteriaManager {
         st.start();
         this.updateAliveBacteria();
         st.stop();
-        Logger.getInstance().info("Living Bacteria", ((Long) (st.getNanoTime() / millis)).toString());
+        Logger.getInstance().info("Living Bacteria", "Took " + ((Long) (st.getNanoTime() / millis)).toString() + " to compute");
     }
 
     /**

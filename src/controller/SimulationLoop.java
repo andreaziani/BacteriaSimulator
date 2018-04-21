@@ -1,7 +1,6 @@
 package controller;
 
 import model.Environment;
-import model.state.State;
 import utils.Logger;
 
 /**
@@ -31,15 +30,13 @@ public class SimulationLoop implements Runnable {
     @Override
     public void run() {
         this.updateState(SimulationState.RUNNING);
-        // FOR DEBUGGING
-        State currentState;
+
         while (this.state != SimulationState.ENDED) {
             final long start = System.currentTimeMillis();
             synchronized (this.controller) {
                 environment.update();
-                // FOR DEBUGGING
-                currentState = environment.getState();
-                this.controller.addReplayState(currentState);
+
+                this.controller.addReplayState(environment.getState());
                 this.controller.simulationLoop();
 
                 if (environment.isSimulationOver()) {
@@ -62,9 +59,7 @@ public class SimulationLoop implements Runnable {
 
             final long elapsed = System.currentTimeMillis() - start;
             // DUBUGGING INFO
-            Logger.getInstance().info("GameLoop",
-                    "Elapsed: " + elapsed + " ms\t" + "Bact size: " + currentState.getBacteriaState().size()
-                            + "\tFood size: " + currentState.getFoodsState().size() + "\n");
+            Logger.getInstance().info("GameLoop", "Elapsed = " + elapsed);
 
             if (elapsed < PERIOD) {
                 try {
