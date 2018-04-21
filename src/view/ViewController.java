@@ -61,9 +61,9 @@ public interface ViewController {
      * @param decorators
      *            the behavior decorators independent from the action types.
      * @throws SimulationAlreadyStartedExeption
-     *             - if the simulation is already started.
-     * @throws InvalidSpeciesExeption
-     *             - if the given Species cannot be added correctly.
+     *             if the simulation is already started.
+     * @throws IllegalStateException
+     *             if the Environment is not interactive.
      * @throws AlreadyExistingSpeciesExeption
      *             if a species with that name already exists.
      */

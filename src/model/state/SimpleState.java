@@ -46,7 +46,7 @@ public final class SimpleState {
                     .map(e -> new Pair<>((PositionImpl) e.getKey(), (FoodImpl) e.getValue()))
                     .collect(Collectors.toSet());
         } catch (NoSuchElementException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("the state do not mach with the information in this SimpleState");
         }
     }
 

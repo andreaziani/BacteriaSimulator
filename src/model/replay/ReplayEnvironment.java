@@ -41,7 +41,7 @@ public final class ReplayEnvironment extends AbstractEnvironment {
 
     @Override
     public State getState() {
-        return currentState.orElseThrow(() -> new IllegalStateException());
+        return currentState.orElseThrow(() -> new IllegalStateException("The replay is over"));
     }
 
     @Override

@@ -57,12 +57,6 @@ public final class SpeciesOptionsFactory {
      * @param decorators
      *            the behavior decorators independent from the action types.
      * @return a SpeciesOptions create from the given parameters.
-     * @throws SimulationAlreadyStartedExeption
-     *             - if the simulation is already started.
-     * @throws InvalidSpeciesExeption
-     *             - if the given Species cannot be added correctly.
-     * @throws AlreadyExistingSpeciesExeption
-     *             if a species with that name already exists.
      */
     public static SpeciesOptions createSpecies(final String name, final Map<ActionType, Integer> decisionOptions,
             final List<Boolean> decorators) {
