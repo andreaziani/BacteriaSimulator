@@ -72,12 +72,12 @@ public class ActionPerformerImpl implements ActionPerformer {
                 this.bactEnv.clearPosition(bacteriaPos, bacteria);
 
                 final Optional<Position> newPosition = EnvironmentUtil
-                        .positionStream((int) Math.ceil(distance), bacteriaPos, this.simulationMaxPosition)
+                        .circularPositionStream((int) Math.ceil(distance), bacteriaPos, this.simulationMaxPosition)
                         .filter(position -> EnvironmentUtil.angleToDir(EnvironmentUtil.angle(bacteriaPos, position))
                                 .equals(moveDirection))
                         .filter(position -> {
                             return !EnvironmentUtil
-                                    .positionStream((int) Math.ceil(bacteria.getRadius()), position,
+                                    .circularPositionStream((int) Math.ceil(bacteria.getRadius()), position,
                                             this.simulationMaxPosition)
                                     .anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
                         }).max((p1, p2) -> Double.compare(EnvironmentUtil.distance(bacteriaPos, p1),
@@ -133,7 +133,7 @@ public class ActionPerformerImpl implements ActionPerformer {
                             .circularPositionStream((int) Math.ceil(bacteriaRadius * 2), bacteriaPos, this.simulationMaxPosition)
                             .filter(position -> {
                                 return !EnvironmentUtil
-                                        .positionStream((int) Math.ceil(bacteria.getRadius()), position, this.simulationMaxPosition)
+                                        .circularPositionStream((int) Math.ceil(bacteria.getRadius()), position, this.simulationMaxPosition)
                                         .anyMatch(pos -> this.bactEnv.isPositionOccupied(pos));
                             }).findAny();
                     
