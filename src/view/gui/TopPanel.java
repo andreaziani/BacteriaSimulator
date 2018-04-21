@@ -28,6 +28,10 @@ import view.ViewController;
  *
  */
 public class TopPanel extends JPanel implements SimulationStateUpdatable {
+    /**
+     * Automatically generated.
+     */
+    private static final long serialVersionUID = 2643418239937346321L;
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private final int height = dim.height * 3 / 5;
     private final int width = dim.width * 3 / 5;
@@ -40,11 +44,6 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     private final JMenuItem saveReplay = new JMenuItem("Save Replay");
     private final JMenuItem help = new JMenuItem("How to use");
     private final SpeciesAndFoodPanel speciesAndFood;
-
-    /**
-     * Automatically generated.
-     */
-    private static final long serialVersionUID = 2643418239937346321L;
     private final ChoicesPanel choicesPanel;
 
     /**

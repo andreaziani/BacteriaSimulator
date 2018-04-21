@@ -25,7 +25,7 @@ import view.model.ViewState;
  * 
  * Represent the Main Frame of GUI and the entry-point for the user.
  */
-public class UserInterface extends JFrame implements View, SimulationStateUpdatable {
+public class UserInterface extends JFrame implements View {
     /**
      * Automatically generated.
      */
