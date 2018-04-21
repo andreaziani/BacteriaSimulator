@@ -90,7 +90,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         this.foods.removeAllItems();
         if (view.getFoodTypes().isEmpty()) {
             this.foods.addItem("Select a Food");
-            this.setEnabled(false);
+            this.foods.setEnabled(false);
         } else {
             this.foods.setEnabled(true);
             view.getFoodNames().forEach(f -> this.foods.addItem(f));
