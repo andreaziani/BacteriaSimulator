@@ -8,14 +8,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import model.action.ActionType;
-import model.bacteria.behavior.AbstractDecisionBehavior;
-import model.bacteria.behavior.BaseDecisionBehavior;
-import model.bacteria.behavior.Behavior;
-import model.bacteria.behavior.BehaviorDecoratorFactory;
-import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMaker;
 import model.bacteria.behavior.decisionmaker.DecisionMakerFactory;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.bacteria.species.behavior.AbstractDecisionBehavior;
+import model.bacteria.species.behavior.BaseDecisionBehavior;
+import model.bacteria.species.behavior.Behavior;
+import model.bacteria.species.behavior.BehaviorDecoratorFactory;
+import model.bacteria.species.behavior.BehaviorDecoratorOption;
 
 /**
  * A builder for an object of type Species. Can create only a single instance of

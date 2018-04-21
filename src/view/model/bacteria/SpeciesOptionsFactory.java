@@ -7,9 +7,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import model.action.ActionType;
-import model.bacteria.behavior.BehaviorDecoratorOption;
 import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import model.bacteria.species.SpeciesOptions;
+import model.bacteria.species.behavior.BehaviorDecoratorOption;
 
 /**
  * A static factory that encapsulate the process of creating a Species from the
