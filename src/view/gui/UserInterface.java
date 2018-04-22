@@ -111,9 +111,11 @@ public class UserInterface extends JFrame implements View {
 
         if (state == SimulationState.ENDED) {
             // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL,
-            this.simulationPanel.setState(Optional.empty());
-            SwingUtilities.invokeLater(() -> simulationPanel.repaint());
-            SwingUtilities.invokeLater(() -> new AnalysisDialog(this, this.view));
+            SwingUtilities.invokeLater(() -> {
+                this.simulationPanel.setState(Optional.empty());
+                simulationPanel.repaint();
+                new AnalysisDialog(this, this.view);
+            });
         }
     }
 
