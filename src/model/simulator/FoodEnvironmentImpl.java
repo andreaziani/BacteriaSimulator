@@ -10,8 +10,8 @@ import model.PositionAlreadyOccupiedException;
 import model.food.ExistingFoodManager;
 import model.food.Food;
 import model.food.insertionstrategy.position.GeometricDistributionStrategy;
-import model.food.insertionstrategy.foodinsertion.SelectionFoodStrategy;
-import model.food.insertionstrategy.foodinsertion.RandomSelectionStrategyImpl;
+import model.food.insertionstrategy.foodinsertion.SelectionStrategy;
+import model.food.insertionstrategy.foodinsertion.RandomSelectionStrategy;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.food.insertionstrategy.position.PositionStrategy;
 import model.food.insertionstrategy.position.RandomPositionStrategy;
@@ -84,7 +84,7 @@ public final class FoodEnvironmentImpl implements FoodEnvironment {
     @Override
     public void addRandomFood() {
         boolean check = true;
-        final SelectionFoodStrategy foodStrategy = new RandomSelectionStrategyImpl();
+        final SelectionStrategy foodStrategy = new RandomSelectionStrategy();
         PositionStrategy positionStrategy;
         if (this.strategy == DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
             positionStrategy = new GeometricDistributionStrategy(this.maxDim);

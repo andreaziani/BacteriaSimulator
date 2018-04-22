@@ -7,7 +7,7 @@ import model.food.Food;
  * Interface for adding foods randomly taken from existing foods.
  *
  */
-public interface SelectionFoodStrategy {
+public interface SelectionStrategy {
     /**
      * Get a random food taken from ExistingFoodManager.
      * 
