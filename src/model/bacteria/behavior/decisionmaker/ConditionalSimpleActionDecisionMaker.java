@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.action.Action;
+import model.action.ActionFactory;
 import model.action.ActionType;
-import model.action.SimpleAction;
 import model.bacteria.BacteriaKnowledge;
 
 abstract class ConditionalSimpleActionDecisionMaker implements DecisionMaker {
@@ -13,7 +13,7 @@ abstract class ConditionalSimpleActionDecisionMaker implements DecisionMaker {
     private final Action simpleAction;
 
     ConditionalSimpleActionDecisionMaker(final ActionType simpleActionType) {
-        this.simpleAction = new SimpleAction(simpleActionType);
+        this.simpleAction = ActionFactory.createAction(simpleActionType);
     }
 
     protected abstract boolean isGoodDecision(BacteriaKnowledge knowledge);

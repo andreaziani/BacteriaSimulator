@@ -6,8 +6,8 @@ import java.util.Random;
 
 import model.Direction;
 import model.action.Action;
+import model.action.ActionFactory;
 import model.action.ActionType;
-import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
 
 class RandomMovementDecisionMaker implements DecisionMaker {
@@ -17,7 +17,7 @@ class RandomMovementDecisionMaker implements DecisionMaker {
         final Map<Action, Double> result = new HashMap<>();
         final Random rand = new Random();
         for (final Direction d : Direction.values()) {
-            result.put(new DirectionalActionImpl(ActionType.MOVE, d, knowledge.getSpeed()), rand.nextDouble());
+            result.put(ActionFactory.createAction(ActionType.MOVE, d, knowledge.getSpeed()), rand.nextDouble());
         }
         return result;
     }

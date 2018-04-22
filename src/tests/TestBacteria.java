@@ -13,9 +13,8 @@ import model.Direction;
 import model.Energy;
 import model.EnergyImpl;
 import model.action.Action;
+import model.action.ActionFactory;
 import model.action.ActionType;
-import model.action.DirectionalActionImpl;
-import model.action.SimpleAction;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.bacteria.MissingPerceptionExeption;
@@ -45,13 +44,13 @@ public class TestBacteria {
                 TestUtils.getLargeDouble());
         final Bacteria bacteria = new BacteriaImpl(0, new SpeciesBuilder("").build(), code, EnergyImpl.ZERO);
 
-        Action action = new SimpleAction(ActionType.EAT);
+        Action action = ActionFactory.createAction(ActionType.EAT);
         assertEquals(ACTION_EQUALS_MESSAGE, code.getActionCost(action), bacteria.getActionCost(action));
-        action = new SimpleAction(ActionType.REPLICATE);
+        action = ActionFactory.createAction(ActionType.REPLICATE);
         assertEquals(ACTION_EQUALS_MESSAGE, code.getActionCost(action), bacteria.getActionCost(action));
-        action = new SimpleAction(ActionType.NOTHING);
+        action = ActionFactory.createAction(ActionType.NOTHING);
         assertEquals(ACTION_EQUALS_MESSAGE, code.getActionCost(action), bacteria.getActionCost(action));
-        action = new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH, 0);
+        action = ActionFactory.createAction(ActionType.MOVE, Direction.NORTH, 0);
         assertEquals(ACTION_EQUALS_MESSAGE, code.getActionCost(action), bacteria.getActionCost(action));
 
         assertEquals("Bacteria should not have energy", EnergyImpl.ZERO, bacteria.getEnergy());
@@ -85,7 +84,7 @@ public class TestBacteria {
 
             @Override
             public Behavior getBehavior() {
-                return (b) -> new SimpleAction(ActionType.EAT);
+                return (b) -> ActionFactory.createAction(ActionType.EAT);
             }
         }, code, startingEnergy);
     }
@@ -106,7 +105,7 @@ public class TestBacteria {
         assertEquals("Percepted food should match with real one", TestUtils.getAFood(),
                 bacteria.getPerception().getFood().get());
 
-        assertEquals("Bacteria should want to eat", new SimpleAction(ActionType.EAT), bacteria.getAction());
+        assertEquals("Bacteria should want to eat", ActionFactory.createAction(ActionType.EAT), bacteria.getAction());
 
         bacteria.enterReplicating();
         assertTrue("Bacteria should be replicating", bacteria.isReplicating());

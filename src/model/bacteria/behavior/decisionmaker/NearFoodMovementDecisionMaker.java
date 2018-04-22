@@ -6,8 +6,8 @@ import java.util.Map;
 
 import model.Direction;
 import model.action.Action;
+import model.action.ActionFactory;
 import model.action.ActionType;
-import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
 
 class NearFoodMovementDecisionMaker implements DecisionMaker {
@@ -24,7 +24,7 @@ class NearFoodMovementDecisionMaker implements DecisionMaker {
         }
         final double totVal = tempVal;
         distances.forEach((d,
-                v) -> result.put(new DirectionalActionImpl(ActionType.MOVE, d,
+                v) -> result.put(ActionFactory.createAction(ActionType.MOVE, d,
                         Math.min(knowledge.getCurrentPerception().distFromFood(d).orElse(knowledge.getSpeed()),
                                 knowledge.getSpeed())),
                         v != 0 ? ((totVal - v) / totVal) : 0));

@@ -4,32 +4,13 @@ import java.util.Objects;
 
 import model.Direction;
 
-/**
- * An implementation of action that has a direction associated. Can only be used
- * with Move action types.
- */
-public final class DirectionalActionImpl extends AbstractAction implements DirectionalAction {
+final class DirectionalActionImpl extends SimpleAction implements DirectionalAction {
 
     private final Direction dir;
     private final double distance;
 
-    /**
-     * Create a directional action given an ActionType and a Direction.
-     * 
-     * @param type
-     *            the ActionType related to this Action.
-     * @param dir
-     *            the direction in which this action must be executed.
-     * @param distance
-     *            the distance for which this action must be applied.
-     * @throws IllegalArgumentExeption
-     *             if type is not Move.
-     */
-    public DirectionalActionImpl(final ActionType type, final Direction dir, final double distance) {
+    DirectionalActionImpl(final ActionType type, final Direction dir, final double distance) {
         super(type);
-        if (type != ActionType.MOVE) {
-            throw new IllegalArgumentException("Wrong action type");
-        }
         this.dir = dir;
         this.distance = distance;
     }
