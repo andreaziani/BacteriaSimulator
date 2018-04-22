@@ -1,4 +1,4 @@
-package view;
+package view.controller;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Map;
 
 import controller.Controller;
 import model.action.ActionType;
+import view.View;
 import view.model.food.ViewFood;
 
 /**

@@ -13,8 +13,10 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import controller.SimulationCondition;
 import controller.SimulationState;
 import view.Radius;
+import view.SimulationStateUpdatable;
 import view.model.ViewState;
 
 /**
@@ -28,7 +30,7 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
     private static final long serialVersionUID = 2015198232069587535L;
     private final ColorAssigner colorAssigner;
     private Optional<ViewState> state = Optional.empty();
-    private SimulationState simState = SimulationState.NOT_READY;
+    private SimulationCondition simState = SimulationCondition.NOT_READY;
 
     /**
      * 
@@ -52,7 +54,7 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        if (state.isPresent() && this.simState != SimulationState.NOT_READY) {
+        if (state.isPresent() && this.simState != SimulationCondition.NOT_READY) {
             state.get().getFoodsState().entrySet().stream().forEach(e -> {
                 g.setColor(colorAssigner.getColorFromFood(e.getValue()));
                 final Radius radius = e.getValue().getRadius();
@@ -85,6 +87,6 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
 
     @Override
     public void updateSimulationState(final SimulationState state) {
-        this.simState = state;
+        this.simState = state.getCurrentCondition();
     }
 }

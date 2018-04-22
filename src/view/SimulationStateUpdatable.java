@@ -1,5 +1,4 @@
-package view.gui;
-
+package view;
 import controller.SimulationState;
 
 /**

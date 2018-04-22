@@ -136,24 +136,27 @@ public interface EnvironmentController {
     Analysis getAnalysis();
 
     /**
-     * Update simulation state inside the controller.
+     * Update simulation condition inside the controller.
      * 
-     * @param state
-     *            the current Simulation state.
+     * @param condition
+     *            the current Simulation condition.
+     * @param mode
+     *            the current simulation mode
      */
-    void updateCurrentState(SimulationState state);
+    void updateCurrentState(SimulationCondition condition, SimulationMode mode);
 
     /**
      * Retrieve simulation state from the controller.
      * 
-     * @return
-     *            the current Simulation state.
+     * @return the current Simulation state.
      */
     SimulationState getCurrentState();
 
     /**
      * Add a new state updated to the Replay.
      * 
+     * @param currentState
+     *            the current state.
      */
     void addReplayState(State currentState);
 

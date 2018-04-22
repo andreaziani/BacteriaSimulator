@@ -1,4 +1,4 @@
-package model.food.insertionstrategy;
+package model.food.insertionstrategy.foodinsertion;
 
 import model.food.ExistingFoodManager;
 import model.food.Food;
@@ -7,7 +7,7 @@ import model.food.Food;
  * Interface for adding foods randomly taken from existing foods.
  *
  */
-public interface RandomFoodStrategy {
+public interface SelectionStrategy {
     /**
      * Get a random food taken from ExistingFoodManager.
      * 

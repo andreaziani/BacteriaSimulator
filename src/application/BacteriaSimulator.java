@@ -2,7 +2,7 @@ package application;
 
 import controller.Controller;
 import controller.ControllerImpl;
-import view.ViewImpl;
+import view.controller.ViewImpl;
 import view.gui.UserInterface;
 
 /**

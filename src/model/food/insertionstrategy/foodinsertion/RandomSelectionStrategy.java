@@ -1,4 +1,4 @@
-package model.food.insertionstrategy;
+package model.food.insertionstrategy.foodinsertion;
 
 import java.util.List;
 import java.util.Random;
@@ -12,7 +12,7 @@ import model.food.Food;
  * random choice.
  *
  */
-public final class RandomFoodStrategyImpl implements RandomFoodStrategy {
+public final class RandomSelectionStrategy implements SelectionStrategy {
 
     @Override
     public Food getFood(final ExistingFoodManager manager) {

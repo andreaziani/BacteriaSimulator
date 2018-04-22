@@ -34,7 +34,7 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
 
     @Override
     public synchronized void loadInitialState(final String path) throws IOException {
-        this.updateCurrentState(SimulationState.REPLAY);
+        this.updateCurrentState(SimulationCondition.PAUSED, SimulationMode.REPLAY);
         this.setInitialState(this.fileController.loadInitialState(path));
     }
 
@@ -59,9 +59,9 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     }
 
     @Override
-    public synchronized void updateCurrentState(final SimulationState state) {
-        super.updateCurrentState(state);
-        this.view.updateSimulationState(state);
+    public synchronized void updateCurrentState(final SimulationCondition condition, final SimulationMode mode) {
+        super.updateCurrentState(condition, mode);
+        this.view.updateSimulationState(this.getCurrentState());
     }
 
     @Override

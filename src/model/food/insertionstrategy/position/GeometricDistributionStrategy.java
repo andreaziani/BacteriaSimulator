@@ -18,16 +18,11 @@ public final class GeometricDistributionStrategy implements PositionStrategy {
      * 
      * @param maxPosition
      *            the maximum position in the environment.
-     * @param strategy
-     *            the type of strategy chosen.
      * @throws IllegalArgumentException
      *             if the strategy chosen is not correct.
      */
-    public GeometricDistributionStrategy(final Position maxPosition, final DistributionStrategy strategy) {
+    public GeometricDistributionStrategy(final Position maxPosition) {
         super();
-        if (strategy != DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
-            throw new IllegalArgumentException();
-        }
         this.maxPosition = maxPosition;
     }
 

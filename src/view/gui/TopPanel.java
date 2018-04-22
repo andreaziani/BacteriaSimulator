@@ -20,8 +20,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import controller.FileController;
 import controller.FileFormatException;
 import controller.IllegalExtensionException;
+import controller.SimulationCondition;
 import controller.SimulationState;
-import view.ViewController;
+import view.SimulationStateUpdatable;
+import view.controller.ViewController;
 
 /**
  * Top Panel of MainFrame.
@@ -191,7 +193,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.speciesAndFood.updateSimulationState(state);
         this.choicesPanel.updateSimulationState(state);
         SwingUtilities.invokeLater(() -> {
-            if (state == SimulationState.ENDED) {
+            if (state.getCurrentCondition() == SimulationCondition.ENDED) {
                 this.saveReplay.setEnabled(true);
             } else {
                 this.saveReplay.setEnabled(false);
