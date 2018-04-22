@@ -16,7 +16,6 @@ import model.Direction;
 import model.action.Action;
 import model.action.ActionType;
 import model.action.DirectionalAction;
-import model.action.DirectionalActionImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.NotEnoughEnergyException;
 import model.food.Food;
@@ -116,7 +115,7 @@ public class ActionManager extends RecursiveAction {
             bact.spendEnergy(bact.getActionCost(action));
             switch (actionType) {
             case MOVE:
-                final DirectionalAction moveAction = (DirectionalActionImpl) action;
+                final DirectionalAction moveAction = (DirectionalAction) action;
                 actionPerformer.move(pos, bact, moveAction.getDirection(), moveAction.getDistance());
                 break;
             case EAT:

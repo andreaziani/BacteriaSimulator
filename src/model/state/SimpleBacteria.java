@@ -19,14 +19,15 @@ public final class SimpleBacteria {
     private final List<NucleicAcid> code;
 
     /**
-     * Create a SimpleBacteria from a Bacteria and a view representation of the
+     * Create a SimpleBacteria from a Bacteria and a the options to construct
      * bacteria's species. No control is being made to assure that the species given
      * is correct in comparison to the species actually indicated by the bacteria.
      * 
      * @param bacteria
      *            a bacteria.
      * @param species
-     *            a view representation of the bacteria's species.
+     *            a simple representation of the bacteria's species from the options
+     *            that make it.
      */
     public SimpleBacteria(final Bacteria bacteria, final SpeciesOptions species) {
         this.id = bacteria.getId();
@@ -58,14 +59,14 @@ public final class SimpleBacteria {
     }
 
     /**
-     * @return the view representation of the species of the bacteria.
+     * @return the options to build the species of the bacteria.
      */
     public SpeciesOptions getSpecies() {
         return species;
     }
 
     /**
-     * @return the row version of the bacteria's genetic code, represented as a list
+     * @return the raw version of the bacteria's genetic code, represented as a list
      *         of nucleic acids.
      */
     public List<NucleicAcid> getCode() {

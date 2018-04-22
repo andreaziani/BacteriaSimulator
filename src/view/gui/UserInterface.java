@@ -14,10 +14,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import controller.SimulationCondition;
+import controller.SimulationMode;
 import controller.SimulationState;
 import model.PositionAlreadyOccupiedException;
 import view.View;
-import view.ViewController;
+import view.controller.ViewController;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
 
@@ -32,6 +34,7 @@ public class UserInterface extends JFrame implements View {
     private static final long serialVersionUID = -6602885048333089318L;
     private boolean isSimulationRunning;
     private boolean isSimulationPaused;
+    private boolean isSimulationReplay;
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private final int height = dim.height * 4 / 5;
     private final int width = dim.width * 4 / 5;
@@ -54,7 +57,7 @@ public class UserInterface extends JFrame implements View {
         this.simulationPanel = new SimulationPanel(width, height, legendPanel);
         this.simulationPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
-                if (!view.getFoodTypes().isEmpty() && (isSimulationRunning || isSimulationPaused)) {
+                if (!view.getFoodTypes().isEmpty() && (isSimulationRunning || isSimulationPaused) && !isSimulationReplay) {
                     try {
                         view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()),
                                 new ViewPositionImpl(e.getX(), e.getY()));
@@ -106,14 +109,16 @@ public class UserInterface extends JFrame implements View {
         this.legendPanel.updateSimulationState(state);
         this.topPanel.updateSimulationState(state);
         this.simulationPanel.updateSimulationState(state);
-        this.isSimulationRunning = (state == SimulationState.RUNNING);
-        this.isSimulationPaused = (state == SimulationState.PAUSED);
-
-        if (state == SimulationState.ENDED) {
+        this.isSimulationRunning = (state.getCurrentCondition() == SimulationCondition.RUNNING);
+        this.isSimulationPaused = (state.getCurrentCondition() == SimulationCondition.PAUSED);
+        this.isSimulationReplay = (state.getCurrentMode() == SimulationMode.REPLAY);
+        if (state.getCurrentCondition() == SimulationCondition.ENDED) {
             // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL,
-            this.simulationPanel.setState(Optional.empty());
-            SwingUtilities.invokeLater(() -> simulationPanel.repaint());
-            SwingUtilities.invokeLater(() -> new AnalysisDialog(this, this.view));
+            SwingUtilities.invokeLater(() -> {
+                this.simulationPanel.setState(Optional.empty());
+                simulationPanel.repaint();
+                new AnalysisDialog(this, this.view);
+            });
         }
     }
 

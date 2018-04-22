@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import model.Analysis;
-import view.ViewController;
+import view.controller.ViewController;
 
 /**
  * 

@@ -61,7 +61,7 @@ public class ActionPerformerImpl implements ActionPerformer {
         }
         if (replicateCounter.get(bacteria).decrementAndGet() == 0) {
             replicateCounter.get(bacteria).setValue(nextTurn());
-            bacteria.exitReplicating();
+            bacteria.stopReplicating();
         }
     }
 
@@ -130,7 +130,7 @@ public class ActionPerformerImpl implements ActionPerformer {
             this.updateStatus(bacteria);
             try {
                 if (!bacteria.isReplicating()) {
-                    bacteria.enterReplicating();
+                    bacteria.startReplicating();
                     final double bacteriaRadius = bacteria.getRadius();
                     final Optional<Position> freePosition = EnvironmentUtil
                             .circularPositionStream((int) Math.ceil(bacteriaRadius * 2), bacteriaPos,

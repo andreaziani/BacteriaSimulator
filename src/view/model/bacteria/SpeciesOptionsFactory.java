@@ -7,12 +7,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import model.action.ActionType;
-import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import model.bacteria.species.SpeciesOptions;
 import model.bacteria.species.behavior.BehaviorDecoratorOption;
+import model.bacteria.species.behavior.decisionmaker.DecisionMakerOption;
 
 /**
- * A static factory that encapsulate the process of creating a Species from the
+ * A simple factory that encapsulate the process of creating a Species from the
  * View perspective. This utility class interprets selected options of the View
  * and build an object that will be used to build a species in the model.
  */

@@ -5,8 +5,8 @@ import java.util.Map;
 import model.action.Action;
 import model.action.ActionType;
 import model.bacteria.BacteriaKnowledge;
-import model.bacteria.behavior.decisionmaker.DecisionMakerFactory;
-import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
+import model.bacteria.species.behavior.decisionmaker.DecisionMakerFactory;
+import model.bacteria.species.behavior.decisionmaker.DecisionMakerOption;
 
 /**
  * A behavior that moves randomly if the bacteria has decided to move nowhere

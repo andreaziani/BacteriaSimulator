@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.action.Action;
+import model.action.ActionFactory;
 import model.action.ActionType;
-import model.action.SimpleAction;
 import model.bacteria.BacteriaKnowledge;
 
 /**
@@ -31,6 +31,6 @@ public abstract class AbstractDecisionBehavior implements Behavior {
         updateDecisions(decisions, knowledge);
         return decisions.keySet().stream().filter(x -> decisions.get(x) > 0)
                 .max((a1, a2) -> Double.compare(decisions.get(a1), decisions.get(a2)))
-                .orElseGet(() -> new SimpleAction(ActionType.NOTHING));
+                .orElseGet(() -> ActionFactory.createAction(ActionType.NOTHING));
     }
 }

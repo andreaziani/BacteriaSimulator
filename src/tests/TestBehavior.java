@@ -15,14 +15,14 @@ import org.junit.Test;
 import model.Direction;
 import model.Energy;
 import model.action.Action;
+import model.action.ActionFactory;
 import model.action.ActionType;
-import model.action.DirectionalActionImpl;
 import model.bacteria.BacteriaKnowledge;
-import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import model.bacteria.species.behavior.AbstractDecisionBehavior;
 import model.bacteria.species.behavior.CostFilterDecisionBehavior;
 import model.bacteria.species.behavior.ExplorerDecisionBehavior;
 import model.bacteria.species.behavior.PreferentialDecisionBehavior;
+import model.bacteria.species.behavior.decisionmaker.DecisionMakerOption;
 import model.food.Nutrient;
 import model.perception.PerceptionImpl;
 
@@ -75,7 +75,7 @@ public class TestBehavior {
                 Arrays.asList(DecisionMakerOption.PREFERENTIAL_EATING, DecisionMakerOption.NEAR_FOOD_MOVEMENT));
         assertEquals(
                 "Behavior should choose to move north with the distance equals to that of the distance to the food",
-                new DirectionalActionImpl(ActionType.MOVE, Direction.NORTH,
+                ActionFactory.createAction(ActionType.MOVE, Direction.NORTH,
                         knowledge.getCurrentPerception().distFromFood(Direction.NORTH).get()),
                 behavior.chooseAction(knowledge));
         behavior = TestUtils.baseBehaviorFromOptions(

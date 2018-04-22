@@ -109,13 +109,13 @@ public interface Bacteria extends Collidable {
      * Put this bacteria in the replicating state, informing it that other
      * replication actions will not work.
      */
-    void enterReplicating();
+    void startReplicating();
 
     /**
      * Remove this bacteria from the replicating state, informing that it now can
      * try to replicate again.
      */
-    void exitReplicating();
+    void stopReplicating();
 
     /**
      * @return if this bacteria is replicating.

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import model.action.Action;
 import model.bacteria.BacteriaKnowledge;
-import model.bacteria.behavior.decisionmaker.DecisionMaker;
+import model.bacteria.species.behavior.decisionmaker.DecisionMaker;
 
 /**
  * Base implementation of AbstractDecisionBehavior that does not change the

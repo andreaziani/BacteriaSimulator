@@ -14,8 +14,8 @@ import model.food.Food;
  *
  */
 public final class StateImpl implements State {
-    private final Map<? extends Position, ? extends Food> foodState;
-    private final Map<? extends Position, ? extends Bacteria> bacteriaState;
+    private final Map<Position, Food> foodState;
+    private final Map<Position, Bacteria> bacteriaState;
 
     /**
      * 
@@ -24,8 +24,8 @@ public final class StateImpl implements State {
      * @param bacteriaState
      *            the state of bacteria in the environment.
      */
-    public StateImpl(final Map<? extends Position, ? extends Food> foodState,
-            final Map<? extends Position, ? extends Bacteria> bacteriaState) {
+    public StateImpl(final Map<Position, Food> foodState,
+            final Map<Position, Bacteria> bacteriaState) {
         this.foodState = new HashMap<>(foodState);
         this.bacteriaState = new HashMap<>(bacteriaState);
     }

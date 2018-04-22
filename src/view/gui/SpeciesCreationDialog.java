@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 import controller.InvalidSpeciesExeption;
 import model.action.ActionType;
 import model.bacteria.species.AlreadyExistingSpeciesExeption;
-import view.ViewController;
+import view.controller.ViewController;
 
 /**
  * Frame that enable creation of Species composing different attributes.

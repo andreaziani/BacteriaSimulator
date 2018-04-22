@@ -20,9 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import controller.SimulationCondition;
 import controller.SimulationState;
 import model.bacteria.species.SpeciesOptions;
-import view.ViewController;
+import view.SimulationStateUpdatable;
+import view.controller.ViewController;
 import view.model.food.ViewFood;
 import view.model.food.ViewProvision;
 
@@ -43,7 +45,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     private final JLabel foodLabel;
     private final JLabel speciesLabel;
 
-    private SimulationState simulationState;
+    private SimulationCondition simulationState;
     private Map<String, Color> foodColors;
     private Map<String, Color> speciesColors;
     private Iterator<Color> foodColorIterator;
@@ -69,7 +71,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         candidateSpeciesColors.add(Color.GREEN);
         candidateSpeciesColors.add(Color.MAGENTA);
 
-        simulationState = SimulationState.NOT_READY;
+        simulationState = SimulationCondition.NOT_READY;
         this.viewController = viewController;
         foodLabel = new JLabel("Food colors:");
         speciesLabel = new JLabel("Species colors:");
@@ -119,8 +121,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
 
     @Override
     public void updateSimulationState(final SimulationState state) {
-        this.simulationState = state;
-        if (simulationState == SimulationState.NOT_READY) {
+        this.simulationState = state.getCurrentCondition();
+        if (simulationState == SimulationCondition.NOT_READY) {
             this.reset();
         }
     }
