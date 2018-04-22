@@ -4,7 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Static factory of decision makers that takes a DecisionMakerOption as an
+ * Simple factory of decision makers that takes a DecisionMakerOption as an
  * input and gives a DecisionMaker as output.
  */
 public final class DecisionMakerFactory {
