@@ -29,7 +29,7 @@ import model.state.Position;
 public class ActionManager extends RecursiveAction {
 
     private static final long serialVersionUID = -4627517274471842922L;
-    private static final int THRESHOLD = 4;
+    private static final int THRESHOLD = 10;
     private final List<Position> positions;
     private final BacteriaEnvironment bacteriaEnv;
     private final Map<Position, Food> foodsState;
@@ -128,7 +128,7 @@ public class ActionManager extends RecursiveAction {
                 actionPerformer.eat(pos, bact, foodPosition);
                 break;
             case REPLICATE:
-                actionPerformer.replicate(pos, bact);
+                //actionPerformer.replicate(pos, bact);
                 break;
             default:
                 actionPerformer.doNothing(pos, bact);
@@ -165,7 +165,7 @@ public class ActionManager extends RecursiveAction {
     }
 
     private void solveBaseCase(final List<Position> positions) {
-        positions.stream().filter(pos -> this.bacteriaEnv.containBacteriaInPosition(pos))
+        positions.parallelStream().filter(pos -> this.bacteriaEnv.containBacteriaInPosition(pos))
                 .map(pos -> Pair.of(pos, this.bacteriaEnv.getBacteria(pos)))
                 .peek(posBact -> posBact.getRight().setPerception(this.createPerception(posBact.getLeft())))
                 .peek(posBact -> this.costOfLiving(posBact.getRight()))
