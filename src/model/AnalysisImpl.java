@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import model.bacteria.Bacteria;
 import model.bacteria.species.Species;
 import model.state.Position;
@@ -22,7 +24,6 @@ public class AnalysisImpl implements Analysis {
 
     private final transient List<State> lstate = new ArrayList<>();
     private final transient MutationManager mutManager = new MutationManagerImpl();
-    private transient List<Bacteria> lbefore = new ArrayList<>();
     private transient List<Bacteria> lafter = new ArrayList<>();
     private transient Set<Species> speciesB = new HashSet<>();
     private transient Set<Species> speciesA = new HashSet<>();
@@ -75,14 +76,13 @@ public class AnalysisImpl implements Analysis {
 
     private Map<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
         final Map<Species, Integer> smap = new HashMap<>();
+        Map<Species, List<Bacteria>> bact = new HashMap<>();
+        bact = bacteria.stream().collect(Collectors.groupingBy(Bacteria::getSpecies, Collectors.toList()));
         for (final Species sp : species) {
-            smap.put(sp, 0);
-            for (final Bacteria bt : bacteria) {
-                if (sp.equals(bt.getSpecies())) {
-                    final int count = smap.containsKey(sp) ? smap.get(sp) : 0;
-                    smap.put(sp, count + 1);
-                }
+            if (bact.containsKey(sp)) {
+                smap.put(sp, bact.get(sp).size());
             }
+            smap.putIfAbsent(sp, 0);
         }
         return smap;
     }
@@ -132,8 +132,8 @@ public class AnalysisImpl implements Analysis {
     }
 
     private void before() {
-        this.lbefore = listOfBacteria(this.lstate.get(0).getBacteriaState());
-        this.speciesB = speciesOfBacteria(this.lbefore);
+        final List<Bacteria> lbefore = listOfBacteria(this.lstate.get(0).getBacteriaState());
+        this.speciesB = speciesOfBacteria(lbefore);
     }
 
     private void after() {

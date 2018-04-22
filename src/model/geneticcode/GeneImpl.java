@@ -35,15 +35,6 @@ public class GeneImpl implements Gene {
         }
     }
 
-    /*TODO definire che le caratteristiche riguardano A T C G e solo quelle.
-     * Poichè il codice genetico è basato solo su quello.
-     * es. codice genetico "G-AAA-TAC-CGA"
-     * 1° considera se muta oppure no. booelan 
-     * 2° interpreta il costo delle azioni.
-     * 3° interpreta la speed.
-     * 4° interpreta l'energia dei nutrienti.
-     */
-
     @Override
     public List<NucleicAcid> getCode() {
         return this.code;
