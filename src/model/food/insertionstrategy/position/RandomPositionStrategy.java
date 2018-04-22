@@ -18,17 +18,12 @@ public final class RandomPositionStrategy implements PositionStrategy {
      * Build the strategy by passing the maximum position.
      * 
      * @param maxPosition
-     *            the maximum position in the environment.
-     * @param strategy
-     *            the strategy chosen.
+     *            the maximum position in the environment..
      * @throws IllegalArgumentException
      *             if the strategy chosen is not correct.
      */
-    public RandomPositionStrategy(final Position maxPosition, final DistributionStrategy strategy) {
+    public RandomPositionStrategy(final Position maxPosition) {
         super();
-        if (strategy != DistributionStrategy.UNIFORM_DISTRIBUTION) {
-            throw new IllegalArgumentException();
-        }
         this.maxPosition = maxPosition;
     }
 

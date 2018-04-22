@@ -87,9 +87,9 @@ public final class FoodEnvironmentImpl implements FoodEnvironment {
         final RandomFoodStrategy foodStrategy = new RandomFoodStrategyImpl();
         PositionStrategy positionStrategy;
         if (this.strategy == DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
-            positionStrategy = new GeometricDistributionStrategy(this.maxDim, strategy);
+            positionStrategy = new GeometricDistributionStrategy(this.maxDim);
         } else {
-            positionStrategy = new RandomPositionStrategy(maxDim, strategy);
+            positionStrategy = new RandomPositionStrategy(maxDim);
         }
         for (int i = MAXATTEMPS; (i > 0 && check); i--) { // try to re-insert in another position if the precedent was occupied.
             try {
