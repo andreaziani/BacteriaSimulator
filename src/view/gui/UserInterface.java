@@ -14,7 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import controller.SimulationState;
+import controller.SimulationCondition;
 import model.PositionAlreadyOccupiedException;
 import view.View;
 import view.ViewController;
@@ -102,14 +102,14 @@ public class UserInterface extends JFrame implements View {
     }
 
     @Override
-    public final void updateSimulationState(final SimulationState state) {
+    public final void updateSimulationState(final SimulationCondition state) {
         this.legendPanel.updateSimulationState(state);
         this.topPanel.updateSimulationState(state);
         this.simulationPanel.updateSimulationState(state);
-        this.isSimulationRunning = (state == SimulationState.RUNNING);
-        this.isSimulationPaused = (state == SimulationState.PAUSED);
+        this.isSimulationRunning = (state == SimulationCondition.RUNNING);
+        this.isSimulationPaused = (state == SimulationCondition.PAUSED);
 
-        if (state == SimulationState.ENDED) {
+        if (state == SimulationCondition.ENDED) {
             // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL,
             SwingUtilities.invokeLater(() -> {
                 this.simulationPanel.setState(Optional.empty());

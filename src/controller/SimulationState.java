@@ -1,32 +1,50 @@
 package controller;
+
 /**
  * 
- * All possible state that simulation can have.
+ * Class that contains the current simulation condition and mode.
  *
  */
-public enum SimulationState {
+public class SimulationState {
+    private SimulationCondition currentCondition;
+    private SimulationMode currentMode;
+
     /**
-     * Simulation is not ready to start.
+     * Set the current simulation condition.
+     * 
+     * @param condition
+     *            the current simulation condition.
      */
-    NOT_READY,
+    public void setSimulationCondition(final SimulationCondition condition) {
+        this.currentCondition = condition;
+    }
+
     /**
-     * Simulation is ready to start.
+     * Set current simulation mode.
+     * 
+     * @param mode
+     *            the current simulation mode.
      */
-    READY,
+    public void setSimulationMode(final SimulationMode mode) {
+        this.currentMode = mode;
+    }
+
     /**
-     * Simulation is running.
+     * Get the current simulation condition.
+     * 
+     * @return the current simulation condition.
      */
-    RUNNING,
+    public SimulationCondition getCurrentCondition() {
+        return currentCondition;
+    }
+
     /**
-     * Simulation is in pause.
+     * Get the current simulation mode.
+     * 
+     * @return the current simulation mode.
      */
-    PAUSED,
-    /**
-     * Replay is running.
-     */
-    REPLAY,
-    /**
-     * Simulation is ended.
-     */
-    ENDED;
+    public SimulationMode getCurrentMode() {
+        return currentMode;
+    }
+
 }

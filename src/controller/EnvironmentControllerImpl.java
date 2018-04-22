@@ -28,7 +28,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     private Environment environment;
     private Optional<ViewPosition> maxViewPosition = Optional.empty();
     private Replay replay;
-    private SimulationState currentState;
+    private final SimulationState currentState = new SimulationState();
     private SimulationLoop simLoop;
 
     /**
@@ -44,12 +44,13 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         } else {
             this.environment = new SimulatorEnvironment();
         }
-        this.simLoop = new SimulationLoop(this, this.environment);
-        this.currentState = SimulationState.NOT_READY;
+        this.currentState.setSimulationCondition(SimulationCondition.NOT_READY);
+        this.currentState.setSimulationMode(SimulationMode.INTERACTIVE);
+        this.simLoop = new SimulationLoop(this, this.environment, this.currentState);
     }
 
     @Override
-    public synchronized void start() {
+    public final synchronized void start() {
         this.environment.initialize();
         replay = new Replay(this.environment.getInitialState());
         final Thread mainThread = new Thread(this.simLoop);
@@ -58,21 +59,24 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         mainThread.start();
     }
 
+    @Override
     public synchronized void stop() {
         this.simLoop.stop();
     }
 
+    @Override
     public synchronized void pause() {
         this.simLoop.pause();
     }
 
+    @Override
     public synchronized void resume() {
         this.simLoop.resume();
     }
 
     @Override
     public final void resetSimulation() {
-        updateCurrentState(SimulationState.NOT_READY);
+        updateCurrentState(SimulationCondition.NOT_READY, SimulationMode.INTERACTIVE);
         initialize(Optional.empty());
     }
 
@@ -87,12 +91,12 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     protected void setInitialState(final InitialState initialState) {
         this.initialize(Optional.of(initialState));
         if (initialState.getExistingFood().isEmpty() || initialState.getSpecies().isEmpty()) {
-            this.updateCurrentState(SimulationState.NOT_READY);
+            this.updateCurrentState(SimulationCondition.NOT_READY, SimulationMode.INTERACTIVE);
         } else if (initialState.hasState()) {
             this.pause();
             this.start();
         } else {
-            this.updateCurrentState(SimulationState.READY);
+            this.updateCurrentState(SimulationCondition.READY, SimulationMode.INTERACTIVE);
         }
     }
 
@@ -128,10 +132,13 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      */
     protected void startReplay(final Replay replay) {
         this.environment = new ReplayEnvironment(replay);
-        this.simLoop = new SimulationLoop(this, this.environment);
+        this.currentState.setSimulationMode(SimulationMode.REPLAY);
+        this.currentState.setSimulationCondition(SimulationCondition.PAUSED);
+        this.simLoop = new SimulationLoop(this, this.environment, this.currentState);
         this.pause();
         this.start();
     }
+
     /**
      * Add a type of food from the view to a specific location.
      * 
@@ -147,6 +154,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         FoodControllerUtils.addFoodFromViewToModel(this.getEnvironmentAsInteractive(), food,
                 ConversionsUtil.viewPositionToPosition(position, environment.getMaxPosition(), maxViewPosition.get()));
     }
+
     /**
      * Add a new type of food to the types of foods that already exist.
      * 
@@ -157,12 +165,11 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      */
     @Override
     public synchronized void addNewTypeOfFood(final ViewFood food) {
+        isSimulationStarted();
         FoodControllerUtils.addNewTypeOfFood(this.getEnvironmentAsInteractive(), food);
-
-        if (this.currentState == SimulationState.NOT_READY && !this.isSpeciesEmpty()) {
-            this.updateCurrentState(SimulationState.READY);
-        }
+        canSimulationBeReady();
     }
+
     /**
      * Get all types of already existing food.
      * 
@@ -172,6 +179,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     public synchronized List<ViewFood> getExistingViewFoods() {
         return FoodControllerUtils.getExistingViewFoods(this.environment);
     }
+
     /**
      * Transforms the State and returns it as ViewState.
      * 
@@ -185,11 +193,21 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     @Override
     public synchronized void addSpecies(final SpeciesOptions species) {
-            if (this.currentState == SimulationState.NOT_READY && !this.getExistingViewFoods().isEmpty()) {
-                this.updateCurrentState(SimulationState.READY);
-            }
+        isSimulationStarted();
         getEnvironmentAsInteractive().addSpecies(species);
-        if (this.currentState != SimulationState.NOT_READY && this.currentState != SimulationState.READY) {
+        canSimulationBeReady();
+    }
+
+    private void canSimulationBeReady() {
+        if (this.currentState.getCurrentCondition() == SimulationCondition.NOT_READY
+                && (!this.getExistingViewFoods().isEmpty() && !this.isSpeciesEmpty())) {
+            this.updateCurrentState(SimulationCondition.READY, SimulationMode.INTERACTIVE);
+        }
+    }
+
+    private void isSimulationStarted() {
+        if (this.currentState.getCurrentCondition() != SimulationCondition.NOT_READY
+                    && this.currentState.getCurrentCondition() != SimulationCondition.READY) {
             throw new SimulationAlreadyStartedExeption();
         }
     }
@@ -208,19 +226,22 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     public final void setDistributionStrategy(final DistributionStrategy strategy) {
         this.getEnvironmentAsInteractive().setFoodDistributionStrategy(strategy);
     }
+
     /**
-     * Update simulation state inside the controller.
+     * Update simulation condition inside the controller.
      * 
-     * @param state
-     *            the current Simulation state.
+     * @param condition
+     *            the current Simulation condition.
      */
-    @Override 
-    public void updateCurrentState(final SimulationState state) {
-        this.currentState = state;
-        if (this.currentState == SimulationState.ENDED) {
+    @Override
+    public void updateCurrentState(final SimulationCondition condition, final SimulationMode mode) {
+        this.currentState.setSimulationCondition(condition);
+        this.currentState.setSimulationMode(mode);
+        if (this.currentState.getCurrentCondition() == SimulationCondition.ENDED) {
             this.replay.setAnalysis(environment.getAnalysis());
         }
     }
+
     @Override
     public final SimulationState getCurrentState() {
         return this.currentState;

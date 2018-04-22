@@ -12,7 +12,7 @@ public class SimulationLoop implements Runnable {
 
     private final EnvironmentController controller;
     private final Environment environment;
-    private SimulationState state = SimulationState.NOT_READY;
+    private SimulationState state = new SimulationState();
 
     private volatile boolean setPaused;
 
@@ -21,17 +21,18 @@ public class SimulationLoop implements Runnable {
      * @param controller the controller that the simulation will use to update the application
      * @param environment the environment on which execute the updates
      */
-    public SimulationLoop(final EnvironmentController controller, final Environment environment) {
+    public SimulationLoop(final EnvironmentController controller, final Environment environment, final SimulationState currentState) {
         this.controller = controller;
         this.environment = environment;
         this.setPaused = false;
+        this.state = currentState;
     }
 
     @Override
     public void run() {
-        this.updateState(SimulationState.RUNNING);
+        this.updateState(SimulationCondition.RUNNING);
 
-        while (this.state != SimulationState.ENDED) {
+        while (this.state.getCurrentCondition() != SimulationCondition.ENDED) {
             final long start = System.currentTimeMillis();
             synchronized (this.controller) {
                 environment.update();
@@ -40,15 +41,15 @@ public class SimulationLoop implements Runnable {
                 this.controller.simulationLoop();
 
                 if (environment.isSimulationOver()) {
-                    this.updateState(SimulationState.ENDED);
+                    this.updateState(SimulationCondition.ENDED);
                 }
             }
 
             try {
                 synchronized (this) {
                     while (this.setPaused) {
-                        if (this.state != SimulationState.PAUSED) {
-                            this.updateState(SimulationState.PAUSED);
+                        if (this.state.getCurrentCondition() != SimulationCondition.PAUSED) {
+                            this.updateState(SimulationCondition.PAUSED);
                         }
                         wait();
                     }
@@ -71,16 +72,16 @@ public class SimulationLoop implements Runnable {
         }
     }
 
-    private void updateState(final SimulationState state) {
-        this.state = state;
-        this.controller.updateCurrentState(state);
+    private void updateState(final SimulationCondition condition) {
+        this.state.setSimulationCondition(condition);
+        this.controller.updateCurrentState(condition, state.getCurrentMode());
     }
 
     /**
      * Stop the simulation.
      */
     public synchronized void stop() {
-        this.updateState(SimulationState.ENDED);
+        this.updateState(SimulationCondition.ENDED);
         if (this.setPaused) {
             notifyAll();
         }
@@ -92,7 +93,7 @@ public class SimulationLoop implements Runnable {
     public synchronized void pause() {
         if (!this.setPaused) {
             this.setPaused = true;
-            this.updateState(SimulationState.PAUSED);
+            this.updateState(SimulationCondition.PAUSED);
         }
     }
 
@@ -102,7 +103,7 @@ public class SimulationLoop implements Runnable {
     public synchronized void resume() {
         if (this.setPaused) {
             this.setPaused = false;
-            this.updateState(SimulationState.RUNNING);
+            this.updateState(SimulationCondition.RUNNING);
             notifyAll();
         }
     }

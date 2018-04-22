@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import controller.Controller;
-import controller.SimulationState;
+import controller.SimulationCondition;
 import model.action.ActionType;
 import model.food.Nutrient;
 import model.food.insertionstrategy.position.DistributionStrategy;
@@ -98,7 +98,7 @@ public final class ViewImpl implements View, ViewController {
     }
 
     @Override
-    public void updateSimulationState(final SimulationState state) {
+    public void updateSimulationState(final SimulationCondition state) {
         this.userInterface.updateSimulationState(state);
     }
 }

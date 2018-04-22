@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import controller.SimulationState;
+import controller.SimulationCondition;
 import view.ViewController;
 
 /**
@@ -37,7 +37,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
         this.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.startSimulation.addActionListener(e -> {
             // if (!view.getFoodsType().isEmpty() && !view.isSpeciesEmpty()) {
-            if (view.getController().getCurrentState() != SimulationState.PAUSED) { 
+            if (view.getController().getCurrentState().getCurrentCondition() != SimulationCondition.PAUSED) { 
                 SwingUtilities.invokeLater(() -> view.getController().start());
             } else {
                 SwingUtilities.invokeLater(() -> view.getController().resume());
@@ -75,11 +75,10 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
     }
 
     @Override
-    public final void updateSimulationState(final SimulationState state) {
+    public final void updateSimulationState(final SimulationCondition state) {
         SwingUtilities.invokeLater(() -> {
             switch (state) {
             case RUNNING:
-            case REPLAY:
                 startSimulation.setEnabled(false);
                 stopSimulation.setEnabled(true);
                 pauseSimulation.setEnabled(true);
@@ -98,7 +97,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
                 resetSimulation.setEnabled(true);
                 break;
             }
-            if (state == SimulationState.PAUSED) {
+            if (state == SimulationCondition.PAUSED) {
                 this.startSimulation.setText("Resume");
                 stopSimulation.setEnabled(true);
             } else {

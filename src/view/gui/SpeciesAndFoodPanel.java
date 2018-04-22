@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import controller.SimulationState;
+import controller.SimulationCondition;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.ViewController;
 
@@ -103,10 +103,10 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
     }
 
     @Override
-    public final void updateSimulationState(final SimulationState state) {
+    public final void updateSimulationState(final SimulationCondition state) {
         SwingUtilities.invokeLater(() -> {
             updateFoods();
-            if (state == SimulationState.NOT_READY || state == SimulationState.READY) {
+            if (state == SimulationCondition.NOT_READY || state == SimulationCondition.READY) {
                 createFood.setEnabled(true);
                 createSpecies.setEnabled(true);
                 setStrategy.setEnabled(true);
