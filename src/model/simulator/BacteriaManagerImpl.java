@@ -107,9 +107,9 @@ public class BacteriaManagerImpl implements BacteriaManager {
                 .max((r1, r2) -> Double.compare(r1, r2));
 
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
-        final List<Position> positions = this.bacteriaEnv.activePosition().stream().collect(Collectors.toList());
 
-        commonPool.invoke(new ActionManager(positions, bacteriaEnv, foodsState, maxFoodRadius, actionPerformer));
+        commonPool.invoke(new ActionManager(this.bacteriaEnv.activePosition(), bacteriaEnv, foodsState, maxFoodRadius,
+                actionPerformer));
     }
 
     private void updateDeadBacteria() {
@@ -137,8 +137,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
         st.start();
         this.updateAliveBacteria();
         st.stop();
-        Logger.getInstance().info("Living Bacteria",
-                "Took " + ((Long) (st.getNanoTime() / millis)).toString() + " to compute");
+        Logger.getInstance().info("Living Bacteria", "Took " + ((Long) (st.getNanoTime() / millis)).toString()
+                + " to compute, #Bacteria = " + this.bacteriaEnv.getNumberOfBacteria());
     }
 
     /**
