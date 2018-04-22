@@ -1,6 +1,5 @@
-package view.gui;
-
-import controller.SimulationCondition;
+package view;
+import controller.SimulationState;
 
 /**
  * Represents an object that can be notified for the change of a
@@ -16,5 +15,5 @@ public interface SimulationStateUpdatable {
      * @param state
      *            the simulation state updated.
      */
-    void updateSimulationState(SimulationCondition state);
+    void updateSimulationState(SimulationState state);
 }

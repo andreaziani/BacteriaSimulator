@@ -21,7 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import controller.SimulationCondition;
+import controller.SimulationState;
 import model.bacteria.species.SpeciesOptions;
+import view.SimulationStateUpdatable;
 import view.ViewController;
 import view.model.food.ViewFood;
 import view.model.food.ViewProvision;
@@ -118,8 +120,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     }
 
     @Override
-    public void updateSimulationState(final SimulationCondition state) {
-        this.simulationState = state;
+    public void updateSimulationState(final SimulationState state) {
+        this.simulationState = state.getCurrentCondition();
         if (simulationState == SimulationCondition.NOT_READY) {
             this.reset();
         }

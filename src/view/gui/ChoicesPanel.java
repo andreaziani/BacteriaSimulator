@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import controller.SimulationCondition;
+import controller.SimulationState;
+import view.SimulationStateUpdatable;
 import view.ViewController;
 
 /**
@@ -75,9 +77,9 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
     }
 
     @Override
-    public final void updateSimulationState(final SimulationCondition state) {
+    public final void updateSimulationState(final SimulationState state) {
         SwingUtilities.invokeLater(() -> {
-            switch (state) {
+            switch (state.getCurrentCondition()) {
             case RUNNING:
                 startSimulation.setEnabled(false);
                 stopSimulation.setEnabled(true);
@@ -97,7 +99,7 @@ public class ChoicesPanel extends JPanel implements SimulationStateUpdatable {
                 resetSimulation.setEnabled(true);
                 break;
             }
-            if (state == SimulationCondition.PAUSED) {
+            if (state.getCurrentCondition() == SimulationCondition.PAUSED) {
                 this.startSimulation.setText("Resume");
                 stopSimulation.setEnabled(true);
             } else {

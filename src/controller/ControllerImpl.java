@@ -61,7 +61,7 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     @Override
     public synchronized void updateCurrentState(final SimulationCondition condition, final SimulationMode mode) {
         super.updateCurrentState(condition, mode);
-        this.view.updateSimulationState(condition);
+        this.view.updateSimulationState(this.getCurrentState());
     }
 
     @Override

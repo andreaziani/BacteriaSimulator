@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import controller.SimulationCondition;
+import controller.SimulationMode;
+import controller.SimulationState;
 import model.PositionAlreadyOccupiedException;
 import view.View;
 import view.ViewController;
@@ -32,6 +34,7 @@ public class UserInterface extends JFrame implements View {
     private static final long serialVersionUID = -6602885048333089318L;
     private boolean isSimulationRunning;
     private boolean isSimulationPaused;
+    private boolean isSimulationReplay;
     private final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private final int height = dim.height * 4 / 5;
     private final int width = dim.width * 4 / 5;
@@ -54,7 +57,7 @@ public class UserInterface extends JFrame implements View {
         this.simulationPanel = new SimulationPanel(width, height, legendPanel);
         this.simulationPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
-                if (!view.getFoodTypes().isEmpty() && (isSimulationRunning || isSimulationPaused)) {
+                if (!view.getFoodTypes().isEmpty() && (isSimulationRunning || isSimulationPaused) && !isSimulationReplay) {
                     try {
                         view.getController().addFoodFromView(view.getFoodTypes().get(topPanel.getSelectedFood()),
                                 new ViewPositionImpl(e.getX(), e.getY()));
@@ -102,14 +105,14 @@ public class UserInterface extends JFrame implements View {
     }
 
     @Override
-    public final void updateSimulationState(final SimulationCondition state) {
+    public final void updateSimulationState(final SimulationState state) {
         this.legendPanel.updateSimulationState(state);
         this.topPanel.updateSimulationState(state);
         this.simulationPanel.updateSimulationState(state);
-        this.isSimulationRunning = (state == SimulationCondition.RUNNING);
-        this.isSimulationPaused = (state == SimulationCondition.PAUSED);
-
-        if (state == SimulationCondition.ENDED) {
+        this.isSimulationRunning = (state.getCurrentCondition() == SimulationCondition.RUNNING);
+        this.isSimulationPaused = (state.getCurrentCondition() == SimulationCondition.PAUSED);
+        this.isSimulationReplay = (state.getCurrentMode() == SimulationMode.REPLAY);
+        if (state.getCurrentCondition() == SimulationCondition.ENDED) {
             // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL,
             SwingUtilities.invokeLater(() -> {
                 this.simulationPanel.setState(Optional.empty());

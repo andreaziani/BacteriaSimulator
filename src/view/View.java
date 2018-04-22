@@ -1,6 +1,5 @@
 package view;
 
-import view.gui.SimulationStateUpdatable;
 import view.model.ViewState;
 
 /**

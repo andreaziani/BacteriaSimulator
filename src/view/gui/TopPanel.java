@@ -21,6 +21,8 @@ import controller.FileController;
 import controller.FileFormatException;
 import controller.IllegalExtensionException;
 import controller.SimulationCondition;
+import controller.SimulationState;
+import view.SimulationStateUpdatable;
 import view.ViewController;
 
 /**
@@ -187,11 +189,11 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
     }
 
     @Override
-    public final void updateSimulationState(final SimulationCondition state) {
+    public final void updateSimulationState(final SimulationState state) {
         this.speciesAndFood.updateSimulationState(state);
         this.choicesPanel.updateSimulationState(state);
         SwingUtilities.invokeLater(() -> {
-            if (state == SimulationCondition.ENDED) {
+            if (state.getCurrentCondition() == SimulationCondition.ENDED) {
                 this.saveReplay.setEnabled(true);
             } else {
                 this.saveReplay.setEnabled(false);

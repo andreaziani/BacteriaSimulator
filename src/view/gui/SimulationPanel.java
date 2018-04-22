@@ -14,7 +14,9 @@ import java.util.Optional;
 import javax.swing.JPanel;
 
 import controller.SimulationCondition;
+import controller.SimulationState;
 import view.Radius;
+import view.SimulationStateUpdatable;
 import view.model.ViewState;
 
 /**
@@ -84,7 +86,7 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
     }
 
     @Override
-    public void updateSimulationState(final SimulationCondition state) {
-        this.simState = state;
+    public void updateSimulationState(final SimulationState state) {
+        this.simState = state.getCurrentCondition();
     }
 }
