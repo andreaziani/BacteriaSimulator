@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import model.AbstractEnvironment;
-import model.EnergyImpl;
 import model.bacteria.species.SpeciesBuilder;
 import model.food.Food;
 import model.state.State;
@@ -27,11 +26,7 @@ public final class ReplayEnvironment extends AbstractEnvironment {
      */
     public ReplayEnvironment(final Replay replay) {
         super(replay.getInitialState(), replay.getAnalysis());
-        this.states = replay.getStateList()
-                            .stream()
-                            .map(x -> x.reconstructState(
-                                    s -> new SpeciesBuilder(s.getName()).build(), () -> EnergyImpl.ZERO))
-                            .iterator();
+        this.states = replay.getStateIterator(s -> new SpeciesBuilder(s.getName()).build());
     }
 
     @Override

@@ -2,12 +2,17 @@ package model.replay;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 import model.Analysis;
 import model.AnalysisImpl;
+import model.EnergyImpl;
+import model.bacteria.species.Species;
+import model.bacteria.species.SpeciesOptions;
 import model.state.InitialState;
 import model.state.SimpleState;
 import model.state.State;
@@ -36,6 +41,16 @@ public final class Replay {
         if (initialState.hasState()) {
             stateList.add(initialState.getState());
         }
+    }
+
+    /**
+     * @return a list of all states stored in the replay.
+     */
+    public Iterator<State> getStateIterator(Function<SpeciesOptions, Species> speciesMapper) {
+        return getStateList()
+                .stream()
+                .map(x -> x.reconstructState(speciesMapper, () -> EnergyImpl.ZERO))
+                .iterator();
     }
 
     /**
