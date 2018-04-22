@@ -152,8 +152,7 @@ public final class InitialState {
      * indicator as to how to construct a Bacteria.
      * 
      * @param speciesMapper
-     *            a function to transform a view representation of a species into a
-     *            species.
+     *            a function to map the stored data of a species into a species.
      * @param startingEnergy
      *            a supplier of energy to assign to each bacteria as their starting
      *            amount.

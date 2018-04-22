@@ -69,8 +69,7 @@ public final class SimpleState {
      * to construct a Bacteria.
      * 
      * @param speciesMapper
-     *            a function to transform a view representation of a species into a
-     *            species.
+     *            a function to map the stored data of a species into a species.
      * @param startingEnergy
      *            a supplier of energy to assign to each bacteria as their starting
      *            amount.
@@ -79,9 +78,9 @@ public final class SimpleState {
      */
     public State reconstructState(final Function<SpeciesOptions, Species> speciesMapper,
             final Supplier<Energy> startingEnergy) {
-        return new StateImpl(getFoodMap(), getBacteriaMap().entrySet().stream()
-                .collect(
-                        Collectors.toMap(x -> x.getKey(),
+        return new StateImpl(getFoodMap(),
+                getBacteriaMap().entrySet().stream()
+                        .collect(Collectors.toMap(x -> x.getKey(),
                                 x -> new BacteriaImpl(x.getValue().getId(),
                                         speciesMapper.apply(x.getValue().getSpecies()),
                                         new GeneticCodeImpl(new GeneImpl(x.getValue().getCode()),

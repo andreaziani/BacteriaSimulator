@@ -44,9 +44,11 @@ public final class Replay {
     }
 
     /**
+     * @param speciesMapper
+     *            a function to map the stored data of a species into a species.
      * @return a list of all states stored in the replay.
      */
-    public Iterator<State> getStateIterator(Function<SpeciesOptions, Species> speciesMapper) {
+    public Iterator<State> getStateIterator(final Function<SpeciesOptions, Species> speciesMapper) {
         return getStateList()
                 .stream()
                 .map(x -> x.reconstructState(speciesMapper, () -> EnergyImpl.ZERO))
