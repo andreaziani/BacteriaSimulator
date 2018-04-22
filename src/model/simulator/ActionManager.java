@@ -2,7 +2,7 @@ package model.simulator;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class ActionManager extends RecursiveAction {
     private final Position maxPosition;
     private final Optional<Double> maxFoodRadius;
     private final ActionPerformer actionPerformer;
-    private final Map<Position, Optional<Position>> foodsPosition = new HashMap<>();
+    private final Map<Position, Position> foodsPosition = new ConcurrentHashMap<>();
 
     /**
      * Constructor for ActionManager.
@@ -64,7 +64,8 @@ public class ActionManager extends RecursiveAction {
     }
 
     private Map<Direction, Double> closestFoodDistances(final Position bacteriaPos) {
-        final int radius = (int) Math.ceil(this.bacteriaEnv.getBacteria(bacteriaPos).getPerceptionRadius());
+        final Bacteria bact = this.bacteriaEnv.getBacteria(bacteriaPos);
+        final int radius = (int) Math.ceil(bact.getPerceptionRadius());
         final Map<Direction, Double> distsToFood = new EnumMap<Direction, Double>(Direction.class);
 
         EnvironmentUtil.positionStream(radius, bacteriaPos, this.maxPosition)
@@ -79,9 +80,9 @@ public class ActionManager extends RecursiveAction {
 
     private Optional<Position> collidingFood(final Position bacteriaPos) {
         if (this.maxFoodRadius.isPresent()) {
-            final int maxRadius = (int) Math.ceil(this.maxFoodRadius.get());
             final Bacteria bacteria = this.bacteriaEnv.getBacteria(bacteriaPos);
-            return EnvironmentUtil.positionStream(maxRadius, bacteriaPos, this.maxPosition)
+            final int distance = (int) Math.floor(this.maxFoodRadius.get() + bacteria.getRadius());
+            return EnvironmentUtil.positionStream(distance, bacteriaPos, this.maxPosition)
                     .filter(pos -> this.foodsState.containsKey(pos)).map(pos -> Pair.of(pos, this.foodsState.get(pos)))
                     .filter(pairPosFood -> EnvironmentUtil.isCollision(Pair.of(bacteriaPos, bacteria), pairPosFood))
                     .findAny().map(a -> a.getLeft());
@@ -92,7 +93,9 @@ public class ActionManager extends RecursiveAction {
 
     private Perception createPerception(final Position bacteriaPos) {
         final Optional<Position> foodPosition = collidingFood(bacteriaPos);
-        this.foodsPosition.put(bacteriaPos, foodPosition);
+        if (foodPosition.isPresent()) {
+            this.foodsPosition.put(bacteriaPos, foodPosition.get());
+        }
         final Optional<Food> foodInPosition = foodPosition.isPresent()
                 ? Optional.of(this.foodsState.get(foodPosition.get()))
                 : Optional.empty();
@@ -119,7 +122,10 @@ public class ActionManager extends RecursiveAction {
                 actionPerformer.move(pos, bact, moveAction.getDirection(), moveAction.getDistance());
                 break;
             case EAT:
-                actionPerformer.eat(pos, bact, this.foodsPosition.get(pos));
+                final Optional<Position> foodPosition = this.foodsPosition.containsKey(pos)
+                        ? Optional.of(this.foodsPosition.get(pos))
+                        : Optional.empty();
+                actionPerformer.eat(pos, bact, foodPosition);
                 break;
             case REPLICATE:
                 actionPerformer.replicate(pos, bact);
@@ -138,7 +144,11 @@ public class ActionManager extends RecursiveAction {
         if (positions.size() <= THRESHOLD) {
             solveBaseCase(positions);
         } else {
-            ForkJoinTask.invokeAll(divideSubtask());
+            try {
+                ForkJoinTask.invokeAll(divideSubtask());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -155,11 +165,10 @@ public class ActionManager extends RecursiveAction {
     }
 
     private void solveBaseCase(final List<Position> positions) {
-        positions.forEach(position -> {
-            final Bacteria bacteria = this.bacteriaEnv.getBacteria(position);
-            bacteria.setPerception(createPerception(position));
-            costOfLiving(bacteria);
-            performAction(position, bacteria);
-        });
+        positions.stream().filter(pos -> this.bacteriaEnv.containBacteriaInPosition(pos))
+                .map(pos -> Pair.of(pos, this.bacteriaEnv.getBacteria(pos)))
+                .peek(posBact -> posBact.getRight().setPerception(this.createPerception(posBact.getLeft())))
+                .peek(posBact -> this.costOfLiving(posBact.getRight()))
+                .forEach(posBact -> this.performAction(posBact.getLeft(), posBact.getRight()));
     }
 }
