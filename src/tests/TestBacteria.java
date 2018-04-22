@@ -107,9 +107,9 @@ public class TestBacteria {
 
         assertEquals("Bacteria should want to eat", ActionFactory.createAction(ActionType.EAT), bacteria.getAction());
 
-        bacteria.enterReplicating();
+        bacteria.startReplicating();
         assertTrue("Bacteria should be replicating", bacteria.isReplicating());
-        bacteria.exitReplicating();
+        bacteria.stopReplicating();
         assertFalse("Bacteria should not be replicating", bacteria.isReplicating());
     }
 

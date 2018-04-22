@@ -147,12 +147,12 @@ public final class BacteriaImpl implements Bacteria {
     }
 
     @Override
-    public void enterReplicating() {
+    public void startReplicating() {
         this.knowledge.setReplicatingState(true);
     }
 
     @Override
-    public void exitReplicating() {
+    public void stopReplicating() {
         this.knowledge.setReplicatingState(false);
     }
 
