@@ -12,7 +12,7 @@ import controller.SimulationCondition;
 import controller.SimulationState;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.SimulationStateUpdatable;
-import view.ViewController;
+import view.controller.ViewController;
 
 /**
  * 

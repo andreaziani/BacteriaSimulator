@@ -16,8 +16,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import model.AlreadyExistingFoodException;
 import model.food.Nutrient;
-import view.ViewController;
 import view.model.food.CreationViewFoodImpl.ConcreteViewFoodBuilder;
+import view.controller.ViewController;
 import view.model.food.ViewFoodBuilder;
 
 /**

@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 import controller.SimulationCondition;
 import controller.SimulationState;
 import view.SimulationStateUpdatable;
-import view.ViewController;
+import view.controller.ViewController;
 
 /**
  * Panel that contains all the components that allow the user to choose whether

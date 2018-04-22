@@ -23,7 +23,7 @@ import controller.IllegalExtensionException;
 import controller.SimulationCondition;
 import controller.SimulationState;
 import view.SimulationStateUpdatable;
-import view.ViewController;
+import view.controller.ViewController;
 
 /**
  * Top Panel of MainFrame.

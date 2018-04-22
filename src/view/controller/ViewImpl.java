@@ -1,4 +1,4 @@
-package view;
+package view.controller;
 
 import java.awt.Dimension;
 import java.util.Arrays;
@@ -10,6 +10,7 @@ import controller.SimulationState;
 import model.action.ActionType;
 import model.food.Nutrient;
 import model.food.insertionstrategy.position.DistributionStrategy;
+import view.View;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
 import view.model.bacteria.SpeciesOptionsFactory;

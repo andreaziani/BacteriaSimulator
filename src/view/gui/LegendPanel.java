@@ -24,7 +24,7 @@ import controller.SimulationCondition;
 import controller.SimulationState;
 import model.bacteria.species.SpeciesOptions;
 import view.SimulationStateUpdatable;
-import view.ViewController;
+import view.controller.ViewController;
 import view.model.food.ViewFood;
 import view.model.food.ViewProvision;
 

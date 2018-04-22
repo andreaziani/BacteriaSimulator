@@ -19,7 +19,7 @@ import controller.SimulationMode;
 import controller.SimulationState;
 import model.PositionAlreadyOccupiedException;
 import view.View;
-import view.ViewController;
+import view.controller.ViewController;
 import view.model.ViewPositionImpl;
 import view.model.ViewState;
 
