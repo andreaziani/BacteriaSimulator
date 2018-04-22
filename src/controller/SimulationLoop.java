@@ -12,7 +12,7 @@ public class SimulationLoop implements Runnable {
 
     private final EnvironmentController controller;
     private final Environment environment;
-    private SimulationState state = new SimulationState();
+    private final SimulationState state;
 
     private volatile boolean setPaused;
 
