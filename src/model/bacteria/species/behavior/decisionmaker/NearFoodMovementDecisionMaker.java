@@ -1,4 +1,4 @@
-package model.bacteria.behavior.decisionmaker;
+package model.bacteria.species.behavior.decisionmaker;
 
 import java.util.EnumMap;
 import java.util.HashMap;

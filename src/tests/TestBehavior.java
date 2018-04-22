@@ -18,11 +18,11 @@ import model.action.Action;
 import model.action.ActionFactory;
 import model.action.ActionType;
 import model.bacteria.BacteriaKnowledge;
-import model.bacteria.behavior.decisionmaker.DecisionMakerOption;
 import model.bacteria.species.behavior.AbstractDecisionBehavior;
 import model.bacteria.species.behavior.CostFilterDecisionBehavior;
 import model.bacteria.species.behavior.ExplorerDecisionBehavior;
 import model.bacteria.species.behavior.PreferentialDecisionBehavior;
+import model.bacteria.species.behavior.decisionmaker.DecisionMakerOption;
 import model.food.Nutrient;
 import model.perception.PerceptionImpl;
 
