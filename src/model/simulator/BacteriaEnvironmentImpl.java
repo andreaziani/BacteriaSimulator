@@ -4,8 +4,10 @@ import java.util.Map.Entry;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import model.bacteria.Bacteria;
 import model.state.Position;
@@ -54,7 +56,7 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     }
 
     @Override
-    public Bacteria getBacteria(final Position pos) {
+    public Bacteria getBacteria(final Position pos) {            
         return this.bacteria.get(pos);
     }
 
@@ -64,8 +66,9 @@ public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     }
 
     @Override
-    public Set<Position> activePosition() {
-        return this.bacteria.keySet();
+    public List<Position> activePosition() {
+        return this.bacteria.entrySet().stream().filter(e -> !e.getValue().isDead()).map(e -> e.getKey())
+                .collect(Collectors.toList());
     }
 
     @Override

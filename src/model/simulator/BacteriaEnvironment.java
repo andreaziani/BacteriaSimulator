@@ -1,6 +1,7 @@
 package model.simulator;
 
 import java.util.Map.Entry;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,7 +64,7 @@ public interface BacteriaEnvironment {
      * 
      * @return such Set
      */
-    Set<Position> activePosition();
+    List<Position> activePosition();
 
     /**
      * Remove a set of Position from the BacteriaEnvironment.
