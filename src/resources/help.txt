@@ -14,6 +14,11 @@ during the creation of food you will have to set the name of the type of food an
 Set Distribution:
 Set the distribution strategy by choosing it from the multiple choice box and then press the button "Set Distribution" to confirm.
 If you do not choose anything the distribution will be uniform. You can change the distribution until the button "Start" is pressed.
+The different strategies distribute the nutrients in different positions of the environment. 
+The distributions created are of three types: Uniform, Geometric and Poisson. 
+Uniform distribution distributes nutrients evenly throughout the environment. 
+Geometric distribution concentrating nutrients in the central area of the environment.
+Poisson distribution concentrating in four symmetrical areas compared to the center.
 
 The legend on the right allows you to choose the colors that will represent foods and bacteria.
 
