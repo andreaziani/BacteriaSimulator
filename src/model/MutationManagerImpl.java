@@ -19,11 +19,6 @@ public class MutationManagerImpl implements MutationManager {
     }
 
     @Override
-    public void bacteriaDead(final Bacteria bacteria) {
-        mutations.remove(bacteria);
-    }
-
-    @Override
     public void updateMutation(final Collection<Bacteria> bactManager) {
             for (final Bacteria b: bactManager) {
                 if (!mutations.containsKey(b)) {

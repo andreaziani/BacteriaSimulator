@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import model.bacteria.Bacteria;
 import model.bacteria.species.Species;
 import model.state.Position;
@@ -21,8 +23,7 @@ import model.state.State;
 public class AnalysisImpl implements Analysis {
 
     private final transient List<State> lstate = new ArrayList<>();
-    private final transient MutationManager mutManager = new MutationManagerImpl();
-    private transient List<Bacteria> lbefore = new ArrayList<>();
+    private transient MutationManager mutManager = new MutationManagerImpl();
     private transient List<Bacteria> lafter = new ArrayList<>();
     private transient Set<Species> speciesB = new HashSet<>();
     private transient Set<Species> speciesA = new HashSet<>();
@@ -45,6 +46,11 @@ public class AnalysisImpl implements Analysis {
     public AnalysisImpl(final String cachedDescription) {
         super();
         this.cachedDescription = Optional.of(cachedDescription);
+    }
+
+    @Override
+    public void setMutation(final MutationManager mutManager) {
+        this.mutManager = mutManager;
     }
 
     private List<Bacteria> listOfBacteria(final Map<Position, Bacteria> bacteria) {
@@ -75,14 +81,13 @@ public class AnalysisImpl implements Analysis {
 
     private Map<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
         final Map<Species, Integer> smap = new HashMap<>();
+        Map<Species, List<Bacteria>> bact = new HashMap<>();
+        bact = bacteria.stream().collect(Collectors.groupingBy(Bacteria::getSpecies, Collectors.toList()));
         for (final Species sp : species) {
-            smap.put(sp, 0);
-            for (final Bacteria bt : bacteria) {
-                if (sp.equals(bt.getSpecies())) {
-                    final int count = smap.containsKey(sp) ? smap.get(sp) : 0;
-                    smap.put(sp, count + 1);
-                }
+            if (bact.containsKey(sp)) {
+                smap.put(sp, bact.get(sp).size());
             }
+            smap.putIfAbsent(sp, 0);
         }
         return smap;
     }
@@ -132,8 +137,8 @@ public class AnalysisImpl implements Analysis {
     }
 
     private void before() {
-        this.lbefore = listOfBacteria(this.lstate.get(0).getBacteriaState());
-        this.speciesB = speciesOfBacteria(this.lbefore);
+        final List<Bacteria> lbefore = listOfBacteria(this.lstate.get(0).getBacteriaState());
+        this.speciesB = speciesOfBacteria(lbefore);
     }
 
     private void after() {
@@ -201,10 +206,24 @@ public class AnalysisImpl implements Analysis {
     public String getDescription() {
         if (!cachedDescription.isPresent()) {
             updateAnalysis();
-            cachedDescription = Optional.of(("Species win: \n" + resultPredominant() + "\n" + "\n" + "Species dead: \n" + resultDead() + "\n" + "\n"
-                    + "Number by Species: \n" + numberBySpecies() + "\n" + "Species mutated: \n" + resultBactMutated() + "\n" + "Species survived: \n" + resultSurvived()));
+            cachedDescription = Optional.of(("Predominant Species: \n" + resultPredominant() + "\n" + "\n"
+                                           + "Quantity of bacteria per Species: \n" + numberBySpecies() + "\n" + "\n"
+                                           + "Species are dead: \n" + resultDead() + "\n" + "\n"
+                                           + "Quantity of bacteria mutated per Species: \n" + resultBactMutated() + "\n" + "\n"
+                                           + "Species are survived: \n" + resultSurvived()));
         }
         return cachedDescription.get();
+    }
+
+    @Override
+    public List<String> listOfDescription() {
+        List<String> lDescription = new ArrayList<>();
+        lDescription.add("Predominant Species: \n" + resultPredominant() + "\n" + "\n");
+        lDescription.add("Quantity of bacteria per Species: \n" + numberBySpecies() + "\n" + "\n");
+        lDescription.add("Species are dead: \n" + resultDead() + "\n" + "\n");
+        lDescription.add("Quantity of bacteria mutated per Species: \n" + resultBactMutated() + "\n" + "\n");
+        lDescription.add("Species are survived: \n" + resultSurvived());
+        return lDescription;
     }
 
 }

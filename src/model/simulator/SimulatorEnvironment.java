@@ -107,6 +107,7 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
         this.updateBacteria();
         this.updateFood();
         this.getAnalysis().addState(this.getState());
+        this.getAnalysis().setMutation(mutManager);
         ++this.iterations;
     }
 

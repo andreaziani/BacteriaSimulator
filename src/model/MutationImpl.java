@@ -39,12 +39,11 @@ public class MutationImpl implements Mutation {
 
     private int checkMutation() {
         final Random rndMt = new Random();
-        final int mt = rndMt.nextInt(RANGE);
-        this.randomMutation += mt;
-        return this.randomMutation;
+        return rndMt.nextInt(RANGE);
     }
     private boolean possibilityOfMutation() {
-        return checkMutation() >= 100;
+        this.randomMutation = this.randomMutation + checkMutation();
+        return this.randomMutation >= 10000;
     }
 
     private int randomPos() {
