@@ -108,8 +108,16 @@ public class BacteriaManagerImpl implements BacteriaManager {
 
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
 
-        commonPool.invoke(new ActionManager(this.bacteriaEnv.activePosition(), bacteriaEnv, foodsState, maxFoodRadius,
-                actionPerformer));
+        final List<Position> safe = this.bacteriaEnv.activePosition().stream()
+                .filter(pos -> this.bacteriaEnv.isSafe(pos)).collect(Collectors.toList());
+        final List<Position> unSafe = this.bacteriaEnv.activePosition().stream()
+                .filter(pos -> !this.bacteriaEnv.isSafe(pos)).collect(Collectors.toList());
+
+        commonPool.invoke(new ActionManager(safe.stream(), safe.size(), bacteriaEnv, foodsState, maxFoodRadius,
+                actionPerformer, true));
+
+        commonPool.invoke(new ActionManager(unSafe.stream(), unSafe.size(), bacteriaEnv, foodsState, maxFoodRadius,
+                actionPerformer, false));
     }
 
     private void updateDeadBacteria() {
