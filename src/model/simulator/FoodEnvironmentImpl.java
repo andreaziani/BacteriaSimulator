@@ -10,6 +10,7 @@ import model.PositionAlreadyOccupiedException;
 import model.food.ExistingFoodManager;
 import model.food.Food;
 import model.food.insertionstrategy.position.GeometricDistributionStrategy;
+import model.food.insertionstrategy.position.PoissonDistributionStrategy;
 import model.food.insertionstrategy.foodinsertion.SelectionStrategy;
 import model.food.insertionstrategy.foodinsertion.RandomSelectionStrategy;
 import model.food.insertionstrategy.position.DistributionStrategy;
@@ -27,11 +28,13 @@ public final class FoodEnvironmentImpl implements FoodEnvironment {
     private final Position maxDim;
     private final Map<Position, Food> foods = new HashMap<>();
     private final ExistingFoodManager manager;
-    private DistributionStrategy strategy = DistributionStrategy.UNIFORM_DISTRIBUTION; //Uniform distribution by default.
+    private DistributionStrategy strategy = DistributionStrategy.UNIFORM_DISTRIBUTION; // Uniform distribution by
+                                                                                       // default.
 
     /**
      * Construct the FoodEnvironment from an ExistingFoodManager with which to know
-     * the types of food already created and the maximum dimension of the environment.
+     * the types of food already created and the maximum dimension of the
+     * environment.
      * 
      * @param manager
      *            that contains all existing foods.
@@ -86,12 +89,22 @@ public final class FoodEnvironmentImpl implements FoodEnvironment {
         boolean check = true;
         final SelectionStrategy foodStrategy = new RandomSelectionStrategy();
         PositionStrategy positionStrategy;
-        if (this.strategy == DistributionStrategy.GEOMETRIC_DISTRIBUTION) {
+        switch (strategy) {
+        case GEOMETRIC_DISTRIBUTION:
             positionStrategy = new GeometricDistributionStrategy(this.maxDim);
-        } else {
+            break;
+        case UNIFORM_DISTRIBUTION:
             positionStrategy = new RandomPositionStrategy(maxDim);
+            break;
+        case POISSON_DISTRIBUTION:
+            positionStrategy = new PoissonDistributionStrategy(maxDim);
+            break;
+        default:
+            positionStrategy = new RandomPositionStrategy(maxDim);
+            break;
         }
-        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // try to re-insert in another position if the precedent was occupied.
+        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // try to re-insert in another position if the precedent was
+                                                          // occupied.
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
                 check = false;

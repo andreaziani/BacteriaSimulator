@@ -1,16 +1,15 @@
 package model.food.insertionstrategy.position;
-
-import org.apache.commons.math3.distribution.GeometricDistribution;
-
+import org.apache.commons.math3.distribution.PoissonDistribution;
 import model.state.Position;
 import model.state.PositionImpl;
 
 /**
- * Implementation of the strategy that uses a geometric distribution for the
- * random choice.
+ * 
+ * Distribution strategy that use poisson distribution.
+ *
  */
-public final class GeometricDistributionStrategy implements PositionStrategy {
-    private static final double PROBABILITY = 0.01;
+public class PoissonDistributionStrategy implements PositionStrategy {
+    private static final double MEAN = 1;
     private final Position maxPosition;
 
     /**
@@ -19,14 +18,15 @@ public final class GeometricDistributionStrategy implements PositionStrategy {
      * @param maxPosition
      *            the maximum position in the environment.
      */
-    public GeometricDistributionStrategy(final Position maxPosition) {
+    public PoissonDistributionStrategy(final Position maxPosition) {
         super();
         this.maxPosition = maxPosition;
     }
 
     @Override
     public Position getPosition() {
-        final GeometricDistribution dist = new GeometricDistribution(PROBABILITY);
+        final PoissonDistribution dist = new PoissonDistribution(MEAN);
         return new PositionImpl(dist.sample() % maxPosition.getX(), dist.sample() % maxPosition.getY());
     }
+
 }
