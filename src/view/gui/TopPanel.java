@@ -2,6 +2,8 @@ package view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -69,6 +71,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.componentsSettings();
 
         final JFileChooser simulationChooser = new JFileChooser();
+        this.setComponentsFont(simulationChooser.getComponents());
         GuiUtils.setFontOfComponents(simulationChooser.getComponents());
         simulationChooser.setPreferredSize(new Dimension(width, height));
         simulationChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -109,6 +112,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         });
 
         final JFileChooser replayChooser = new JFileChooser();
+        this.setComponentsFont(replayChooser.getComponents());
         GuiUtils.setFontOfComponents(simulationChooser.getComponents());
         replayChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         replayChooser.setDialogTitle("Choose a file");
@@ -148,6 +152,19 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
             }
         });
         this.saveReplay.setEnabled(false);
+    }
+
+    private void setComponentsFont(final Component[] components) {
+        for (final Component c : components) {
+            if (c instanceof Container) {
+                this.setComponentsFont(((Container) c).getComponents());
+            }
+            try {
+                c.setFont(GuiUtils.FONT);
+            } catch (Exception e) { 
+                // Can't set font
+            }
+        }
     }
 
     /**
