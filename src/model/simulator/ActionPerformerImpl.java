@@ -132,13 +132,21 @@ public class ActionPerformerImpl implements ActionPerformer {
                 if (!bacteria.isReplicating()) {
                     bacteria.startReplicating();
                     final double bacteriaRadius = bacteria.getRadius();
-                    final Optional<Position> freePosition = EnvironmentUtil
+                    Optional<Position> freePosition;
+
+                    final List<Position> positions = EnvironmentUtil
                             .circularPositionStream((int) Math.ceil(bacteriaRadius * 2), bacteriaPos,
                                     this.simMaxPosition)
                             .filter(position -> EnvironmentUtil.causeCollision(position, bacteriaRadius, simMaxPosition,
                                     pos -> this.bactEnv.isPositionOccupied(pos)))
-                            .sorted((p1, p2) -> rand.nextInt(3) - 1)
-                            .findAny();
+                            .collect(Collectors.toList());
+
+                    if (positions.isEmpty()) {
+                        freePosition = Optional.empty();
+                    } else {
+                        freePosition = Optional
+                                .of(positions.get(ThreadLocalRandom.current().nextInt(positions.size())));
+                    }
 
                     if (freePosition.isPresent()) {
                         final GeneticCode clonedGenCode = this.geneFactory.copyGene(bacteria.getGeneticCode());
