@@ -137,6 +137,7 @@ public class ActionPerformerImpl implements ActionPerformer {
                                     this.simMaxPosition)
                             .filter(position -> EnvironmentUtil.causeCollision(position, bacteriaRadius, simMaxPosition,
                                     pos -> this.bactEnv.isPositionOccupied(pos)))
+                            .sorted((p1, p2) -> rand.nextInt(3) - 1)
                             .findAny();
 
                     if (freePosition.isPresent()) {
