@@ -218,11 +218,11 @@ public class AnalysisImpl implements Analysis {
     @Override
     public List<String> listOfDescription() {
         List<String> lDescription = new ArrayList<>();
-        lDescription.add("Predominant Species: \n" + resultPredominant() + "\n" + "\n");
-        lDescription.add("Quantity of bacteria per Species: \n" + numberBySpecies() + "\n" + "\n");
-        lDescription.add("Species are dead: \n" + resultDead() + "\n" + "\n");
-        lDescription.add("Quantity of bacteria mutated per Species: \n" + resultBactMutated() + "\n" + "\n");
-        lDescription.add("Species are survived: \n" + resultSurvived());
+        lDescription.add(resultPredominant());
+        lDescription.add(numberBySpecies());
+        lDescription.add(resultDead());
+        lDescription.add(resultBactMutated());
+        lDescription.add(resultSurvived());
         return lDescription;
     }
 
