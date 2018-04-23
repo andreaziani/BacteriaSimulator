@@ -26,10 +26,10 @@ public final class GuiUtils {
      * @param comps
      *            the components in which to set font.
      */
-    public static void setFontOfFileChooser(final Component... comps) {
+    public static void setFontOfComponents(final Component... comps) {
         for (final Component c : comps) {
             if (c instanceof Container) {
-                setFontOfFileChooser(((Container) c).getComponents());
+                setFontOfComponents(((Container) c).getComponents());
             }
             c.setFont(FONT);
         }
