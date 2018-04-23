@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 import model.state.State;
 
 /** Final analysis.
@@ -52,14 +54,20 @@ public interface Analysis {
     String getDescription();
 
     /**
-     * update and reworked version of Bacteria's data.
+     * Update and reworked version of Bacteria's data.
      */
     void updateAnalysis();
 
     /**
-     * set mutation of bacteria for analysis of mutated bacteria.
+     * Set mutation of bacteria for analysis of mutated bacteria.
      * @param mutManager
      *          map of mutated bacteria.
      */
     void setMutation(MutationManager mutManager);
+
+    /**
+     * List of Analysis description used in Replay.
+     * @return list of string of Analysis description.
+     */
+    List<String> listOfDescription();
 }

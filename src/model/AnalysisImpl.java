@@ -206,10 +206,24 @@ public class AnalysisImpl implements Analysis {
     public String getDescription() {
         if (!cachedDescription.isPresent()) {
             updateAnalysis();
-            cachedDescription = Optional.of(("Species win: \n" + resultPredominant() + "\n" + "\n" + "Species dead: \n" + resultDead() + "\n" + "\n"
-                    + "Number by Species: \n" + numberBySpecies() + "\n" + "Species mutated: \n" + resultBactMutated() + "\n" + "Species survived: \n" + resultSurvived()));
+            cachedDescription = Optional.of(("Predominant Species: \n" + resultPredominant() + "\n" + "\n"
+                                           + "Quantity of bacteria per Species: \n" + numberBySpecies() + "\n" + "\n"
+                                           + "Species are dead: \n" + resultDead() + "\n" + "\n"
+                                           + "Quantity of bacteria mutated per Species: \n" + resultBactMutated() + "\n" + "\n"
+                                           + "Species are survived: \n" + resultSurvived()));
         }
         return cachedDescription.get();
+    }
+
+    @Override
+    public List<String> listOfDescription() {
+        List<String> lDescription = new ArrayList<>();
+        lDescription.add("Predominant Species: \n" + resultPredominant() + "\n" + "\n");
+        lDescription.add("Quantity of bacteria per Species: \n" + numberBySpecies() + "\n" + "\n");
+        lDescription.add("Species are dead: \n" + resultDead() + "\n" + "\n");
+        lDescription.add("Quantity of bacteria mutated per Species: \n" + resultBactMutated() + "\n" + "\n");
+        lDescription.add("Species are survived: \n" + resultSurvived());
+        return lDescription;
     }
 
 }
