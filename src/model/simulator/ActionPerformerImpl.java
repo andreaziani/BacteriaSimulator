@@ -26,7 +26,8 @@ import model.state.Position;
  * Implementation of ActionPerformer interface.
  *
  */
-public class ActionPerformerImpl implements ActionPerformer {
+public final class ActionPerformerImpl implements ActionPerformer {
+    private static final int SINGLE_MUTEX_INDEX = 0;
     private static final int REPLICATE_INTERVAL = 20;
     private static final int MINIMUM_INTERVAL = 10;
     private final CopyFactory geneFactory = new CopyFactoryImpl();
@@ -86,7 +87,7 @@ public class ActionPerformerImpl implements ActionPerformer {
             if (isSafe) {
                 this.acquireEnvMutex(this.bactEnv.getQuad(bacteriaPos));
             } else {
-                this.acquireEnvMutex(0);
+                this.acquireEnvMutex(SINGLE_MUTEX_INDEX);
             }
             // Logger.getInstance().info("MOVE" + this.bactEnv.getQuad(bacteriaPos),
             // "THREAD" + Thread.currentThread().getId() + " IN");
@@ -118,7 +119,7 @@ public class ActionPerformerImpl implements ActionPerformer {
                 if (isSafe) {
                     this.releaseEnvMutex(this.bactEnv.getQuad(bacteriaPos));
                 } else {
-                    this.releaseEnvMutex(0);
+                    this.releaseEnvMutex(SINGLE_MUTEX_INDEX);
                 }
             }
         } catch (InterruptedException e) {
@@ -159,7 +160,7 @@ public class ActionPerformerImpl implements ActionPerformer {
             if (isSafe) {
                 this.acquireEnvMutex(this.bactEnv.getQuad(bacteriaPos));
             } else {
-                this.acquireEnvMutex(0);
+                this.acquireEnvMutex(SINGLE_MUTEX_INDEX);
             }
             // Logger.getInstance().info("REPLIC" + this.bactEnv.getQuad(bacteriaPos),
             // "THREAD" + Thread.currentThread().getId() + " IN");
@@ -194,7 +195,7 @@ public class ActionPerformerImpl implements ActionPerformer {
                 if (isSafe) {
                     this.releaseEnvMutex(this.bactEnv.getQuad(bacteriaPos));
                 } else {
-                    this.releaseEnvMutex(0);
+                    this.releaseEnvMutex(SINGLE_MUTEX_INDEX);
                 }
             }
         } catch (InterruptedException e) {

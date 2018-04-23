@@ -34,7 +34,7 @@ import utils.Logger;
  * Implementation of BacteriaManager.
  *
  */
-public class BacteriaManagerImpl implements BacteriaManager {
+public final class BacteriaManagerImpl implements BacteriaManager {
     private static final double COST_OF_LIVING = 1.5;
     private static final int TOTAL_BACTERIA = 150;
     private static final double BACTERIA_RADIUS = 5.0;
@@ -60,6 +60,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
      * 
      * @param foodEnv
      *            used to update food environment according to bacteria actions
+     * @param manager
+     *            the food manager containing informations about the food that have already been created
      * @param maxPosition
      *            contains information about the maximum position in the simulation
      * @param speciesManager

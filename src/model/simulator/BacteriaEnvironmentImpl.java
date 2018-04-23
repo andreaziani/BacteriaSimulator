@@ -16,7 +16,7 @@ import model.state.Position;
  * Implementation of BacteriaEnvironment.
  *
  */
-public class BacteriaEnvironmentImpl implements BacteriaEnvironment {
+public final class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     private static final int EDGE = 15;
     private final Position maxPosition;
     private final Map<Quadrant, Map<Position, Bacteria>> bacteria;

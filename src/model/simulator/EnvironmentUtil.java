@@ -204,6 +204,22 @@ public final class EnvironmentUtil {
         return (distance <= entry1.getRight().getRadius() + entry2.getRight().getRadius());
     }
 
+    /**
+     * Check if the entity in the given Position would collide with other entity at
+     * distance radius.
+     * 
+     * @param position
+     *            the position of the entity
+     * @param radius
+     *            the distance from the entity to check for collision
+     * @param maxPosition
+     *            the maximum position of the environment in which perform the
+     *            operation
+     * @param collide
+     *            a Predicate describing the logic for obtaining the result
+     * @return true is the entity in the position would cause a collision wrt to the
+     *         Predicate collide, false otherwise
+     */
     public static boolean causeCollision(final Position position, final double radius, final Position maxPosition,
             final Predicate<Position> collide) {
         return EnvironmentUtil.circularPositionStream((int) Math.ceil(radius), position, maxPosition)

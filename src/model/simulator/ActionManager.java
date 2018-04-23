@@ -25,7 +25,7 @@ import model.state.Position;
 /**
  * RecursiveAction to perform action for each Bacteria in parallel.
  */
-public class ActionManager extends RecursiveAction {
+public final class ActionManager extends RecursiveAction {
 
     private static final long serialVersionUID = -4627517274471842922L;
     private static final int THRESHOLD = 10;
