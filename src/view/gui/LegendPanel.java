@@ -162,7 +162,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
             } else {
                 color = colorSupplier.get();
             }
-            legendContainer.get().add(buildLegendEntryPanel(el.getName(), color, (l, c) -> updateColor(l, map, l.getText(), color)));
+            legendContainer.get().add(buildLegendEntryPanel(el.getName(), color, (l, c) -> updateColor(l, map, l.getText(), c)));
         }
     }
 
