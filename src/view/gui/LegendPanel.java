@@ -102,9 +102,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
             resetContainer();
             legendContainer = Optional.empty();
             init();
-            //TODO forced refresh of the panel because revalidate() doesn't work. Is a better way
-            this.setVisible(false);
-            this.setVisible(true);
+            this.updateUI();
+            this.revalidate();
         });
     }
 
