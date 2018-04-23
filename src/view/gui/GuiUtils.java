@@ -1,5 +1,7 @@
 package view.gui;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Toolkit;
 
@@ -15,5 +17,21 @@ public final class GuiUtils {
      */
     public static final Font FONT = new Font("Arial", Font.PLAIN, FONT_SIZE);
 
-    private GuiUtils() { }
+    private GuiUtils() {
+    }
+
+    /**
+     * Set font of components.
+     * 
+     * @param comps
+     *            the components in which to set font.
+     */
+    public static void setFontOfFileChooser(final Component... comps) {
+        for (final Component c : comps) {
+            if (c instanceof Container) {
+                setFontOfFileChooser(((Container) c).getComponents());
+            }
+            c.setFont(FONT);
+        }
+    }
 }
