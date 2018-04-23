@@ -44,7 +44,7 @@ public final class FoodImpl implements Food {
 
     @Override
     public String getName() {
-        return this.name.orElse(null); // if the name is present return the name, else return null (this is a bacteria that's dead).
+        return this.name.orElse(null);
     }
 
     @Override

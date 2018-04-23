@@ -59,7 +59,7 @@ public class SimulationLoop implements Runnable {
             }
 
             final long elapsed = System.currentTimeMillis() - start;
-            // DUBUGGING INFO
+
             Logger.getInstance().info("GameLoop", "Elapsed = " + elapsed);
 
             if (elapsed < PERIOD) {

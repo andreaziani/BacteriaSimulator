@@ -67,7 +67,6 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     @Override
     public void addFoodFromView(final ViewFood food, final ViewPosition position) {
         super.addFoodFromView(food, position);
-        // check for TestInteraction
         if (this.view != null) {
             this.view.update(this.getState());
         }

@@ -28,8 +28,7 @@ public final class FoodEnvironmentImpl implements FoodEnvironment {
     private final Position maxDim;
     private final Map<Position, Food> foods = new HashMap<>();
     private final ExistingFoodManager manager;
-    private DistributionStrategy strategy = DistributionStrategy.UNIFORM_DISTRIBUTION; // Uniform distribution by
-                                                                                       // default.
+    private DistributionStrategy strategy = DistributionStrategy.UNIFORM_DISTRIBUTION;
 
     /**
      * Construct the FoodEnvironment from an ExistingFoodManager with which to know
@@ -48,8 +47,7 @@ public final class FoodEnvironmentImpl implements FoodEnvironment {
 
     @Override
     public void addFood(final Food food, final Position position) {
-        if (!food.getNutrients().isEmpty()) { // Can't add a food with no nutrients.
-            // a food can be added only if it don't collide with other foo
+        if (!food.getNutrients().isEmpty()) {
             if (!this.foods.entrySet().stream().anyMatch(
                     e -> EnvironmentUtil.isCollision(Pair.of(position, food), Pair.of(e.getKey(), e.getValue())))) {
                 this.foods.put(position, food);
@@ -103,8 +101,7 @@ public final class FoodEnvironmentImpl implements FoodEnvironment {
             positionStrategy = new RandomPositionStrategy(maxDim);
             break;
         }
-        for (int i = MAXATTEMPS; (i > 0 && check); i--) { // try to re-insert in another position if the precedent was
-                                                          // occupied.
+        for (int i = MAXATTEMPS; (i > 0 && check); i--) {
             try {
                 addFood(foodStrategy.getFood(manager), positionStrategy.getPosition());
                 check = false;
