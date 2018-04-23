@@ -22,7 +22,7 @@ During the simulation you can add food manually by choosing it from the list of 
 Food will also be added following the chosen distribution at each turn, furthermore during the simulation dead bacteria will transform in food "Unnamed food", 
 this types of food has by default black color.
 
-After the simulation you can view the analysis of the species and understand the behavior of the species in the environment.
+After the simulation you can view the analysis of the species and compare their fitness in the environment.
 
 
 What the buttons do?
