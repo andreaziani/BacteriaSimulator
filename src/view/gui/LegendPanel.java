@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -140,20 +141,10 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
         legendContainer = Optional.of(legendPanel);
         legendPanel.add(foodLabel);
-
-        final JPanel legendEntryPanel = new JPanel(new GridLayout(1, 2));
-        final JLabel nameLabel = new JLabel(UNNAMED_FOOD_NAME);
-        nameLabel.setForeground(unnamedColor);
-        legendEntryPanel.add(nameLabel);
-        final JButton btn = new JButton("Change");
-        btn.setFont(GuiUtils.FONT);
-        nameLabel.setFont(GuiUtils.FONT);
-        btn.addActionListener(ev -> {
-            unnamedColor = JColorChooser.showDialog(LegendPanel.this, "Choose new color", unnamedColor);
-            nameLabel.setForeground(unnamedColor);
-        });
-        legendEntryPanel.add(btn);
-        legendPanel.add(legendEntryPanel);
+        legendPanel.add(buildLegendEntryPanel(UNNAMED_FOOD_NAME, unnamedColor, (l, c) -> {
+            unnamedColor = c;
+            l.setForeground(unnamedColor);
+        }));
 
         fillPanelsOfColorables(foods, foodColors, this::nextRandomFoodColor);
         legendPanel.add(speciesLabel);
@@ -171,21 +162,21 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
             } else {
                 color = colorSupplier.get();
             }
-            legendContainer.get().add(buildLegendEntryPanel(el.getName(), color, map));
+            legendContainer.get().add(buildLegendEntryPanel(el.getName(), color, (l, c) -> updateColor(l, map, l.getText(), color)));
         }
     }
 
-    private JPanel buildLegendEntryPanel(final String name, final Color color, final Map<String, Color> map) {
+    private JPanel buildLegendEntryPanel(final String name, final Color color, final BiConsumer<JLabel, Color> colorChanger) {
         final JPanel legendEntryPanel = new JPanel(new GridLayout(1, 2));
         final JLabel nameLabel = new JLabel(name);
-        updateColor(nameLabel, map, name, color);
+        colorChanger.accept(nameLabel, color);
         legendEntryPanel.add(nameLabel);
         final JButton btn = new JButton("Change");
         btn.setFont(GuiUtils.FONT);
         nameLabel.setFont(GuiUtils.FONT);
         btn.addActionListener(ev -> {
             final Color nextColor = JColorChooser.showDialog(LegendPanel.this, "Choose new color", color);
-            updateColor(nameLabel, map, name, nextColor);
+            colorChanger.accept(nameLabel, nextColor);
         });
         legendEntryPanel.add(btn);
         return legendEntryPanel;
