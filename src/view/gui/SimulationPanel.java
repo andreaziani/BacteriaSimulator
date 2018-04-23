@@ -3,12 +3,6 @@ package view.gui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
-//import java.awt.Color;
-//import java.awt.Point;
-//import java.util.HashMap;
-//import java.util.Map;
 import java.util.Optional;
 
 import javax.swing.JPanel;
@@ -63,15 +57,14 @@ public final class SimulationPanel extends JPanel implements SimulationStateUpda
             });
 
             state.get().getBacteriaState().entrySet().stream().forEach(e -> {
-                // TODO probably there is a better way
-                final Graphics2D g2d = (Graphics2D) g;
-                final Radius radius = e.getValue().getRadius();
-                final Ellipse2D.Double circle = new Ellipse2D.Double((int) e.getKey().getX() - radius.getXRadius(),
-                        (int) e.getKey().getY() - radius.getYRadius(), 2 * radius.getXRadius(),
-                        2 * radius.getYRadius());
                 g.setColor(colorAssigner.getColorFromSpecies(e.getValue().getSpecies()));
-                g2d.fill(circle);
+                final Radius radius = e.getValue().getRadius();
+                g.fillOval((int) e.getKey().getX() - radius.getXRadius(), (int) e.getKey().getY() - radius.getYRadius(),
+                        2 * radius.getXRadius(), 2 * radius.getYRadius());
+
+                this.updateUI();
             });
+            this.revalidate();
         }
     }
 
