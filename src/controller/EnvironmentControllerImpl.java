@@ -53,6 +53,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     public final synchronized void start() {
         this.environment.initialize();
         replay = new Replay(this.environment.getInitialState());
+        replay.addState(this.environment.getState());
         final Thread mainThread = new Thread(this.simLoop);
 
         Logger.getInstance().info("Controller", "Application started");
