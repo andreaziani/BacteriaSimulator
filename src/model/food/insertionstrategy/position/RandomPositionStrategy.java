@@ -7,7 +7,7 @@ import model.state.PositionImpl;
 
 /**
  * Implementation of the strategy that use uniform distribution for the random
- * choise.
+ * choice.
  * 
  *
  */
@@ -19,11 +19,8 @@ public final class RandomPositionStrategy implements PositionStrategy {
      * 
      * @param maxPosition
      *            the maximum position in the environment..
-     * @throws IllegalArgumentException
-     *             if the strategy chosen is not correct.
      */
     public RandomPositionStrategy(final Position maxPosition) {
-        super();
         this.maxPosition = maxPosition;
     }
 

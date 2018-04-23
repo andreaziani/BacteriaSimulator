@@ -8,10 +8,10 @@ import model.state.PositionImpl;
 
 /**
  * 
- * Distribution strategy that use Poisson distribution.
+ * Implementation of a distribution strategy that use Poisson distribution.
  *
  */
-public class PoissonDistributionStrategy implements PositionStrategy {
+public final class PoissonDistributionStrategy implements PositionStrategy {
     private static final double MEAN = 200;
     private final Position maxPosition;
 
@@ -22,7 +22,6 @@ public class PoissonDistributionStrategy implements PositionStrategy {
      *            the maximum position in the environment.
      */
     public PoissonDistributionStrategy(final Position maxPosition) {
-        super();
         this.maxPosition = maxPosition;
     }
 

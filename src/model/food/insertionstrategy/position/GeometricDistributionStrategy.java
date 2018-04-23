@@ -8,7 +8,7 @@ import model.state.Position;
 import model.state.PositionImpl;
 
 /**
- * Implementation of the strategy that uses uniform distribution to geometric distribution.
+ * Implementation of the strategy that uses geometric distribution.
  */
 public final class GeometricDistributionStrategy implements PositionStrategy {
     private static final double PROBABILITY = 0.01;
@@ -21,7 +21,6 @@ public final class GeometricDistributionStrategy implements PositionStrategy {
      *            the maximum position in the environment.
      */
     public GeometricDistributionStrategy(final Position maxPosition) {
-        super();
         this.maxPosition = maxPosition;
     }
 
