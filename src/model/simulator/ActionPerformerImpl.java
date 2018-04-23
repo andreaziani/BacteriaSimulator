@@ -168,7 +168,6 @@ public class ActionPerformerImpl implements ActionPerformer {
                 if (!bacteria.isReplicating()) {
                     bacteria.startReplicating();
                     final double bacteriaRadius = bacteria.getRadius();
-                    Optional<Position> freePosition;
 
                     final List<Position> positions = EnvironmentUtil
                             .circularPositionStream((int) Math.ceil(bacteriaRadius * 2), bacteriaPos,
@@ -177,21 +176,16 @@ public class ActionPerformerImpl implements ActionPerformer {
                                     pos -> this.bactEnv.isPositionOccupied(pos)))
                             .collect(Collectors.toList());
 
-                    if (positions.isEmpty()) {
-                        freePosition = Optional.empty();
-                    } else {
-                        freePosition = Optional
-                                .of(positions.get(ThreadLocalRandom.current().nextInt(positions.size())));
-                    }
-
-                    if (freePosition.isPresent()) {
+                    if (!positions.isEmpty()) {
                         final GeneticCode clonedGenCode = this.geneFactory.copyGene(bacteria.getGeneticCode());
                         final Energy halfEnergy = bacteria.getEnergy().multiply(0.5);
                         bacteria.spendEnergy(halfEnergy);
                         final int nextBacteriaID = this.bactEnv.getNumberOfBacteria();
                         final Bacteria newBacteria = new BacteriaImpl(nextBacteriaID, bacteria.getSpecies(),
                                 clonedGenCode, halfEnergy);
-                        this.bactEnv.insertBacteria(freePosition.get(), newBacteria);
+                        final Position freePosition = positions
+                                .get(ThreadLocalRandom.current().nextInt(positions.size()));
+                        this.bactEnv.insertBacteria(freePosition, newBacteria);
                     }
                 }
             } finally {
