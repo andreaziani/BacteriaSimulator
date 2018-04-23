@@ -23,7 +23,7 @@ import model.state.State;
 public class AnalysisImpl implements Analysis {
 
     private final transient List<State> lstate = new ArrayList<>();
-    private final transient MutationManager mutManager = new MutationManagerImpl();
+    private transient MutationManager mutManager = new MutationManagerImpl();
     private transient List<Bacteria> lafter = new ArrayList<>();
     private transient Set<Species> speciesB = new HashSet<>();
     private transient Set<Species> speciesA = new HashSet<>();
@@ -48,6 +48,11 @@ public class AnalysisImpl implements Analysis {
         this.cachedDescription = Optional.of(cachedDescription);
     }
 
+    @Override
+    public void setMutation(final MutationManager mutManager) {
+        this.mutManager = mutManager;
+    }
+
     private List<Bacteria> listOfBacteria(final Map<Position, Bacteria> bacteria) {
         final List<Bacteria> bt = new ArrayList<>();
         if (!bacteria.isEmpty()) {
@@ -60,12 +65,6 @@ public class AnalysisImpl implements Analysis {
         final List<Bacteria> bt = new ArrayList<>();
         if (!bacteria.isEmpty()) {
             bt.addAll(bacteria.keySet());
-            for (Bacteria b : bt) {
-                Mutation m = bacteria.get(b);
-                if (!m.isMutated()) {
-                    bt.remove(b);
-                }
-            }
         }
         return bt;
     }

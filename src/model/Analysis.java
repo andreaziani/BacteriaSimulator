@@ -55,4 +55,11 @@ public interface Analysis {
      * update and reworked version of Bacteria's data.
      */
     void updateAnalysis();
+
+    /**
+     * set mutation of bacteria for analysis of mutated bacteria.
+     * @param mutManager
+     *          map of mutated bacteria.
+     */
+    void setMutation(MutationManager mutManager);
 }

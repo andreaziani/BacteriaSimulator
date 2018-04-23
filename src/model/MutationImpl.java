@@ -43,7 +43,7 @@ public class MutationImpl implements Mutation {
     }
     private boolean possibilityOfMutation() {
         this.randomMutation = this.randomMutation + checkMutation();
-        return this.randomMutation >= 10;
+        return this.randomMutation >= 10000;
     }
 
     private int randomPos() {
