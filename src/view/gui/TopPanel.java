@@ -24,6 +24,7 @@ import controller.FileFormatException;
 import controller.IllegalExtensionException;
 import controller.SimulationCondition;
 import controller.SimulationState;
+import utils.Logger;
 import view.SimulationStateUpdatable;
 import view.controller.ViewController;
 
@@ -154,7 +155,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.saveReplay.setEnabled(false);
     }
 
-    private void setComponentsFont(final Component[] components) {
+    private void setComponentsFont(final Component... components) {
         for (final Component c : components) {
             if (c instanceof Container) {
                 this.setComponentsFont(((Container) c).getComponents());
@@ -162,7 +163,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
             try {
                 c.setFont(GuiUtils.FONT);
             } catch (Exception e) { 
-                // Can't set font
+                Logger.getInstance().info("TopPanel", "Can't set font of " + c.toString());
             }
         }
     }
