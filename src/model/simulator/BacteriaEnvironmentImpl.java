@@ -162,7 +162,7 @@ public final class BacteriaEnvironmentImpl implements BacteriaEnvironment {
 
     @Override
     public boolean isSafe(final Position pos) {
-        return Math.abs(pos.getX() - this.limitLeftRight) > EDGE || Math.abs(pos.getY() - this.limitTopBottom) > EDGE;
+        return Math.abs(pos.getX() - this.limitLeftRight) > EDGE && Math.abs(pos.getY() - this.limitTopBottom) > EDGE;
     }
 
     @Override
