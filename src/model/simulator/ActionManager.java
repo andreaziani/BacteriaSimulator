@@ -128,7 +128,7 @@ public class ActionManager extends RecursiveAction {
                 actionPerformer.eat(pos, bact, foodPosition);
                 break;
             case REPLICATE:
-                //actionPerformer.replicate(pos, bact);
+                actionPerformer.replicate(pos, bact);
                 break;
             default:
                 actionPerformer.doNothing(pos, bact);
