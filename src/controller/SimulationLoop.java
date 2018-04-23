@@ -20,6 +20,7 @@ public class SimulationLoop implements Runnable {
      * Constructor for SimulationLoop.
      * @param controller the controller that the simulation will use to update the application
      * @param environment the environment on which execute the updates
+     * @param currentState the state of the controller when it creates the simulation loop
      */
     public SimulationLoop(final EnvironmentController controller, final Environment environment, final SimulationState currentState) {
         this.controller = controller;

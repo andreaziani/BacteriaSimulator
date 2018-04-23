@@ -56,7 +56,8 @@ public final class ActionManager extends RecursiveAction {
      *            the Object used to actually perform the action
      * @param isSafe
      *            flag representing whether it's safe to perform this action
-     *            considering the map as different sub-maps independent to each other
+     *            considering the map as different sub-maps independent to each
+     *            other
      */
     public ActionManager(final Stream<Position> positions, final long length, final BacteriaEnvironment bacteriaEnv,
             final Map<Position, Food> foodsState, final Optional<Double> maxRadius, final ActionPerformer actionPerf,
@@ -181,8 +182,7 @@ public final class ActionManager extends RecursiveAction {
     }
 
     private void solveBaseCase(final Stream<Position> positions) {
-        positions.filter(pos -> this.bacteriaEnv.containBacteriaInPosition(pos))
-                .map(pos -> Pair.of(pos, this.bacteriaEnv.getBacteria(pos)))
+        positions.map(pos -> Pair.of(pos, this.bacteriaEnv.getBacteria(pos)))
                 .peek(posBact -> posBact.getRight().setPerception(this.createPerception(posBact.getLeft())))
                 .peek(posBact -> this.costOfLiving(posBact.getRight()))
                 .forEach(posBact -> this.performAction(posBact.getLeft(), posBact.getRight()));
