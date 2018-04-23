@@ -33,6 +33,8 @@ import view.model.food.ViewProvision;
  */
 public final class LegendPanel extends JPanel implements ColorAssigner, SimulationStateUpdatable {
 
+    private static final int MIN_COLOR_STEP = 64;
+    private static final int MAX_COLOR_VALUE = 255;
     /**
      * Automatically generated.
      */
@@ -62,16 +64,12 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         super();
         candidateFoodsColors = new ArrayList<>();
         candidateSpeciesColors = new ArrayList<>();
-        candidateFoodsColors.add(Color.RED);
-        candidateFoodsColors.add(Color.ORANGE);
-        candidateFoodsColors.add(Color.PINK);
-        candidateFoodsColors.add(Color.YELLOW);
-
-        candidateSpeciesColors.add(Color.BLUE);
-        candidateSpeciesColors.add(Color.CYAN);
-        candidateSpeciesColors.add(Color.GREEN);
-        candidateSpeciesColors.add(Color.MAGENTA);
-
+        for (int i = 0; i < MAX_COLOR_VALUE; i += MIN_COLOR_STEP) {
+            for (int j = MIN_COLOR_STEP; j < MAX_COLOR_VALUE; j += MIN_COLOR_STEP) {
+                candidateFoodsColors.add(new Color(MAX_COLOR_VALUE, i, j));
+                candidateSpeciesColors.add(new Color(j, i, MAX_COLOR_VALUE));
+            }
+        }
         simulationState = SimulationCondition.NOT_READY;
         this.viewController = viewController;
         foodLabel = new JLabel("Food colors:");
@@ -104,9 +102,8 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
             resetContainer();
             legendContainer = Optional.empty();
             init();
-            //forced refresh of the panel because revalidate() doesn't work.
-            this.setVisible(false);
-            this.setVisible(true);
+            this.updateUI();
+            this.revalidate();
         });
     }
 

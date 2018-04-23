@@ -90,8 +90,6 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
 
     @Override
     public State getState() {
-        // since the env is not only modified by the .update() method, the state MUST be
-        // created at every request
         return new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
     }
 

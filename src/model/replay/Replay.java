@@ -30,7 +30,6 @@ public final class Replay {
     private final List<String> species;
     private final List<String> foods;
     private final List<ReplayState> stateList;
-    // private final List<SimpleState> stateList;
     private Optional<AnalysisImpl> analysis;
 
     /**
@@ -49,11 +48,6 @@ public final class Replay {
         foods = new ArrayList<>();
         foods.add(UNNAMED_FOOD_STRING);
         initialState.getExistingFood().stream().map(x -> x.getName()).forEach(foods::add);
-        // if (initialState.hasState()) {
-        // stateList.add(new
-        // ReplayState(initialState.getState().reconstructState(speciesMapper,
-        // startingEnergy), species, foods));
-        // }
     }
 
     /**
@@ -80,7 +74,6 @@ public final class Replay {
      */
     public void addState(final State state) {
         stateList.add(new ReplayState(state, species, foods));
-        // stateList.add(new SimpleState(state, initialState.getSpecies()));
     }
 
     /**

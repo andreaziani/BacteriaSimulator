@@ -88,9 +88,7 @@ public final class CreationViewFoodImpl implements ViewFood {
      *
      */
     public static class ConcreteViewFoodBuilder implements ViewFoodBuilder {
-        // required
         private final String name;
-        // optional
         private final Map<Nutrient, Double> nutrients = new HashMap<>();
         private boolean built;
 

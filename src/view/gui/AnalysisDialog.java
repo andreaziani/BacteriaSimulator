@@ -61,21 +61,18 @@ public class AnalysisDialog extends JDialog {
         bt.setFont(GuiUtils.FONT);
         pAnalysis.setBackground(Color.WHITE);
 
-        //pAnalysis.add(jTextArea);
         pAnalysis.add(wins);
         pAnalysis.add(nByS);
         pAnalysis.add(dead);
         pAnalysis.add(bactMutated);
         pAnalysis.add(survived);
 
-        //jTextArea.setText(analysis.getDescription());
         wins.setText("Predominant Species:" + "\n" + analysis.resultPredominant());
         nByS.setText("Quantity of bacteria per Species:" + "\n" + analysis.numberBySpecies());
         dead.setText("Species are dead:" + "\n" + analysis.resultDead());
         bactMutated.setText("Quantity of bacteria mutated per Species:" + "\n" + analysis.resultBactMutated());
         survived.setText("Species are survived:" + "\n" + analysis.resultSurvived());
 
-        //jTextArea.setEditable(false);
         wins.setEditable(false);
         nByS.setEditable(false);
         dead.setEditable(false);
