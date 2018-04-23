@@ -1,13 +1,14 @@
 package model.food.insertionstrategy.position;
 
+import java.util.Random;
+
 import org.apache.commons.math3.distribution.GeometricDistribution;
 
 import model.state.Position;
 import model.state.PositionImpl;
 
 /**
- * Implementation of the strategy that uses a geometric distribution for the
- * random choice.
+ * Implementation of the strategy that uses uniform distribution to geometric distribution.
  */
 public final class GeometricDistributionStrategy implements PositionStrategy {
     private static final double PROBABILITY = 0.01;
@@ -26,7 +27,12 @@ public final class GeometricDistributionStrategy implements PositionStrategy {
 
     @Override
     public Position getPosition() {
+        final Random rand = new Random();
         final GeometricDistribution dist = new GeometricDistribution(PROBABILITY);
-        return new PositionImpl(dist.sample() % maxPosition.getX(), dist.sample() % maxPosition.getY());
+        return new PositionImpl(
+                rand.nextBoolean() ? (dist.sample() + (int) (maxPosition.getX() / 2) % maxPosition.getX())
+                        : (maxPosition.getX() / 2) - dist.sample(),
+                rand.nextBoolean() ? (dist.sample() + (int) (maxPosition.getY() / 2) % maxPosition.getY())
+                        : (maxPosition.getY() / 2) - dist.sample());
     }
 }
