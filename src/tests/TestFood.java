@@ -75,7 +75,7 @@ public class TestFood {
         assertNotEquals("Foods are not equals", food1, food2);
         assertNotEquals("Foods are not equals", food1, food4);
         assertEquals("Foods are equals", food1, food3);
-        modifyNutrients(); // verifico che modificando i nutrienti non si modifichino i food gi� creati.
+        modifyNutrients();
         final Food food5 = factory.createFoodFromNameAndNutrients("Banana", nutrients1);
         assertNotEquals("Foods are not equals", food1, food5);
     }
@@ -98,7 +98,7 @@ public class TestFood {
         assertThrows(AlreadyExistingFoodException.class, () -> manager.addFood(food3));
         modifyNutrients();
         final Food food4 = factory.createFoodFromNameAndNutrients("lampone", nutrients1);
-        assertThrows(UnsupportedOperationException.class, () -> manager.getExistingFoods().add(food4)); // try to add into an unmodifiable copy.
+        assertThrows(UnsupportedOperationException.class, () -> manager.getExistingFoods().add(food4));
         assertEquals("Size must be 2", manager.getExistingFoods().size(), 2);
         manager.addFood(food4);
         assertEquals("Size must be 3", manager.getExistingFoods().size(), 3);
@@ -131,14 +131,11 @@ public class TestFood {
         assertEquals("Size must be 1", env.getFoodsState().size(), 1);
         env.changeFoodPosition(position, position2, food1);
         assertEquals("Foods must be equals", env.getFoodsState().get(position2), food1);
-        assertThrows(IllegalArgumentException.class, () -> env.changeFoodPosition(position, position3, food1)); // trying to change food's 
-                                                                                                                // position but position is wrong.
-        assertThrows(PositionAlreadyOccupiedException.class, () -> env.addFood(food1, position2)); // trying to add a food in a position already occupied.
+        assertThrows(IllegalArgumentException.class, () -> env.changeFoodPosition(position, position3, food1));
+        assertThrows(PositionAlreadyOccupiedException.class, () -> env.addFood(food1, position2));
         for (int i = 0; i < 100; i++) {
             env.addRandomFood();
         }
-//        System.out.println(env.getFoodsState().size());
-//        env.getFoodsState().forEach((k, v) -> System.out.println(k.getX() + " " + k.getY()));
     }
 
 }
