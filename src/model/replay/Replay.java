@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import model.Analysis;
 import model.AnalysisImpl;
-import model.EnergyImpl;
 import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesOptions;
 import model.state.InitialState;
-import model.state.SimpleState;
 import model.state.State;
 
 /**
@@ -22,8 +21,16 @@ import model.state.State;
  * used to reconstruct an environment for additional visualization.
  */
 public final class Replay {
+    /**
+     * Representation of unnamed food to write in files.
+     */
+    public static final String UNNAMED_FOOD_STRING = "";
+
     private final InitialState initialState;
-    private final List<SimpleState> stateList;
+    private final List<String> species;
+    private final List<String> foods;
+    private final List<ReplayState> stateList;
+    // private final List<SimpleState> stateList;
     private Optional<AnalysisImpl> analysis;
 
     /**
@@ -38,9 +45,15 @@ public final class Replay {
     public Replay(final InitialState initialState) {
         this.initialState = initialState;
         this.stateList = new ArrayList<>();
-        if (initialState.hasState()) {
-            stateList.add(initialState.getState());
-        }
+        species = initialState.getSpecies().stream().map(x -> x.getName()).collect(Collectors.toList());
+        foods = new ArrayList<>();
+        foods.add(UNNAMED_FOOD_STRING);
+        initialState.getExistingFood().stream().map(x -> x.getName()).forEach(foods::add);
+        // if (initialState.hasState()) {
+        // stateList.add(new
+        // ReplayState(initialState.getState().reconstructState(speciesMapper,
+        // startingEnergy), species, foods));
+        // }
     }
 
     /**
@@ -49,16 +62,13 @@ public final class Replay {
      * @return a list of all states stored in the replay.
      */
     public Iterator<State> getStateIterator(final Function<SpeciesOptions, Species> speciesMapper) {
-        return getStateList()
-                .stream()
-                .map(x -> x.reconstructState(speciesMapper, () -> EnergyImpl.ZERO))
-                .iterator();
+        return getStateList().stream().map(x -> x.reconstructState(species, foods)).iterator();
     }
 
     /**
      * @return a list of all states stored in the replay.
      */
-    public List<SimpleState> getStateList() {
+    public List<ReplayState> getStateList() {
         return Collections.unmodifiableList(stateList);
     }
 
@@ -69,7 +79,8 @@ public final class Replay {
      *            state of this replay.
      */
     public void addState(final State state) {
-        stateList.add(new SimpleState(state, initialState.getSpecies()));
+        stateList.add(new ReplayState(state, species, foods));
+        // stateList.add(new SimpleState(state, initialState.getSpecies()));
     }
 
     /**
@@ -79,7 +90,7 @@ public final class Replay {
      *            initial state of this replay. This method is used by a
      *            deserializer.
      */
-    public void addSimpleState(final SimpleState state) {
+    public void addReplayState(final ReplayState state) {
         stateList.add(state);
     }
 

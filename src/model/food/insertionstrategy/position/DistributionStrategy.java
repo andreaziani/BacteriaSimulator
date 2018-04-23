@@ -12,7 +12,12 @@ public enum DistributionStrategy {
     /**
      * Geometric distribution strategy.
      */
-    GEOMETRIC_DISTRIBUTION("Geometric distribution");
+    GEOMETRIC_DISTRIBUTION("Geometric distribution"), 
+    /**
+     * Poisson distribution strategy.
+     */
+    POISSON_DISTRIBUTION("Poisson distribution");
+
     private final String name;
     DistributionStrategy(final String name) {
         this.name = name;

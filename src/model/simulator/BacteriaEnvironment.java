@@ -1,6 +1,7 @@
 package model.simulator;
 
 import java.util.Map.Entry;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,7 +64,7 @@ public interface BacteriaEnvironment {
      * 
      * @return such Set
      */
-    Set<Position> activePosition();
+    List<Position> activePosition();
 
     /**
      * Remove a set of Position from the BacteriaEnvironment.
@@ -116,13 +117,37 @@ public interface BacteriaEnvironment {
 
     /**
      * Return the current number of Bacteria in the simulation.
+     * 
      * @return the number of Bacteria
      */
     int getNumberOfBacteria();
 
     /**
      * Get the maximum Position in the simulation, useful when updating positions.
+     * 
      * @return such max position.
      */
     Position getMaxPosition();
+
+    /**
+     * Check is Position is safe: a position is safe if the Bacteria at that
+     * position could end up in another sum-map after completing its action.
+     * 
+     * @param pos the Position that has to be checked
+     * @return the result
+     */
+    boolean isSafe(Position pos);
+
+    /**
+     * Map each position to one of the quadrant by assigning to it an integer value.
+     * @param pos the position of which obtain the value
+     * @return the corresponding integer value
+     */
+    int getQuad(Position pos);
+
+    /**
+     * Return the number of sum-maps in which the original map is divided.
+     * @return the result
+     */
+    int getNumberOfQuadrants();
 }

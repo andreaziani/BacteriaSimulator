@@ -69,6 +69,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         this.componentsSettings();
 
         final JFileChooser simulationChooser = new JFileChooser();
+        GuiUtils.setFontOfComponents(simulationChooser.getComponents());
         simulationChooser.setPreferredSize(new Dimension(width, height));
         simulationChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         simulationChooser.setDialogTitle("Choose a file");
@@ -108,6 +109,7 @@ public class TopPanel extends JPanel implements SimulationStateUpdatable {
         });
 
         final JFileChooser replayChooser = new JFileChooser();
+        GuiUtils.setFontOfComponents(simulationChooser.getComponents());
         replayChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         replayChooser.setDialogTitle("Choose a file");
         replayChooser.setFileFilter(

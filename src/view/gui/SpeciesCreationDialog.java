@@ -56,7 +56,6 @@ public class SpeciesCreationDialog extends JDialog {
         txtLabel.setFont(GuiUtils.FONT);
         txtName = new JTextField(INITIAL_TXT_SIZE);
         txtName.setFont(GuiUtils.FONT);
-
         comboBoxes = new EnumMap<>(ActionType.class);
         Arrays.asList(ActionType.values()).stream().forEach(a -> {
             if (a != ActionType.NOTHING) {

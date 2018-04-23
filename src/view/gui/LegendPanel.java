@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -37,7 +37,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
      * Automatically generated.
      */
     private static final long serialVersionUID = -8989135061384289871L;
-    private static final String UNNAMED_FOOD = "Unnamed Food";
+    private static final String UNNAMED_FOOD_NAME = "Unnamed Food";
     private final ViewController viewController;
     private Optional<JPanel> legendContainer;
     private final List<Color> candidateFoodsColors;
@@ -45,6 +45,7 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     private final JLabel foodLabel;
     private final JLabel speciesLabel;
 
+    private Color unnamedColor = Color.BLACK;
     private SimulationCondition simulationState;
     private Map<String, Color> foodColors;
     private Map<String, Color> speciesColors;
@@ -140,7 +141,11 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
         legendPanel = new JPanel(new GridLayout(foods.size() + species.size() + 3, 1));
         legendContainer = Optional.of(legendPanel);
         legendPanel.add(foodLabel);
-        legendPanel.add(buildLegendEntryPanel(UNNAMED_FOOD, Color.BLACK, foodColors));
+        legendPanel.add(buildLegendEntryPanel(UNNAMED_FOOD_NAME, unnamedColor, (l, c) -> {
+            unnamedColor = c;
+            l.setForeground(unnamedColor);
+        }));
+
         fillPanelsOfColorables(foods, foodColors, this::nextRandomFoodColor);
         legendPanel.add(speciesLabel);
         fillPanelsOfColorables(species, speciesColors, this::nextRandomSpeciesColor);
@@ -157,21 +162,21 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
             } else {
                 color = colorSupplier.get();
             }
-            legendContainer.get().add(buildLegendEntryPanel(el.getName(), color, map));
+            legendContainer.get().add(buildLegendEntryPanel(el.getName(), color, (l, c) -> updateColor(l, map, l.getText(), c)));
         }
     }
 
-    private JPanel buildLegendEntryPanel(final String name, final Color color, final Map<String, Color> map) {
+    private JPanel buildLegendEntryPanel(final String name, final Color color, final BiConsumer<JLabel, Color> colorChanger) {
         final JPanel legendEntryPanel = new JPanel(new GridLayout(1, 2));
         final JLabel nameLabel = new JLabel(name);
-        updateColor(nameLabel, map, name, color);
+        colorChanger.accept(nameLabel, color);
         legendEntryPanel.add(nameLabel);
         final JButton btn = new JButton("Change");
         btn.setFont(GuiUtils.FONT);
         nameLabel.setFont(GuiUtils.FONT);
         btn.addActionListener(ev -> {
             final Color nextColor = JColorChooser.showDialog(LegendPanel.this, "Choose new color", color);
-            updateColor(nameLabel, map, name, nextColor);
+            colorChanger.accept(nameLabel, nextColor);
         });
         legendEntryPanel.add(btn);
         return legendEntryPanel;
@@ -201,10 +206,6 @@ public final class LegendPanel extends JPanel implements ColorAssigner, Simulati
     }
 
     private Color getColorFromColorable(final Colorable colorable, final Map<String, Color> map) {
-        try {
-            return map.getOrDefault(colorable.getName(), Color.BLACK);
-        } catch (NoSuchElementException e) {
-            return map.get(UNNAMED_FOOD);
-        }
+        return map.getOrDefault(colorable.getName(), unnamedColor);
     }
 }

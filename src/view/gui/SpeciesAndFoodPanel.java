@@ -67,13 +67,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         this.add(this.createFood);
         this.add(this.createSpecies);
         this.setOpaque(true);
-        this.createFood.setFont(GuiUtils.FONT);
-        this.createSpecies.setFont(GuiUtils.FONT);
-        this.foods.setFont(GuiUtils.FONT);
-        this.setStrategy.setFont(GuiUtils.FONT);
-        this.strategies.setFont(GuiUtils.FONT);
-        this.selectFood.setFont(GuiUtils.FONT);
-        this.selectStrategy.setFont(GuiUtils.FONT);
+        GuiUtils.setFontOfComponents(this.getComponents());
     }
 
     /**

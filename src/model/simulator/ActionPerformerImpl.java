@@ -3,6 +3,11 @@ package model.simulator;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -21,7 +26,8 @@ import model.state.Position;
  * Implementation of ActionPerformer interface.
  *
  */
-public class ActionPerformerImpl implements ActionPerformer {
+public final class ActionPerformerImpl implements ActionPerformer {
+    private static final int SINGLE_MUTEX_INDEX = 0;
     private static final int REPLICATE_INTERVAL = 20;
     private static final int MINIMUM_INTERVAL = 10;
     private final CopyFactory geneFactory = new CopyFactoryImpl();
@@ -31,7 +37,7 @@ public class ActionPerformerImpl implements ActionPerformer {
     private final Map<Bacteria, MutableInt> replicateCounter = new ConcurrentHashMap<>();
     private final Random rand = new Random();
 
-    private final Mutex bacteriaEnvMutex = new Mutex();
+    private final List<Mutex> quadrantsMutex = new ArrayList<>();
     private final Mutex foodEnvMutex = new Mutex();
 
     /**
@@ -49,6 +55,7 @@ public class ActionPerformerImpl implements ActionPerformer {
         this.bactEnv = bactEnv;
         this.foodEnv = foodEnv;
         this.simMaxPosition = maxPosition;
+        IntStream.range(0, this.bactEnv.getNumberOfQuadrants()).forEach(x -> this.quadrantsMutex.add(new Mutex()));
     }
 
     private int nextTurn() {
@@ -65,11 +72,25 @@ public class ActionPerformerImpl implements ActionPerformer {
         }
     }
 
+    private void acquireEnvMutex(final int index) throws InterruptedException {
+        this.quadrantsMutex.get(index).acquire();
+    }
+
+    private void releaseEnvMutex(final int index) {
+        this.quadrantsMutex.get(index).release();
+    }
+
     @Override
     public void move(final Position bacteriaPos, final Bacteria bacteria, final Direction moveDirection,
-            final double moveDistance) {
+            final double moveDistance, final boolean isSafe) {
         try {
-            this.bacteriaEnvMutex.acquire();
+            if (isSafe) {
+                this.acquireEnvMutex(this.bactEnv.getQuad(bacteriaPos));
+            } else {
+                this.acquireEnvMutex(SINGLE_MUTEX_INDEX);
+            }
+            // Logger.getInstance().info("MOVE" + this.bactEnv.getQuad(bacteriaPos),
+            // "THREAD" + Thread.currentThread().getId() + " IN");
             this.updateStatus(bacteria);
             try {
                 final double maximumDistance = bacteria.getSpeed() * EnvironmentUtil.UNIT_OF_TIME;
@@ -93,7 +114,13 @@ public class ActionPerformerImpl implements ActionPerformer {
                     this.bactEnv.markPosition(bacteriaPos, bacteria);
                 }
             } finally {
-                this.bacteriaEnvMutex.release();
+                // Logger.getInstance().info("MOVE" + this.bactEnv.getQuad(bacteriaPos),
+                // "THREAD" + Thread.currentThread().getId() + " OUT");
+                if (isSafe) {
+                    this.releaseEnvMutex(this.bactEnv.getQuad(bacteriaPos));
+                } else {
+                    this.releaseEnvMutex(SINGLE_MUTEX_INDEX);
+                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -104,6 +131,8 @@ public class ActionPerformerImpl implements ActionPerformer {
     public void eat(final Position bacteriaPos, final Bacteria bacteria, final Optional<Position> foodPosition) {
         try {
             this.foodEnvMutex.acquire();
+            // Logger.getInstance().info("EAT", "THREAD" + Thread.currentThread().getId() +
+            // " OUT");
             this.updateStatus(bacteria);
             try {
                 Optional<Food> foodInPosition = Optional.empty();
@@ -116,6 +145,8 @@ public class ActionPerformerImpl implements ActionPerformer {
                     this.foodEnv.removeFood(foodInPosition.get(), foodPosition.get());
                 }
             } finally {
+                // Logger.getInstance().info("EAT", "THREAD" + Thread.currentThread().getId() +
+                // " IN");
                 this.foodEnvMutex.release();
             }
         } catch (InterruptedException e) {
@@ -124,33 +155,48 @@ public class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void replicate(final Position bacteriaPos, final Bacteria bacteria) {
+    public void replicate(final Position bacteriaPos, final Bacteria bacteria, final boolean isSafe) {
         try {
-            this.bacteriaEnvMutex.acquire();
+            if (isSafe) {
+                this.acquireEnvMutex(this.bactEnv.getQuad(bacteriaPos));
+            } else {
+                this.acquireEnvMutex(SINGLE_MUTEX_INDEX);
+            }
+            // Logger.getInstance().info("REPLIC" + this.bactEnv.getQuad(bacteriaPos),
+            // "THREAD" + Thread.currentThread().getId() + " IN");
             this.updateStatus(bacteria);
             try {
                 if (!bacteria.isReplicating()) {
                     bacteria.startReplicating();
                     final double bacteriaRadius = bacteria.getRadius();
-                    final Optional<Position> freePosition = EnvironmentUtil
+
+                    final List<Position> positions = EnvironmentUtil
                             .circularPositionStream((int) Math.ceil(bacteriaRadius * 2), bacteriaPos,
                                     this.simMaxPosition)
                             .filter(position -> EnvironmentUtil.causeCollision(position, bacteriaRadius, simMaxPosition,
                                     pos -> this.bactEnv.isPositionOccupied(pos)))
-                            .findAny();
+                            .collect(Collectors.toList());
 
-                    if (freePosition.isPresent()) {
+                    if (!positions.isEmpty()) {
                         final GeneticCode clonedGenCode = this.geneFactory.copyGene(bacteria.getGeneticCode());
                         final Energy halfEnergy = bacteria.getEnergy().multiply(0.5);
                         bacteria.spendEnergy(halfEnergy);
                         final int nextBacteriaID = this.bactEnv.getNumberOfBacteria();
                         final Bacteria newBacteria = new BacteriaImpl(nextBacteriaID, bacteria.getSpecies(),
                                 clonedGenCode, halfEnergy);
-                        this.bactEnv.insertBacteria(freePosition.get(), newBacteria);
+                        final Position freePosition = positions
+                                .get(ThreadLocalRandom.current().nextInt(positions.size()));
+                        this.bactEnv.insertBacteria(freePosition, newBacteria);
                     }
                 }
             } finally {
-                this.bacteriaEnvMutex.release();
+                // Logger.getInstance().info("REPLIC" + this.bactEnv.getQuad(bacteriaPos),
+                // "THREAD" + Thread.currentThread().getId() + " OUT");
+                if (isSafe) {
+                    this.releaseEnvMutex(this.bactEnv.getQuad(bacteriaPos));
+                } else {
+                    this.releaseEnvMutex(SINGLE_MUTEX_INDEX);
+                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

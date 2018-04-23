@@ -8,11 +8,11 @@ import utils.Logger;
  *
  */
 public class SimulationLoop implements Runnable {
-    private static final long PERIOD = 150L;
+    private static final long PERIOD = 200L;
 
     private final EnvironmentController controller;
     private final Environment environment;
-    private SimulationState state = new SimulationState();
+    private final SimulationState state;
 
     private volatile boolean setPaused;
 

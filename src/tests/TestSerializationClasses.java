@@ -30,6 +30,7 @@ import model.food.Nutrient;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCodeImpl;
 import model.replay.Replay;
+import model.replay.ReplayState;
 import model.state.InitialState;
 import model.state.Position;
 import model.state.PositionImpl;
@@ -143,7 +144,7 @@ public class TestSerializationClasses {
         final Replay reconstructed = new Replay(gson.fromJson(strings.get(0), InitialState.class));
         reconstructed.setAnalysis(gson.fromJson(strings.get(1), AnalysisImpl.class));
         for (int i = 0; i < NUM_STATES_IN_REPLAY; i++) {
-            reconstructed.addSimpleState(gson.fromJson(strings.get(i + 2), SimpleState.class));
+            reconstructed.addReplayState(gson.fromJson(strings.get(i + 2), ReplayState.class));
         }
         assertEquals("replay reconstructed should equals the original", replay,
                 reconstructed);

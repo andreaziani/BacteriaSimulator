@@ -2,9 +2,15 @@ package controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -15,8 +21,8 @@ import com.google.gson.stream.JsonWriter;
 import model.Analysis;
 import model.AnalysisImpl;
 import model.replay.Replay;
+import model.replay.ReplayState;
 import model.state.InitialState;
-import model.state.SimpleState;
 
 /**
  * Implementation of FileController.
@@ -28,6 +34,7 @@ public final class FileControllerImpl implements FileController {
     private String getFullExtension(final String extension) {
         return "." + extension;
     }
+
     private boolean isPathCorrect(final String path, final String extension) {
         return path.endsWith(getFullExtension(extension));
     }
@@ -74,7 +81,8 @@ public final class FileControllerImpl implements FileController {
     @Override
     public Replay loadReplay(final String path) throws IOException {
         controlExtensionAndThrow(path, REPLAY_EXTENTION);
-        try (JsonReader reader = gson.newJsonReader(new BufferedReader(new FileReader(path)))) {
+        try (JsonReader reader = gson.newJsonReader(
+                new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(path)))))) {
             reader.beginObject();
             reader.nextName();
             final Replay result = new Replay(gson.fromJson(reader, InitialState.class));
@@ -83,7 +91,7 @@ public final class FileControllerImpl implements FileController {
             reader.nextName();
             reader.beginArray();
             while (reader.hasNext()) {
-                result.addSimpleState(gson.fromJson(reader, SimpleState.class));
+                result.addReplayState(gson.fromJson(reader, ReplayState.class));
             }
             reader.endArray();
             reader.endObject();
@@ -93,7 +101,8 @@ public final class FileControllerImpl implements FileController {
 
     @Override
     public void saveReplay(final String path, final Replay replay) throws IOException {
-        try (JsonWriter writer = gson.newJsonWriter(new BufferedWriter(new FileWriter(getCorrectedPath(path, REPLAY_EXTENTION))))) {
+        try (JsonWriter writer = gson.newJsonWriter(new BufferedWriter(new OutputStreamWriter(
+                new GZIPOutputStream(new FileOutputStream(getCorrectedPath(path, REPLAY_EXTENTION))))))) {
             writer.beginObject();
             writer.name("initialState");
             gson.toJson(replay.getInitialState(), replay.getInitialState().getClass(), writer);

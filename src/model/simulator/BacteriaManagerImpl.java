@@ -34,7 +34,7 @@ import utils.Logger;
  * Implementation of BacteriaManager.
  *
  */
-public class BacteriaManagerImpl implements BacteriaManager {
+public final class BacteriaManagerImpl implements BacteriaManager {
     private static final double COST_OF_LIVING = 1.5;
     private static final int TOTAL_BACTERIA = 150;
     private static final double BACTERIA_RADIUS = 5.0;
@@ -60,6 +60,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
      * 
      * @param foodEnv
      *            used to update food environment according to bacteria actions
+     * @param manager
+     *            the food manager containing informations about the food that have already been created
      * @param maxPosition
      *            contains information about the maximum position in the simulation
      * @param speciesManager
@@ -107,9 +109,17 @@ public class BacteriaManagerImpl implements BacteriaManager {
                 .max((r1, r2) -> Double.compare(r1, r2));
 
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
-        final List<Position> positions = this.bacteriaEnv.activePosition().stream().collect(Collectors.toList());
 
-        commonPool.invoke(new ActionManager(positions, bacteriaEnv, foodsState, maxFoodRadius, actionPerformer));
+        final List<Position> safe = this.bacteriaEnv.activePosition().stream()
+                .filter(pos -> this.bacteriaEnv.isSafe(pos)).collect(Collectors.toList());
+        final List<Position> unSafe = this.bacteriaEnv.activePosition().stream()
+                .filter(pos -> !this.bacteriaEnv.isSafe(pos)).collect(Collectors.toList());
+
+        commonPool.invoke(new ActionManager(safe.stream(), safe.size(), bacteriaEnv, foodsState, maxFoodRadius,
+                actionPerformer, true));
+
+        commonPool.invoke(new ActionManager(unSafe.stream(), unSafe.size(), bacteriaEnv, foodsState, maxFoodRadius,
+                actionPerformer, false));
     }
 
     private void updateDeadBacteria() {
@@ -137,8 +147,8 @@ public class BacteriaManagerImpl implements BacteriaManager {
         st.start();
         this.updateAliveBacteria();
         st.stop();
-        Logger.getInstance().info("Living Bacteria",
-                "Took " + ((Long) (st.getNanoTime() / millis)).toString() + " to compute");
+        Logger.getInstance().info("Living Bacteria", "Took " + ((Long) (st.getNanoTime() / millis)).toString()
+                + " to compute, #Bacteria = " + this.bacteriaEnv.getNumberOfBacteria());
     }
 
     /**
