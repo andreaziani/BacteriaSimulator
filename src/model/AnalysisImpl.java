@@ -60,6 +60,12 @@ public class AnalysisImpl implements Analysis {
         final List<Bacteria> bt = new ArrayList<>();
         if (!bacteria.isEmpty()) {
             bt.addAll(bacteria.keySet());
+            for (Bacteria b : bt) {
+                Mutation m = bacteria.get(b);
+                if (!m.isMutated()) {
+                    bt.remove(b);
+                }
+            }
         }
         return bt;
     }

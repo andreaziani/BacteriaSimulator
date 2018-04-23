@@ -9,12 +9,6 @@ import model.bacteria.Bacteria;
  *
  */
 public interface MutationManager {
-    /**
-     * Bacteria deleted from environment.
-     * @param bacteria
-     *          bacteria not found into environment.
-     */
-    void bacteriaDead(Bacteria bacteria);
 
     /**
      * Update Mutation of all bacteria.
