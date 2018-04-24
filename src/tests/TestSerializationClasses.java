@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
+import model.Analysis;
 import model.AnalysisImpl;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
@@ -30,6 +31,7 @@ import model.food.Nutrient;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCodeImpl;
 import model.replay.Replay;
+import model.replay.ReplayAnalysis;
 import model.replay.ReplayState;
 import model.state.InitialState;
 import model.state.Position;
@@ -49,6 +51,7 @@ public class TestSerializationClasses {
     private InitialState noStateInitialState;
     private InitialState fullInitialState;
     private State state;
+    private Analysis analysis;
     private Function<SpeciesOptions, Species> speciesMapper;
 
     /**
@@ -93,6 +96,8 @@ public class TestSerializationClasses {
         state = new StateImpl(foodState, bacteriaState);
         fullInitialState.setState(state);
         speciesMapper = x -> x.getName().equals(SPECIES_NAME1) ? species1 : species2;
+        analysis = new AnalysisImpl();
+        analysis.addState(state);
     }
 
     /**
@@ -115,7 +120,7 @@ public class TestSerializationClasses {
                 gson.fromJson(json, InitialState.class));
 
         final Replay replay = new Replay(fullInitialState);
-        replay.setAnalysis(new AnalysisImpl("analysis result"));
+        replay.setAnalysis(analysis);
         json = gson.toJson(replay);
         assertEquals("replay constructed from json should equals the original", replay,
                 gson.fromJson(json, Replay.class));
@@ -135,14 +140,14 @@ public class TestSerializationClasses {
         for (int i = 0; i < NUM_STATES_IN_REPLAY; i++) {
             replay.addState(state);
         }
-        replay.setAnalysis(new AnalysisImpl("analysis result"));
+        replay.setAnalysis(analysis);
         final List<String> strings = new ArrayList<>();
         strings.add(gson.toJson(replay.getInitialState(), replay.getInitialState().getClass()));
         strings.add(gson.toJson(replay.getAnalysis(), replay.getAnalysis().getClass()));
         replay.getStateList().forEach(s -> strings.add(gson.toJson(s, s.getClass())));
 
         final Replay reconstructed = new Replay(gson.fromJson(strings.get(0), InitialState.class));
-        reconstructed.setAnalysis(gson.fromJson(strings.get(1), AnalysisImpl.class));
+        reconstructed.setAnalysis(gson.fromJson(strings.get(1), ReplayAnalysis.class));
         for (int i = 0; i < NUM_STATES_IN_REPLAY; i++) {
             reconstructed.addReplayState(gson.fromJson(strings.get(i + 2), ReplayState.class));
         }

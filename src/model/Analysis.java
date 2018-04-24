@@ -1,6 +1,5 @@
 package model;
 
-import java.util.List;
 
 import model.state.State;
 
@@ -64,10 +63,4 @@ public interface Analysis {
      *          map of mutated bacteria.
      */
     void setMutation(MutationManager mutManager);
-
-    /**
-     * List of Analysis description used in Replay.
-     * @return list of string of Analysis description.
-     */
-    List<String> listOfDescription();
 }

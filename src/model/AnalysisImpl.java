@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,26 +26,13 @@ public class AnalysisImpl implements Analysis {
     private transient List<Bacteria> lafter = new ArrayList<>();
     private transient Set<Species> speciesB = new HashSet<>();
     private transient Set<Species> speciesA = new HashSet<>();
-    private Optional<String> cachedDescription;
 
     /**
      * Normal constructor that create an analysis without data already in it.
      */
     public AnalysisImpl() {
-        cachedDescription = Optional.empty();
     }
 
-    /**
-     * Generate an analysis with a description already done.
-     * 
-     * @param cachedDescription
-     *            a description that will be given by this analysis until a new
-     *            state is set.
-     */
-    public AnalysisImpl(final String cachedDescription) {
-        super();
-        this.cachedDescription = Optional.of(cachedDescription);
-    }
 
     @Override
     public void setMutation(final MutationManager mutManager) {
@@ -133,7 +119,6 @@ public class AnalysisImpl implements Analysis {
     @Override
     public void addState(final State state) {
         this.lstate.add(state);
-        cachedDescription = Optional.empty();
     }
 
     private void before() {
@@ -209,26 +194,12 @@ public class AnalysisImpl implements Analysis {
 
     @Override
     public String getDescription() {
-        if (!cachedDescription.isPresent()) {
             updateAnalysis();
-            cachedDescription = Optional.of(("Predominant Species: \n" + resultPredominant() + "\n" + "\n"
+            return "Predominant Species: \n" + resultPredominant() + "\n" + "\n"
                                            + "Quantity of bacteria per Species: \n" + numberBySpecies() + "\n" + "\n"
                                            + "Species are dead: \n" + resultDead() + "\n" + "\n"
                                            + "Quantity of bacteria mutated per Species: \n" + resultBactMutated() + "\n" + "\n"
-                                           + "Species are survived: \n" + resultSurvived()));
-        }
-        return cachedDescription.get();
-    }
-
-    @Override
-    public List<String> listOfDescription() {
-        List<String> lDescription = new ArrayList<>();
-        lDescription.add(resultPredominant());
-        lDescription.add(numberBySpecies());
-        lDescription.add(resultDead());
-        lDescription.add(resultBactMutated());
-        lDescription.add(resultSurvived());
-        return lDescription;
+                                           + "Species are survived: \n" + resultSurvived();
     }
 
 }

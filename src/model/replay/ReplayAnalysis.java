@@ -1,21 +1,23 @@
 package model.replay;
 
-import java.util.List;
-
 import model.Analysis;
 import model.MutationManager;
 import model.state.State;
-
-public class ReplayAnalysis implements Analysis{
+/**
+ * Implementation of Analysis that store the results of an Analysis of a simulation to be represented in a replay.
+ */
+public final class ReplayAnalysis implements Analysis {
     private final String resultPredominant;
     private final String numberBySpecies;
     private final String resultDead;
     private final String resultBactMutated;
     private final String resultSurvived;
     private final String description;
-
+/**
+ * Create a ReplayAnalysis coping results from a previous Analysis.
+ * @param analysis an Analysis.
+ */
     public ReplayAnalysis(final Analysis analysis) {
-        super();
         this.resultPredominant = analysis.resultPredominant();
         this.numberBySpecies = analysis.numberBySpecies();
         this.resultDead = analysis.resultDead();
@@ -65,12 +67,7 @@ public class ReplayAnalysis implements Analysis{
     }
 
     @Override
-    public void setMutation(MutationManager mutManager) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<String> listOfDescription() {
+    public void setMutation(final MutationManager mutManager) {
         throw new UnsupportedOperationException();
     }
 
