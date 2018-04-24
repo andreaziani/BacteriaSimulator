@@ -7,7 +7,7 @@ public enum BehaviorDecoratorOption {
     /**
      * Represent a ExplorerDecisionBehavior.
      */
-    EXPLORE("explore the simulation if no food is visible"),
+    EXPLORE("explore the simulation if no food better way to move is found"),
     /**
      * Represents a CostFilterDecisionBehavior.
      */
