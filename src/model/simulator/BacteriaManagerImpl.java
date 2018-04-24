@@ -71,7 +71,7 @@ public final class BacteriaManagerImpl implements BacteriaManager {
         this.maxPosition = maxPosition;
         this.speciesManager = speciesManager;
         this.bacteriaEnv = new BacteriaEnvironmentImpl(maxPosition);
-        this.actionPerformer = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
+        this.actionPerformer = new ActionPerformerTask(bacteriaEnv, foodEnv, maxPosition);
     }
 
     @Override
