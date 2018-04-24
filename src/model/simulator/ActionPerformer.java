@@ -15,11 +15,11 @@ public interface ActionPerformer {
      * Perform the action MOVE.
      * @param position the Position of the Bacteria of which perform the action
      * @param bacterium the Bacteria of which perform the action
-     * @param moveDirection the direction in which the bacteria should move
-     * @param moveDistance the maximum distance the bacteria should move of
+     * @param direction the direction in which the bacteria should move
+     * @param distance the maximum distance the bacteria should move of
      * @param isSafe representing whether this action is executed on a Bacteria in a safe position
      */
-    void move(Position position, Bacteria bacterium, Direction moveDirection, double moveDistance, boolean isSafe);
+    void move(Position position, Bacteria bacterium, Direction direction, double distance, boolean isSafe);
 
     /**
      * Perform the action EAT on the food in given position.

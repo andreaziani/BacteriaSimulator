@@ -1,12 +1,10 @@
 package model.simulator;
 
-import java.util.Map.Entry;
 import java.util.BitSet;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import model.bacteria.Bacteria;
@@ -37,6 +35,26 @@ public final class BacteriaEnvironmentImpl implements BacteriaEnvironment {
                 .forEach(pos -> this.occupiedPosition.set(this.positionToBitSetIndex(pos), value));
     }
 
+    private Quadrant positionToQuadrant(final Position pos) {
+        if (pos.getX() > this.limitLeftRight) {
+            if (pos.getY() > this.limitTopBottom) {
+                return Quadrant.TOP_RIGHT;
+            } else {
+                return Quadrant.BOTTOM_RIGHT;
+            }
+        } else {
+            if (pos.getY() > this.limitTopBottom) {
+                return Quadrant.TOP_LEFT;
+            } else {
+                return Quadrant.BOTTOM_LEFT;
+            }
+        }
+    }
+
+    private Map<Position, Bacteria> getMap(final Position pos) {
+        final Quadrant quad = this.positionToQuadrant(pos);
+        return this.bacteria.get(quad);
+    }
     /**
      * Constructor for a Bacteria environment.
      * 
@@ -55,26 +73,6 @@ public final class BacteriaEnvironmentImpl implements BacteriaEnvironment {
         this.occupiedPosition = new BitSet((int) Math.ceil(maxPosition.getX() * maxPosition.getY()));
     }
 
-    private Quadrant getQuadrant(final Position pos) {
-        if (pos.getX() > this.limitLeftRight) {
-            if (pos.getY() > this.limitTopBottom) {
-                return Quadrant.TOP_RIGHT;
-            } else {
-                return Quadrant.BOTTOM_RIGHT;
-            }
-        } else {
-            if (pos.getY() > this.limitTopBottom) {
-                return Quadrant.TOP_LEFT;
-            } else {
-                return Quadrant.BOTTOM_LEFT;
-            }
-        }
-    }
-
-    private Map<Position, Bacteria> getMap(final Position pos) {
-        final Quadrant quad = this.getQuadrant(pos);
-        return this.bacteria.get(quad);
-    }
 
     @Override
     public boolean containBacteriaInPosition(final Position pos) {
@@ -95,19 +93,9 @@ public final class BacteriaEnvironmentImpl implements BacteriaEnvironment {
         return this.getMap(pos).get(pos);
     }
 
-    @Override
-    public Set<Entry<Position, Bacteria>> entrySet() {
-        return this.bacteria.values().stream().flatMap(map -> map.entrySet().stream()).collect(Collectors.toSet());
-    }
 
     @Override
-    public List<Position> activePosition() {
-        return this.bacteria.values().stream().flatMap(map -> map.entrySet().stream())
-                .filter(e -> !e.getValue().isDead()).map(e -> e.getKey()).collect(Collectors.toList());
-    }
-
-    @Override
-    public void removeFromPositions(final Set<Position> positions) {
+    public void removeFromPositions(final List<Position> positions) {
         positions.stream().forEach(pos -> {
             final Bacteria bacteria = this.getMap(pos).get(pos);
             this.clearPosition(pos, bacteria);
@@ -155,18 +143,13 @@ public final class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     }
 
     @Override
-    public Position getMaxPosition() {
-        return this.maxPosition;
-    }
-
-    @Override
     public boolean isSafe(final Position pos) {
         return Math.abs(pos.getX() - this.limitLeftRight) > EDGE && Math.abs(pos.getY() - this.limitTopBottom) > EDGE;
     }
 
     @Override
-    public int getQuad(final Position pos) {
-        return this.getQuadrant(pos).ordinal();
+    public int getQuadrant(final Position pos) {
+        return this.positionToQuadrant(pos).ordinal();
     }
 
     @Override
