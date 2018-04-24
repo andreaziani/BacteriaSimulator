@@ -47,10 +47,9 @@ public final class BacteriaEnvironmentImpl implements BacteriaEnvironment {
     public BacteriaEnvironmentImpl(final Position maxPosition) {
         this.maxPosition = maxPosition;
         this.bacteria = new EnumMap<>(Quadrant.class);
-        this.bacteria.put(Quadrant.TOP_LEFT, new HashMap<>());
-        this.bacteria.put(Quadrant.TOP_RIGHT, new HashMap<>());
-        this.bacteria.put(Quadrant.BOTTOM_LEFT, new HashMap<>());
-        this.bacteria.put(Quadrant.BOTTOM_RIGHT, new HashMap<>());
+        for (final Quadrant q : Quadrant.values()) {
+            this.bacteria.put(q, new HashMap<>());
+        }
         this.limitLeftRight = (int) maxPosition.getX() / 2;
         this.limitTopBottom = (int) maxPosition.getY() / 2;
         this.occupiedPosition = new BitSet((int) Math.ceil(maxPosition.getX() * maxPosition.getY()));
