@@ -22,7 +22,7 @@ import utils.Pair;
  * Condensed representation of a state for a replay that allow better
  * serialization to a json file.
  */
-public class ReplayState {
+public final class ReplayState {
     private final Set<Pair<PositionImpl, Pair<Integer, Double>>> bacteriaPositions;
     private final Set<Pair<PositionImpl, Integer>> foodPositions;
 
