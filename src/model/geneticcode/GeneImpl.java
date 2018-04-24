@@ -36,7 +36,7 @@ public class GeneImpl implements Gene {
     }
 
     @Override
-    public List<NucleicAcid> getCode() {
+    public final List<NucleicAcid> getCode() {
         return this.code;
     }
 
@@ -45,7 +45,7 @@ public class GeneImpl implements Gene {
     }
 
     @Override
-    public Double interpret(final List<Integer> list, final int var) {
+    public final Double interpret(final List<Integer> list, final int var) {
         return ((singleNaCode(list, 0) * FIRST) + (singleNaCode(list, 1) * SECOND) + (singleNaCode(list, 2) * THIRD)) % var;
     }
 

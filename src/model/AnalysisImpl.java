@@ -51,9 +51,9 @@ public class AnalysisImpl implements Analysis {
     private Set<Species> speciesOfBacteria(final List<Bacteria> bacteria) {
         final Set<Species> sp = new HashSet<>();
         if (!bacteria.isEmpty()) {
-            for (final Bacteria bt : bacteria) {
+            bacteria.forEach(bt -> {
                 sp.add(bt.getSpecies());
-            }
+            });
         }
         return sp;
     }
@@ -72,11 +72,11 @@ public class AnalysisImpl implements Analysis {
 
     private Set<Species> dead(final Set<Species> speciesB, final Set<Species> speciesA) {
         final Set<Species> dead = new HashSet<>();
-        for (final Species sp : speciesB) {
+        speciesB.forEach(sp -> {
             if (!speciesA.contains(sp)) {
                 dead.add(sp);
             }
-        }
+        });
         return dead;
     }
 
@@ -100,11 +100,11 @@ public class AnalysisImpl implements Analysis {
 
     private Set<Species> survived(final Set<Species> speciesB, final Set<Species> speciesA) {
         final Set<Species> survived = new HashSet<>();
-        for (final Species sp : speciesB) {
+        speciesB.forEach(sp -> {
             if (speciesA.contains(sp)) {
                 survived.add(sp);
             }
-        }
+        });
         return survived;
     }
 

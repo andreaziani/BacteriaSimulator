@@ -28,7 +28,7 @@ public class SpeedGeneImpl implements SpeedGene {
     }
 
     @Override
-    public double interpretSpeed() {
+    public final double interpretSpeed() {
         return code.interpret(list, VAR);
     }
 }

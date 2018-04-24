@@ -38,7 +38,7 @@ public class NutrientsGeneImpl implements NutrientsGene {
     }
 
     @Override
-    public Energy interpretNutrients(final Nutrient nutrient) {
+    public final Energy interpretNutrients(final Nutrient nutrient) {
         if (nutrient.equals(Nutrient.CARBOHYDRATES)) {
             this.en = code.interpret(list, VAR_CARBOHYDRATES);
         } else if (nutrient.equals(Nutrient.HYDROLYSATES)) {

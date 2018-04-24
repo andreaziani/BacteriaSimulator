@@ -36,31 +36,31 @@ public class GeneticCodeImpl implements GeneticCode {
     }
 
     @Override
-    public Gene getCode() {
+    public final Gene getCode() {
         return this.code;
     }
 
     @Override
-    public Energy getActionCost(final Action action) {
+    public final Energy getActionCost(final Action action) {
         return actions.interpretActionCost(action);
     }
 
     @Override
-    public double getSpeed() {
+    public final double getSpeed() {
         return speed.interpretSpeed();
     }
     @Override
-    public Energy getEnergyFromNutrient(final Nutrient nutrient) {
+    public final Energy getEnergyFromNutrient(final Nutrient nutrient) {
         return nutrients.interpretNutrients(nutrient);
     }
 
     @Override
-    public Double getRadius() {
+    public final Double getRadius() {
         return this.radius;
     }
 
     @Override
-    public Double getPerceptionRadius() {
+    public final Double getPerceptionRadius() {
         return this.perceptionRadius;
     }
 
