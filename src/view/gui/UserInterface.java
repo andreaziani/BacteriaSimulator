@@ -113,7 +113,6 @@ public class UserInterface extends JFrame implements View {
         this.isSimulationPaused = (state.getCurrentCondition() == SimulationCondition.PAUSED);
         this.isSimulationReplay = (state.getCurrentMode() == SimulationMode.REPLAY);
         if (state.getCurrentCondition() == SimulationCondition.ENDED) {
-            // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL,
             SwingUtilities.invokeLater(() -> {
                 this.simulationPanel.setState(Optional.empty());
                 simulationPanel.repaint();

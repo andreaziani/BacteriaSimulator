@@ -27,7 +27,7 @@ public class TestInteractions {
     private static final int HEIGHT = 1080; 
     private final Controller controller = new ControllerImpl();
     private final ViewController view = new ViewImpl(this.controller);
-    private final ViewPosition p1 = new ViewPositionImpl(1.0, 2.0); // chose two position that don't collide.
+    private final ViewPosition p1 = new ViewPositionImpl(1.0, 2.0);
     private final ViewPosition p2 = new ViewPositionImpl(10.0, 20.0);
     private final ViewPosition p3 = new ViewPositionImpl(50.0, 50.0);
     private ViewFood creationOfFood(final String name, final Pair<Nutrient, Double> pair) {
@@ -46,7 +46,7 @@ public class TestInteractions {
         this.view.getController().addNewTypeOfFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 1.0)));
         assertEquals("There are three types of food", this.controller.getExistingViewFoods().size(), 3);
         assertThrows(AlreadyExistingFoodException.class, () -> this.view.getController().addNewTypeOfFood(creationOfFood("Mela", Pair.of(Nutrient.WATER, 1.0))));
-        this.view.getController().addNewTypeOfFood(creationOfFood("banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0))); // "banana" diverso da "Banana".
+        this.view.getController().addNewTypeOfFood(creationOfFood("banana", Pair.of(Nutrient.CARBOHYDRATES, 1.0)));
         assertEquals("banana is different from Banana", this.controller.getExistingViewFoods().size(), 4);
     }
     /**
