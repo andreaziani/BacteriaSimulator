@@ -27,15 +27,8 @@ public class AnalysisImpl implements Analysis {
     private transient Set<Species> speciesB = new HashSet<>();
     private transient Set<Species> speciesA = new HashSet<>();
 
-    /**
-     * Normal constructor that create an analysis without data already in it.
-     */
-    public AnalysisImpl() {
-    }
-
-
     @Override
-    public void setMutation(final MutationManager mutManager) {
+    public final void setMutation(final MutationManager mutManager) {
         this.mutManager = mutManager;
     }
 
@@ -67,14 +60,13 @@ public class AnalysisImpl implements Analysis {
 
     private Map<Species, Integer> numberBySpecies(final Set<Species> species, final List<Bacteria> bacteria) {
         final Map<Species, Integer> smap = new HashMap<>();
-        Map<Species, List<Bacteria>> bact = new HashMap<>();
-        bact = bacteria.stream().collect(Collectors.groupingBy(Bacteria::getSpecies, Collectors.toList()));
-        for (final Species sp : species) {
+        final Map<Species, List<Bacteria>> bact = bacteria.stream().collect(Collectors.groupingBy(Bacteria::getSpecies, Collectors.toList()));
+        species.forEach(sp -> {
             if (bact.containsKey(sp)) {
                 smap.put(sp, bact.get(sp).size());
             }
             smap.putIfAbsent(sp, 0);
-        }
+        });
         return smap;
     }
 
@@ -117,7 +109,7 @@ public class AnalysisImpl implements Analysis {
     }
 
     @Override
-    public void addState(final State state) {
+    public final void addState(final State state) {
         this.lstate.add(state);
     }
 
@@ -148,28 +140,28 @@ public class AnalysisImpl implements Analysis {
     }
 
     @Override
-    public String resultPredominant() {
+    public final String resultPredominant() {
         updateAnalysis();
         final Map<Species, Integer> wins = win(this.speciesB, this.lafter);
         return toString(wins.entrySet());
     }
 
     @Override
-    public String numberBySpecies() {
+    public final String numberBySpecies() {
         updateAnalysis();
         final Map<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
         return toString(nByS.entrySet());
     }
 
     @Override
-    public String resultDead() {
+    public final String resultDead() {
         updateAnalysis();
         final Set<Species> dead = dead(this.speciesB, this.speciesA);
         return toString(dead);
     }
 
     @Override
-    public String resultBactMutated() {
+    public final String resultBactMutated() {
         updateAnalysis();
         List<Bacteria> bactMutated = new ArrayList<>();
         if (!this.mutManager.getMutation().isEmpty()) {
@@ -180,20 +172,20 @@ public class AnalysisImpl implements Analysis {
     }
 
     @Override
-    public String resultSurvived() {
+    public final String resultSurvived() {
         updateAnalysis();
         final Set<Species> sur = survived(this.speciesB, this.speciesA);
         return toString(sur);
     }
 
     @Override
-    public void updateAnalysis() {
+    public final void updateAnalysis() {
         before();
         after();
     }
 
     @Override
-    public String getDescription() {
+    public final String getDescription() {
             updateAnalysis();
             return "Predominant Species: \n" + resultPredominant() + "\n" + "\n"
                                            + "Quantity of bacteria per Species: \n" + numberBySpecies() + "\n" + "\n"
