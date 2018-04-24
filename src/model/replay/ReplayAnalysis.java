@@ -3,8 +3,10 @@ package model.replay;
 import model.Analysis;
 import model.MutationManager;
 import model.state.State;
+
 /**
- * Implementation of Analysis that store the results of an Analysis of a simulation to be represented in a replay.
+ * Implementation of Analysis that store the results of an Analysis of a
+ * simulation to be represented in a replay.
  */
 public final class ReplayAnalysis implements Analysis {
     private final String predominant;
@@ -13,10 +15,13 @@ public final class ReplayAnalysis implements Analysis {
     private final String mutationResults;
     private final String survivedResults;
     private final String description;
-/**
- * Create a ReplayAnalysis coping results from a previous Analysis.
- * @param analysis an Analysis.
- */
+
+    /**
+     * Create a ReplayAnalysis coping results from a previous Analysis.
+     * 
+     * @param analysis
+     *            an Analysis.
+     */
     public ReplayAnalysis(final Analysis analysis) {
         this.predominant = analysis.resultPredominant();
         this.speciesNumbers = analysis.numberBySpecies();
