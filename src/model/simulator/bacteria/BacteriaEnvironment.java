@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 import java.util.List;
 import java.util.Map;

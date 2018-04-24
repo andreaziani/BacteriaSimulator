@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 import java.util.EnumMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,13 +20,13 @@ import model.bacteria.NotEnoughEnergyException;
 import model.food.Food;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
+import model.simulator.EnvironmentUtil;
 import model.state.Position;
 
 /**
  * RecursiveAction to perform action for each Bacteria in parallel.
  */
 public final class ActionManager extends RecursiveAction {
-
     private static final long serialVersionUID = -4627517274471842922L;
     private static final int THRESHOLD = 5;
     private final Stream<Position> positions;
