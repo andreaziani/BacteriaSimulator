@@ -54,10 +54,9 @@ public class TestBehavior {
         }
 
         private BacteriaKnowledge build() {
-            final BacteriaKnowledge result = new BacteriaKnowledge(
+            return new BacteriaKnowledge(
                     new PerceptionImpl(Optional.of(TestUtils.getAFood()), perceptionDirections),
                     nutrientToEnergyConverter, actionCostFunction, bacteriaEnergy, bacteriaSpeed);
-            return result;
         }
     }
 
