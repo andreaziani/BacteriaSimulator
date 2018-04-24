@@ -9,7 +9,7 @@ import model.food.Food;
  * Implementation of Perception interface.
  *
  */
-public class PerceptionImpl implements Perception {
+public final class PerceptionImpl implements Perception {
     private final Optional<Food> foodInPosition;
     private final Map<Direction, Double> distsToFood;
 

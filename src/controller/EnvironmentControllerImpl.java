@@ -61,17 +61,17 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public synchronized void stop() {
+    public final synchronized void stop() {
         this.simLoop.stop();
     }
 
     @Override
-    public synchronized void pause() {
+    public final synchronized void pause() {
         this.simLoop.pause();
     }
 
     @Override
-    public synchronized void resume() {
+    public final synchronized void resume() {
         this.simLoop.resume();
     }
 
@@ -193,7 +193,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public synchronized void addSpecies(final SpeciesOptions species) {
+    public final synchronized void addSpecies(final SpeciesOptions species) {
         isSimulationStarted();
         getEnvironmentAsInteractive().addSpecies(species);
         canSimulationBeReady();
@@ -219,7 +219,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public synchronized boolean isSpeciesEmpty() {
+    public final synchronized boolean isSpeciesEmpty() {
         return this.getInitialState().getSpecies().isEmpty();
     }
 
@@ -249,12 +249,12 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public synchronized void addReplayState(final State currentState) {
+    public final synchronized void addReplayState(final State currentState) {
         this.replay.addState(currentState);
     }
 
     @Override
-    public synchronized Set<SpeciesOptions> getSpecies() {
+    public final synchronized Set<SpeciesOptions> getSpecies() {
         return this.getInitialState().getSpecies();
     }
 
