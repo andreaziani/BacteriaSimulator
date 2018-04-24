@@ -33,7 +33,7 @@ import utils.Logger;
  */
 public final class BacteriaManagerImpl implements BacteriaManager {
     private static final double COST_OF_LIVING = 1.5;
-    private static final int TOTAL_BACTERIA = 150;
+    private static final int TOTAL_BACTERIA = 80;
     private static final double BACTERIA_RADIUS = 5.0;
     private static final double PERCEPTION_RADIUS = 40.0;
     private final Position maxPosition;
