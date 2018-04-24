@@ -50,8 +50,10 @@ public final class ActionManager extends RecursiveAction {
      *            The environment on which perform the action
      * @param foodsState
      *            The food status used to create the perception
+     * @param maxPosition
+     *            The max position in the simulation
      * @param maxRadius
-     *            The the max radius of the food in the simulation
+     *            The max radius of the food in the simulation
      * @param performer
      *            the Object used to actually perform the action
      * @param isSafe
@@ -60,14 +62,14 @@ public final class ActionManager extends RecursiveAction {
      *            other
      */
     public ActionManager(final Stream<Position> positions, final long length, final BacteriaEnvironment bacteriaEnv,
-            final Map<Position, Food> foodsState, final Optional<Double> maxRadius, final ActionPerformer performer,
-            final boolean isSafe) {
+            final Map<Position, Food> foodsState, final Position maxPosition, final Optional<Double> maxRadius,
+            final ActionPerformer performer, final boolean isSafe) {
         super();
         this.positions = positions;
         this.streamLength = length;
         this.bacteriaEnv = bacteriaEnv;
         this.foodsState = foodsState;
-        this.maxPosition = this.bacteriaEnv.getMaxPosition();
+        this.maxPosition = maxPosition;
         this.maxFoodRadius = maxRadius;
         this.performer = performer;
         this.isSafe = isSafe;
@@ -172,11 +174,11 @@ public final class ActionManager extends RecursiveAction {
         final long halfSize = this.streamLength / 2;
         final List<Position> stream = positions.collect(Collectors.toList());
 
-        final ActionManager firstHalf = new ActionManager(stream.stream().limit(halfSize), halfSize, bacteriaEnv,
-                foodsState, maxFoodRadius, performer, isSafe);
+        final ActionManager firstHalf = new ActionManager(stream.stream().limit(halfSize), halfSize, this.bacteriaEnv,
+                this.foodsState, this.maxPosition, this.maxFoodRadius, this.performer, this.isSafe);
 
         final ActionManager secondHalf = new ActionManager(stream.stream().skip(halfSize), this.streamLength - halfSize,
-                bacteriaEnv, foodsState, maxFoodRadius, performer, isSafe);
+                this.bacteriaEnv, this.foodsState, this.maxPosition, this.maxFoodRadius, this.performer, this.isSafe);
 
         return new ActionManager[] { firstHalf, secondHalf };
     }

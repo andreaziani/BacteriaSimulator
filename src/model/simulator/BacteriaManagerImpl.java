@@ -108,20 +108,20 @@ public final class BacteriaManagerImpl implements BacteriaManager {
 
         final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
 
-        final List<Position> safe = this.bacteriaEnv.activePosition().stream()
+        final List<Position> safe = this.bacteriaEnv.getBacteriaState().keySet().stream()
                 .filter(pos -> this.bacteriaEnv.isSafe(pos)).collect(Collectors.toList());
-        final List<Position> unSafe = this.bacteriaEnv.activePosition().stream()
+        final List<Position> unSafe = this.bacteriaEnv.getBacteriaState().keySet().stream()
                 .filter(pos -> !this.bacteriaEnv.isSafe(pos)).collect(Collectors.toList());
 
-        commonPool.invoke(new ActionManager(safe.stream(), safe.size(), bacteriaEnv, foodsState, maxFoodRadius,
-                actionPerformer, true));
+        commonPool.invoke(new ActionManager(safe.stream(), safe.size(), bacteriaEnv, foodsState, this.maxPosition,
+                maxFoodRadius, actionPerformer, true));
 
-        commonPool.invoke(new ActionManager(unSafe.stream(), unSafe.size(), bacteriaEnv, foodsState, maxFoodRadius,
-                actionPerformer, false));
+        commonPool.invoke(new ActionManager(unSafe.stream(), unSafe.size(), bacteriaEnv, foodsState, this.maxPosition,
+                maxFoodRadius, actionPerformer, false));
     }
 
     private void updateDeadBacteria() {
-        final Set<Position> toBeRemoved = this.bacteriaEnv.entrySet().stream()
+        final Set<Position> toBeRemoved = this.bacteriaEnv.getBacteriaState().entrySet().stream()
                 .filter(entry -> entry.getValue().isDead()).peek(entry -> {
                     try {
                         this.foodEnv.addFood(entry.getValue().getInternalFood(this.factory), entry.getKey());

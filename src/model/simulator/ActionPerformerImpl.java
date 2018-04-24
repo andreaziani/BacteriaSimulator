@@ -85,7 +85,7 @@ public final class ActionPerformerImpl implements ActionPerformer {
             final double moveDistance, final boolean isSafe) {
         try {
             if (isSafe) {
-                this.acquireEnvMutex(this.bactEnv.getQuad(bacteriaPos));
+                this.acquireEnvMutex(this.bactEnv.getQuadrant(bacteriaPos));
             } else {
                 this.acquireEnvMutex(SINGLE_MUTEX_INDEX);
             }
@@ -117,7 +117,7 @@ public final class ActionPerformerImpl implements ActionPerformer {
                 // Logger.getInstance().info("MOVE" + this.bactEnv.getQuad(bacteriaPos),
                 // "THREAD" + Thread.currentThread().getId() + " OUT");
                 if (isSafe) {
-                    this.releaseEnvMutex(this.bactEnv.getQuad(bacteriaPos));
+                    this.releaseEnvMutex(this.bactEnv.getQuadrant(bacteriaPos));
                 } else {
                     this.releaseEnvMutex(SINGLE_MUTEX_INDEX);
                 }
@@ -158,7 +158,7 @@ public final class ActionPerformerImpl implements ActionPerformer {
     public void replicate(final Position bacteriaPos, final Bacteria bacteria, final boolean isSafe) {
         try {
             if (isSafe) {
-                this.acquireEnvMutex(this.bactEnv.getQuad(bacteriaPos));
+                this.acquireEnvMutex(this.bactEnv.getQuadrant(bacteriaPos));
             } else {
                 this.acquireEnvMutex(SINGLE_MUTEX_INDEX);
             }
@@ -193,7 +193,7 @@ public final class ActionPerformerImpl implements ActionPerformer {
                 // Logger.getInstance().info("REPLIC" + this.bactEnv.getQuad(bacteriaPos),
                 // "THREAD" + Thread.currentThread().getId() + " OUT");
                 if (isSafe) {
-                    this.releaseEnvMutex(this.bactEnv.getQuad(bacteriaPos));
+                    this.releaseEnvMutex(this.bactEnv.getQuadrant(bacteriaPos));
                 } else {
                     this.releaseEnvMutex(SINGLE_MUTEX_INDEX);
                 }
