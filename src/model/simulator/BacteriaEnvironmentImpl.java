@@ -3,8 +3,8 @@ package model.simulator;
 import java.util.BitSet;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import model.bacteria.Bacteria;
@@ -95,7 +95,7 @@ public final class BacteriaEnvironmentImpl implements BacteriaEnvironment {
 
 
     @Override
-    public void removeFromPositions(final Set<Position> positions) {
+    public void removeFromPositions(final List<Position> positions) {
         positions.stream().forEach(pos -> {
             final Bacteria bacteria = this.getMap(pos).get(pos);
             this.clearPosition(pos, bacteria);

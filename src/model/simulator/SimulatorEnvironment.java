@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import model.AbstractEnvironment;
@@ -14,6 +15,7 @@ import model.InteractiveEnvironment;
 import model.MutationManager;
 import model.MutationManagerImpl;
 import model.PositionAlreadyOccupiedException;
+import model.bacteria.Bacteria;
 import model.bacteria.species.SpeciesManager;
 import model.bacteria.species.SpeciesManagerImpl;
 import model.bacteria.species.SpeciesOptions;
@@ -52,6 +54,17 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
      */
     public static final Energy INITIAL_ENERGY = new EnergyImpl(700.0);
 
+    private void updateFood() {
+        IntStream.range(0, FOOD_PER_ROUND).forEach(x -> this.foodEnv.addRandomFood());
+    }
+
+    private void updateBacteria() {
+        this.bactManager.updateBacteria();
+        final List<Bacteria> aliveBacteria = this.bactManager.getBacteriaState().values().stream()
+                .filter(bacteria -> !bacteria.isDead()).collect(Collectors.toList());
+        this.mutManager.updateMutation(aliveBacteria);
+    }
+
     /**
      * Create an empty environment.
      */
@@ -84,6 +97,12 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
     }
 
     @Override
+    public void addNewTypeOfFood(final Food food) {
+        this.foodManager.addFood(food);
+        this.getInitialState().addFood(food);
+    }
+
+    @Override
     public List<Food> getExistingFoods() {
         return Collections.unmodifiableList(this.foodManager.getExistingFoods());
     }
@@ -91,15 +110,6 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
     @Override
     public State getState() {
         return new StateImpl(this.foodEnv.getFoodsState(), this.bactManager.getBacteriaState());
-    }
-
-    private void updateFood() {
-        IntStream.range(0, FOOD_PER_ROUND).forEach(x -> this.foodEnv.addRandomFood());
-    }
-
-    private void updateBacteria() {
-        this.bactManager.updateBacteria();
-        this.mutManager.updateMutation(this.bactManager.getAliveBacteria());
     }
 
     @Override
@@ -115,12 +125,6 @@ public final class SimulatorEnvironment extends AbstractEnvironment implements I
     public void addSpecies(final SpeciesOptions species) {
         speciesManager.addSpecies(species);
         this.getInitialState().addSpecies(species);
-    }
-
-    @Override
-    public void addNewTypeOfFood(final Food food) {
-        this.foodManager.addFood(food);
-        this.getInitialState().addFood(food);
     }
 
     @Override

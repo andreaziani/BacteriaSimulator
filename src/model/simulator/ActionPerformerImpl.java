@@ -16,6 +16,7 @@ import model.Direction;
 import model.Energy;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
+import model.bacteria.species.Species;
 import model.food.Food;
 import model.geneticcode.CopyFactory;
 import model.geneticcode.CopyFactoryImpl;
@@ -78,6 +79,16 @@ public final class ActionPerformerImpl implements ActionPerformer {
 
     private void releaseEnvMutex(final int index) {
         this.quadrantsMutex.get(index).release();
+    }
+
+    private Bacteria cloneBacteria(final Bacteria bacteria) {
+        final int bacteriaID = this.bactEnv.getNumberOfBacteria();
+        final Species species = bacteria.getSpecies();
+        final GeneticCode geneticCode = this.geneFactory.copyGene(bacteria.getGeneticCode());
+        final Energy halfEnergy = bacteria.getEnergy().multiply(0.5);
+        bacteria.spendEnergy(halfEnergy);
+
+        return new BacteriaImpl(bacteriaID, species, geneticCode, halfEnergy);
     }
 
     @Override
@@ -178,12 +189,7 @@ public final class ActionPerformerImpl implements ActionPerformer {
                             .collect(Collectors.toList());
 
                     if (!positions.isEmpty()) {
-                        final GeneticCode clonedGenCode = this.geneFactory.copyGene(bacteria.getGeneticCode());
-                        final Energy halfEnergy = bacteria.getEnergy().multiply(0.5);
-                        bacteria.spendEnergy(halfEnergy);
-                        final int nextBacteriaID = this.bactEnv.getNumberOfBacteria();
-                        final Bacteria newBacteria = new BacteriaImpl(nextBacteriaID, bacteria.getSpecies(),
-                                clonedGenCode, halfEnergy);
+                        final Bacteria newBacteria = cloneBacteria(bacteria);
                         final Position freePosition = positions
                                 .get(ThreadLocalRandom.current().nextInt(positions.size()));
                         this.bactEnv.insertBacteria(freePosition, newBacteria);

@@ -1,7 +1,7 @@
 package model.simulator;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import model.bacteria.Bacteria;
 import model.state.Position;
@@ -55,7 +55,7 @@ public interface BacteriaEnvironment {
      * @param positions
      *            the set of Position to be removed
      */
-    void removeFromPositions(Set<Position> positions);
+    void removeFromPositions(List<Position> positions);
 
     /**
      * Return the state of the BacteriaEnviroment.

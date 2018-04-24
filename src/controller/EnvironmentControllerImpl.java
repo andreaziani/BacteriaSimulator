@@ -76,7 +76,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public final void resetSimulation() {
+    public final synchronized void resetSimulation() {
         updateCurrentState(SimulationCondition.NOT_READY, SimulationMode.INTERACTIVE);
         initialize(Optional.empty());
     }
@@ -89,7 +89,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      * @param initialState
      *            the representation of the initial state.
      */
-    protected void setInitialState(final InitialState initialState) {
+    protected synchronized void setInitialState(final InitialState initialState) {
         this.initialize(Optional.of(initialState));
         if (initialState.getExistingFood().isEmpty() || initialState.getSpecies().isEmpty()) {
             this.updateCurrentState(SimulationCondition.NOT_READY, SimulationMode.INTERACTIVE);
@@ -104,21 +104,21 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     /**
      * @return the initial state of the simulation.
      */
-    protected InitialState getInitialState() {
+    protected synchronized InitialState getInitialState() {
         return environment.getInitialState();
     }
 
     /**
      * @return a replay representing the simulation.
      */
-    protected Replay getReplay() {
+    protected synchronized Replay getReplay() {
         return this.replay;
     }
 
     /**
      * @return the analysis of the simulation.
      */
-    public Analysis getAnalysis() {
+    public synchronized Analysis getAnalysis() {
         return environment.getAnalysis();
     }
 
@@ -131,7 +131,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      * @param replay
      *            a replay from which to construct a ReplayEnvironment.
      */
-    protected void startReplay(final Replay replay) {
+    protected synchronized void startReplay(final Replay replay) {
         this.environment = new ReplayEnvironment(replay);
         this.currentState.setSimulationMode(SimulationMode.REPLAY);
         this.currentState.setSimulationCondition(SimulationCondition.PAUSED);
@@ -208,7 +208,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
 
     private void isSimulationStarted() {
         if (this.currentState.getCurrentCondition() != SimulationCondition.NOT_READY
-                    && this.currentState.getCurrentCondition() != SimulationCondition.READY) {
+                && this.currentState.getCurrentCondition() != SimulationCondition.READY) {
             throw new SimulationAlreadyStartedExeption();
         }
     }
@@ -224,7 +224,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public final void setDistributionStrategy(final DistributionStrategy strategy) {
+    public final synchronized void setDistributionStrategy(final DistributionStrategy strategy) {
         this.getEnvironmentAsInteractive().setFoodDistributionStrategy(strategy);
     }
 
@@ -235,7 +235,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
      *            the current Simulation condition.
      */
     @Override
-    public void updateCurrentState(final SimulationCondition condition, final SimulationMode mode) {
+    public synchronized void updateCurrentState(final SimulationCondition condition, final SimulationMode mode) {
         this.currentState.setSimulationCondition(condition);
         this.currentState.setSimulationMode(mode);
         if (this.currentState.getCurrentCondition() == SimulationCondition.ENDED) {
@@ -244,17 +244,17 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
     }
 
     @Override
-    public final SimulationState getCurrentState() {
+    public final synchronized SimulationState getCurrentState() {
         return this.currentState;
     }
 
     @Override
-    public void addReplayState(final State currentState) {
+    public synchronized void addReplayState(final State currentState) {
         this.replay.addState(currentState);
     }
 
     @Override
-    public Set<SpeciesOptions> getSpecies() {
+    public synchronized Set<SpeciesOptions> getSpecies() {
         return this.getInitialState().getSpecies();
     }
 

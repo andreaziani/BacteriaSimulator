@@ -1,6 +1,5 @@
 package model.simulator;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,12 +22,6 @@ public interface BacteriaManager {
      * @return the state of bacteria in the environment
      */
     Map<Position, Bacteria> getBacteriaState();
-
-    /**
-     * Return a set of Bacteria that are alive.
-     * @return the list containing only alive bacteria
-     */
-    List<Bacteria> getAliveBacteria();
 
     /**
      * Create the initial amount of Bacteria in the simulation.

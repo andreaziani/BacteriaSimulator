@@ -23,7 +23,7 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     }
 
     @Override
-    public void simulationLoop() {
+    public synchronized void simulationLoop() {
         this.view.update(this.getState());
     }
 
@@ -65,7 +65,7 @@ public final class ControllerImpl extends EnvironmentControllerImpl implements C
     }
 
     @Override
-    public void addFoodFromView(final ViewFood food, final ViewPosition position) {
+    public synchronized void addFoodFromView(final ViewFood food, final ViewPosition position) {
         super.addFoodFromView(food, position);
         if (this.view != null) {
             this.view.update(this.getState());
