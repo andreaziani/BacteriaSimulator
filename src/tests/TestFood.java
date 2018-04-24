@@ -19,8 +19,8 @@ import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import model.food.Nutrient;
-import model.simulator.FoodEnvironment;
-import model.simulator.FoodEnvironmentImpl;
+import model.simulator.food.FoodEnvironment;
+import model.simulator.food.FoodEnvironmentImpl;
 import model.state.Position;
 import model.state.PositionImpl;
 /**

@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 import org.apache.commons.lang3.mutable.MutableInt;
 
@@ -21,6 +21,8 @@ import model.food.Food;
 import model.geneticcode.CopyFactory;
 import model.geneticcode.CopyFactoryImpl;
 import model.geneticcode.GeneticCode;
+import model.simulator.EnvironmentUtil;
+import model.simulator.food.FoodEnvironment;
 import model.state.Position;
 
 /**

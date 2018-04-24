@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 import java.util.BitSet;
 import java.util.EnumMap;
@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import model.bacteria.Bacteria;
+import model.simulator.EnvironmentUtil;
 import model.state.Position;
 
 /**
