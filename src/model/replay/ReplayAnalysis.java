@@ -3,26 +3,31 @@ package model.replay;
 import model.Analysis;
 import model.MutationManager;
 import model.state.State;
+
 /**
- * Implementation of Analysis that store the results of an Analysis of a simulation to be represented in a replay.
+ * Implementation of Analysis that store the results of an Analysis of a
+ * simulation to be represented in a replay.
  */
 public final class ReplayAnalysis implements Analysis {
-    private final String resultPredominant;
-    private final String numberBySpecies;
-    private final String resultDead;
-    private final String resultBactMutated;
-    private final String resultSurvived;
+    private final String predominant;
+    private final String speciesNumbers;
+    private final String deadResults;
+    private final String mutationResults;
+    private final String survivedResults;
     private final String description;
-/**
- * Create a ReplayAnalysis coping results from a previous Analysis.
- * @param analysis an Analysis.
- */
+
+    /**
+     * Create a ReplayAnalysis coping results from a previous Analysis.
+     * 
+     * @param analysis
+     *            an Analysis.
+     */
     public ReplayAnalysis(final Analysis analysis) {
-        this.resultPredominant = analysis.resultPredominant();
-        this.numberBySpecies = analysis.numberBySpecies();
-        this.resultDead = analysis.resultDead();
-        this.resultBactMutated = analysis.resultBactMutated();
-        this.resultSurvived = analysis.resultSurvived();
+        this.predominant = analysis.resultPredominant();
+        this.speciesNumbers = analysis.numberBySpecies();
+        this.deadResults = analysis.resultDead();
+        this.mutationResults = analysis.resultBactMutated();
+        this.survivedResults = analysis.resultSurvived();
         this.description = analysis.getDescription();
     }
 
@@ -33,27 +38,27 @@ public final class ReplayAnalysis implements Analysis {
 
     @Override
     public String resultPredominant() {
-        return this.resultPredominant;
+        return this.predominant;
     }
 
     @Override
     public String numberBySpecies() {
-        return this.numberBySpecies;
+        return this.speciesNumbers;
     }
 
     @Override
     public String resultDead() {
-        return this.resultDead;
+        return this.deadResults;
     }
 
     @Override
     public String resultBactMutated() {
-        return this.resultBactMutated;
+        return this.mutationResults;
     }
 
     @Override
     public String resultSurvived() {
-        return this.resultSurvived;
+        return this.survivedResults;
     }
 
     @Override
