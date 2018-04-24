@@ -1,6 +1,5 @@
 package model.simulator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,8 +8,6 @@ import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import org.apache.commons.lang3.time.StopWatch;
 
 import model.Energy;
 import model.EnergyImpl;
@@ -39,7 +36,7 @@ public final class BacteriaManagerImpl implements BacteriaManager {
     private static final int TOTAL_BACTERIA = 150;
     private static final double BACTERIA_RADIUS = 5.0;
     private static final double PERCEPTION_RADIUS = 40.0;
-    private final Position simulationMaxPosition;
+    private final Position maxPosition;
     private final FoodEnvironment foodEnv;
     private final ExistingFoodManager manager;
     private final FoodFactory factory = new FoodFactoryImpl();
@@ -61,7 +58,8 @@ public final class BacteriaManagerImpl implements BacteriaManager {
      * @param foodEnv
      *            used to update food environment according to bacteria actions
      * @param manager
-     *            the food manager containing informations about the food that have already been created
+     *            the food manager containing informations about the food that have
+     *            already been created
      * @param maxPosition
      *            contains information about the maximum position in the simulation
      * @param speciesManager
@@ -71,7 +69,7 @@ public final class BacteriaManagerImpl implements BacteriaManager {
             final Position maxPosition, final SpeciesManager speciesManager) {
         this.foodEnv = foodEnv;
         this.manager = manager;
-        this.simulationMaxPosition = maxPosition;
+        this.maxPosition = maxPosition;
         this.speciesManager = speciesManager;
         this.bacteriaEnv = new BacteriaEnvironmentImpl(maxPosition);
         this.actionPerformer = new ActionPerformerImpl(bacteriaEnv, foodEnv, maxPosition);
@@ -89,8 +87,8 @@ public final class BacteriaManagerImpl implements BacteriaManager {
             this.speciesManager.getSpecies().stream().forEach(specie -> {
                 final Gene gene = new GeneImpl();
                 IntStream.range(0, bacteriaPerSpecies)
-                        .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.simulationMaxPosition.getX()),
-                                rand.nextInt((int) this.simulationMaxPosition.getY())))
+                        .mapToObj(x -> new PositionImpl(rand.nextInt((int) this.maxPosition.getX()),
+                                rand.nextInt((int) this.maxPosition.getY())))
                         .forEach(position -> {
                             final GeneticCode genCode = new GeneticCodeImpl(gene, BACTERIA_RADIUS, PERCEPTION_RADIUS);
                             final int nextBacteriaID = this.bacteriaEnv.getNumberOfBacteria();
@@ -129,9 +127,10 @@ public final class BacteriaManagerImpl implements BacteriaManager {
                         this.foodEnv.addFood(entry.getValue().getInternalFood(this.factory), entry.getKey());
                     } catch (PositionAlreadyOccupiedException e) {
                         // Food collided with other food nearby, just don't add
-                        Logger.getInstance().info("BacteriaManager", "Bacteria died on Food");
+                        Logger.getInstance().info("Bacteria Manager", "Bacteria died on Food");
                     }
                 }).map(entry -> entry.getKey()).collect(Collectors.toSet());
+
         this.bacteriaEnv.removeFromPositions(toBeRemoved);
     }
 
@@ -141,14 +140,7 @@ public final class BacteriaManagerImpl implements BacteriaManager {
     @Override
     public void updateBacteria() {
         this.updateDeadBacteria();
-        // TODO remove after DEBUGGING
-        final StopWatch st = new StopWatch();
-        final int millis = 1_000_000;
-        st.start();
         this.updateAliveBacteria();
-        st.stop();
-        Logger.getInstance().info("Living Bacteria", "Took " + ((Long) (st.getNanoTime() / millis)).toString()
-                + " to compute, #Bacteria = " + this.bacteriaEnv.getNumberOfBacteria());
     }
 
     /**
@@ -162,6 +154,6 @@ public final class BacteriaManagerImpl implements BacteriaManager {
     @Override
     public List<Bacteria> getAliveBacteria() {
         return this.bacteriaEnv.getBacteriaState().values().stream().filter(bacteria -> !bacteria.isDead())
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toList());
     }
 }

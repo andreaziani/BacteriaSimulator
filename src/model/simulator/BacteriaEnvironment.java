@@ -130,23 +130,27 @@ public interface BacteriaEnvironment {
     Position getMaxPosition();
 
     /**
-     * Check is Position is safe: a position is safe if the Bacteria at that
-     * position could end up in another sum-map after completing its action.
+     * Check is Position is safe: a position is safe if the Bacteria at a position
+     * can not modify the state of more than one sum-maps.
      * 
-     * @param pos the Position that has to be checked
+     * @param pos
+     *            the Position that has to be checked
      * @return the result
      */
     boolean isSafe(Position pos);
 
     /**
      * Map each position to one of the quadrant by assigning to it an integer value.
-     * @param pos the position of which obtain the value
+     * 
+     * @param pos
+     *            the position of which obtain the value
      * @return the corresponding integer value
      */
     int getQuad(Position pos);
 
     /**
      * Return the number of sum-maps in which the original map is divided.
+     * 
      * @return the result
      */
     int getNumberOfQuadrants();

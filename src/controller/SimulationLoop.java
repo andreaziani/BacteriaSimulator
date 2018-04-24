@@ -7,7 +7,7 @@ import utils.Logger;
  * SimulationLoop is responsible for running the simulation.
  *
  */
-public class SimulationLoop implements Runnable {
+public final class SimulationLoop implements Runnable {
     private static final long PERIOD = 200L;
 
     private final EnvironmentController controller;
@@ -61,7 +61,7 @@ public class SimulationLoop implements Runnable {
 
             final long elapsed = System.currentTimeMillis() - start;
 
-            Logger.getInstance().info("GameLoop", "Elapsed = " + elapsed);
+            Logger.getInstance().info("MainLoop", "Elapsed = " + elapsed + " ms");
 
             if (elapsed < PERIOD) {
                 try {

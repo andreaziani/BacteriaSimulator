@@ -28,14 +28,14 @@ import model.state.Position;
 public final class ActionManager extends RecursiveAction {
 
     private static final long serialVersionUID = -4627517274471842922L;
-    private static final int THRESHOLD = 10;
+    private static final int THRESHOLD = 5;
     private final Stream<Position> positions;
     private final long streamLength;
     private final BacteriaEnvironment bacteriaEnv;
     private final Map<Position, Food> foodsState;
     private final Position maxPosition;
     private final Optional<Double> maxFoodRadius;
-    private final ActionPerformer actionPerformer;
+    private final ActionPerformer performer;
     private final Map<Position, Position> foodsPosition = new ConcurrentHashMap<>();
     private final boolean isSafe;
 
@@ -52,7 +52,7 @@ public final class ActionManager extends RecursiveAction {
      *            The food status used to create the perception
      * @param maxRadius
      *            The the max radius of the food in the simulation
-     * @param actionPerf
+     * @param performer
      *            the Object used to actually perform the action
      * @param isSafe
      *            flag representing whether it's safe to perform this action
@@ -60,7 +60,7 @@ public final class ActionManager extends RecursiveAction {
      *            other
      */
     public ActionManager(final Stream<Position> positions, final long length, final BacteriaEnvironment bacteriaEnv,
-            final Map<Position, Food> foodsState, final Optional<Double> maxRadius, final ActionPerformer actionPerf,
+            final Map<Position, Food> foodsState, final Optional<Double> maxRadius, final ActionPerformer performer,
             final boolean isSafe) {
         super();
         this.positions = positions;
@@ -69,7 +69,7 @@ public final class ActionManager extends RecursiveAction {
         this.foodsState = foodsState;
         this.maxPosition = this.bacteriaEnv.getMaxPosition();
         this.maxFoodRadius = maxRadius;
-        this.actionPerformer = actionPerf;
+        this.performer = performer;
         this.isSafe = isSafe;
     }
 
@@ -135,19 +135,19 @@ public final class ActionManager extends RecursiveAction {
             switch (actionType) {
             case MOVE:
                 final DirectionalAction moveAction = (DirectionalAction) action;
-                actionPerformer.move(pos, bact, moveAction.getDirection(), moveAction.getDistance(), this.isSafe);
+                performer.move(pos, bact, moveAction.getDirection(), moveAction.getDistance(), this.isSafe);
                 break;
             case EAT:
                 final Optional<Position> foodPosition = this.foodsPosition.containsKey(pos)
                         ? Optional.of(this.foodsPosition.get(pos))
                         : Optional.empty();
-                actionPerformer.eat(pos, bact, foodPosition);
+                performer.eat(pos, bact, foodPosition);
                 break;
             case REPLICATE:
-                actionPerformer.replicate(pos, bact, this.isSafe);
+                performer.replicate(pos, bact, this.isSafe);
                 break;
             default:
-                actionPerformer.doNothing(pos, bact);
+                performer.doNothing(pos, bact);
                 break;
             }
         } catch (NotEnoughEnergyException e) {
@@ -173,10 +173,10 @@ public final class ActionManager extends RecursiveAction {
         final List<Position> stream = positions.collect(Collectors.toList());
 
         final ActionManager firstHalf = new ActionManager(stream.stream().limit(halfSize), halfSize, bacteriaEnv,
-                foodsState, maxFoodRadius, actionPerformer, isSafe);
+                foodsState, maxFoodRadius, performer, isSafe);
 
         final ActionManager secondHalf = new ActionManager(stream.stream().skip(halfSize), this.streamLength - halfSize,
-                bacteriaEnv, foodsState, maxFoodRadius, actionPerformer, isSafe);
+                bacteriaEnv, foodsState, maxFoodRadius, performer, isSafe);
 
         return new ActionManager[] { firstHalf, secondHalf };
     }
