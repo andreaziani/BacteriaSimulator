@@ -46,7 +46,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         }
         this.currentState.setSimulationCondition(SimulationCondition.NOT_READY);
         this.currentState.setSimulationMode(SimulationMode.INTERACTIVE);
-        this.simLoop = new SimulationLoop(this, this.environment, this.currentState);
+        this.simLoop = new SimulationLoop(this, this.environment);
     }
 
     @Override
@@ -135,7 +135,7 @@ public abstract class EnvironmentControllerImpl implements EnvironmentController
         this.environment = new ReplayEnvironment(replay);
         this.currentState.setSimulationMode(SimulationMode.REPLAY);
         this.currentState.setSimulationCondition(SimulationCondition.PAUSED);
-        this.simLoop = new SimulationLoop(this, this.environment, this.currentState);
+        this.simLoop = new SimulationLoop(this, this.environment);
         this.pause();
         this.start();
     }

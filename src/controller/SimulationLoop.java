@@ -12,7 +12,6 @@ public final class SimulationLoop implements Runnable {
 
     private final EnvironmentController controller;
     private final Environment environment;
-    private final SimulationState state;
 
     private volatile boolean setPaused;
 
@@ -20,20 +19,18 @@ public final class SimulationLoop implements Runnable {
      * Constructor for SimulationLoop.
      * @param controller the controller that the simulation will use to update the application
      * @param environment the environment on which execute the updates
-     * @param currentState the state of the controller when it creates the simulation loop
      */
-    public SimulationLoop(final EnvironmentController controller, final Environment environment, final SimulationState currentState) {
+    public SimulationLoop(final EnvironmentController controller, final Environment environment) {
         this.controller = controller;
         this.environment = environment;
         this.setPaused = false;
-        this.state = currentState;
     }
 
     @Override
     public void run() {
         this.updateState(SimulationCondition.RUNNING);
 
-        while (this.state.getCurrentCondition() != SimulationCondition.ENDED) {
+        while (this.controller.getCurrentState().getCurrentCondition() != SimulationCondition.ENDED) {
             final long start = System.currentTimeMillis();
             synchronized (this.controller) {
                 environment.update();
@@ -49,7 +46,7 @@ public final class SimulationLoop implements Runnable {
             try {
                 synchronized (this) {
                     while (this.setPaused) {
-                        if (this.state.getCurrentCondition() != SimulationCondition.PAUSED) {
+                        if (this.controller.getCurrentState().getCurrentCondition() != SimulationCondition.PAUSED) {
                             this.updateState(SimulationCondition.PAUSED);
                         }
                         wait();
@@ -74,8 +71,7 @@ public final class SimulationLoop implements Runnable {
     }
 
     private void updateState(final SimulationCondition condition) {
-        this.state.setSimulationCondition(condition);
-        this.controller.updateCurrentState(condition, state.getCurrentMode());
+        this.controller.updateCurrentState(condition, this.controller.getCurrentState().getCurrentMode());
     }
 
     /**
