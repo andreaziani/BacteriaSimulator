@@ -84,6 +84,7 @@ public final class SimulationLoop implements Runnable {
     public synchronized void stop() {
         this.updateState(SimulationCondition.ENDED);
         if (this.setPaused) {
+            this.setPaused = false;
             notifyAll();
         }
     }
