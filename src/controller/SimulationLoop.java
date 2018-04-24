@@ -33,10 +33,10 @@ public final class SimulationLoop implements Runnable {
         while (this.controller.getCurrentState().getCurrentCondition() != SimulationCondition.ENDED) {
             final long start = System.currentTimeMillis();
             synchronized (this.controller) {
-                environment.update();
-
                 this.controller.addReplayState(environment.getState());
                 this.controller.simulationLoop();
+
+                environment.update();
 
                 if (environment.isSimulationOver()) {
                     this.updateState(SimulationCondition.ENDED);
