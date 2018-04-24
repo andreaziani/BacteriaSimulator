@@ -19,8 +19,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import model.Analysis;
-import model.AnalysisImpl;
 import model.replay.Replay;
+import model.replay.ReplayAnalysis;
 import model.replay.ReplayState;
 import model.state.InitialState;
 
@@ -87,7 +87,7 @@ public final class FileControllerImpl implements FileController {
             reader.nextName();
             final Replay result = new Replay(gson.fromJson(reader, InitialState.class));
             reader.nextName();
-            result.setAnalysis(gson.fromJson(reader, AnalysisImpl.class));
+            result.setAnalysis(gson.fromJson(reader, ReplayAnalysis.class));
             reader.nextName();
             reader.beginArray();
             while (reader.hasNext()) {

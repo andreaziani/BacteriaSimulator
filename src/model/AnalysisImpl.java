@@ -164,24 +164,28 @@ public class AnalysisImpl implements Analysis {
 
     @Override
     public String resultPredominant() {
+        updateAnalysis();
         final Map<Species, Integer> wins = win(this.speciesB, this.lafter);
         return toString(wins.entrySet());
     }
 
     @Override
     public String numberBySpecies() {
+        updateAnalysis();
         final Map<Species, Integer> nByS = numberBySpecies(speciesB, this.lafter);
         return toString(nByS.entrySet());
     }
 
     @Override
     public String resultDead() {
+        updateAnalysis();
         final Set<Species> dead = dead(this.speciesB, this.speciesA);
         return toString(dead);
     }
 
     @Override
     public String resultBactMutated() {
+        updateAnalysis();
         List<Bacteria> bactMutated = new ArrayList<>();
         if (!this.mutManager.getMutation().isEmpty()) {
             bactMutated = listOfBacteriaMutated(this.mutManager.getMutation());
@@ -192,6 +196,7 @@ public class AnalysisImpl implements Analysis {
 
     @Override
     public String resultSurvived() {
+        updateAnalysis();
         final Set<Species> sur = survived(this.speciesB, this.speciesA);
         return toString(sur);
     }

@@ -10,7 +10,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import model.Analysis;
-import model.AnalysisImpl;
 import model.bacteria.species.Species;
 import model.bacteria.species.SpeciesOptions;
 import model.state.InitialState;
@@ -30,7 +29,7 @@ public final class Replay {
     private final List<String> species;
     private final List<String> foods;
     private final List<ReplayState> stateList;
-    private Optional<AnalysisImpl> analysis;
+    private Optional<ReplayAnalysis> analysis;
 
     /**
      * Create a replay with only the information about the initial state.
@@ -104,7 +103,7 @@ public final class Replay {
      *            the analysis is compatible with initialState.
      */
     public void setAnalysis(final Analysis analysis) {
-        this.analysis = Optional.of(new AnalysisImpl(analysis.getDescription()));
+        this.analysis = Optional.of(new ReplayAnalysis(analysis));
     }
 
     /**
