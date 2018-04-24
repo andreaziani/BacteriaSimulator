@@ -1,18 +1,18 @@
 package model.simulator.task;
 
+import model.Energy;
 import model.bacteria.Bacteria;
+import model.simulator.ActionPerformer;
 import model.state.Position;
 
 public class SolelyTask extends Task {
 
-    public SolelyTask(Position position, Bacteria bacteria) {
-        super(position, bacteria);
-        // TODO Auto-generated constructor stub
+    public SolelyTask(Position position, Bacteria bacteria, final ActionPerformer performer, final Energy cost) {
+        super(position, bacteria, performer, cost);
     }
 
     @Override
-    public void execute() {
-        // TODO Auto-generated method stub
-        
+    public void execute(final boolean isSafe) {
+        this.getPerformer().doNothing(this.getPosition(), this.getBacteria(), isSafe, this.getCost());
     }
 }

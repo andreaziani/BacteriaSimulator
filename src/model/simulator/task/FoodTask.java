@@ -1,14 +1,18 @@
 package model.simulator.task;
 
+import model.Energy;
 import model.bacteria.Bacteria;
-import model.simulator.FoodEnvironment;
+import model.simulator.ActionPerformer;
 import model.state.Position;
 
+/**
+ * 
+ * @author fedemengo
+ *
+ */
 public abstract class FoodTask extends Task {
-    protected final FoodEnvironment environment;
 
-    public FoodTask(Position position, Bacteria bacteria, final FoodEnvironment environment) {
-        super(position, bacteria);
-        this.environment = environment;
+    public FoodTask(Position position, Bacteria bacteria, final ActionPerformer performer, final Energy cost) {
+        super(position, bacteria, performer, cost);
     }
 }

@@ -16,6 +16,7 @@ import model.Direction;
 import model.Energy;
 import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
+import model.bacteria.NotEnoughEnergyException;
 import model.bacteria.species.Species;
 import model.food.Food;
 import model.geneticcode.CopyFactory;
@@ -93,7 +94,7 @@ public final class ActionPerformerImpl implements ActionPerformer {
 
     @Override
     public void move(final Position bacteriaPos, final Bacteria bacteria, final Direction moveDirection,
-            final double moveDistance, final boolean isSafe) {
+            final double moveDistance, final boolean isSafe, final Energy cost) {
         try {
             if (isSafe) {
                 this.acquireEnvMutex(this.bactEnv.getQuadrant(bacteriaPos));
@@ -124,6 +125,8 @@ public final class ActionPerformerImpl implements ActionPerformer {
                 } else {
                     this.bactEnv.markPosition(bacteriaPos, bacteria);
                 }
+            } catch (NotEnoughEnergyException e) {
+                bacteria.spendEnergy(bacteria.getEnergy());
             } finally {
                 // Logger.getInstance().info("MOVE" + this.bactEnv.getQuad(bacteriaPos),
                 // "THREAD" + Thread.currentThread().getId() + " OUT");
@@ -139,13 +142,15 @@ public final class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void eat(final Position bacteriaPos, final Bacteria bacteria, final Optional<Position> foodPosition) {
+    public void eat(final Position bacteriaPos, final Bacteria bacteria, final Optional<Position> foodPosition,
+            final boolean isSafe, final Energy cost) {
         try {
             this.foodEnvMutex.acquire();
             // Logger.getInstance().info("EAT", "THREAD" + Thread.currentThread().getId() +
             // " OUT");
             this.updateStatus(bacteria);
             try {
+                bacteria.spendEnergy(cost);
                 Optional<Food> foodInPosition = Optional.empty();
                 if (foodPosition.isPresent() && this.foodEnv.getFoodsState().containsKey(foodPosition.get())) {
                     foodInPosition = Optional.of(this.foodEnv.getFoodsState().get(foodPosition.get()));
@@ -155,6 +160,8 @@ public final class ActionPerformerImpl implements ActionPerformer {
                     bacteria.addFood(foodInPosition.get());
                     this.foodEnv.removeFood(foodInPosition.get(), foodPosition.get());
                 }
+            } catch (NotEnoughEnergyException e) {
+                bacteria.spendEnergy(bacteria.getEnergy());
             } finally {
                 // Logger.getInstance().info("EAT", "THREAD" + Thread.currentThread().getId() +
                 // " IN");
@@ -166,7 +173,8 @@ public final class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void replicate(final Position bacteriaPos, final Bacteria bacteria, final boolean isSafe) {
+    public void replicate(final Position bacteriaPos, final Bacteria bacteria, final boolean isSafe,
+            final Energy cost) {
         try {
             if (isSafe) {
                 this.acquireEnvMutex(this.bactEnv.getQuadrant(bacteriaPos));
@@ -178,6 +186,7 @@ public final class ActionPerformerImpl implements ActionPerformer {
             this.updateStatus(bacteria);
             try {
                 if (!bacteria.isReplicating()) {
+                    bacteria.spendEnergy(cost);
                     bacteria.startReplicating();
                     final double bacteriaRadius = bacteria.getRadius();
 
@@ -195,6 +204,8 @@ public final class ActionPerformerImpl implements ActionPerformer {
                         this.bactEnv.insertBacteria(freePosition, newBacteria);
                     }
                 }
+            } catch (NotEnoughEnergyException e) {
+                bacteria.spendEnergy(bacteria.getEnergy());
             } finally {
                 // Logger.getInstance().info("REPLIC" + this.bactEnv.getQuad(bacteriaPos),
                 // "THREAD" + Thread.currentThread().getId() + " OUT");
@@ -210,7 +221,13 @@ public final class ActionPerformerImpl implements ActionPerformer {
     }
 
     @Override
-    public void doNothing(final Position bacteriaPos, final Bacteria bacteria) {
+    public void doNothing(final Position bacteriaPos, final Bacteria bacteria, final boolean isSafe,
+            final Energy cost) {
         this.updateStatus(bacteria);
+        try {
+            bacteria.spendEnergy(cost);
+        } catch (NotEnoughEnergyException e) {
+            bacteria.spendEnergy(bacteria.getEnergy());
+        }
     }
 }

@@ -6,7 +6,7 @@ import model.simulator.Collidable;
  * Dummy class for collision testing.
  *
  */
-public class CollidableTest implements Collidable {
+public final class CollidableTest implements Collidable {
     private final double radius;
     /**
      * Construct a Collidable object form just its radius.
