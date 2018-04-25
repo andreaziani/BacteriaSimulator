@@ -15,11 +15,4 @@ public interface ActionsGene {
      * @return an interpretation of DNA.
      */
     Energy interpretActionCost(Action action);
-/*
-    /**
-     * Gene take a interpretation of DNA and transforms in energy.
-     * @param action
-     *          action of bacteria.
-     */
-    //void actionsInterpreted(Action action);
 }
