@@ -34,7 +34,7 @@ public class ActionsGeneImpl implements ActionsGene {
         }
     }
     @Override
-    public Energy interpretActionCost(final Action action) {
+    public final Energy interpretActionCost(final Action action) {
         if (action.getType().equals(ActionType.EAT)) {
             this.en = code.interpret(list, VAR_EAT);
         } else if (action.getType().equals(ActionType.REPLICATE)) {

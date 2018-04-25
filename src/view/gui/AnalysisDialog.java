@@ -40,7 +40,6 @@ public class AnalysisDialog extends JDialog {
     public AnalysisDialog(final UserInterface mainframe, final ViewController controller) {
         super(mainframe, true);
 
-        //final JTextArea jTextArea = new JTextArea();
         final JTextArea wins = new JTextArea();
         final JTextArea nByS = new JTextArea();
         final JTextArea dead = new JTextArea();

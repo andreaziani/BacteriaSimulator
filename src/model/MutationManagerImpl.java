@@ -19,7 +19,7 @@ public class MutationManagerImpl implements MutationManager {
     }
 
     @Override
-    public void updateMutation(final Collection<Bacteria> bactManager) {
+    public final void updateMutation(final Collection<Bacteria> bactManager) {
             for (final Bacteria b: bactManager) {
                 if (!mutations.containsKey(b)) {
                     mutations.put(b, new MutationImpl(b.getGeneticCode().getCode()));
@@ -29,7 +29,7 @@ public class MutationManagerImpl implements MutationManager {
     }
 
     @Override
-    public Map<Bacteria, Mutation> getMutation() {
+    public final Map<Bacteria, Mutation> getMutation() {
         return this.mutations;
     }
 }

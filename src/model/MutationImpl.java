@@ -13,6 +13,8 @@ import model.geneticcode.NucleicAcid;
 
 public class MutationImpl implements Mutation {
 
+    private static final int LIMIT_MUTATION = 10000;
+    private static final int RANGE = 10;
     private static final int ZONE_ACTIONS = 1;
     private static final int ZONE_SPEED = 4;
     private static final int ZONE_NUTRIENTS = 7;
@@ -24,7 +26,6 @@ public class MutationImpl implements Mutation {
     private int naMutate;
     private boolean check;
     private int randomMutation;
-    private static final int RANGE = 10;
 
     /**
      * Construct a Bacteria's Genetic Code.
@@ -43,7 +44,7 @@ public class MutationImpl implements Mutation {
     }
     private boolean possibilityOfMutation() {
         this.randomMutation = this.randomMutation + checkMutation();
-        return this.randomMutation >= 10000;
+        return this.randomMutation >= LIMIT_MUTATION;
     }
 
     private int randomPos() {
@@ -65,12 +66,12 @@ public class MutationImpl implements Mutation {
     }
 
     @Override
-    public boolean isMutated() {
+    public final boolean isMutated() {
         return this.check;
     }
 
     @Override
-    public void alteratedCode() {
+    public final void alteratedCode() {
         if (possibilityOfMutation()) {
             this.pos = randomPos();
             this.na = randomNucleicAcid();

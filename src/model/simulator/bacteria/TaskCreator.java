@@ -31,7 +31,7 @@ import model.simulator.food.FoodEnvironment;
 import model.state.Position;
 
 /**
- * Class resposibile for creating task.
+ * Class responsible for creating task.
  *
  */
 public final class TaskCreator extends RecursiveTask<List<Pair<Position, Task>>> {

@@ -11,7 +11,7 @@ import java.util.List;
 public class CopyFactoryImpl implements CopyFactory {
 
     @Override
-    public GeneticCode copyGene(final GeneticCode gc) {
+    public final GeneticCode copyGene(final GeneticCode gc) {
         final List<NucleicAcid> copy = new ArrayList<>();
         copy.addAll(gc.getCode().getCode());
         final Gene copyGene = new GeneImpl(copy);

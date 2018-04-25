@@ -1,14 +1,11 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import model.Direction;
@@ -25,6 +22,13 @@ import model.state.PositionImpl;
 public class TestEnvUtils {
     private static final double DELTA = 1e-5;
     private static final Position ORIGIN = new PositionImpl(0, 0);
+    private static final double ANGLE1 = 45.0;
+    private static final double ANGLE2 = 120.0;
+    private static final double ANGLE3 = 210.0;
+    private static final double ANGLE4 = 247.5;
+    private static final double ANGLE5 = 270.0;
+    private static final double ANGLE6 = 315.0;
+
     private final Position p1 = new PositionImpl(10, 10);
     private final Position p2 = new PositionImpl(10, 0);
     private final Position p3 = new PositionImpl(0, 10);
@@ -43,19 +47,19 @@ public class TestEnvUtils {
      */
     @Test
     public void testAngle() {
-        assertEquals(45.0, EnvironmentUtil.angle(ORIGIN, p1), DELTA);
+        assertEquals(ANGLE1, EnvironmentUtil.angle(ORIGIN, p1), DELTA);
         assertEquals(0.0, EnvironmentUtil.angle(ORIGIN, p2), DELTA);
-        assertEquals(90.0, EnvironmentUtil.angle(ORIGIN, p3), DELTA);
-        assertEquals(120.0, EnvironmentUtil.angle(ORIGIN, p4), DELTA);
-        assertEquals(210.0, EnvironmentUtil.angle(ORIGIN, p5), DELTA);
-        assertEquals(315.0, EnvironmentUtil.angle(ORIGIN, p6), DELTA);
-        assertEquals(247.5, EnvironmentUtil.angle(ORIGIN, p7), DELTA);
-        assertEquals(247.5, EnvironmentUtil.angle(ORIGIN, p8), DELTA);
+        assertEquals(2 * ANGLE1, EnvironmentUtil.angle(ORIGIN, p3), DELTA);
+        assertEquals(ANGLE2, EnvironmentUtil.angle(ORIGIN, p4), DELTA);
+        assertEquals(ANGLE3, EnvironmentUtil.angle(ORIGIN, p5), DELTA);
+        assertEquals(ANGLE6, EnvironmentUtil.angle(ORIGIN, p6), DELTA);
+        assertEquals(ANGLE4, EnvironmentUtil.angle(ORIGIN, p7), DELTA);
+        assertEquals(ANGLE4, EnvironmentUtil.angle(ORIGIN, p8), DELTA);
 
         assertEquals(0, EnvironmentUtil.angle(ORIGIN, left), DELTA);
         assertEquals(90, EnvironmentUtil.angle(ORIGIN, top), DELTA);
         assertEquals(180, EnvironmentUtil.angle(ORIGIN, right), DELTA);
-        assertEquals(270, EnvironmentUtil.angle(ORIGIN, down), DELTA);
+        assertEquals(ANGLE5, EnvironmentUtil.angle(ORIGIN, down), DELTA);
     }
 
     /**
@@ -105,28 +109,5 @@ public class TestEnvUtils {
                                                   .collect(Collectors.toSet());
         System.out.println(streamPosition);
         assertEquals(myPosition, streamPosition);
-    }
-
-    /**
-     * Test the Collision detector.
-     */
-    @Test
-    public void testCollision() {
-        //final Collidable c1 = new CollidableTest(0.5);
-        final Collidable c2 = new CollidableTest(2.0 * Math.sqrt(2));
-        final Collidable c3 = new CollidableTest(2.5);
-        //final Collidable c4 = new CollidableTest(3.5);
-        //final Collidable c5 = new CollidableTest(4.5);
-
-        final Position p1 = new PositionImpl(0.0, 0.0);
-        final Position p2 = new PositionImpl(0.0, 5.1);
-        final Position p3 = new PositionImpl(2.1, 2.1);
-        final Position p4 = new PositionImpl(0.0, 5.0);
-        final Position p5 = new PositionImpl(2.0, 2.0);
-
-        assertTrue(EnvironmentUtil.isCollision(Pair.of(p1, c2), Pair.of(p5, c2)));
-        assertTrue(EnvironmentUtil.isCollision(Pair.of(p1, c2), Pair.of(p3, c2)));
-        assertTrue(EnvironmentUtil.isCollision(Pair.of(p1, c3), Pair.of(p4, c3)));
-        assertFalse(EnvironmentUtil.isCollision(Pair.of(p1, c3), Pair.of(p2, c3)));
     }
 }

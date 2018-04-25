@@ -22,9 +22,9 @@ import view.controller.ViewController;
 public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdatable {
     private final JButton createFood = new JButton("Create Food");
     private final JButton createSpecies = new JButton("Create Species");
-    private final JButton setStrategy = new JButton("Set Strategy");
+    private final JButton setStrategy = new JButton("Set distribution: ");
     private final JLabel selectFood = new JLabel("Select Food: ");
-    private final JLabel selectStrategy = new JLabel("Select Strategy: ");
+    private final JLabel selectStrategy = new JLabel("Select distribution: ");
     private final JComboBox<String> foods = new JComboBox<>();
     private final JComboBox<String> strategies = new JComboBox<>();
     private final ViewController view;

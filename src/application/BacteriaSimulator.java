@@ -28,7 +28,6 @@ public final class BacteriaSimulator {
      * @param args additional argument
      */
     public static void main(final String[] args) {
-        final BacteriaSimulator application = new BacteriaSimulator();
-        application.start();
+        new BacteriaSimulator().start();
     }
 }

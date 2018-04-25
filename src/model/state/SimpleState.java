@@ -38,10 +38,11 @@ public final class SimpleState {
     public SimpleState(final State state, final Set<SpeciesOptions> speciesOptions) {
         try {
             bacterias = state.getBacteriaState().entrySet().stream()
-                    .collect(Collectors.toMap(x -> (PositionImpl) x.getKey(), x -> new SimpleBacteria(x.getValue(),
-                            speciesOptions.stream().filter(s -> s.getName().equals(x.getValue().getSpecies().getName()))
+                    .map(x -> new Pair<>((PositionImpl) x.getKey(),
+                            new SimpleBacteria(x.getValue(), speciesOptions.stream()
+                                    .filter(s -> s.getName().equals(x.getValue().getSpecies().getName()))
                                     .findFirst().get())))
-                    .entrySet().stream().map(x -> new Pair<>(x.getKey(), x.getValue())).collect(Collectors.toSet());
+                    .collect(Collectors.toSet());
             foods = state.getFoodsState().entrySet().stream()
                     .map(e -> new Pair<>((PositionImpl) e.getKey(), (FoodImpl) e.getValue()))
                     .collect(Collectors.toSet());
