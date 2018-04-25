@@ -24,18 +24,16 @@ public class MutationImpl implements Mutation {
     private int na;
     private int zone;
     private int naMutate;
-    private boolean check;
     private int randomMutation;
 
     /**
-     * Construct a Bacteria's Genetic Code.
+     * Construct a Bacteria's Mutation.
      * 
      * @param code
      *            the code of Gene.
      */
     public MutationImpl(final Gene code) {
         this.code = code;
-        this.check = false;
     }
 
     private int checkMutation() {
@@ -66,11 +64,6 @@ public class MutationImpl implements Mutation {
     }
 
     @Override
-    public final boolean isMutated() {
-        return this.check;
-    }
-
-    @Override
     public final void alteratedCode() {
         if (possibilityOfMutation()) {
             this.pos = randomPos();
@@ -78,7 +71,6 @@ public class MutationImpl implements Mutation {
             this.naMutate = randomNucleicAcid();
             this.zone = randomZone();
             this.randomMutation = 0;
-            this.check = true;
             while (this.code.getCode().get(0).equals(NucleicAcid.values()[this.naMutate])) {
                 this.naMutate = randomNucleicAcid();
             }
