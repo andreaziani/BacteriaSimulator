@@ -1,8 +1,8 @@
-package model.simulator.task;
+package model.simulator.bacteria.task;
 
 import model.Energy;
 import model.bacteria.Bacteria;
-import model.simulator.ActionPerformer;
+import model.simulator.bacteria.ActionPerformer;
 import model.state.Position;
 
 public final class ReplicateBacteriaTask extends BacteriaTask {

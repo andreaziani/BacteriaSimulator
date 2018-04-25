@@ -1,9 +1,9 @@
-package model.simulator.task;
+package model.simulator.bacteria.task;
 
 import model.Direction;
 import model.Energy;
 import model.bacteria.Bacteria;
-import model.simulator.ActionPerformer;
+import model.simulator.bacteria.ActionPerformer;
 import model.state.Position;
 
 public final class MoveBacteriaTask extends BacteriaTask {
@@ -21,10 +21,6 @@ public final class MoveBacteriaTask extends BacteriaTask {
      *            the object to which the task will be delegate
      * @param cost
      *            the cost of the task
-     * @param environment
-     *            the environment in which perform the action
-     * @param foodPosition
-     *            the food the bacteria should eat
      */
     public MoveBacteriaTask(final Position position, final Bacteria bacteria, final ActionPerformer performer,
             final Energy cost, final Direction direction, final double distance) {

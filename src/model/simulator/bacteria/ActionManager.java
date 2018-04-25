@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 import java.util.List;
 import java.util.concurrent.ForkJoinTask;
@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
-import model.simulator.task.Task;
+import model.simulator.bacteria.task.Task;
 import model.state.Position;
 
 /**
@@ -28,16 +28,6 @@ public final class ActionManager extends RecursiveAction {
      *            A stream representing the Positions of each Bacteria
      * @param length
      *            the length of the current stream
-     * @param bacteriaEnv
-     *            The environment on which perform the action
-     * @param foodsState
-     *            The food status used to create the perception
-     * @param maxPosition
-     *            The max position in the simulation
-     * @param maxRadius
-     *            The max radius of the food in the simulation
-     * @param performer
-     *            the Object used to actually perform the action
      * @param isSafe
      *            flag representing whether it's safe to perform this action
      *            considering the map as different sub-maps independent to each

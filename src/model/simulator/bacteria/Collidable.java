@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 /**
  * Interface of entity that can collide with each other.

@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.food;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +16,7 @@ import model.food.insertionstrategy.foodinsertion.RandomSelectionStrategy;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import model.food.insertionstrategy.position.PositionStrategy;
 import model.food.insertionstrategy.position.RandomPositionStrategy;
+import model.simulator.EnvironmentUtil;
 import model.state.Position;
 
 /**

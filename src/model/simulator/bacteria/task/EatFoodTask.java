@@ -1,10 +1,10 @@
-package model.simulator.task;
+package model.simulator.bacteria.task;
 
 import java.util.Optional;
 
 import model.Energy;
 import model.bacteria.Bacteria;
-import model.simulator.ActionPerformer;
+import model.simulator.bacteria.ActionPerformer;
 import model.state.Position;
 
 /**

@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.food;
 
 import java.util.Map;
 

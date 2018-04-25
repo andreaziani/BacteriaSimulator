@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -21,14 +21,20 @@ import model.bacteria.Bacteria;
 import model.food.Food;
 import model.perception.Perception;
 import model.perception.PerceptionImpl;
-import model.simulator.task.EatFoodTask;
-import model.simulator.task.MoveBacteriaTask;
-import model.simulator.task.ReplicateBacteriaTask;
-import model.simulator.task.SolelyTask;
-import model.simulator.task.Task;
+import model.simulator.EnvironmentUtil;
+import model.simulator.bacteria.task.EatFoodTask;
+import model.simulator.bacteria.task.MoveBacteriaTask;
+import model.simulator.bacteria.task.ReplicateBacteriaTask;
+import model.simulator.bacteria.task.SolelyTask;
+import model.simulator.bacteria.task.Task;
+import model.simulator.food.FoodEnvironment;
 import model.state.Position;
 
-public class TaskCreator extends RecursiveTask<List<Pair<Position, Task>>> {
+/**
+ * Class resposibile for creating task.
+ *
+ */
+public final class TaskCreator extends RecursiveTask<List<Pair<Position, Task>>> {
 
     private static final long serialVersionUID = -4627517274471842922L;
     private static final int THRESHOLD = 5;
@@ -50,18 +56,14 @@ public class TaskCreator extends RecursiveTask<List<Pair<Position, Task>>> {
      *            the length of the current stream
      * @param bacteriaEnv
      *            The environment on which perform the action
-     * @param foodsState
-     *            The food status used to create the perception
+     * @param foodEnv
+     *            The environment representing the foods
      * @param maxPosition
      *            The max position in the simulation
      * @param maxRadius
      *            The max radius of the food in the simulation
      * @param performer
      *            the Object used to actually perform the action
-     * @param isSafe
-     *            flag representing whether it's safe to perform this action
-     *            considering the map as different sub-maps independent to each
-     *            other
      */
     public TaskCreator(final Stream<Position> positions, final long length, final BacteriaEnvironment bacteriaEnv,
             final FoodEnvironment foodEnv, final ActionPerformer performer, final Position maxPosition,

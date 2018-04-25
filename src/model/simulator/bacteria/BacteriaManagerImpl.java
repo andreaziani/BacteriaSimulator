@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,9 @@ import model.geneticcode.Gene;
 import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCode;
 import model.geneticcode.GeneticCodeImpl;
-import model.simulator.task.Task;
+import model.simulator.SimulatorEnvironment;
+import model.simulator.bacteria.task.Task;
+import model.simulator.food.FoodEnvironment;
 import model.state.Position;
 import model.state.PositionImpl;
 import utils.Logger;

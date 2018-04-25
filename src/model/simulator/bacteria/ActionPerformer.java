@@ -1,4 +1,4 @@
-package model.simulator;
+package model.simulator.bacteria;
 
 import java.util.Optional;
 
@@ -20,7 +20,7 @@ public interface ActionPerformer {
      * @param distance the maximum distance the bacteria should move of
      * @param isSafe representing whether this action is executed on a Bacteria in a safe position
      */
-    void move(Position position, Bacteria bacterium, Direction direction, double distance, boolean isSafe, final Energy cost);
+    void move(Position position, Bacteria bacterium, Direction direction, double distance, boolean isSafe, Energy cost);
 
     /**
      * Perform the action EAT on the food in given position.

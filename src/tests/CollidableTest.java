@@ -1,6 +1,6 @@
 package tests;
 
-import model.simulator.Collidable;
+import model.simulator.bacteria.Collidable;
 
 /**
  * Dummy class for collision testing.

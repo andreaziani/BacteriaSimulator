@@ -12,8 +12,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import model.Direction;
-import model.simulator.Collidable;
 import model.simulator.EnvironmentUtil;
+import model.simulator.bacteria.Collidable;
 import model.state.Position;
 import model.state.PositionImpl;
 
