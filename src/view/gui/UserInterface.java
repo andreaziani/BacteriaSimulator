@@ -3,20 +3,17 @@ package view.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
 import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import controller.SimulationCondition;
 import controller.SimulationMode;
@@ -46,8 +43,7 @@ public class UserInterface extends JFrame implements View {
     private final SimulationPanel simulationPanel;
     private final TopPanel topPanel;
     private final ViewController view;
-    private final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-    private final int sh = (int) screen.getHeight();
+
     /**
      * Constructor the MainFrame by passing a View.
      * 
@@ -107,17 +103,7 @@ public class UserInterface extends JFrame implements View {
         this.add(simulationPanel, BorderLayout.CENTER);
         this.add(legendPanel, BorderLayout.EAST);
         this.setVisible(true);
-        // prof code
-        for (final Object key : Collections.list(UIManager.getDefaults().keys())) {
-            final Object value = UIManager.get(key);
-            if (value instanceof Font) {
-                final Font origin = (Font) value;
-                final float originalSize = origin.getSize();
-                final float newSize = originalSize * sh / 1000;
-                final Font desired = origin.deriveFont(newSize);
-                UIManager.put(key, desired); 
-            }
-        }
+        GuiUtils.resizeButtonsInDialogs();
     }
 
     @Override

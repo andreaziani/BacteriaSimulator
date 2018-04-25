@@ -30,10 +30,10 @@ public final class ActionFactory {
      *             if type is not NOTHING, EAT or REPLICATE.
      */
     public static Action createAction(final ActionType type) {
-        if (type != ActionType.NOTHING && type != ActionType.EAT && type != ActionType.REPLICATE) {
-            throw new IllegalArgumentException("Wrong action type");
+        if (SIMPLE_ACTIONS.containsKey(type)) {
+            return SIMPLE_ACTIONS.get(type);
         }
-        return SIMPLE_ACTIONS.get(type);
+        throw new IllegalArgumentException("Wrong action type");
     }
 
     /**
@@ -52,7 +52,7 @@ public final class ActionFactory {
      *             if type is not MOVE.
      */
     public static Action createAction(final ActionType type, final Direction dir, final double distance) {
-        if (type != ActionType.MOVE) {
+        if (SIMPLE_ACTIONS.containsKey(type)) {
             throw new IllegalArgumentException("Wrong action type");
         }
         return new DirectionalActionImpl(type, dir, distance);

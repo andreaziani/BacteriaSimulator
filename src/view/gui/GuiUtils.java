@@ -2,8 +2,12 @@ package view.gui;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.Collections;
+
+import javax.swing.UIManager;
 
 /**
  * Utility class for GUI.
@@ -11,7 +15,9 @@ import java.awt.Toolkit;
  */
 public final class GuiUtils {
     private static final int SCREEN_RES = Toolkit.getDefaultToolkit().getScreenResolution();
-    private static final int FONT_SIZE = (int) Math.round(12.0 * SCREEN_RES / 100.0);
+    private static final int FONT_SIZE = (int) Math.round(13.0 * SCREEN_RES / 100.0);
+    private static final Dimension SCREEN = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final int SH = (int) SCREEN.getHeight();
     /**
      * Font to use in the project.
      */
@@ -32,6 +38,22 @@ public final class GuiUtils {
                 setFontOfComponents(((Container) c).getComponents());
             }
             c.setFont(FONT);
+        }
+    }
+
+    /**
+     * Resize the buttons in JDialog.
+     */
+    public static void resizeButtonsInDialogs() {
+        for (final Object key : Collections.list(UIManager.getDefaults().keys())) {
+            final Object value = UIManager.get(key);
+            if (value instanceof Font) {
+                final Font origin = (Font) value;
+                 final float originalSize = origin.getSize();
+                 final float newSize = originalSize * SH / 1000;
+                final Font desired = origin.deriveFont(newSize);
+                UIManager.put(key, desired);
+            }
         }
     }
 }
