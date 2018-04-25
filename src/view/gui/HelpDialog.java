@@ -36,7 +36,7 @@ public class HelpDialog extends JDialog {
             this.text.requestFocus();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Help file not found");
-        } 
+        }
         this.panel.add(this.text);
         this.text.setEditable(false);
         this.add(panel);

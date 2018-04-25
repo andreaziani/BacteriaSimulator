@@ -8,6 +8,8 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import model.Energy;
 import model.EnergyImpl;
 import model.PositionAlreadyOccupiedException;
@@ -15,7 +17,6 @@ import model.bacteria.Bacteria;
 import model.bacteria.BacteriaImpl;
 import model.bacteria.species.SpeciesManager;
 import model.food.ExistingFoodManager;
-import model.food.Food;
 import model.food.FoodFactory;
 import model.food.FoodFactoryImpl;
 import model.geneticcode.Gene;
@@ -23,6 +24,7 @@ import model.geneticcode.GeneImpl;
 import model.geneticcode.GeneticCode;
 import model.geneticcode.GeneticCodeImpl;
 import model.simulator.SimulatorEnvironment;
+import model.simulator.bacteria.task.Task;
 import model.simulator.food.FoodEnvironment;
 import model.state.Position;
 import model.state.PositionImpl;
@@ -101,24 +103,31 @@ public final class BacteriaManagerImpl implements BacteriaManager {
         }
     }
 
-    private void updateAliveBacteria() {
+    private List<Pair<Position, Task>> createTask() {
         this.bacteriaEnv.updateOccupiedPositions();
 
         final Optional<Double> maxFoodRadius = this.manager.getExistingFoods().stream().map(food -> food.getRadius())
                 .max((r1, r2) -> Double.compare(r1, r2));
 
-        final Map<Position, Food> foodsState = this.foodEnv.getFoodsState();
+        final List<Position> positions = this.bacteriaEnv.getBacteriaState().keySet().stream()
+                .collect(Collectors.toList());
 
-        final List<Position> safe = this.bacteriaEnv.getBacteriaState().keySet().stream()
-                .filter(pos -> this.bacteriaEnv.isSafe(pos)).collect(Collectors.toList());
-        final List<Position> unSafe = this.bacteriaEnv.getBacteriaState().keySet().stream()
-                .filter(pos -> !this.bacteriaEnv.isSafe(pos)).collect(Collectors.toList());
+        return commonPool.invoke(new TaskCreator(positions.stream(), positions.size(), bacteriaEnv, foodEnv,
+                actionPerformer, maxPosition, maxFoodRadius));
+    }
 
-        commonPool.invoke(new ActionManager(safe.stream(), safe.size(), bacteriaEnv, foodsState, this.maxPosition,
-                maxFoodRadius, actionPerformer, true));
+    private void updateAliveBacteria() {
+        final List<Pair<Position, Task>> tasks = createTask();
 
-        commonPool.invoke(new ActionManager(unSafe.stream(), unSafe.size(), bacteriaEnv, foodsState, this.maxPosition,
-                maxFoodRadius, actionPerformer, false));
+        final List<Pair<Position, Task>> safe = tasks.stream().filter(x -> this.bacteriaEnv.isSafe(x.getLeft()))
+                .collect(Collectors.toList());
+
+        final List<Pair<Position, Task>> unSafe = tasks.stream().filter(x -> !this.bacteriaEnv.isSafe(x.getLeft()))
+                .collect(Collectors.toList());
+
+        commonPool.invoke(new ActionManager(safe.stream(), safe.size(), true));
+
+        commonPool.invoke(new ActionManager(unSafe.stream(), unSafe.size(), false));
     }
 
     private void updateDeadBacteria() {

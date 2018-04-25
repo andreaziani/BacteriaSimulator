@@ -7,7 +7,7 @@ import model.food.Food;
 import model.food.FoodFactory;
 import model.geneticcode.GeneticCode;
 import model.perception.Perception;
-import model.simulator.Collidable;
+import model.simulator.bacteria.Collidable;
 
 /**
  * The interface representing a bacteria in the simulation.

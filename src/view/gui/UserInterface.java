@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
 import controller.SimulationCondition;
 import controller.SimulationMode;
 import controller.SimulationState;
@@ -102,6 +103,7 @@ public class UserInterface extends JFrame implements View {
         this.add(simulationPanel, BorderLayout.CENTER);
         this.add(legendPanel, BorderLayout.EAST);
         this.setVisible(true);
+        GuiUtils.resizeButtonsInDialogs();
     }
 
     @Override
@@ -113,7 +115,6 @@ public class UserInterface extends JFrame implements View {
         this.isSimulationPaused = (state.getCurrentCondition() == SimulationCondition.PAUSED);
         this.isSimulationReplay = (state.getCurrentMode() == SimulationMode.REPLAY);
         if (state.getCurrentCondition() == SimulationCondition.ENDED) {
-            // TODO FIX? ONE MORE REPAINT TO COMPLETELY CLEAN THE PANEL,
             SwingUtilities.invokeLater(() -> {
                 this.simulationPanel.setState(Optional.empty());
                 simulationPanel.repaint();

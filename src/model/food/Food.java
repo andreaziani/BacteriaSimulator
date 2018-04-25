@@ -2,7 +2,7 @@ package model.food;
 
 import java.util.Set;
 
-import model.simulator.Collidable;
+import model.simulator.bacteria.Collidable;
 
 /**
  * The interface representing a food in the simulation. A Food is composed by a
