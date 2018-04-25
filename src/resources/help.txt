@@ -6,10 +6,11 @@ Before starting:
 - set the distribution strategy for foods.
 
 Creation of species:
-during the creation of the species you will have to choose between different behaviors that the species can assume and set the name of the species.
+During the creation of the species you will have to choose between different behaviors that the species can assume and set the name of the species.
 
 Creation of food:
-during the creation of food you will have to set the name of the type of food and add the nutrients of the food by setting their quantity.
+During the creation of food you will have to set the name of the type of food and add the nutrients of the food by setting their quantity.
+The default quantity for each nutrients has being selected to help getting interesting results, high changes to the value may cause exponential growth or exponential decay of the colonies.
 
 Set Distribution:
 Set the distribution strategy by choosing it from the multiple choice box and then press the button "Set Distribution" to confirm.
