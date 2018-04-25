@@ -22,7 +22,6 @@ import view.controller.ViewController;
 public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdatable {
     private final JButton createFood = new JButton("Create Food");
     private final JButton createSpecies = new JButton("Create Species");
-    private final JButton setStrategy = new JButton("Set distribution: ");
     private final JLabel selectFood = new JLabel("Select Food: ");
     private final JLabel selectStrategy = new JLabel("Select distribution: ");
     private final JComboBox<String> foods = new JComboBox<>();
@@ -49,7 +48,7 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         this.foods.addItem("Select a food");
         this.foods.setEnabled(false);
         this.view = view;
-        this.setStrategy.addActionListener(e -> {
+        this.strategies.addActionListener(e -> {
             view.getController().setDistributionStrategy(this.getSelectedStrategy());
         });
         view.getAvailableDistributionStrategies().forEach(d -> this.strategies.addItem(d));
@@ -61,7 +60,6 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         });
         this.add(this.selectStrategy);
         this.add(this.strategies);
-        this.add(this.setStrategy);
         this.add(this.selectFood);
         this.add(this.foods);
         this.add(this.createFood);
@@ -103,14 +101,15 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
         SwingUtilities.invokeLater(() -> {
             updateFoods();
             if (state.getCurrentCondition() == SimulationCondition.NOT_READY || state.getCurrentCondition() == SimulationCondition.READY) {
+                if (state.getCurrentCondition() == SimulationCondition.NOT_READY) {
+                    strategies.setSelectedIndex(0);
+                }
                 createFood.setEnabled(true);
                 createSpecies.setEnabled(true);
-                setStrategy.setEnabled(true);
                 strategies.setEnabled(true);
             } else {
                 createFood.setEnabled(false);
                 createSpecies.setEnabled(false);
-                setStrategy.setEnabled(false);
                 strategies.setEnabled(false);
             }
         });

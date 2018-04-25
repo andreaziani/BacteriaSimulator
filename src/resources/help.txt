@@ -13,7 +13,7 @@ During the creation of food you will have to set the name of the type of food an
 The default quantity for each nutrients has being selected to help getting interesting results, high changes to the value may cause exponential growth or exponential decay of the colonies.
 
 Set Distribution:
-Set the distribution strategy by choosing it from the multiple choice box and then press the button "Set Distribution" to confirm.
+Set the distribution strategy by choosing it from the multiple choice box.
 If you do not choose anything the distribution will be uniform. You can change the distribution until the button "Start" is pressed.
 The different strategies distribute the nutrients in different positions of the environment. 
 The distributions created are of three types: Uniform, Geometric and Poisson. 
@@ -33,7 +33,6 @@ After the simulation you can view the analysis of the species and compare their 
 
 
 What the buttons do?
-"Set Distribution": Set the distribution strategy chosen in the multiple choice box.
 "Create food": Create a new type of food.
 "Create Species": Create a new type of species.
 "Reset": Reset the simulation.
