@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import controller.SimulationCondition;
+import controller.SimulationMode;
 import controller.SimulationState;
 import model.food.insertionstrategy.position.DistributionStrategy;
 import view.SimulationStateUpdatable;
@@ -111,6 +112,9 @@ public class SpeciesAndFoodPanel extends JPanel implements SimulationStateUpdata
                 createFood.setEnabled(false);
                 createSpecies.setEnabled(false);
                 strategies.setEnabled(false);
+            }
+            if (state.getCurrentMode() == SimulationMode.REPLAY) {
+                this.foods.setEnabled(false);
             }
         });
 
