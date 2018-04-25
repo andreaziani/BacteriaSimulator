@@ -9,7 +9,7 @@ import model.state.Position;
  * Task that interact with the food environment.
  *
  */
-public abstract class FoodTask extends Task {
+public abstract class FoodTask extends TaskBase {
 
     /**
      * Constructor for Food Task.

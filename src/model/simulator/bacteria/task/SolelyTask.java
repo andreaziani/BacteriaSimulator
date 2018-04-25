@@ -9,7 +9,7 @@ import model.state.Position;
  * Task that doens't not interact with the environemnt.
  *
  */
-public final class SolelyTask extends Task {
+public final class SolelyTask extends TaskBase {
 
     /**
      * Constructor fir SolelyTask.
