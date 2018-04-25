@@ -103,10 +103,8 @@ public class TestEnvUtils {
                 }
             }
         }
-        System.out.println(myPosition);
         final Set<Position> streamPosition = EnvironmentUtil.positionStream(start, end, start, end, new PositionImpl(bacteriaX, bacteriaY), maxPos)
                                                   .collect(Collectors.toSet());
-        System.out.println(streamPosition);
         assertEquals(myPosition, streamPosition);
     }
 }
