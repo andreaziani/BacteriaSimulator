@@ -7,7 +7,7 @@ public enum BehaviorDecoratorOption {
     /**
      * Represent a ExplorerDecisionBehavior.
      */
-    EXPLORE("explore the simulation if no food better way to move is found"),
+    EXPLORE("Explore the simulation if no food better way to move is found"),
     /**
      * Represents a CostFilterDecisionBehavior.
      */
@@ -15,16 +15,16 @@ public enum BehaviorDecoratorOption {
     /**
      * Represents a PreferentialDecisionBehavior relative to the ActionType MOVE.
      */
-    PREFERENTIAL_MOVE("add priority to movement"),
+    PREFERENTIAL_MOVE("Add priority to movement"),
     /**
      * Represents a PreferentialDecisionBehavior relative to the ActionType EAT.
      */
-    PREFERENTIAL_EAT("add priority to eating"),
+    PREFERENTIAL_EAT("Add priority to eating"),
     /**
      * Represents a PreferentialDecisionBehavior relative to the ActionType
      * REPLICATE.
      */
-    PREFERENTIAL_REPLICATE("add priority to replication");
+    PREFERENTIAL_REPLICATE("Add priority to replication");
 
     private final String description;
 
