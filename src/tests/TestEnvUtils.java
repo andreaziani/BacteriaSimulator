@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import model.Direction;
 import model.simulator.EnvironmentUtil;
-import model.simulator.bacteria.Collidable;
 import model.state.Position;
 import model.state.PositionImpl;
 

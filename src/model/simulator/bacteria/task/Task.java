@@ -31,10 +31,18 @@ public abstract class Task {
         return bacteria;
     }
 
+    /**
+     * Get the performer used to execute the action.
+     * @return the performer to execute the action
+     */
     public ActionPerformer getPerformer() {
         return this.performer;
     }
 
+    /**
+     * Return the cost of the current task.
+     * @return the cost in energy
+     */
     public Energy getCost() {
         return this.taskCost;
     }
@@ -43,6 +51,8 @@ public abstract class Task {
      * Create a task with position and bacteria.
      * @param position the position of the bacteria
      * @param bacteria the bacteria that has to perform the task
+     * @param performer the performer used to execute the action
+     * @param cost the cost of the action
      */
     public Task(final Position position, final Bacteria bacteria, final ActionPerformer performer, final Energy cost) {
         this.position = position;
@@ -53,6 +63,7 @@ public abstract class Task {
 
     /**
      * Method with the definition of the task to complete.
+     * @param isSafe determine if the current task can be executed concurrently
      */
     public abstract void execute(boolean isSafe);
 }
