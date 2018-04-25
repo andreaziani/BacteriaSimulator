@@ -9,7 +9,7 @@ import model.state.Position;
  * Task that interact with the bacteria environment.
  *
  */
-public abstract class BacteriaTask extends Task {
+public abstract class BacteriaTask extends TaskBase {
 
     /**
      * Construct a BacteriaTask.

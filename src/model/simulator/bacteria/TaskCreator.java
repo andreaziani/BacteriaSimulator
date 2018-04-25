@@ -170,8 +170,7 @@ public final class TaskCreator extends RecursiveTask<List<Pair<Position, Task>>>
                     : Optional.empty();
             return Pair.of(position, new EatFoodTask(position, bacteria, performer, cost, foodPosition));
         case REPLICATE:
-            return Pair.of(position,
-                    (Task) new ReplicateBacteriaTask(position, bacteria, performer, cost));
+            return Pair.of(position, new ReplicateBacteriaTask(position, bacteria, performer, cost));
         default:
             return Pair.of(position, new SolelyTask(position, bacteria, performer, cost));
         }
