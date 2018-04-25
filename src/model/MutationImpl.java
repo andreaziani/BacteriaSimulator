@@ -27,7 +27,7 @@ public class MutationImpl implements Mutation {
     private int randomMutation;
 
     /**
-     * Construct a Bacteria's Mutation.
+     * Construct a Bacteria Mutation.
      * 
      * @param code
      *            the code of Gene.

@@ -39,15 +39,13 @@ public class AnalysisDialog extends JDialog {
  */
     public AnalysisDialog(final UserInterface mainframe, final ViewController controller) {
         super(mainframe, true);
-
+        this.setTitle("End of Simulation: Analysis");
         final JTextArea wins = new JTextArea();
         final JTextArea nByS = new JTextArea();
         final JTextArea dead = new JTextArea();
         final JTextArea bactMutated = new JTextArea();
         final JTextArea survived = new JTextArea();
-        final JTextArea jTextArea = new JTextArea();
 
-        jTextArea.setFont(GuiUtils.FONT);
         wins.setFont(GuiUtils.FONT);
         nByS.setFont(GuiUtils.FONT);
         dead.setFont(GuiUtils.FONT);
@@ -65,7 +63,6 @@ public class AnalysisDialog extends JDialog {
         pAnalysis.add(dead);
         pAnalysis.add(bactMutated);
         pAnalysis.add(survived);
-
         wins.setText("Predominant Species:" + "\n" + analysis.resultPredominant());
         nByS.setText("Quantity of bacteria per Species:" + "\n" + analysis.numberBySpecies());
         dead.setText("Species are dead:" + "\n" + analysis.resultDead());
@@ -87,7 +84,7 @@ public class AnalysisDialog extends JDialog {
                 try {
                     controller.getController().saveAnalysis(analysisChooser.getSelectedFile().getPath());
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "...");
+                    JOptionPane.showMessageDialog(this, "Error. Not possible to save the Analysis!");
                 }
             }
         });
