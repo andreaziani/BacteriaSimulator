@@ -1,1 +1,6 @@
-Il gruppo si propone di realizzare una simulazione batterica nella quale potranno venire definite specie diverse e messe al confronto in un ambiente in cui dovranno muoversi alla ricerca di cibo, che apparirà nel corso del tempo; nutrirsi per sopravvivere e riprodursi per scissione binaria, divisione dell’organismo in due copie esatte. Inoltre saranno previste mutazioni casuali degli organismi. Infine la simulazione prevede un’analisi dell’evoluzione delle specie per poter valutare l’adattamento degli organismi.
+## Bacteria Simulator
+
+This is a group project developed for a Java OOP class. We wanted to simulate the growth of a simple bacteria population.
+
+### TODO: Features
+
