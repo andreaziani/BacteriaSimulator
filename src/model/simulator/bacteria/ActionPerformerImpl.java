@@ -1,7 +1,7 @@
 package model.simulator.bacteria;
 
-import org.apache.commons.lang3.mutable.MutableInt;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -38,7 +38,7 @@ public final class ActionPerformerImpl implements ActionPerformer {
     private final BacteriaEnvironment bactEnv;
     private final FoodEnvironment foodEnv;
     private final Position simMaxPosition;
-    private final Map<Bacteria, MutableInt> replicateCounter = new ConcurrentHashMap<>();
+    private final Map<Bacteria, AtomicInteger> replicateCounter = new ConcurrentHashMap<>();
     private final Random rand = new Random();
 
     private final List<Mutex> quadrantsMutex = new ArrayList<>();
@@ -68,10 +68,10 @@ public final class ActionPerformerImpl implements ActionPerformer {
 
     private void updateStatus(final Bacteria bacteria) {
         if (!replicateCounter.containsKey(bacteria)) {
-            replicateCounter.put(bacteria, new MutableInt(nextTurn()));
+            replicateCounter.put(bacteria, new AtomicInteger(nextTurn()));
         }
         if (replicateCounter.get(bacteria).decrementAndGet() == 0) {
-            replicateCounter.get(bacteria).setValue(nextTurn());
+            replicateCounter.get(bacteria).set(nextTurn());
             bacteria.stopReplicating();
         }
     }
