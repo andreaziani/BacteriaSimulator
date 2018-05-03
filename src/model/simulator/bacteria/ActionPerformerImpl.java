@@ -67,9 +67,8 @@ public final class ActionPerformerImpl implements ActionPerformer {
     }
 
     private void updateStatus(final Bacteria bacteria) {
-        if (!replicateCounter.containsKey(bacteria)) {
-            replicateCounter.put(bacteria, new AtomicInteger(nextTurn()));
-        }
+        replicateCounter.putIfAbsent(bacteria, new AtomicInteger(nextTurn()));
+
         if (replicateCounter.get(bacteria).decrementAndGet() == 0) {
             replicateCounter.get(bacteria).set(nextTurn());
             bacteria.stopReplicating();
